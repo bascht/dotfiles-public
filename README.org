@@ -1,0 +1,9 @@
+* Baschts dotfiles
+
+Apart from my [[https://github.com/bascht/dotfiles][Real Dotfiles]], here is some other stuff.
+
+** Installation via Homesick
+
+- Install [[https://github.com/technicalpickles/homesick][Homesick]].
+- ~homesick clone git@github.com:bascht/dotfiles-public.git~
+- ~homesick symlink public~
