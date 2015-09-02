@@ -1,0 +1,114 @@
+# My Mailer
+set sendmail = "~/bin/msmtpq"
+set sendmail_wait = -1
+
+# Maildir
+set mbox_type        = Maildir
+set folder           = "/home/bascht/Documents/Mail/"
+set spoolfile        = "+bascht.com/INBOX"
+set record           = "+bascht.com/INBOX.Sent"
+set postponed        = "+bascht.com/INBOX.Drafts"
+set header_cache     = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+
+# Addressbook
+set query_command="/home/bascht/.local/bin/pc_query -m '%s'"
+
+# Mutt Behaviour
+set move              = no
+set sort              = 'threads'
+set sort_aux          = 'from'
+set sort_re           = yes
+set pager_stop        = yes
+set quit              = ask-yes
+set fast_reply        = yes
+set include           = yes
+set reverse_name      = no
+set edit_headers      = yes
+
+# VIM-Like Movement in Index
+bind index gg first-entry
+bind index G  last-entry
+bind index,pager F  flag-message
+bind index,pager R  group-reply
+
+# Headers
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+ignore "X-Flags:"
+hdr_order "Date From To Cc"
+
+set editor="emacs -n"
+
+# URL Opener
+macro pager \Cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
+
+# GPG 
+set fcc_clear         = yes
+set pgp_use_gpg_agent = yes
+set pgp_timeout       = 3600
+set pgp_autosign      = yes
+
+# SMIME
+set crypt_autosign           = yes
+set crypt_replyencrypt       = yes
+set crypt_replysign          = yes
+set crypt_replysignencrypted = no
+
+set smime_ca_location=`for f in $HOME/.smime/ca-certificates.crt/* $HOME/.smime/ca-bundle.crt/*/* /etc/ssl/certs/ca-certificates.crt ; do if [ -e $f ] ; then echo $f ; exit ; fi ; done`
+set smime_certificates = "~/.smime/certificates"
+set smime_keys         = "~/.smime/keys"
+set smime_default_key  = "05ebd13c.0"
+set smime_encrypt_with = "des3"
+set smime_ask_cert_label = no
+set smime_pk7out_command="openssl smime -verify -in %f -noverify -pk7out"
+set smime_get_cert_command="openssl pkcs7 -print_certs -in %f"
+set smime_get_signer_cert_command="openssl smime -verify -in %f -noverify -signer %c -out /dev/null"
+set smime_get_cert_email_command="openssl x509 -in  %f -noout -email"
+set smime_import_cert_command="smime_keys add_cert %f"
+set smime_decrypt_command="openssl smime -decrypt  -passin stdin -inform DER -in %f -inkey %k -recip %c"
+set smime_verify_command="openssl smime -verify -inform DER -in %s %C -content %f"
+set smime_verify_opaque_command="\
+openssl smime -verify -inform DER -in %s %C || \
+openssl smime -verify -inform DER -in %s -noverify 2>/dev/null"
+
+set smime_encrypt_command="openssl smime -encrypt -%a -outform DER -in %f %c"
+set smime_sign_command="openssl smime -sign -signer %c -inkey %k -passin stdin -in %f -certfile %i -outform DER"
+set smime_encrypt_with="des3"
+
+# set smime_verify_command="openssl smime -verify -inform DER -in %s -content %f -noverify"
+# set smime_verify_opaque_command="openssl smime -verify -inform DER -in %s -noverify"
+
+# nice layout 
+set date_format       = "!%a, %b %d %Y at %I:%M:%S%p %Z"
+set index_format      = "%Z %{%a %d %b %Y} » %-20.20F › %s"
+
+# display html emails
+auto_view text/html
+alternative_order text/plain text/html
+
+macro index,pager S \
+"<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
+<shell-escape>notmuch-mutt -r --prompt search<enter>\
+<change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>\
+<enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
+"notmuch: search mail"
+
+macro index \C9 \
+"<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
+<pipe-message>notmuch-mutt -r thread<enter>\
+<change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>\
+<enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
+"notmuch: reconstruct thread"
+
+macro index \C6 \
+"<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
+<pipe-message>notmuch-mutt tag -- -inbox<enter>\
+<enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
+"notmuch: remove message from inbox"
+
+source ~/.mutt/colors
+source ~/.mutt/mailboxes
+source ~/.mutt/private
+

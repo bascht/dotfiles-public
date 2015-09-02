@@ -1,0 +1,18 @@
+background no
+out_to_x no
+out_to_console yes
+update_interval 1
+total_run_times 0
+use_spacer none
+mpd_host 127.0.0.1
+mpd_port 6600
+
+TEXT
+${if_match "${lines /home/bascht/Documents/Mail/unread_messages}" > "0"}  ${lines /home/bascht/Documents/Mail/unread_messages} ${endif}\
+${if_mpd_playing}♫ ${mpd_artist} · ${mpd_title}   ${endif}\
+${if_up wlp6s0}  ${wireless_bitrate wlp6s0} [${wireless_essid wlp6s0}] ${endif}\
+ ${memeasyfree}  \
+ ${hwmon 1 temp 1}  \
+ ${exec amixer get Master 1 -M | grep -oE "[[:digit:]]*%"|head -n1}   \
+ ${battery_percent BAT1}%   \
+ ${time %a %b %d} · ${time %H:%M}

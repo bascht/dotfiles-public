@@ -1,0 +1,205 @@
+#  _ _____
+# (_)___ /
+# | | |_ \
+# | |___) |
+# |_|____/
+#
+# my conf. based on i3-config-generator
+set $mod Mod4
+
+set $background #000004
+set $foreground #FFFFFF
+set $gray       #000004
+set $inactive   #333333
+set $primary    #10899F
+set $secondary  #FF788A
+set $tertiary   #820CA2
+set $warning    #d83e3e
+set $urgent     #f535aa
+set $accent     #51c4d4
+
+# Gaps!
+gaps outer 10
+gaps inner 10
+smart_borders on
+
+font pango:Fira Mono 12
+
+floating_modifier $mod
+
+exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/3840x2160.png
+exec --no-startup-id /usr/libexec/gnome-settings-daemon
+exec --no-startup-id /usr/bin/clipit
+exec --no-startup-id /usr/bin/compton -c
+exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
+
+# lock
+bindsym Control+Mod1+l exec i3-blur-lock
+
+# start a terminal
+bindsym $mod+Return exec gnome-terminal
+bindsym $mod+t exec urxvt
+bindsym Print exec --no-startup-id escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png'
+bindsym Shift+Print exec --no-startup-id escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png' -s
+
+# kill focused window
+bindsym $mod+q kill
+
+# start menu menu
+bindsym $mod+d exec "i3-rofi"
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+odiaeresis focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+odiaeresis move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+# fullscreen mode
+bindsym $mod+f fullscreen
+
+# container layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# Jump to urgent windows
+bindsym $mod+x [urgent=latest] focus
+
+# customize workspace names
+set $WS1 1:
+set $WS2 2:
+set $WS3 3:
+set $WS4 4:
+set $WS5 5:
+set $WS6 6:
+set $WS7 7:
+set $WS8 8:
+
+
+# switch to workspace
+bindsym Mod4+1 workspace $WS1
+bindsym Mod4+2 workspace $WS2
+bindsym Mod4+3 workspace $WS3
+bindsym Mod4+4 workspace $WS4
+bindsym Mod4+5 workspace $WS5
+bindsym Mod4+6 workspace $WS6
+bindsym Mod4+7 workspace $WS7
+bindsym Mod4+8 workspace $WS8
+
+# move focused container to workspace
+bindsym Mod4+Shift+1 move container to workspace $WS1
+bindsym Mod4+Shift+2 move container to workspace $WS2
+bindsym Mod4+Shift+3 move container to workspace $WS3
+bindsym Mod4+Shift+4 move container to workspace $WS4
+bindsym Mod4+Shift+5 move container to workspace $WS5
+bindsym Mod4+Shift+6 move container to workspace $WS6
+bindsym Mod4+Shift+7 move container to workspace $WS7
+bindsym Mod4+Shift+8 move container to workspace $WS8
+
+assign [class="URxvt"] $WS1
+assign [class="Pcmanfm"] $WS2
+assign [class="Lxappearance"] $WS2
+assign [class="Firefox"] $WS2
+assign [class="Vlc"] $WS4
+assign [class="Evince"] $WS5
+assign [class="Gimp"] $WS6
+
+# border / titlebar
+new_window normal 2 px
+bindsym Control+Shift+x [class="^.*"] border toggle
+for_window [class="^.*"] border pixel 2
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Nautilus"] border pixel 0
+for_window [class="Nautilus"] floating enable
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec i3-msg exit
+
+# resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+        bindsym j resize shrink width 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym l resize shrink height 5 px or 5 ppt
+        bindsym k resize grow width 5 px or 5 ppt
+        bindsym Right resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Left resize grow width 5 px or 5 ppt
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+# class                 border          backgr.         text            indicator
+client.focused          $primary        $primary        $background     $primary
+client.focused_inactive $background     $foreground     $inacvite       $background
+client.unfocused        $gray           $inactive       $foreground     $secondary
+client.urgent           $warning        $urgent         $urgent
+
+bar {
+        status_command conky -c $HOME/.config/i3/conky/conkyrc
+	mode dock
+	position top
+	font pango:Fira Mono 12
+	strip_workspace_numbers no
+
+        colors {
+               background $background
+               statusline $secondary
+               separator  $accent
+
+               focused_workspace  $primary   $primary    $foreground
+               active_workspace   $primary   $background $foreground
+               inactive_workspace $primary   $background $foreground
+               urgent_workspace   $secondary $secondary  $primary
+        }
+}
+
+# switching between workspace
+bindsym $mod+period workspace next
+bindsym $mod+comma workspace prev
+
+bindsym XF86AudioMute exec amixer -c 0 -q set Master toggle
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set -c 1 -M Master 2%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set -c 1 -M Master 2%-
+
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 set Master 15%+
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id amixer -c 0 set Master 15%-
+
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
