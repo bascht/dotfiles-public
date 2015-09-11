@@ -30,6 +30,8 @@ floating_modifier $mod
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/3840x2160.png
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
+exec --no-startup-id /usr/bin/volumeicon
+exec --no-startup-id /usr/bin/nm-applet
 exec --no-startup-id /usr/bin/compton -c
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
 
