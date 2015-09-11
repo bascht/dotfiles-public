@@ -6,6 +6,8 @@
 
 (require 'notmuch)
 
+(global-set-key [f5] 'compile)
+
 (global-set-key [f9] 'notmuch-unread)
 (define-key notmuch-search-mode-map "F"
   (notmuch-search-toggle-flagged))
