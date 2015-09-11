@@ -51,6 +51,7 @@
 
 ;;; Skip to next match group automatically
 (setq helm-move-to-line-cycle-in-source nil)
+(setq helm-ls-git-fuzzy-match t)
 
 ;;; Start with an english dictionary
 (setq ispell-dictionary 'english)
