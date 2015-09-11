@@ -49,6 +49,9 @@
 ;;; Enable Projectile  cache until I know what is going on
 (setq projectile-enable-caching t)
 
+;;; Skip to next match group automatically
+(setq helm-move-to-line-cycle-in-source nil)
+
 ;;; Start with an english dictionary
 (setq ispell-dictionary 'english)
 

@@ -35,12 +35,12 @@
 (setq ruby-insert-encoding-magic-comment nil)
 
 (setq flycheck-rust-executable "/usr/local/bin/rustc")
-(setq flycheck-rust-library-path (quote ("/usr/local/lib")))
+(setq flycheck-rust-library-path (quote ("/usr/local/lib/rustlib")))
 
 ;;; Fix up rust mode
 (setenv "LD_LIBRARY_PATH"
         (let ((current (getenv "LD_LIBRARY_PATH"))
-              (new "/usr/local/libs"))
+              (new "/usr/local/lib/rustlib"))
           (if current (concat new ":" current) new)))
 
 (provide 'coding-config)
