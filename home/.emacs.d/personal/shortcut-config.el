@@ -31,6 +31,11 @@
 
 (global-set-key (kbd "M-+") 'er/expand-region)
 
+;;; Ace jump is dead! :)
+(global-set-key (kbd "C-:") 'avy-goto-char)
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-g w") 'avy-goto-word-1)
+
 ;;; Navigate IDO with N + N
 (add-hook 'ido-setup-hook '(lambda ()
                              (define-key ido-completion-map "\C-h" 'ido-delete-backward-updir)
