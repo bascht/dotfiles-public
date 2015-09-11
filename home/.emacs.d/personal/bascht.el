@@ -30,6 +30,9 @@
 (setq user-full-name "Sebastian Schulze")
 (setq user-mail-address "github.com@bascht.com")
 
+(nyan-mode 1)
+(org-bullets-mode 1)
+
 ;;; Global modes
 (projectile-global-mode)
 (global-company-mode)
@@ -42,6 +45,12 @@
 (add-hook 'text-mode-hook 'auto-fill-mode)
 
 (setq browse-url-browser-function (quote browse-url-firefox))
+
+;;; Enable Projectile  cache until I know what is going on
+(setq projectile-enable-caching t)
+
+;;; Start with an english dictionary
+(setq ispell-dictionary 'english)
 
 (prelude-require-packages '(ace-jump-mode
                             ace-window
