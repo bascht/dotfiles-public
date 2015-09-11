@@ -44,6 +44,12 @@ bindsym $mod+t exec urxvt
 bindsym Print exec --no-startup-id escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png'
 bindsym Shift+Print exec --no-startup-id escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png' -s
 
+# Starters
+
+bindsym Control+$mod+f exec nautilus
+bindsym Control+$mod+w exec firefox
+bindsym Control+$mod+e exec emacs
+
 # kill focused window
 bindsym $mod+q kill
 
