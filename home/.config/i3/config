@@ -23,7 +23,7 @@ gaps outer 10
 gaps inner 10
 smart_borders on
 
-font pango:Fira Mono 12
+font pango:Fira Mono 10
 
 floating_modifier $mod
 
