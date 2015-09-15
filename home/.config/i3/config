@@ -135,8 +135,8 @@ assign [class="URxvt"] $WS1
 assign [class="Pcmanfm"] $WS2
 assign [class="Lxappearance"] $WS2
 assign [class="Firefox"] $WS2
-assign [class="Vlc"] $WS4
-assign [class="Evince"] $WS5
+assign [class="Vlc"] $WS5
+assign [class="Evince"] $WS4
 assign [class="Gimp"] $WS6
 
 # border / titlebar
