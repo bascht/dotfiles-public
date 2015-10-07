@@ -4,11 +4,12 @@
 
 ;;; Code:
 
-(require 'moe-theme)
-(setq moe-theme-highlight-buffer-id t)
-(setq moe-theme-resize-org-title '(1.5 1.4 1.3 1.2 1.1 1.0 1.0 1.0 1.0))
-(moe-dark)
+(load-theme 'monokai t nil)
+(rainbow-mode 1)
+(rainbow-delimiters-mode)
 
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (defun on-after-init () "Don't set a background for -nw Emacs."
        (unless (display-graphic-p (selected-frame))

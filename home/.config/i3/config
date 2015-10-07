@@ -9,10 +9,12 @@ set $mod Mod4
 
 set $background #000004
 set $foreground #FFFFFF
+set $black      #000000
 set $gray       #000004
-set $inactive   #333333
+set $inactive   #036E82
 set $primary    #10899F
-set $secondary  #FF788A
+set $light      #95EEFF
+set $secondary  #f535aa
 set $tertiary   #820CA2
 set $warning    #d83e3e
 set $urgent     #f535aa
@@ -49,6 +51,7 @@ bindsym Shift+Print exec --no-startup-id escrotum '/home/bascht/Pictures/Screens
 bindsym Control+$mod+f exec nautilus
 bindsym Control+$mod+w exec firefox
 bindsym Control+$mod+e exec emacs
+bindsym Control+$mod+p exec rofi-pass
 
 # kill focused window
 bindsym $mod+q kill
@@ -83,6 +86,9 @@ bindsym $mod+v split v
 # fullscreen mode
 bindsym $mod+f fullscreen
 
+# sticky!!
+bindsym $mod+Shift+s sticky toggle
+
 # container layout
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -101,14 +107,14 @@ bindsym $mod+a focus parent
 bindsym $mod+x [urgent=latest] focus
 
 # customize workspace names
-set $WS1 1:
-set $WS2 2:
-set $WS3 3:
-set $WS4 4:
-set $WS5 5:
-set $WS6 6:
-set $WS7 7:
-set $WS8 8:
+set $WS1 1 
+set $WS2 2 
+set $WS3 3 
+set $WS4 4 
+set $WS5 5 
+set $WS6 6 
+set $WS7 7 
+set $WS8 8 
 
 
 # switch to workspace
@@ -174,26 +180,26 @@ mode "resize" {
 
 # class                 border          backgr.         text            indicator
 client.focused          $primary        $primary        $background     $primary
-client.focused_inactive $background     $foreground     $inacvite       $background
-client.unfocused        $gray           $inactive       $foreground     $secondary
+client.focused_inactive $background     $foreground     $inactive       $background
+client.unfocused        $inactive       $black       $foreground     $secondary
 client.urgent           $warning        $urgent         $urgent
 
 bar {
         status_command conky -c $HOME/.config/i3/conky/conkyrc
 	mode dock
 	position top
-	font pango:Fira Mono 12
+	font pango:Fira Sans 12
 	strip_workspace_numbers no
 
         colors {
                background $background
-               statusline $secondary
+               statusline $foreground
                separator  $accent
 
-               focused_workspace  $primary   $primary    $foreground
-               active_workspace   $primary   $background $foreground
-               inactive_workspace $primary   $background $foreground
-               urgent_workspace   $secondary $secondary  $primary
+               focused_workspace  $black     $black      $primary
+               active_workspace   $black     $black      $foreground
+               inactive_workspace $black     $black      $foreground
+               urgent_workspace   $secondary $black  $secondary
         }
 }
 
