@@ -6,7 +6,10 @@
 
 (require 'notmuch)
 
+(global-unset-key (kbd "C-c p p"))
+
 (global-set-key [f5] 'compile)
+(global-set-key [f6] 'comment-or-uncomment-region)
 
 (global-set-key [f9] 'notmuch-unread)
 (define-key notmuch-search-mode-map "F"
@@ -19,6 +22,7 @@
 (global-set-key (kbd "C-c p s s") 'helm-do-ag-in-root)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c H") 'helm-do-ag-in-root)
+(global-set-key (kbd "C-c p p") 'helm-projectile-switch-project)
 (global-set-key (kbd "M-p") 'ace-window)
 
 ;;; I <3 multiple cursors!
