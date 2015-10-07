@@ -39,8 +39,6 @@
 (global-hl-line-mode 0)
 (yas-global-mode 1)
 
-(setq ispell-dictionary "german")
-
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'auto-fill-mode)
 
@@ -54,7 +52,7 @@
 (setq helm-ls-git-fuzzy-match t)
 
 ;;; Start with an english dictionary
-(setq ispell-dictionary 'english)
+(ispell-change-dictionary "english")
 
 (prelude-require-packages '(ace-jump-mode
                             ace-window
