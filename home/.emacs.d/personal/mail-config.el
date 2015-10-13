@@ -10,6 +10,7 @@
 (notmuch-address-message-insinuate)
 (setq notmuch-archive-tags '("-unread" "+archive"))
 (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime)
+(autoload 'gnus-alias-determine-identity "gnus-alias" "" t)
 
 (defun notmuch-unread () "Filter for unread and inboxed messages."
        (interactive)

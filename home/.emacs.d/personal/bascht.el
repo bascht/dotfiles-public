@@ -14,6 +14,7 @@
 (require 'ansi-color)
 (require 'org-alert)
 
+
 (add-to-list 'load-path "~/.emacs.d/personal/")
 
 (load-library "org-config")
@@ -86,6 +87,7 @@
                             gitconfig-mode
                             gitignore-mode
                             gnuplot
+                            gnus-alias
                             graphviz-dot-mode
                             haml-mode
                             helm-ag
