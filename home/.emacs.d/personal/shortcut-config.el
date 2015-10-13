@@ -26,12 +26,18 @@
 (global-set-key (kbd "M-p") 'ace-window)
 
 ;;; I <3 multiple cursors!
+(define-key ctl-x-map "\C-m" #'mc/mark-all-dwim)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C-s->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-s-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-s-c s-<") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
+;; Try to get used to these instead
+(global-set-key (kbd "M-3") #'mc/mark-next-like-this)
+(global-set-key (kbd "M-4") #'mc/mark-previous-like-this)
+(global-set-key (kbd "M-§") #'mc/unmark-next-like-this)
+(global-set-key (kbd "M-$") #'mc/unmark-previous-like-this)
 
 (global-set-key (kbd "M-+") 'er/expand-region)
 

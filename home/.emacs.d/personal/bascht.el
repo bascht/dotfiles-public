@@ -8,10 +8,11 @@
 (require 'nyan-mode)
 (require 'notmuch)
 (require 'notmuch-address)
-(require 'multiple-cursors)
+(require 'multiple-cursors-core)
 (require 'yasnippet)
 (require 'rspec-mode)
 (require 'ansi-color)
+(require 'org-alert)
 
 (add-to-list 'load-path "~/.emacs.d/personal/")
 

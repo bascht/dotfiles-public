@@ -28,5 +28,8 @@
         '(mode-line ((t (:background "brightblack" :foreground "#4e4e4e" :box (:line-width 1 :color "dodger blue")))))
         )))
 
+;;; Nice Org alert boxes
+(setq alert-default-style 'libnotify)
+
 (provide 'appearance-config)
 ;;; appearance-config.el ends here
