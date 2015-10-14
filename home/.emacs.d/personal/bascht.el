@@ -58,7 +58,6 @@
 
 (prelude-require-packages '(ace-jump-mode
                             ace-window
-                            ack-and-a-half
                             ag
                             anzu
                             cider
@@ -94,7 +93,6 @@
                             helm-dictionary
                             helm-dash
                             helm-flycheck
-                            helm-gist
                             helm-git
                             helm-go-package
                             helm-google
@@ -116,7 +114,6 @@
                             nginx-mode
                             notmuch
                             notmuch-labeler
-                            notmuch-unread
                             nyan-mode
                             org
                             org-beautify-theme
