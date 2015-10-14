@@ -116,6 +116,7 @@
                             notmuch-labeler
                             nyan-mode
                             org
+                            org-alert
                             org-beautify-theme
                             org-bullets
                             org-dashboard
