@@ -25,7 +25,7 @@ gaps outer 10
 gaps inner 10
 smart_borders on
 
-font pango:Input Sans Light 10
+font pango:Fira Mono 10
 
 floating_modifier $mod
 
@@ -189,7 +189,7 @@ bar {
         status_command conky -c $HOME/.config/i3/conky/conkyrc
 	mode dock
 	position top
-	font pango:Input Sans Light 10
+	font pango:Fira Mono 10
 	strip_workspace_numbers no
 
         colors {
