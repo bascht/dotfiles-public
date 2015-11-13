@@ -48,7 +48,7 @@ function z
 end
 
 # Fire up RVM
-rvm default
+set -e GEM_PATH; set -e GEM_HOME
 
 # Color Git Prompt
 set -g __fish_git_prompt_show_informative_status 1
