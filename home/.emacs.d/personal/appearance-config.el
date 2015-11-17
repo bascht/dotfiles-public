@@ -8,6 +8,8 @@
 (rainbow-mode 1)
 (rainbow-delimiters-mode)
 
+'(default ((t (:family "Fira Mono" :foundry "CTDB" :slant normal :weight normal :height 113 :width normal))))
+
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
@@ -30,6 +32,11 @@
 
 ;;; Nice Org alert boxes
 (setq alert-default-style 'libnotify)
+
+'(notmuch-search-line-faces
+  (quote
+   (("unread" :weight bold)
+    ("flagged" :foreground "magenta"))))
 
 (provide 'appearance-config)
 ;;; appearance-config.el ends here
