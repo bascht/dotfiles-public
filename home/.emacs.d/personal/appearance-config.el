@@ -4,11 +4,12 @@
 
 ;;; Code:
 
-(load-theme 'monokai t nil)
+(load-theme 'material t nil)
 (rainbow-mode 1)
 (rainbow-delimiters-mode)
 
-'(default ((t (:family "Fira Mono" :foundry "CTDB" :slant normal :weight normal :height 113 :width normal))))
+(custom-set-faces
+ '(default ((t (:family "Fira Mono" :foundry "CTDB" :slant normal :weight normal :height 113 :width normal)))))
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
