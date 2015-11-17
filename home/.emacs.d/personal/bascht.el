@@ -107,6 +107,7 @@
                             magit-gerrit
                             magit-gh-pulls
                             markdown-mode
+                            material-theme
                             moe-theme
                             monokai-theme
                             move-text
