@@ -1,0 +1,2 @@
+#!/bin/bash
+rofi -font 'Fira Mono 12' -sidebar-mode  -ssh-command 'gnome-terminal -e "ssh {host}"' -levenshtein-sort -bw 10 -modi 'window,ssh,Workspaces:i3_switch_workspaces.sh,run' -show run -terminal gnome-terminal

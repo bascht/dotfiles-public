@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# - encoding: utf-8 -
+require 'json'
+
+unread = File.read("#{Dir.home}/Mail/unread_messages")
+m = JSON.parse(unread)
+
+# Display a random subject from unread messages
+if m.count > 0
+  puts "#{m.count} [#{m.shuffle.first['subject']}]"
+  exit(33)
+end
+
+# Just be enjoy our empty INBOX.
+puts ""
+exit(0)

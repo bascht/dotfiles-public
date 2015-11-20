@@ -4,3 +4,4 @@
 .emacs.d/personal
 .emacs.d/snippets
 .config/fish
+bin
