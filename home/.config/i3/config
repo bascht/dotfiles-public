@@ -44,8 +44,8 @@ bindsym Control+Mod1+l exec i3-blur-lock
 # start a terminal
 bindsym $mod+Return exec gnome-terminal
 bindsym $mod+t exec urxvt
-bindsym Print exec --no-startup-id "escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png'"
-bindsym Shift+Print exec --no-startup-id "escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png' -s"
+bindsym Print exec --no-startup-id "i3-screenshot"
+bindsym Shift+Print exec --no-startup-id "i3-screenshot -s"
 
 # Starters
 
