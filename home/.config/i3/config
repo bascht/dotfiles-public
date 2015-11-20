@@ -189,7 +189,7 @@ client.unfocused        $inactive       $black       $foreground     $secondary
 client.urgent           $warning        $urgent         $urgent
 
 bar {
-        status_command conky -c $HOME/.config/i3/conky/conkyrc
+        status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	mode dock
 	position top
 	font pango:Fira Sans Regular 10
