@@ -34,10 +34,11 @@
 ;;; Nice Org alert boxes
 (setq alert-default-style 'libnotify)
 
-'(notmuch-search-line-faces
-  (quote
-   (("unread" :weight bold)
-    ("flagged" :foreground "magenta"))))
+;;; Mail niceties
+(setq notmuch-search-line-faces
+ (quote
+  (("unread" :weight bold :foreground "white" :background "royal blue")
+   ("flagged" :foreground "red" :background))))
 
 (provide 'appearance-config)
 ;;; appearance-config.el ends here
