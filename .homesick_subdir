@@ -2,4 +2,5 @@
 .maid
 .config
 .emacs.d/personal
+.emacs.d/snippets
 .config/fish
