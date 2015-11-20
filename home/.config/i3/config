@@ -32,10 +32,13 @@ floating_modifier $mod
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/autumn.jpg
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
+exec --no-startup-id /usr/bin/gnome-terminal -- "tmuxinator start work"
 exec --no-startup-id /usr/bin/volumeicon
 exec --no-startup-id /usr/bin/owncloud
 exec --no-startup-id /usr/bin/nm-applet
-exec --no-startup-id /usr/bin/compton -c
+exec --no-startup-id /usr/bin/firefox
+exec --no-startup-id /usr/bin/spotify
+exec --no-startup-id /usr/bin/compton -c -f
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
 
 # lock
