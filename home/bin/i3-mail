@@ -7,7 +7,8 @@ m = JSON.parse(unread)
 
 # Display a random subject from unread messages
 if m.count > 0
-  puts "#{m.count} [#{m.shuffle.first['subject']}]"
+  index = Time.now.strftime("%S").to_i / (60 / m.count)
+  puts "#{index + 1} / #{m.count} [#{m[index]['subject']}]"
   exit(33)
 end
 
