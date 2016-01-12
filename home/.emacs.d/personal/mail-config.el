@@ -34,7 +34,7 @@
 
 
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
-(setq sendmail-program "~/bin/msmtpq"
+(setq sendmail-program "msmtp"
       user-full-name "Sebastian Schulze")
 
 (setq message-sendmail-f-is-evil 't)
