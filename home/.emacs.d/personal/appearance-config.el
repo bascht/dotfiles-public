@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(load-theme 'material t nil)
+(load-theme 'material-light t)
 (rainbow-mode 1)
 (rainbow-delimiters-mode)
 
