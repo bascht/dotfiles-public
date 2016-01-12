@@ -38,7 +38,7 @@ exec --no-startup-id /usr/bin/owncloud
 exec --no-startup-id /usr/bin/nm-applet
 exec --no-startup-id /usr/bin/firefox
 exec --no-startup-id /usr/bin/spotify
-exec --no-startup-id /usr/bin/compton -c -f
+exec --no-startup-id /usr/bin/compton --config ~/.config/i3/compton.conf
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
 
 # lock
