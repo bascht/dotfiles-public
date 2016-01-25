@@ -23,6 +23,7 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c H") 'helm-do-ag-in-root)
 (global-set-key (kbd "C-c p p") 'helm-projectile-switch-project)
+(global-set-key (kbd "C-*") 'helm-swoop)
 (global-set-key (kbd "M-p") 'ace-window)
 
 ;;; I <3 multiple cursors!

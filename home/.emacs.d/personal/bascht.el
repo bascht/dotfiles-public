@@ -100,6 +100,7 @@
                             helm-orgcard
                             helm-projectile
                             helm-rb
+                            helm-swoop
                             helm-unicode
                             inf-ruby
                             less-css-mode
