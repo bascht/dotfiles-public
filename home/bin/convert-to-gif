@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+# - encoding: utf-8 -
+require 'tmpdir'
+
+folder = Dir.mktmpdir
+name = ARGV[0]
+abort "No filename given." if name.nil?
+
+basename = File.basename(name, ".*")
+system("ffmpeg -i #{name} -vf scale=400:-1:flags=lanczos,fps=10 #{folder}/frame-%03d.png")
+system("convert -loop 0 #{folder}/frame-*png #{basename}.gif")
