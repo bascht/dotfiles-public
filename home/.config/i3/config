@@ -19,6 +19,7 @@ set $tertiary   #820CA2
 set $warning    #d83e3e
 set $urgent     #f535aa
 set $accent     #51c4d4
+set $complement #ffb614
 
 # Gaps!
 gaps outer 10
@@ -183,9 +184,9 @@ mode "resize" {
 }
 
 # class                 border          backgr.         text            indicator
-client.focused          $primary        $primary        $background     $primary
+client.focused          $complement     $complement     $background     $primary
 client.focused_inactive $background     $foreground     $inactive       $background
-client.unfocused        $inactive       $black       $foreground     $secondary
+client.unfocused        $inactive       $black          $foreground     $secondary
 client.urgent           $warning        $urgent         $urgent
 
 bar {
