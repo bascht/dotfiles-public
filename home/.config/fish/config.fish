@@ -26,6 +26,7 @@ alias e $EDITOR
 alias vi $EDITOR #going emacs
 alias vim $EDITOR
 alias er "e --eval '(writeroom-mode)'"
+alias dvm "cd ~/DevVM; and vagrant ssh -- -A"
 
 # Manually switch HIDPI
 function scale
