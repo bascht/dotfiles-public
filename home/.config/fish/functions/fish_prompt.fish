@@ -7,6 +7,11 @@ function fish_prompt
                 case '*'
                         set logo "?"
         end
+
+        if not [ -z $CLIENT ]
+                echo -n "[$CLIENT] "
+        end
+
         set_color blue
         echo -n $logo (pwd)
         echo -n " \$ "
