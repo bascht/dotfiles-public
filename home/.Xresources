@@ -1,56 +1,61 @@
-rofi.font:                 Fira Mono 12
+rofi.font: Fira Mono 18
 rofi.width:                30
 rofi.sidebar-mode:         true
+rofi.levenshtein-sort:     true
 
-URxvt.font: xft:Ubuntu Mono:size=11,xft:Monospace:size=9:antialias=true:hinting=true
+URxvt.font: xft:Fira Mono:size=18:antialias=true:hinting=true,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:size=38:antialias=false,xft:Monospace:size=9:antialias=true:hinting=true
 URxvt.scrollstyle: plain
+URxvt.perl-ext-common: default,tabbed,matcher,resize-font
 
 ! Base16 Monokai
 ! Scheme: Wimer Hazenberg (http://www.monokai.nl)
-#define base00 #272822
-#define base01 #383830
-#define base02 #49483e
-#define base03 #75715e
-#define base04 #a59f85
-#define base05 #f8f8f2
-#define base06 #f5f4f1
-#define base07 #f9f8f5
-#define base08 #f92672
-#define base09 #fd971f
-#define base0A #f4bf75
-#define base0B #a6e22e
-#define base0C #a1efe4
-#define base0D #66d9ef
-#define base0E #ae81ff
-#define base0F #cc6633
 
-*.foreground:   base05
-*.background:   base00
-*.cursorColor:  base05
+! URxvt*tintColor:                      color
+! URxvt*fadeColor:                      color
 
-*.color0:       base00
-*.color1:       base08
-*.color2:       base0B
-*.color3:       base0A
-*.color4:       base0D
-*.color5:       base0E
-*.color6:       base0C
-*.color7:       base05
+URxvt*background:                     #f9f8f5
+URxvt*foreground:                     #49483e
+URxvt*cursorColor:                    #49483e
 
-*.color8:       base03
-*.color9:       base08
-*.color10:      base0B
-*.color11:      base0A
-*.color12:      base0D
-*.color13:      base0E
-*.color14:      base0C
-*.color15:      base07
+! URxvt*colorBD:                        color
+! URxvt*colorIT:                        color
+! URxvt*colorUL:                        color
+! URxvt*colorRV:                        color
+! URxvt*underlineColor:                 color
+URxvt*scrollColor:                    #f8f8f2
+! URxvt*troughColor:                    color
+URxvt*highlightColor:                 #f9f8f5
+URxvt*highlightTextColor:             #f8f8f2
+! URxvt*cursorColor2:                   color
+! URxvt*pointerColor:                   color
+! URxvt*pointerColor2:                  color
+! URxvt*borderColor:                    color
+! URxvt*tab-bg:                         colour
+! URxvt*tab-fg:                         colour
+! URxvt*tabbar-bg:                      colour
+! URxvt*tabbar-fg:                      colour
 
-! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
-! use 'shell' template to set these if necessary
-*.color16:      base09
-*.color17:      base0F
-*.color18:      base01
-*.color19:      base02
-*.color20:      base04
-*.color21:      base06
+URxvt*color0:                         #272822
+URxvt*color1:                         #f92672
+URxvt*color2:                         #a6e22e
+URxvt*color3:                         #f4bf75
+URxvt*color4:                         #66d9ef
+URxvt*color5:                         #ae81ff
+URxvt*color6:                         #a1efe4
+URxvt*color7:                         #f8f8f2
+URxvt*color8:                         #75715e
+URxvt*color9:                         #f92672
+URxvt*color10:                        #a6e22e
+URxvt*color11:                        #f4bf75
+URxvt*color12:                        #66d9ef
+URxvt*color13:                        #ae81ff
+URxvt*color14:                        #a1efe4
+URxvt*color15:                        #f9f8f5
+
+! 256 color space
+URxvt*color16:                        #fd971f
+URxvt*color17:                        #cc6633
+URxvt*color18:                        #383830
+URxvt*color19:                        #49483e
+URxvt*color20:                        #a59f85
+URxvt*color21:                        #f5f4f1
