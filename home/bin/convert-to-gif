@@ -6,6 +6,8 @@ folder = Dir.mktmpdir
 name = ARGV[0]
 abort "No filename given." if name.nil?
 
+width = ARGV[1] || 400
+
 basename = File.basename(name, ".*")
-system("ffmpeg -i #{name} -vf scale=400:-1:flags=lanczos,fps=10 #{folder}/frame-%03d.png")
+system("ffmpeg -i #{name} -vf scale=#{width}:-1:flags=lanczos,fps=10 #{folder}/frame-%03d.png")
 system("convert -loop 0 #{folder}/frame-*png #{basename}.gif")
