@@ -1,11 +1,21 @@
-rofi.font: Fira Mono 18
+rofi.font: Fira Mono 14
 rofi.width:                30
 rofi.sidebar-mode:         true
 rofi.levenshtein-sort:     true
 
-URxvt.font: xft:Fira Mono:size=18:antialias=true:hinting=true,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:size=38:antialias=false,xft:Monospace:size=9:antialias=true:hinting=true
+URxvt.letterSpace: 0
+URxvt.font: xft:Fira Mono:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
+URxvt.boldFont: xft:Fira Mono:bold:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
+URxvt.italicFont: xft:Fira Mono:italic:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
+URxvt.boldItalicFont: xft:Fira Mono:italic:bold:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
+Xft*dpi: 96
 URxvt.scrollstyle: plain
-URxvt.perl-ext-common: default,tabbed,matcher,resize-font
+URxvt.perl-ext-common: default,matcher,resize-font
+
+URxvt.termName: rxvt-256color
+URxvt.urgentOnBell: true
+URxvt.saveLines: 100000
+URxvt.scrollBar: false
 
 ! Base16 Monokai
 ! Scheme: Wimer Hazenberg (http://www.monokai.nl)
@@ -38,7 +48,7 @@ URxvt*highlightTextColor:             #f8f8f2
 URxvt*color0:                         #272822
 URxvt*color1:                         #f92672
 URxvt*color2:                         #a6e22e
-URxvt*color3:                         #f4bf75
+URxvt*color3:                         #b2731b
 URxvt*color4:                         #66d9ef
 URxvt*color5:                         #ae81ff
 URxvt*color6:                         #a1efe4
@@ -46,7 +56,7 @@ URxvt*color7:                         #f8f8f2
 URxvt*color8:                         #75715e
 URxvt*color9:                         #f92672
 URxvt*color10:                        #a6e22e
-URxvt*color11:                        #f4bf75
+URxvt*color11:                        #b2731b
 URxvt*color12:                        #66d9ef
 URxvt*color13:                        #ae81ff
 URxvt*color14:                        #a1efe4
