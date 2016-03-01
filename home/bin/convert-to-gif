@@ -1,5 +1,9 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 # - encoding: utf-8 -
+#
+# Intro (in German):
+# https://depone.net/2016/03/01/video-in-animiertes-gif-konvertieren/
+
 require 'tmpdir'
 
 DEFAULT_WIDTH=400
