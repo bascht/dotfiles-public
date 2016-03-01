@@ -2,12 +2,33 @@
 # - encoding: utf-8 -
 require 'tmpdir'
 
-folder = Dir.mktmpdir
+DEFAULT_WIDTH=400
+DEFAULT_FPS=10
 name = ARGV[0]
-abort "No filename given." if name.nil?
 
-width = ARGV[1] || 400
-fps = ARGV[2] || 10
+if ARGV.length == 0 or name == '--help'
+  puts <<EOL
+usage: convert-to-gif <filename> [<width>] [<fps>]
+
+Supply a video file that should be converted as <filename> and resize
+the resulting GIF to <width> with <fps> frames per second. Width and
+frames per second are optional parameters.
+
+$ convert-to-gif video.mp4
+
+Will result in a GIF with #{DEFAULT_FPS} fps that is #{DEFAULT_WIDTH}
+pixel wide.
+EOL
+  exit
+end
+
+folder = Dir.mktmpdir
+unless File.exist?(name)
+  abort "File [#{name}] does not exist. Please see --help."
+end
+
+width = ARGV[1] || DEFAULT_WIDTH
+fps = ARGV[2] || DEFAULT_FPS
 
 basename = File.basename(name, ".*")
 system("ffmpeg -i #{name} -vf scale=#{width}:-1:flags=lanczos,fps=#{fps} #{folder}/frame-%03d.png")
