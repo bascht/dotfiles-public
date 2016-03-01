@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export GPG_AGENT_INFO=/home/bascht/.gnupg/S.gpg-agent:1729:1
+exec gajim
