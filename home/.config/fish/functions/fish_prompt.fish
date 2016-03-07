@@ -8,7 +8,7 @@ function fish_prompt
         switch (hostname -s)
                 case tdhtest
                         set logo "🐮"
-                case tivoli stormcage xeros
+                case tivoli stormcage xeros kandalingo
                         set logo "🐎"
                 case '*'
                         set logo "?"

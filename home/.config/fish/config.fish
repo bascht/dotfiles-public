@@ -39,15 +39,6 @@ function scale
     end
 end
 
-# Initialize fasd
-function -e fish_preexec _run_fasd
-        fasd --proc (fasd --sanitize "$argv") > "/dev/null" 2>&1
-end
-
-function z
-        cd (fasd -d -e 'printf %s' "$argv")
-end
-
 # Fire up RVM
 set -e GEM_PATH; set -e GEM_HOME
 
