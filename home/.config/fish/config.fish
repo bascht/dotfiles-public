@@ -16,7 +16,6 @@ set emdis 'ಠ_ಠ'
 
 # Aliases
 alias va "vagrant"
-alias g "git"
 alias tm "tmux -2"
 alias ta "tm a -t"
 alias bi "bundle install"
@@ -41,6 +40,9 @@ end
 
 # Fire up RVM
 set -e GEM_PATH; set -e GEM_HOME
+
+# Fishmarks
+. ~/.fishmarks/marks.fish
 
 # Host-specific .vagrant directories
 set -x VAGRANT_DOTFILE_PATH .vagrant-(hostname -s)
