@@ -156,6 +156,8 @@ for_window [class="^.*"] border pixel 2
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Nautilus"] border pixel 0
 for_window [class="Nautilus"] floating enable
+for_window [title="Google Hangouts is sharing your screen with hangouts.google.com."] floating enable
+for_window [title="Google Hangouts is sharing your screen with hangouts.google.com."] border pixel 0
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
