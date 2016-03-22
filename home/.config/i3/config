@@ -6,20 +6,23 @@
 #
 # my conf. based on i3-config-generator
 set $mod Mod4
-
-set $background #000004
-set $foreground #FFFFFF
-set $black      #000000
-set $gray       #000004
-set $inactive   #036E82
-set $primary    #10899F
-set $light      #95EEFF
-set $secondary  #f535aa
-set $tertiary   #820CA2
-set $warning    #d83e3e
-set $urgent     #f535aa
-set $accent     #51c4d4
-set $complement #ffb614
+set $base00 #1b1918
+set $base01 #2c2421
+set $base02 #68615e
+set $base03 #766e6b
+set $base04 #9c9491
+set $base05 #a8a19f
+set $base06 #e6e2e0
+set $base07 #f1efee
+set $base08 #f22c40
+set $base09 #df5320
+set $base0A #c38418
+set $base0B #7b9726
+set $base0C #3d97b8
+set $base0D #407ee7
+set $base0E #6666ea
+set $base0F #c33ff3
+set $baseXX #a81c07
 
 # Gaps!
 gaps outer 10
@@ -30,7 +33,7 @@ font pango:Fira Sans Regular 10
 
 floating_modifier $mod
 
-exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/autumn.jpg
+exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/winter.jpg
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
 exec --no-startup-id /usr/bin/gnome-terminal -- "tmuxinator start work"
@@ -185,10 +188,10 @@ mode "resize" {
 }
 
 # class                 border          backgr.         text            indicator
-client.focused          $complement     $complement     $background     $primary
-client.focused_inactive $background     $foreground     $inactive       $background
-client.unfocused        $inactive       $black          $foreground     $secondary
-client.urgent           $warning        $urgent         $urgent
+client.focused          $base0D         $base0D         $base07         $base08
+client.focused_inactive $base02         $base02         $base06         $base03
+client.unfocused        $base04         $base04         $base01         $base06
+client.urgent           $base08         $base08         $base07         $baseXX
 
 bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
@@ -198,14 +201,14 @@ bar {
 	strip_workspace_numbers no
 
         colors {
-               background $background
-               statusline $foreground
-               separator  $accent
+               background $base04
+               statusline $base00
+               separator  $base05
 
-               focused_workspace  $black     $black      $primary
-               active_workspace   $black     $black      $foreground
-               inactive_workspace $black     $black      $foreground
-               urgent_workspace   $secondary $black  $secondary
+               focused_workspace  $base02     $base03      $base01
+               active_workspace   $base04     $base05      $base0F
+               inactive_workspace $base04     $base05      $base02
+               urgent_workspace   $base08     $base04      $base
         }
 }
 
