@@ -145,7 +145,6 @@ bindsym Mod4+Shift+6 move container to workspace $WS6
 bindsym Mod4+Shift+7 move container to workspace $WS7
 bindsym Mod4+Shift+8 move container to workspace $WS8
 
-assign [class="URxvt"] $WS1
 assign [class="Pcmanfm"] $WS2
 assign [class="Lxappearance"] $WS2
 assign [class="Vlc"] $WS5
