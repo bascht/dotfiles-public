@@ -3,69 +3,71 @@ rofi.width:                30
 rofi.sidebar-mode:         true
 rofi.levenshtein-sort:     true
 
-URxvt.letterSpace: 0
-URxvt.font: xft:Fira Mono:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
-URxvt.boldFont: xft:Fira Mono:bold:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
-URxvt.italicFont: xft:Fira Mono:italic:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
-URxvt.boldItalicFont: xft:Fira Mono:italic:bold:hinting=slight:antialias=true,xft:Noto Color Emoji:style=Regular:antialias=false,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
+URxvt.letterSpace: -1
+URxvt.font: xft:Fira Mono:hinting=slight:antialias=true:pixelsize=16,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
+URxvt.boldFont: xft:Fira Mono:bold:hinting=slight:antialias=true:pixelsize=16,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
 Xft*dpi: 96
 URxvt.scrollstyle: plain
-URxvt.perl-ext-common: default,matcher,resize-font
+URxvt.perl-ext-common: default,matcher,resize-font,readline,confirm-paste,url-select
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true
 
-URxvt.termName: rxvt-256color
+Urxvt.imLocale: "en_GB.UTF-8"
+
+URxvt.termName: rxvt-unicode-256color
 URxvt.urgentOnBell: true
 URxvt.saveLines: 100000
 URxvt.scrollBar: false
 
-! Base16 Monokai
-! Scheme: Wimer Hazenberg (http://www.monokai.nl)
+! Base16 Google
+! Scheme: Seth Wright (http://sethawright.com)
 
-! URxvt*tintColor:                      color
-! URxvt*fadeColor:                      color
+#define base00 #1d1f21
+#define base01 #282a2e
+#define base02 #373b41
+#define base03 #969896
+#define base04 #b4b7b4
+#define base05 #c5c8c6
+#define base06 #e0e0e0
+#define base07 #ffffff
+#define base08 #CC342B
+#define base09 #F96A38
+#define base0A #FBA922
+#define base0B #198844
+#define base0C #3971ED
+#define base0D #3971ED
+#define base0E #A36AC7
+#define base0F #3971ED
 
-URxvt*background:                     #f9f8f5
-URxvt*foreground:                     #49483e
-URxvt*cursorColor:                    #49483e
+*foreground:   base02
+*background:   base07
+*cursorColor:  base02
 
-! URxvt*colorBD:                        color
-! URxvt*colorIT:                        color
-! URxvt*colorUL:                        color
-! URxvt*colorRV:                        color
-! URxvt*underlineColor:                 color
-URxvt*scrollColor:                    #f8f8f2
-! URxvt*troughColor:                    color
-URxvt*highlightColor:                 #f9f8f5
-URxvt*highlightTextColor:             #f8f8f2
-! URxvt*cursorColor2:                   color
-! URxvt*pointerColor:                   color
-! URxvt*pointerColor2:                  color
-! URxvt*borderColor:                    color
-! URxvt*tab-bg:                         colour
-! URxvt*tab-fg:                         colour
-! URxvt*tabbar-bg:                      colour
-! URxvt*tabbar-fg:                      colour
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
 
-URxvt*color0:                         #272822
-URxvt*color1:                         #f92672
-URxvt*color2:                         #a6e22e
-URxvt*color3:                         #b2731b
-URxvt*color4:                         #66d9ef
-URxvt*color5:                         #ae81ff
-URxvt*color6:                         #a1efe4
-URxvt*color7:                         #f8f8f2
-URxvt*color8:                         #75715e
-URxvt*color9:                         #f92672
-URxvt*color10:                        #a6e22e
-URxvt*color11:                        #b2731b
-URxvt*color12:                        #66d9ef
-URxvt*color13:                        #ae81ff
-URxvt*color14:                        #a1efe4
-URxvt*color15:                        #f9f8f5
+*color8:       base03
+*color9:       base08
+*color10:      base0B
+*color11:      base0A
+*color12:      base0D
+*color13:      base0E
+*color14:      base0C
+*color15:      base07
 
-! 256 color space
-URxvt*color16:                        #fd971f
-URxvt*color17:                        #cc6633
-URxvt*color18:                        #383830
-URxvt*color19:                        #49483e
-URxvt*color20:                        #a59f85
-URxvt*color21:                        #f5f4f1
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*color16:      base09
+*color17:      base0F
+*color18:      base01
+*color19:      base02
+*color20:      base04
+*color21:      base06
+
