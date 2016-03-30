@@ -56,6 +56,9 @@
 ;;; Start with an english dictionary
 (ispell-change-dictionary "english")
 
+;;; Show OrgMode Aganda on start.
+(add-hook 'after-init-hook 'org-agenda-list)
+
 (prelude-require-packages '(ace-jump-mode
                             ace-window
                             ag
