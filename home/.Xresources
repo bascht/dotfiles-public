@@ -2,13 +2,14 @@ rofi.font: Fira Mono 14
 rofi.width:                30
 rofi.sidebar-mode:         true
 rofi.levenshtein-sort:     true
+rofi.terminal: urxvt256c-ml
 
 URxvt.letterSpace: -1
 URxvt.font: xft:Fira Mono:hinting=slight:antialias=true:pixelsize=16,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
 URxvt.boldFont: xft:Fira Mono:bold:hinting=slight:antialias=true:pixelsize=16,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
 Xft*dpi: 96
 URxvt.scrollstyle: plain
-URxvt.perl-ext-common: default,matcher,resize-font,readline,confirm-paste,url-select
+URxvt.perl-ext-common: default,matcher,resize-font,readline,confirm-paste
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.launcher: /usr/bin/xdg-open
 URxvt.url-select.underline: true

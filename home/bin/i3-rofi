@@ -1,2 +1,2 @@
 #!/bin/bash
-rofi -ssh-command 'gnome-terminal -e "ssh {host}"' -levenshtein-sort -modi 'window,ssh,Workspaces:i3_switch_workspaces.sh,run' -show run -terminal gnome-terminal
+rofi -ssh-command 'urxvt256c-ml -e "ssh {host}"' -levenshtein-sort -modi 'window,ssh,Workspaces:i3_switch_workspaces.sh,run' -show run -terminal urxvt256c-ml
