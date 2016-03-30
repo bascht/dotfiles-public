@@ -34,6 +34,13 @@
 (global-set-key (kbd "C-s-c s-<") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
+;;; OrgMode Shortcuts
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
 ;; Try to get used to these instead
 (global-set-key (kbd "M-3") #'mc/mark-next-like-this)
 (global-set-key (kbd "M-4") #'mc/mark-previous-like-this)
