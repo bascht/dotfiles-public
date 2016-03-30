@@ -159,7 +159,9 @@ for_window [class="Pavucontrol"] floating enable
 for_window [class="Nautilus"] border pixel 0
 for_window [class="Nautilus"] floating enable
 for_window [title="Google Hangouts is sharing your screen with hangouts.google.com."] floating enable
+for_window [title="Jitsi Desktop Streamer is sharing your screen with meet.jit.si."] floating enable
 for_window [title="Google Hangouts is sharing your screen with hangouts.google.com."] border pixel 0
+for_window [title="Jitsi Desktop Streamer is sharing your screen with meet.jit.si."] border pixel 0
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
