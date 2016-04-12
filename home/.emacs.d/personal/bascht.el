@@ -49,6 +49,10 @@
 ;;; Enable Projectile  cache until I know what is going on
 (setq projectile-enable-caching t)
 
+;;; Directly jump into Commander.
+(setq projectile-switch-project-action
+      #'projectile-commander)
+
 ;;; Skip to next match group automatically
 (setq helm-move-to-line-cycle-in-source nil)
 (setq helm-ls-git-fuzzy-match t)
