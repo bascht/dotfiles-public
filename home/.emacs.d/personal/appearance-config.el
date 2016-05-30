@@ -4,12 +4,11 @@
 
 ;;; Code:
 
-(load-theme 'material-light t)
+(load-theme 'material t)
 (rainbow-mode 1)
 (rainbow-delimiters-mode)
-
-(custom-set-faces
- '(default ((t (:family "Fira Mono" :foundry "CTDB" :slant normal :weight normal :height 113 :width normal)))))
+(set-face-attribute 'default nil :font "Hack-12" )
+(set-frame-font "Hack-12" nil t)
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
