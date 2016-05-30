@@ -33,7 +33,7 @@ font pango:Fira Sans Regular 10
 
 floating_modifier $mod
 
-exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/winter.jpg
+exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/summer.jpg
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
 exec --no-startup-id /usr/bin/gnome-terminal -- "tmuxinator start work"
