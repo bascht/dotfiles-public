@@ -26,16 +26,22 @@ EOL
   exit
 end
 
-folder = Dir.mktmpdir
-unless File.exist?(name)
-  abort "File [#{name}] does not exist. Please see --help."
+
+Dir.mktmpdir do |tmpdir|
+  palette = File.join(tmpdir, "palette.png")
+
+
+  puts palette
+  unless File.exist?(name)
+    abort "File [#{name}] does not exist. Please see --help."
+  end
+
+  width = ARGV[1] || DEFAULT_WIDTH
+  fps = ARGV[2] || DEFAULT_FPS
+
+  basename = File.basename(name, ".*")
+  filters="fps=#{fps},scale=#{width}:-1:flags=lanczos"
+
+  system("ffmpeg -i #{name} -vf '#{filters},palettegen' -y #{palette}")
+  system("ffmpeg -i #{name} -i #{palette} -lavfi '#{filters} [x]; [x][1:v] paletteuse' -y #{basename}.gif")
 end
-
-width = ARGV[1] || DEFAULT_WIDTH
-fps = ARGV[2] || DEFAULT_FPS
-
-basename = File.basename(name, ".*")
-filters="fps=#{fps},scale=#{width}:-1:flags=lanczos"
-
-system("ffmpeg -i #{name} -vf '#{filters},palettegen' -y #{folder}")
-system("ffmpeg -i #{name} -i #{folder} -lavfi '#{filters} [x]; [x][1:v] paletteuse' -y #{basename}.gif")
