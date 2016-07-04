@@ -5,23 +5,23 @@
 # |_|____/
 #
 # my conf. based on i3-config-generator
-set $mod Mod4
-set $base00 #1b1918
-set $base01 #2c2421
-set $base02 #68615e
-set $base03 #766e6b
-set $base04 #9c9491
-set $base05 #a8a19f
-set $base06 #e6e2e0
-set $base07 #f1efee
-set $base08 #f22c40
-set $base09 #df5320
-set $base0A #c38418
-set $base0B #7b9726
-set $base0C #3d97b8
-set $base0D #407ee7
-set $base0E #6666ea
-set $base0F #c33ff3
+set $mod Mod1
+set $base00 #2C3E50
+set $base01 #34495E
+set $base02 #7F8C8D
+set $base03 #95A5A6
+set $base04 #BDC3C7
+set $base05 #e0e0e0
+set $base06 #f5f5f5
+set $base07 #ECF0F1
+set $base08 #E74C3C
+set $base09 #E67E22
+set $base0A #F1C40F
+set $base0B #2ECC71
+set $base0C #1ABC9C
+set $base0D #3498DB
+set $base0E #9B59B6
+set $base0F #be643c
 set $baseXX #a81c07
 
 # Gaps!
@@ -198,18 +198,18 @@ bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	mode dock
 	position top
-	font pango:Fira Sans Regular 10
+	font pango:Fira Mono 8
 	strip_workspace_numbers no
-
+        height 22
         colors {
                background $base04
                statusline $base00
-               separator  $base05
+               separator  $base0E
 
-               focused_workspace  $base02     $base03      $base01
+               focused_workspace  $base02     $base02      $base00
                active_workspace   $base04     $base05      $base0F
-               inactive_workspace $base04     $base05      $base02
-               urgent_workspace   $base08     $base04      $base
+               inactive_workspace $base04     $base04      $base01
+               urgent_workspace   $base08     $base04      $baseXX
         }
 }
 

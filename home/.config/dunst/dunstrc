@@ -1,5 +1,5 @@
 [global]
-    font = Fira Sans 11
+    font = Hack 11
     allow_markup = yes
     format = "<b>%s</b>\n%b"
     sort = yes
@@ -39,11 +39,11 @@
     browser = /usr/bin/firefox -new-tab
 
     icon_position = left
-    icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_folders = /usr/share/icons/Paper/16x16/status/:/usr/share/icons/Paper/16x16/devices/
 
 [frame]
     width = 2
-    color = "#10899F"
+    color = "#9c9491"
 
 [shortcuts]
     close = ctrl+space
@@ -52,12 +52,12 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    foreground = "#ebdbb2"
+    foreground = "#a8a19f"
     background = "#1d2021"
     timeout = 10
 
 [urgency_normal]
-    foreground = "#51c4d4"
+    foreground = "#c38418"
     background = "#1d2021"
     timeout = 10
 
