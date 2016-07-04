@@ -35,5 +35,7 @@ width = ARGV[1] || DEFAULT_WIDTH
 fps = ARGV[2] || DEFAULT_FPS
 
 basename = File.basename(name, ".*")
-system("ffmpeg -i #{name} -vf scale=#{width}:-1:flags=lanczos,fps=#{fps} #{folder}/frame-%03d.png")
-system("convert -loop 0 #{folder}/frame-*png #{basename}.gif")
+filters="fps=#{fps},scale=#{width}:-1:flags=lanczos"
+
+system("ffmpeg -i #{name} -vf '#{filters},palettegen' -y #{folder}")
+system("ffmpeg -i #{name} -i #{folder} -lavfi '#{filters} [x]; [x][1:v] paletteuse' -y #{basename}.gif")
