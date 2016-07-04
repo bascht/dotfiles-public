@@ -74,7 +74,9 @@ carbons=true
 receipts.send=true
 receipts.request=true
 
-reconnect=30
+reconnect=10
+
+account=yakshed
 
 [otr]
 policy=manual
