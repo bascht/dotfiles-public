@@ -39,7 +39,7 @@ ignore "DKIM-Signature:"
 ignore "X-Flags:"
 hdr_order "Date From To Cc"
 
-set editor="emacs -n"
+set editor="emacsclient -nw"
 
 # URL Opener
 macro pager \Cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
