@@ -4,11 +4,12 @@
 
 ;;; Code:
 
-(load-theme 'material t)
+(load-theme 'twilight-anti-bright t)
 (rainbow-mode 1)
-(rainbow-delimiters-mode)
-(set-face-attribute 'default nil :font "Hack-12" )
-(set-frame-font "Hack-12" nil t)
+(rainbow-delimiters-mode 1)
+
+(set-face-attribute 'default nil :font "Mononoki-12" )
+(set-frame-font "Mononoki-12" nil t)
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
