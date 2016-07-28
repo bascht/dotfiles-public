@@ -37,12 +37,12 @@
 
 ;;; Global modes
 (projectile-global-mode)
-(global-company-mode)
 (global-hl-line-mode 0)
 (yas-global-mode 1)
 
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'auto-fill-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq browse-url-browser-function (quote browse-url-firefox))
 
@@ -57,8 +57,8 @@
 (setq helm-move-to-line-cycle-in-source nil)
 (setq helm-ls-git-fuzzy-match t)
 
-;;; Start with an english dictionary
-(ispell-change-dictionary "english")
+;;; Start with a German  dictionary
+(ispell-change-dictionary "deutsch8")
 
 ;;; Show OrgMode Aganda on start.
 (add-hook 'after-init-hook 'org-agenda-list)
@@ -73,6 +73,7 @@
                             company
                             company-go
                             company-restclient
+                            company-tern
                             csv-mode
                             dockerfile-mode
                             emmet-mode
@@ -151,6 +152,8 @@
                             smartparens
                             terraform-mode
                             toml-mode
+                            tern
+                            tern-context-coloring
                             undo-tree
                             vagrant
                             vagrant-tramp
