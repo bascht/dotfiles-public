@@ -4,10 +4,12 @@
 
 ;;; Code:
 
-(require 'rspec-mode)
+(require 'company)
 
-(eval-after-load 'rspec-mode
-  '(rspec-install-snippets))
+(add-hook 'after-init-hook 'global-company-mode)
+(add-to-list 'company-backends 'company-tern)
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+
 
 (defun colorize-compilation-buffer () "Nice colours there."
   (read-only-mode)
@@ -29,7 +31,6 @@
        (do-in-root '(lambda (root) (ag/search string root))))
 
 
-(add-hook 'rspec-mode-hook 'turn-off-flycheck)
 (setq rspec-command-options "--format progress")
 (setq rspec-spec-command "rspec")
 (setq ruby-insert-encoding-magic-comment nil)
