@@ -6,7 +6,7 @@ function fish_prompt
 	end
 
         switch (hostname -s)
-                case tdhtest
+                case tdhtest vm
                         set logo "🐮"
                 case tivoli stormcage xeros kandalingo
                         set logo "🐎"
