@@ -9,6 +9,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (add-to-list 'company-backends 'company-tern)
 (add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(add-hook 'yaml-mode-hook (lambda() (auto-fill-mode -1)))
 
 
 (defun colorize-compilation-buffer () "Nice colours there."
