@@ -3,6 +3,9 @@
 #
 # Intro (in German):
 # https://depone.net/2016/03/01/video-in-animiertes-gif-konvertieren/
+#
+# Hat tip for the palette trick to:
+# http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
 
 require 'tmpdir'
 
