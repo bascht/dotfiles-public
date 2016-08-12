@@ -30,8 +30,6 @@ end
 Dir.mktmpdir do |tmpdir|
   palette = File.join(tmpdir, "palette.png")
 
-
-  puts palette
   unless File.exist?(name)
     abort "File [#{name}] does not exist. Please see --help."
   end
