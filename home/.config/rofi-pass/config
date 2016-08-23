@@ -10,7 +10,7 @@ delay=2
 
 ## Programs to be used
 # Editor
-EDITOR='emacs'
+EDITOR='gedit'
 
 # Browser
 BROWSER='firefox'
