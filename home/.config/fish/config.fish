@@ -29,6 +29,7 @@ alias dvm "cd ~/DevVM; and vagrant ssh -- -A"
 alias ssh-yop "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias docker-rm-stopped "docker rm (docker ps -a -q)"
 alias docker-rm-dangling "docker rmi (docker images -q -f dangling=true)"
+alias dco "docker-compose"
 
 # Manually switch HIDPI
 function scale
