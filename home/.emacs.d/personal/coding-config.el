@@ -11,6 +11,11 @@
 (add-hook 'js-mode-hook (lambda () (tern-mode t)))
 (add-hook 'yaml-mode-hook (lambda() (auto-fill-mode -1)))
 
+(use-package editorconfig
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook (editorconfig-mode 1))
+  (add-hook 'text-mode-hook (editorconfig-mode 1)))
 
 (defun colorize-compilation-buffer () "Nice colours there."
   (read-only-mode)
