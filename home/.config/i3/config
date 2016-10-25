@@ -200,7 +200,7 @@ client.urgent           $base08         $base08         $base07         $baseXX
 
 bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	mode hide
+	mode dock
 	position top
 	font pango:Fira Mono 8
 	strip_workspace_numbers no
