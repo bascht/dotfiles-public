@@ -1,2 +1,2 @@
 #!/bin/bash
-rofi -ssh-command 'urxvt256c-ml -e "ssh {host}"' -levenshtein-sort -modi 'window,ssh,Workspaces:i3_switch_workspaces.sh,run' -show run -terminal urxvt256c-ml
+rofi -markup -ssh-command 'urxvt256c-ml -e "ssh {host}"' -levenshtein-sort -modi 'combi,ssh,files:~/bin/rofi-file-browser.sh,emoji:~/bin/rofi-moji' -combi-modi 'run,window' -show combi -terminal urxvt256c-ml #-normal-window
