@@ -1,4 +1,6 @@
-rofiopts="-i -width 700 -no-levenshtein-sort"
+_rofi () {
+    rofi -i -no-levenshtein-sort "$@"
+}
 
 # fields to be used
 URL_field='url'
