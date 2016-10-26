@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(require 'org)
+(use-package org)
 
 (setq org-directory "~/ownCloud/clientsync/Zettelkasten")
 (setq org-agenda-files (quote ("~/ownCloud/clientsync/Zettelkasten")))

@@ -3,17 +3,14 @@
 ;;; Hacky as whatnot, but it's mime.
 ;;; Code:
 
-(require 'package)
-(require 'ag)
-(require 'nyan-mode)
-(require 'notmuch)
-(require 'notmuch-address)
-(require 'multiple-cursors-core)
-(require 'yasnippet)
-(require 'rspec-mode)
-(require 'ansi-color)
-(require 'org-alert)
-
+(use-package package)
+(use-package ag)
+(use-package notmuch)
+(use-package notmuch-address)
+(use-package multiple-cursors-core)
+(use-package yasnippet)
+(use-package rspec-mode)
+(use-package ansi-color)
 
 (add-to-list 'load-path "~/.emacs.d/personal/")
 
@@ -125,7 +122,6 @@
                             notmuch-labeler
                             nyan-mode
                             org
-                            org-alert
                             org-beautify-theme
                             org-bullets
                             org-dashboard
@@ -138,6 +134,7 @@
                             password-store
                             php-mode
                             puppet-mode
+                            rainbow-mode
                             rainbow-delimiters
                             restclient
                             rspec-mode
@@ -148,12 +145,14 @@
                             rust-mode
                             sass-mode
                             scss-mode
+                            spacemacs-theme
                             smartparens
                             terraform-mode
                             toml-mode
                             tern
                             tern-context-coloring
                             undo-tree
+                            use-package
                             vagrant
                             vagrant-tramp
                             visual-fill-column

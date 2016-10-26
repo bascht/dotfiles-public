@@ -4,8 +4,7 @@
 
 ;;; Code:
 
-(require 'notmuch)
-(require 'paredit)
+(use-package paredit)
 (global-set-key (kbd "C-M-u") #'paredit-backward-up)
 (global-set-key (kbd "C-M-n") #'paredit-forward-up)
 ;; This one's surpisingly useful for writing prose.
