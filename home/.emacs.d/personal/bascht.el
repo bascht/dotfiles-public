@@ -32,7 +32,6 @@
 (setq user-full-name "Sebastian Schulze")
 (setq user-mail-address "github.com@bascht.com")
 
-(nyan-mode 1)
 (org-bullets-mode 1)
 
 ;;; Global modes

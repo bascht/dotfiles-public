@@ -4,14 +4,13 @@
 
 ;;; Code:
 
-(load-theme 'twilight-anti-bright t)
 (rainbow-mode 1)
 (rainbow-delimiters-mode 1)
 
 (set-face-attribute 'default nil :font "Mononoki-12" )
 (set-frame-font "Mononoki-12" nil t)
 
-(require 'org-bullets)
+(use-package org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (defun on-after-init () "Don't set a background for -nw Emacs."
