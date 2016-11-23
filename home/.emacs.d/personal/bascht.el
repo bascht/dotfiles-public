@@ -36,9 +36,7 @@
 (global-hl-line-mode 0)
 (yas-global-mode 1)
 
-(add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'auto-fill-mode)
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq browse-url-browser-function (quote browse-url-firefox))
 
@@ -54,10 +52,13 @@
 (setq helm-ls-git-fuzzy-match t)
 
 ;;; Start with a German  dictionary
-(ispell-change-dictionary "deutsch8")
+;;;(ispell-change-dictionary "deutsch8")
 
 ;;; Show OrgMode Aganda on start.
-(add-hook 'after-init-hook 'org-agenda-list)
+;; (cond
+;;  ((string-equal system-name "kandalingo")
+;;   (add-hook 'after-init-hook 'org-agenda-list)))
+
 
 (prelude-require-packages '(ace-jump-mode
                             ace-window
