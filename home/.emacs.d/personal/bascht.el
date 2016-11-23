@@ -64,8 +64,7 @@
                             ace-window
                             ag
                             anzu
-                            cider
-                            clojure-mode
+                            apropospriate-theme
                             coffee-mode
                             company
                             company-go
@@ -113,20 +112,15 @@
                             magit-gerrit
                             magit-gh-pulls
                             markdown-mode
-                            material-theme
-                            moe-theme
-                            monokai-theme
                             move-text
                             multiple-cursors
                             nginx-mode
                             notmuch
                             notmuch-labeler
-                            nyan-mode
                             org
                             org-beautify-theme
                             org-bullets
                             org-dashboard
-                            org-pandoc
                             org-present
                             org-projectile
                             ox-ioslide
@@ -146,7 +140,6 @@
                             rust-mode
                             sass-mode
                             scss-mode
-                            spacemacs-theme
                             smartparens
                             terraform-mode
                             toml-mode
@@ -157,7 +150,6 @@
                             vagrant
                             vagrant-tramp
                             visual-fill-column
-                            writeroom-mode
                             yaml-mode
                             yasnippet))
 
