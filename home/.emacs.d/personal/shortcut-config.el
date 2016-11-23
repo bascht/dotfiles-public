@@ -20,11 +20,7 @@
 
 (global-set-key [f5] 'compile)
 (global-set-key [f6] 'comment-or-uncomment-region)
-
-(global-set-key [f9] 'notmuch-unread)
-(define-key notmuch-search-mode-map "F"
-  (notmuch-search-toggle-flagged))
-
+(global-set-key [f9] 'mu4e)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
