@@ -99,4 +99,4 @@ enabled=true
 chlog=true
 
 [plugins]
-load=emoticons.py;ascii.py;
+load=emoticons.py;ascii.py;omemo.py;
