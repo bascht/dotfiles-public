@@ -56,6 +56,15 @@
 
   (setq mail-host-address "bascht.com")
 
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-html2text-command "html2text -utf8 -width 80")
+  (setq mu4e-maildir "/home/bascht/Mail/bascht.com")
+  (setq mu4e-refile-folder (format "/Archive.%s" (format-time-string "%Y")))
+  (setq mu4e-sent-folder "/Sent")
+  (setq mu4e-trash-folder "/Trash")
+  (setq mu4e-view-prefer-html t)
+  (setq mu4e-view-show-images t)
+
   ;;; load mail-mode when starting up from mutt
   (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 
