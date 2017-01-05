@@ -7,6 +7,11 @@
 (rainbow-mode 1)
 (rainbow-delimiters-mode 1)
 
+(use-package apropospriate-theme
+  :ensure t
+  :config
+  (load-theme 'apropospriate-dark t))
+
 (set-face-attribute 'default nil :font "Mononoki-12" )
 (set-frame-font "Mononoki-12" nil t)
 
@@ -19,25 +24,20 @@
 
 (add-hook 'window-setup-hook 'on-after-init)
 
-(if (display-graphic-p)
-    '(progn
-       '(menu-bar-mode)
-       (custom-set-faces
-        '(mode-line ((t (:background "#85C" :foreground "#85CEEB" :box (:line-width 1 :color "dodger blue")))))
-        )
-
-       (custom-set-faces
-        '(mode-line ((t (:background "brightblack" :foreground "#4e4e4e" :box (:line-width 1 :color "dodger blue")))))
-        )))
-
 ;;; Nice Org alert boxes
 (setq alert-default-style 'libnotify)
 
 ;;; Mail niceties
 (setq notmuch-search-line-faces
  (quote
-  (("unread" :weight bold :foreground "white" :background "royal blue")
+  (("unread" :weight bold :foreground "light black" :background "light blue")
    ("flagged" :foreground "red" :background))))
+
+(custom-set-faces
+ '(mu4e-flagged-face ((t (:inherit font-lock-constant-face :foreground "deep sky blue" :weight bold))))
+ '(mu4e-unread-face ((t (:inherit bold :background "medium violet red" :foreground "white smoke"))))
+ '(sml/filename ((t (:foreground "dim gray" :weight bold))))
+ '(sml/modes ((t (:foreground "dim gray" :weight bold)))))
 
 (provide 'appearance-config)
 ;;; appearance-config.el ends here
