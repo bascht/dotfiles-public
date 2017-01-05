@@ -1,7 +1,7 @@
 set fish_greeting
 set -x EDITOR 'emacsclient -t'
 set -x GIT_EDITOR $EDITOR
-set -x PATH $PATH ~/.local/bin ~/bin ~/bin/go/bin /usr/local/bin
+set -U fish_user_paths ~/.local/bin ~/bin ~/bin/go/bin /usr/local/bin $fish_user_paths
 set -x ALTERNATE_EDITOR "" # Start emacs in every case!
 set -x WORKLOG /home/bascht/Documents/Freelance/Worklog/Worklog.md
 set -x Documents /home/bascht/Documents
