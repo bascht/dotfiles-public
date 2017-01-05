@@ -202,9 +202,9 @@ bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	mode dock
 	position top
-	font pango:Fira Mono 8
+	font pango:Hack 10
 	strip_workspace_numbers no
-        height 22
+        height 24
         colors {
                background $base04
                statusline $base00
