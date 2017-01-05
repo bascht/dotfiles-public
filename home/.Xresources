@@ -1,6 +1,6 @@
 Xft.lcdfilter: lcddefault # Voodoo.
 
-rofi.font: Fira Mono 15
+rofi.font: Cantarell 22
 rofi.width:                30
 rofi.sidebar-mode:         true
 rofi.levenshtein-sort:     true
@@ -30,13 +30,13 @@ URxvt.scrollBar: false
 ! Use extended color scheme
 rofi.color-enabled:                  true
 ! Color scheme for normal row
-rofi.color-normal:                   #ffffff,#525d76,#f5f5f5,#5294e2,#ffffff
+rofi.color-normal:                   #bbffffff,#525d76,#f5f5f5,#5294e2,#ffffff
 ! Color scheme for urgent row
-rofi.color-urgent:                   #ffffff,#dc322f,#f5f5f5,#5294e2,#dc322f
+rofi.color-urgent:                   #bbffffff,#dc322f,#f5f5f5,#5294e2,#dc322f
 ! Color scheme for active row
-rofi.color-active:                   #ffffff,#c2cad0,#f5f5f5,#5294e2,#c2cad0
+rofi.color-active:                   #bbffffff,#c2cad0,#f5f5f5,#5294e2,#c2cad0
 ! Color scheme window
-rofi.color-window:                   #ffffff,#585858,#f5f5f5
+rofi.color-window:                   #88ffffff,#88585858,#88f5f5f5
 ! Separator style (none, dash, solid)
 rofi.separator-style:                solid
 
