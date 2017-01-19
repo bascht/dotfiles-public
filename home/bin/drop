@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'open3'
+require 'uri'
+
+
+file = Pathname.new(ARGV[0])
+abort "Och komm." unless file.exist? and file.readable?
+
+host = 'drop.bascht.space'
+url = URI.escape("https://#{host}/#{file.basename}")
+
+system "scp '#{file}' '#{host}:~/drop/'"
+
+Open3.popen3( "xclip" ){ |input, _, _| input << url }
