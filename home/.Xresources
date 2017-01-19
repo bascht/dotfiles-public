@@ -1,6 +1,6 @@
 Xft.lcdfilter: lcddefault # Voodoo.
 
-rofi.font: Cantarell 22
+rofi.font: Hack 15
 rofi.width:                30
 rofi.sidebar-mode:         true
 rofi.levenshtein-sort:     true
