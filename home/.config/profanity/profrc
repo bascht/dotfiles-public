@@ -1,5 +1,5 @@
 [ui]
-theme=boothj5_slack
+theme=original
 beep=false
 flash=false
 splash=true
@@ -65,7 +65,6 @@ roster.rooms.private.char=/
 
 
 history=true
-roster.header.char=@
 
 [connection]
 defaccount=bascht@yakshed.org
@@ -99,4 +98,4 @@ enabled=true
 chlog=true
 
 [plugins]
-load=emoticons.py;ascii.py;omemo.py;
+load=ascii.py;prof_omemo_plugin.py;
