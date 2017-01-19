@@ -10,10 +10,10 @@
     word_wrap = yes
     ignore_newline = no
     
-    geometry = "300x50-20-20"
+    geometry = "500x50-1100"
     shrink = no
 
-    transparency = 0
+    transparency = 10
     
     idle_threshold = 120
 
@@ -48,21 +48,20 @@
     context = ctrl+shift+period
 
 [frame]
-    width = 1
+    width = 0
     color = "#383838"
+    
+[base16_low]
+    msg_urgency = low
+    background = "#393939"
+    foreground = "#747369"
 
+[base16_normal]
+    msg_urgency = normal
+    background = "#515151"
+    foreground = "#d3d0c8"
 
-[urgency_low]
-    background = "#181818"
-    foreground = "#6F8B67"
-    timeout = 5
-
-[urgency_normal]
-    background = "#181818"
-    foreground = "#6F8B67"
-    timeout = 20
-
-[urgency_critical]
-    background = "#181818"
-    foreground = "#6F8B67"
-    timeout = 0
+[base16_critical]
+    msg_urgency = critical
+    background = "#f2777a"
+    foreground = "#e8e6df"
