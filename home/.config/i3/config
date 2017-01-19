@@ -44,6 +44,7 @@ exec --no-startup-id /usr/bin/firefox
 exec --no-startup-id /usr/bin/spotify
 exec --no-startup-id /usr/bin/compton --config ~/.config/i3/compton.conf
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
+exec --no-startup-id /usr/bin/polybar bascht --reload&
 
 # lock
 bindsym Control+Mod1+l exec i3-blur-lock
@@ -197,25 +198,6 @@ client.focused          $base0D         $base0D         $base07         $base08
 client.focused_inactive $base02         $base02         $base06         $base03
 client.unfocused        $base04         $base04         $base01         $base06
 client.urgent           $base08         $base08         $base07         $baseXX
-
-bar {
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	mode dock
-	position top
-	font pango:Hack 10
-	strip_workspace_numbers no
-        height 24
-        colors {
-               background $base04
-               statusline $base00
-               separator  $base0E
-
-               focused_workspace  $base02     $base02      $base00
-               active_workspace   $base04     $base05      $base0F
-               inactive_workspace $base04     $base04      $base01
-               urgent_workspace   $base08     $base04      $baseXX
-        }
-}
 
 # switching between workspace
 bindsym $mod+period workspace next
