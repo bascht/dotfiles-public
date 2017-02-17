@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if pgrep polybar
+if pgrep plasma
 then
     WINDOWED=""
 else
