@@ -7,10 +7,11 @@
 (rainbow-mode 1)
 (rainbow-delimiters-mode 1)
 
-(use-package apropospriate-theme
+(use-package doom-themes
   :ensure t
   :config
-  (load-theme 'apropospriate-dark t))
+  (load-theme 'doom-one t))
+
 
 (set-face-attribute 'default nil :font "Mononoki-12" )
 (set-frame-font "Mononoki-12" nil t)

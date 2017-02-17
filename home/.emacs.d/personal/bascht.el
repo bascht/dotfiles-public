@@ -72,6 +72,7 @@
                             company-tern
                             csv-mode
                             dockerfile-mode
+                            doom-themes
                             emmet-mode
                             expand-region
                             fish-mode
