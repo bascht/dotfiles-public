@@ -50,7 +50,6 @@ wins.autotidy=true
 time.lastactivity=%d/%m/%y %H:%M:%S
 
 
-titlebar.show=true
 
 
 roster.count.zero=false
@@ -65,6 +64,12 @@ roster.rooms.private.char=/
 
 
 history=true
+
+wintitle.show=true
+titlebar.position=1
+mainwin.position=2
+statusbar.position=3
+inputwin.position=4
 
 [connection]
 defaccount=bascht@yakshed.org
