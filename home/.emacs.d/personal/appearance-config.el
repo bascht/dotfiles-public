@@ -4,8 +4,8 @@
 
 ;;; Code:
 
-(rainbow-mode 1)
-(rainbow-delimiters-mode 1)
+(use-package rainbow-mode)
+(use-package rainbow-delimiters-mode)
 
 (use-package doom-themes
   :ensure t
