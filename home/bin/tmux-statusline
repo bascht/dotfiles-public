@@ -1,9 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-if [[ -f "/var/run/vm_ip" ]]; then
-    tmux set -g status-right "#S@#H[#{cat /var/run/vm_ip}]"
-    tmux setw -g status-bg 'colour24'
+require 'socket'
+
+eth0 = Socket.getifaddrs.find { |i| i.name == "eth0" && i.addr.ipv4? }
+
+if Socket.gethostname.end_with? 'Vm'
+  status =  "#S@#H|#{eth0.addr.ip_address}"
+  bg = 'colour24'
 else
-    tmux set -g status-right "#S"
-    tmux setw -g status-bg 'colour0'
-fi;
+  status = "#S"
+  bg = 'colour0'
+end
+
+
+system "tmux setw -g status-right \"#{status}\""
+system "tmux setw -g status-bg '#{bg}'"
