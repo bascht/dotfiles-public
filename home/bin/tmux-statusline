@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ -f "/var/run/vm_ip" ]]; then
+    tmux set -g status-right "#S@#H[#{cat /var/run/vm_ip}]"
+    tmux setw -g status-bg 'colour24'
+else
+    tmux set -g status-right "#S"
+    tmux setw -g status-bg 'colour0'
+fi;
