@@ -9,13 +9,18 @@
 
   (use-package mu4e)
   (use-package mu4e-contrib)
-  (setq mu4e-html2text-command 'mu4e-shr2text)
+ 
 
   (add-hook 'mu4e-view-mode-hook
             (lambda()
               ;; try to emulate some of the eww key-bindings
               (local-set-key (kbd "<tab>") 'shr-next-link)
-              (local-set-key (kbd "<backtab>") 'shr-previous-link)))
+              (local-set-key (kbd "<backtab>") 'shr-previous-link)
+              (setq mu4e-html2text-command 'mu4e-shr2text)
+              (setq shr-use-font nil)
+              (setq shr-color-visible-luminance-min 70)
+              (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+              ))
 
   (use-package notmuch)
 
@@ -57,7 +62,6 @@
   (setq mail-host-address "bascht.com")
 
   (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-html2text-command "html2text -utf8 -width 80")
   (setq mu4e-maildir "/home/bascht/Mail/bascht.com")
   (setq mu4e-refile-folder (format "/Archive.%s" (format-time-string "%Y")))
   (setq mu4e-sent-folder "/Sent")
