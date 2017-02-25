@@ -47,10 +47,3 @@ set -e GEM_PATH; set -e GEM_HOME
 
 # Host-specific .vagrant directories
 set -x VAGRANT_DOTFILE_PATH .vagrant-(hostname -s)
-
-# Color Git Prompt
-set -g __fish_git_prompt_show_informative_status 1
-set -g __fish_git_prompt_showuntrackedfiles 1
-set -g __fish_git_prompt_showdirtystate 1
-set -g __fish_git_prompt_showstashstate 1
-set -g __fish_git_prompt_showcolorhints 1
