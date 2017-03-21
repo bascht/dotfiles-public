@@ -6,10 +6,24 @@
 
 (use-package company)
 
-(add-hook 'after-init-hook 'global-company-mode)
 (add-to-list 'company-backends 'company-tern)
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
-(add-hook 'yaml-mode-hook (lambda() (auto-fill-mode -1)))
+
+(add-hook 'js-mode-hook
+          (lambda () (tern-mode t)))
+
+(add-hook 'yaml-mode-hook
+          (indent-guide-mode t)
+          (auto-fill-mode -1)())
+
+(add-hook 'prog-mode-hook
+          (flyspell-mode -1)
+          (company-mode t))
+
+(add-hook 'text-mode-hook
+          (hl-line-mode 1))
+
+(add-to-list 'auto-mode-alist
+             '("\\.coffee.erb\\'" . coffee-mode))
 
 (use-package editorconfig
   :ensure t
