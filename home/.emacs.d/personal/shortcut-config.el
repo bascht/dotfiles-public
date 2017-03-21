@@ -53,7 +53,8 @@
 (global-set-key (kbd "M-§") #'mc/unmark-next-like-this)
 (global-set-key (kbd "M-$") #'mc/unmark-previous-like-this)
 
-(global-set-key (kbd "M-+") 'er/expand-region)
+(global-set-key (kbd "C-M-+") 'er/expand-region)
+(global-set-key (kbd "C-M--") 'er/contract-region)
 
 ;;; Ace jump is dead! :)
 (global-set-key (kbd "C-:") 'avy-goto-char)
