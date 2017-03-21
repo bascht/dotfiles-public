@@ -17,6 +17,7 @@
                             company-restclient
                             company-tern
                             csv-mode
+                            dictcc
                             dockerfile-mode
                             doom-themes
                             emmet-mode
@@ -53,6 +54,7 @@
                             helm-rb
                             helm-swoop
                             helm-unicode
+                            indent-guide-mode
                             inf-ruby
                             less-css-mode
                             lua-mode
