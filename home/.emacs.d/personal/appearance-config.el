@@ -15,6 +15,7 @@
 
 (set-face-attribute 'default nil :font "Mononoki-12" )
 (set-frame-font "Mononoki-12" nil t)
+(setq default-frame-alist '((font . "Mononoki-12")))
 
 (use-package org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
