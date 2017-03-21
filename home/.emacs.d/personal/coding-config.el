@@ -9,18 +9,19 @@
 (add-to-list 'company-backends 'company-tern)
 
 (add-hook 'js-mode-hook
-          (lambda () (tern-mode t)))
+          'tern-mode)
 
 (add-hook 'yaml-mode-hook
-          (indent-guide-mode t)
-          (auto-fill-mode -1)())
+          'indent-guide-mode
+          (lambda () (auto-fill-mode -1)))
+
 
 (add-hook 'prog-mode-hook
-          (flyspell-mode -1)
-          (company-mode t))
+          'company-mode
+          (lambda () (flyspell-mode -1)))
 
 (add-hook 'text-mode-hook
-          (hl-line-mode 1))
+          'hl-line-mode)
 
 (add-to-list 'auto-mode-alist
              '("\\.coffee.erb\\'" . coffee-mode))
