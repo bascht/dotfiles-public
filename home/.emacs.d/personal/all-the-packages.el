@@ -54,7 +54,7 @@
                             helm-rb
                             helm-swoop
                             helm-unicode
-                            indent-guide-mode
+                            indent-guide
                             inf-ruby
                             less-css-mode
                             lua-mode
