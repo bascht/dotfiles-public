@@ -26,6 +26,10 @@
 (add-to-list 'auto-mode-alist
              '("\\.coffee.erb\\'" . coffee-mode))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 (use-package editorconfig
   :ensure t
   :init
