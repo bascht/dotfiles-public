@@ -22,6 +22,11 @@
               (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
               ))
 
+  (add-hook 'mu4e-compose-mode-hook
+            (lambda()
+              (ispell-change-dictionary "deutsch8")
+              ))
+
   (use-package notmuch)
 
   (setq notmuch-address-command "/home/bascht/bin/address")
