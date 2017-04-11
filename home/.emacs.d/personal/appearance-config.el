@@ -7,10 +7,10 @@
 (use-package rainbow-mode)
 (use-package rainbow-delimiters-mode)
 
-(use-package doom-themes
+(use-package avk-emacs-themes
   :ensure t
   :config
-  (load-theme 'doom-one t))
+  (load-theme 'avk-daylight t))
 
 
 (set-face-attribute 'default nil :font "Mononoki-12" )
