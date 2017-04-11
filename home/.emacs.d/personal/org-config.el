@@ -16,6 +16,9 @@
         ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Rubyshift.org" "Unsorted")
          "* %?\nEntered on %U\n  %i\n  %a")))
 
+(setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+(setq org-completion-use-ido t)
+
 
 (provide 'org-config)
 ;;; org-config.el ends here
