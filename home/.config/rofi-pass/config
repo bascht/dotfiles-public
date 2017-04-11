@@ -1,5 +1,5 @@
 _rofi () {
-    rofi -i -no-levenshtein-sort "$@" # -fullscreen -normal-window
+    rofi -i -no-levenshtein-sort "$@"  -fullscreen -normal-window
 }
 
 # fields to be used
