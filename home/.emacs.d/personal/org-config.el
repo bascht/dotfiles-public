@@ -10,7 +10,14 @@
 (setq org-directory "~/Documents/Zettelkasten")
 (setq org-agenda-files (quote ("~/Documents/Zettelkasten")))
 (setq org-default-notes-file "~/Documents/Zettelkasten/refile.org")
-(setq org-agenda-hide-tags-regexp "presents")
+(setq org-agenda-hide-tags-regexp (quote presents))
+(setq org-agenda-include-diary t)
+(setq org-agenda-show-inherited-tags (quote always))
+(setq org-agenda-with-colors t)
+(setq org-deadline-warning-days 5)
+(setq org-scheduled-delay-days 0)
+(setq org-agenda-default-appointment-duration 60)
+(setq org-agenda-columns-add-appointments-to-effort-sum t)
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Documents/Zettelkasten/Todo.org" "Inbox")
