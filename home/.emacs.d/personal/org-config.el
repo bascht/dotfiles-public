@@ -8,7 +8,7 @@
 (use-package org-mu4e)
 
 (setq org-directory "~/Documents/Zettelkasten")
-(setq org-agenda-files (quote ("~/Documents/Zettelkasten")))
+(setq org-agenda-files "~/Documents/Zettelkasten")
 (setq org-default-notes-file "~/Documents/Zettelkasten/refile.org")
 (setq org-agenda-hide-tags-regexp (quote presents))
 (setq org-agenda-include-diary t)
