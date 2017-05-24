@@ -19,6 +19,15 @@
 (setq org-agenda-default-appointment-duration 60)
 (setq org-agenda-columns-add-appointments-to-effort-sum t)
 
+(setq org-icalendar-alarm-time 120)
+(setq org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics")
+(setq org-icalendar-include-todo (quote all))
+(setq org-icalendar-store-UID t)
+(setq org-icalendar-timezone "UTC+2:00")
+(setq org-icalendar-use-deadline (quote (event-if-todo todo-due)))
+(setq org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
+(setq org-icalendar-with-timestamps nil)
+
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Documents/Zettelkasten/Todo.org" "Inbox")
          "* TODO %?\n  %i\n  %a")
