@@ -10,6 +10,7 @@
 (setq org-directory "~/Documents/Zettelkasten")
 (setq org-agenda-files (quote ("~/Documents/Zettelkasten")))
 (setq org-default-notes-file "~/Documents/Zettelkasten/refile.org")
+(setq org-agenda-hide-tags-regexp "presents")
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Documents/Zettelkasten/Todo.org" "Inbox")
