@@ -46,6 +46,7 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key [f7] 'helm-org-rifle-org-directory)
 
 ;; Try to get used to these instead
 (global-set-key (kbd "M-3") #'mc/mark-next-like-this)
