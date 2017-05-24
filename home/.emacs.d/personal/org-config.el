@@ -27,6 +27,7 @@
 (setq org-icalendar-use-deadline (quote (event-if-todo todo-due)))
 (setq org-icalendar-use-scheduled (quote (event-if-todo todo-start)))
 (setq org-icalendar-with-timestamps nil)
+(setq org-journal-dir "~/Documents/Zettelkasten/Journal")
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Documents/Zettelkasten/Todo.org" "Inbox")
