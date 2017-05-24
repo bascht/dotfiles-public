@@ -73,6 +73,8 @@
   (setq mu4e-trash-folder "/Trash")
   (setq mu4e-view-prefer-html t)
   (setq mu4e-view-show-images t)
+  (setq mml-secure-openpgp-sign-with-sender t)
+  (setq mml-secure-openpgp-signers nil)
 
   ;;; load mail-mode when starting up from mutt
   (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
