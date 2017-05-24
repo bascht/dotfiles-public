@@ -5,12 +5,15 @@
 ;;; Code:
 
 (use-package rainbow-mode)
-(use-package rainbow-delimiters-mode)
+
+(disable-theme 'spacemacs-dark)
 
 (use-package avk-emacs-themes
   :ensure t
   :config
   (load-theme 'avk-daylight t))
+
+(use-package all-the-icons)
 
 
 (set-face-attribute 'default nil :font "Mononoki-12" )
