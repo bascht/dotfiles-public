@@ -38,10 +38,10 @@ exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
 exec --no-startup-id /usr/bin/gnome-terminal -- "tmuxinator start work"
 exec --no-startup-id /usr/bin/volumeicon
-exec --no-startup-id /usr/bin/owncloud
+exec --no-startup-id /usr/bin/nextcloud
 exec --no-startup-id /usr/bin/nm-applet
 exec --no-startup-id /usr/bin/firefox
-exec --no-startup-id /usr/bin/spotify
+#exec --no-startup-id /usr/bin/spotify
 exec --no-startup-id /usr/bin/compton --config ~/.config/i3/compton.conf
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
 exec --no-startup-id /usr/bin/polybar bascht --reload&
@@ -205,8 +205,8 @@ bindsym $mod+comma workspace prev
 
 bindsym XF86AudioMute exec amixer -c 0 -q set Master toggle
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set -c 1 -M Master 2%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set -c 1 -M Master 2%-
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set -c 0 -M Master 2%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set -c 0 -M Master 2%-
 
 bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 set Master 15%+
 bindsym Shift+XF86AudioLowerVolume exec --no-startup-id amixer -c 0 set Master 15%-
