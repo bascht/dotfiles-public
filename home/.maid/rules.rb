@@ -32,7 +32,7 @@ Maid.rules do
 
   rule 'Move files away from Buffer' do
     move(
-      dir('~/Downloads/*.{png,jpg,jpeg,tif,gif}'),
+      dir('~/Downloads/*.{png,jpg,jpeg,tif,gif,bmp,svg}'),
       mkdir("~/Lager/Downloaded-Pictures/#{NOW}/")
     )
   end
@@ -45,7 +45,7 @@ Maid.rules do
   end
 
   rule 'Delete old and partial downloads' do
-    dir('~/Downloads/*.{deb,zip,tgz,xz,gz,bz,jar,txz,dmg,exe,bz2,7z,rpm,part}').each do |path|
+    dir('~/Downloads/*.{deb,zip,nzb,bin,tgz,xz,gz,bz,jar,txz,dmg,exe,bz2,7z,rpm,part}').each do |path|
       trash(path) if 3.days.since?(modified_at(path))
     end
   end
