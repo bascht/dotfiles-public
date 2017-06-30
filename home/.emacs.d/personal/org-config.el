@@ -31,7 +31,7 @@
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Documents/Zettelkasten/Todo.org" "Inbox")
-         "* TODO %?\n  %i\n  %a")
+         "* TODO %?\n  %i")
         ("m" "MailTodo" entry (file+headline "~/Documents/Zettelkasten/Todo.org" "Inbox")
          "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
         ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
