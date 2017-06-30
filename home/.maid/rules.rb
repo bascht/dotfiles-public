@@ -16,6 +16,13 @@ Maid.rules do
     )
   end
 
+  rule 'Move Screenshots into Month-Folders' do
+    move(
+      dir('~/Pictures/*Screenshot*png'),
+      mkdir("~/Pictures/Screenshots/#{NOW}/")
+    )
+  end
+
   rule 'Move Mediathek Downlads' do
     move(
       dir('~/*{nano,kulturzeit,Abenteuer_Forschung,hitec,Arte,ARD,ZDF,wido}*.{mkv,mp4}'),
