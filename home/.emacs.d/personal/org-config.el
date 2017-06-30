@@ -43,5 +43,29 @@
 ;;store link to message if in header view, not to header query
 (setq org-mu4e-link-query-in-headers-mode nil)
 
+;;; Fancy!
+
+(setq org-plantuml-jar-path "/home/bascht/bin/plantuml.jar")
+
+(org-babel-do-load-languages
+ (quote org-babel-load-languages)
+ (quote ((emacs-lisp . t)
+         (dot . t)
+         (ditaa . t)
+         (R . t)
+         (python . t)
+         (ruby . t)
+         (gnuplot . t)
+         (clojure . t)
+         (sh . t)
+         (ledger . t)
+         (org . t)
+         (plantuml . t)
+         (latex . t))))
+
+(setq org-confirm-babel-evaluate nil)
+
+(add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
+
 (provide 'org-config)
 ;;; org-config.el ends here
