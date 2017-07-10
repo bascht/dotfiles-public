@@ -22,9 +22,6 @@
 (set-frame-font "Mononoki-12" nil t)
 (setq default-frame-alist '((font . "Mononoki-12")))
 
-(use-package org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
 (defun on-after-init () "Don't set a background for -nw Emacs."
        (unless (display-graphic-p (selected-frame))
          (set-face-background 'default "unspecified-bg" (selected-frame))))
