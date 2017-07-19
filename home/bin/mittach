@@ -5,7 +5,7 @@ require 'html2text'
 require 'open-uri'
 require 'awesome_print'
 
-weekdays = %i(Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag)
+weekdays = %i(Montag Dienstag Mittwoch Donnerstag Freitag)
 day = (ARGV[0] || weekdays[Date.today.wday - 1]).to_sym
 next_day = weekdays[weekdays.index(day)+1]
 
@@ -13,7 +13,7 @@ marienburg_raw = Pdftotext.text(open("http://wirtshauszurmarienburg.de/karten/wo
 raffinerie_raw = Html2Text.convert(open("http://alte-raffinerie.de/index.php/Essen.html").read)
 
 marienburg = marienburg_raw.match(/^#{day} (\d+\.\d+)\.:\s+(?<nom>[^\n]+\n*[^\n]+)/m)
-raffinerie = raffinerie_raw.match(/^#{day}(?<yum>.*)#{next_day}/m)
+raffinerie = raffinerie_raw.match(/^#{day}(?<yum>.*)#{next_day || 'Unser Dessert der Woche'}/m)
 
 omnomnom = {
   marienburg: marienburg[:nom].split("\n").map(&:strip),
