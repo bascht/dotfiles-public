@@ -6,7 +6,7 @@ require 'open-uri'
 require 'awesome_print'
 
 weekdays = %i(Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag)
-day = ARGV[0] || weekdays[Date.today.wday - 1]
+day = (ARGV[0] || weekdays[Date.today.wday - 1]).to_sym
 next_day = weekdays[weekdays.index(day)+1]
 
 marienburg_raw = Pdftotext.text(open("http://wirtshauszurmarienburg.de/karten/wochenkarte.pdf"))
