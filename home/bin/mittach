@@ -11,13 +11,17 @@ next_day = weekdays[weekdays.index(day)+1]
 
 marienburg_raw = Pdftotext.text(open("http://wirtshauszurmarienburg.de/karten/wochenkarte.pdf"))
 raffinerie_raw = Html2Text.convert(open("http://alte-raffinerie.de/index.php/Essen.html").read)
+vinzmurr_raw = Html2Text.convert(open("https://vinzenzmurr.de/wochenkarte/").read)
+
 
 marienburg = marienburg_raw.match(/^#{day} (\d+\.\d+)\.:\s+(?<nom>[^\n]+\n*[^\n]+)/m)
 raffinerie = raffinerie_raw.match(/^#{day}(?<yum>.*)#{next_day || 'Unser Dessert der Woche'}/m)
+vinzmurr = vinzmurr_raw.match(/^#{day}(?<munch>.*)#{next_day || 'Die angegebenen Preise gelten nicht'}/m)
 
 omnomnom = {
   marienburg: marienburg[:nom].split("\n").map(&:strip),
-  raffinerie: raffinerie[:yum].split("\n").reject(&:empty?)
+  raffinerie: raffinerie[:yum].split("\n").reject(&:empty?),
+  vinzmurr: vinzmurr[:munch].split("\n").reject(&:empty?)
 }
 
 ap omnomnom
