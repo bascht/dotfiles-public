@@ -69,6 +69,30 @@
 
 (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 
+(use-package org-super-agenda
+  :config (org-super-agenda-mode))
+
+(setq org-agenda-custom-commands
+      '(("c" "Super Agenda" agenda
+         (org-super-agenda-mode)
+         ((org-super-agenda-groups
+           '(
+             (:name "Next Items"
+                    :time-grid t
+                    :tag ("NEXT" "outbox"))
+             (:name "Important"
+                    :priority "A")
+             (:name "Today"
+                    :time-grid t
+                    :scheduled today)
+             (:name "Quick Picks"
+                    :effort < 00:30
+                    )
+             (:priority<= "B"
+                          :order 1)
+             )))
+         (org-agenda nil "a"))))
+
 (provide 'org-config)
 ;;; org-config.el ends here
 ;; Local Variables:
