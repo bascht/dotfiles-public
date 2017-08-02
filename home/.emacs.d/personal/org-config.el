@@ -6,6 +6,8 @@
 
 (use-package org)
 (use-package org-mu4e)
+(use-package org-alert
+  :commands (org-alert-enable))
 
 (setq org-directory "~/Documents/Zettelkasten")
 (setq org-agenda-files (quote ("~/Documents/Zettelkasten")))
@@ -44,7 +46,7 @@
 (setq org-mu4e-link-query-in-headers-mode nil)
 
 ;;; Fancy!
-
+(setq org-alert-notification-title "OrgMode")
 (setq org-plantuml-jar-path "/home/bascht/bin/plantuml.jar")
 
 (org-babel-do-load-languages
