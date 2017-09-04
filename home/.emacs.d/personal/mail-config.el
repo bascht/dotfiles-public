@@ -68,7 +68,7 @@
 
   (setq mu4e-drafts-folder "/Drafts")
   (setq mu4e-maildir "/home/bascht/Mail/bascht.com")
-  (setq mu4e-refile-folder (format "/Archive.%s" (format-time-string "%Y")))
+  (setq mu4e-refile-folder (format "/Archiv.%s" (format-time-string "%Y")))
   (setq mu4e-sent-folder "/Sent")
   (setq mu4e-trash-folder "/Trash")
   (setq mu4e-view-prefer-html t)
