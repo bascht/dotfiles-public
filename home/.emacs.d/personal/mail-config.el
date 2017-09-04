@@ -73,6 +73,7 @@
   (setq mu4e-trash-folder "/Trash")
   (setq mu4e-view-prefer-html t)
   (setq mu4e-view-show-images t)
+  (setq mu4e-use-fancy-chars f)
   (setq mml-secure-openpgp-sign-with-sender t)
   (setq mml-secure-openpgp-signers nil)
 
