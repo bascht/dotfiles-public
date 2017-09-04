@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+# OrgMode Worklog appender
+#
+# This supersedes [Worklogger](https://github.com/bascht/worklogger)
+# by appending to [OrgMode](https://github.com/bastibe/org-journal)
+# journal files and using KDialog for querying.
+
+require 'pathname'
+
+unless File.open(__FILE__).flock(File::LOCK_EX|File::LOCK_NB)
+  abort("An instance of Worklogger is already running. Aborting.")
+end
+
+now = Time.now
+
+JOURNAL_PATH = Pathname.new("~/Documents/Worklog").expand_path
+CURRENT_FILE = Pathname.new(JOURNAL_PATH.join(now.strftime("%Y%m%d")))
+
+we_are_appending = CURRENT_FILE.exist?
+
+File.open(CURRENT_FILE, "a+") do |f|
+  unless we_are_appending
+    location = `kdialog --inputbox "Where are we today?"`.strip
+    f.write(now.strftime("* %A, %d/%m/%Y\n"))
+    f.write("   :PROPERTIES:\n    :WORKLOG_LOCATION: #{location}\n    :END:\n\n")
+  end
+  entry = `kdialog --inputbox "What's rolling?"`.strip
+  f.write("** #{now.strftime('%H:%M')} #{entry}\n") unless entry.empty?
+end
