@@ -1,5 +1,6 @@
 package await
 package bundler
+package direnv
 package emacs
 package node-binpath
 package rails
