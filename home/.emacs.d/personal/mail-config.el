@@ -80,6 +80,8 @@
   ;;; load mail-mode when starting up from mutt
   (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 
+  (setq mu4e-get-mail-command "offlineimap -qo")
+
   (add-hook 'mail-mode-hook 'turn-on-flyspell)
   (add-hook 'mail-mode-hook 'turn-on-longlines)
   (add-hook 'mail-mode-hook 'auto-fill-mode)
