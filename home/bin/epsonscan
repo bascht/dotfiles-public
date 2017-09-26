@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+require 'fileutils'
+
+PREFIX=ARGV[0] || Time.now.strftime("%Y-%m-%d-Scan")
+
+SCAN_PATH = Pathname.new("~/Documents/Scans").expand_path
+CURRENT_FILE = Pathname.new(SCAN_PATH.join(PREFIX))
+COMMANDS = [
+  "scanimage -d 'epjitsu' --format tiff --batch='#{CURRENT_FILE}-%d.tif' --source 'ADF Duplex' --mode 'Gray' --resolution 300",
+  "img2pdf --output=#{CURRENT_FILE}_input.pdf #{CURRENT_FILE}*tif",
+  "ocrmypdf -l deu #{CURRENT_FILE}_input.pdf #{CURRENT_FILE}.pdf"
+]
+
+Dir.chdir(SCAN_PATH) do
+  COMMANDS.each { |c| system(c) or abort("Sorry, #{c.split.first} made a boo boo") }
+  FileUtils.rm(Dir.glob(["#{CURRENT_FILE}*tif", "#{CURRENT_FILE}_input.pdf"]))
+end
