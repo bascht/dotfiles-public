@@ -1,8 +1,8 @@
 .mutt
 .maid
 .config
-.emacs.d/personal
-.emacs.d/snippets
+.spacemacs.d/public
+.spacemacs.d/snippets
 .config/fish
 .config/fish/functions
 bin
