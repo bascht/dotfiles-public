@@ -40,6 +40,7 @@ alias docker-rm-dangling "docker rmi (docker images -q -f dangling=true)"
 alias dco "docker-compose"
 alias emacseval "emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
 alias dry "docker run -it -v /var/run/docker.sock:/var/run/docker.sock moncho/dry"
+alias letterup "cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/ \$argv; and cd"
 # Fire up RVM
 set -e GEM_PATH; set -e GEM_HOME
 
