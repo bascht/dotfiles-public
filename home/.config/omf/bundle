@@ -4,6 +4,7 @@ package direnv
 package emacs
 package node-binpath
 package rails
+package direnv
 theme clearance
 theme default
 theme gnuykeaj
