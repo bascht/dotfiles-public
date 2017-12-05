@@ -31,7 +31,6 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -80,7 +79,9 @@ values."
      ;; themes-megapack
 
      journal
-
+     javascript
+     php
+     ansible
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -348,14 +349,19 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq user-full-name "Sebastian Schulze")
   (setq user-mail-address "github.com@bascht.com")
+  (setq powerline-default-separator 'nil)
 
   (require 'multiple-cursors)
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
-  (load-file "~/.spacemacs.d/personal/mail-config.el")
-  (load-file "~/.spacemacs.d/personal/org-config.el")
+  (spacemacs/set-leader-keys "oa" 'org-agenda)
+  (spacemacs/set-leader-keys "om" 'mu4e)
+  (spacemacs/set-leader-keys "oO" 'helm-org-agenda-files-headings)
+
+  (load-file "~/.spacemacs.d/public/mail-config.el")
+  (load-file "~/.spacemacs.d/public/org-config.el")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
