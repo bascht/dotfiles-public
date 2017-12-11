@@ -1,7 +1,7 @@
 export PATH=$HOME/.local/bin:$HOME/bin:$HOME/bin/go/bin:$PATH
 export ZSH=/home/bascht/.oh-my-zsh
 
-ZSH_THEME="funky"
+ZSH_THEME="juanghurtado"
 
 plugins=(
   git
