@@ -1,0 +1,43 @@
+\ProvidesFile{brief.lco}[2010/07/08 letter class option]
+\RequirePackage{ngerman}                % Deutsche Sprache
+\RequirePackage{fix-cm}
+\RequirePackage[T1]{fontenc}            % Ligaturschriften
+\RequirePackage[utf8]{inputenc}      % Eingabezeichensatz
+\RequirePackage{graphicx}               % Grafikpaket
+\RequirePackage[colorlinks=false]{hyperref}
+\RequirePackage[sfdefault]{FiraSans}
+
+\hypersetup{pdfpagemode=None}
+\KOMAoptions{
+        paper=a4,
+        pagenumber=botcenter,
+        fromalign=right,
+        fromphone,
+%       fromfax,
+        fromlogo,fromurl,fromemail,
+        backaddress,
+        %headsepline,
+        foldmarks,
+        enlargefirstpage
+      }
+
+\setkomavar{fromlogo}{\includegraphics*[width=1.8cm]{logo-rund.pdf}}
+\setkomavar{fromname}{Sebastian Schulze}
+\setkomavar{fromaddress}{Sch.-v.-Carolsfeld Str.~13\\81927~München}
+\setkomavar{fromphone}{+49\,(0)\,176\,23751484}
+\setkomavar{fromemail}{mail@bascht.com}
+%\setkomavar*{emailseparator}{ }
+%\setkomavar{emailseparator}{:}
+\setkomavar{fromurl}{\url{https://www.bascht.com}}
+\setkomavar*{urlseparator}{}
+\setkomavar{urlseparator}{}
+%\setkomavar{frombank}{Eine Bank\\BLZ~123\,45\,678\\Kto~123456789}
+\setkomavar{place}{München}
+%\setkomavar{fromlogo}{\parbox[b]{8cm}{\usekomafont{fromaddress}%
+%        {\mbox{\LARGE \bfseries bascht.com}}
+%        \smallskip}
+%}
+\setkomafont{backaddress}{\sffamily}
+\setkomafont{fromaddress}{\sffamily}
+\addtokomafont{fromname}{\scriptsize}
+\addtokomafont{fromaddress}{\scriptsize}
