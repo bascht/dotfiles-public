@@ -90,7 +90,10 @@ values."
    dotspacemacs-additional-packages '(
                                       multiple-cursors
                                       twilight-bright-theme
+                                      doom-themes
+                                      moe-theme
                                       pocket-reader
+                                      hledger-mode
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -163,7 +166,15 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(twilight-bright
+   dotspacemacs-themes '(doom-one
+                         doom-vibrant
+                         doom-molokai
+                         doom-nova
+                         doom-one-light
+                         doom-peacock
+                         doom-tomorrow-night
+                         doom-tomorrow-day
+                         twilight-bright
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
