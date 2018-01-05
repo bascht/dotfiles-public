@@ -21,9 +21,13 @@
               (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
               ))
 
+  ;; Reflow lines (via https://github.com/djcb/mu/pull/570)
   (add-hook 'mu4e-compose-mode-hook
-            (lambda()
-              (ispell-change-dictionary "deutsch8")
+            (defun cpb-compose-setup ()
+              "Use hard newlines, so outgoing mails will have format=flowed."
+              (use-hard-newlines t 'guess)
+              "Default to composing new mails in german"
+              (adict-change-dictionary "german")
               ))
 
   (add-to-list 'mu4e-view-actions
@@ -84,20 +88,14 @@
   ;;; load mail-mode when starting up from mutt
   (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 
-  (setq mu4e-get-mail-command "offlineimap -qo")
-
-  (add-hook 'mail-mode-hook 'turn-on-flyspell)
-  (add-hook 'mail-mode-hook 'turn-on-longlines)
-  (add-hook 'mail-mode-hook 'auto-fill-mode)
-
+  (setq mu4e-get-mail-command "offlineimap -qo -f INBOX")
 
   ;;; Contexts
-  
   (defun file-string (file)
     "Read the contents of a file and return as a string."
     (with-current-buffer (find-file-noselect file)
       (buffer-string)))
-  
+
   (setq mu4e-contexts
         `( ,(make-mu4e-context
              :name "Bascht"
