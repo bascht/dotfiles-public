@@ -17,4 +17,4 @@ Net::SCP.start("drop.bascht.space", "bascht") do |scp|
 end
 
 Open3.popen3( "xclip" ){ |input, _, _| input << url }
-system("kdialog --msgbox '#{url}'")
+system("xdg-open '#{url}'")
