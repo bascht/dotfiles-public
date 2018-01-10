@@ -42,10 +42,8 @@ values."
      emacs-lisp
      git
      markdown
-     org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (org :variables
+          org-enable-org-journal-support t)
      spell-checking
      syntax-checking
      version-control
@@ -76,9 +74,6 @@ values."
      tmux
      vagrant
      search-engine
-     ;; themes-megapack
-
-     journal
      javascript
      php
      ansible
@@ -94,11 +89,15 @@ values."
                                       moe-theme
                                       pocket-reader
                                       hledger-mode
+                                      org-super-agenda
+                                      org-journal
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(
+;;                                    doom-peacock-theme ;; see https://github.com/syl20bnr/spacemacs/issues/9937
+                                    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
