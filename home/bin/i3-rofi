@@ -6,5 +6,5 @@ then
 else
     WINDOWED="-fullscreen -normal-window"
 fi
-    
-rofi --markup -ssh-command 'urxvt256c-ml -e "ssh {host}"' -levenshtein-sort -modi 'combi,ssh,files:~/bin/rofi-file-browser.sh,emoji:~/bin/rofi-moji' -combi-modi 'run,window' -show combi -terminal urxvt256c-ml -bw 10 $WINDOWED
+
+exec rofi -show combi $WINDOWED

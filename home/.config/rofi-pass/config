@@ -1,5 +1,5 @@
 _rofi () {
-    rofi -i -no-levenshtein-sort "$@"  -fullscreen -normal-window
+    rofi -i -no-levenshtein-sort "$@"
 }
 
 # fields to be used
@@ -12,7 +12,7 @@ delay=2
 
 ## Programs to be used
 # Editor
-EDITOR='gedit'
+EDITOR='kate'
 
 # Browser
 BROWSER='firefox'

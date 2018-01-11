@@ -1,11 +1,5 @@
 Xft.lcdfilter: lcddefault # Voodoo.
 
-rofi.font: Hack 15
-rofi.width:                30
-rofi.sidebar-mode:         true
-rofi.levenshtein-sort:     true
-rofi.terminal: gnome-terminal
-
 URxvt.letterSpace: -1
 URxvt.font: xft:Fira Mono:hinting=slight:antialias=true:pixelsize=16,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
 URxvt.boldFont: xft:Fira Mono:bold:hinting=slight:antialias=true:pixelsize=16,xft:Android Emoji:style=Regular:antialias=false,xft:Symbola:pixelsize=9:antialias=false
@@ -22,24 +16,6 @@ URxvt.termName: rxvt-unicode-256color
 URxvt.urgentOnBell: true
 URxvt.saveLines: 100000
 URxvt.scrollBar: false
-
-
-! ------------------------------------------------------------------------------
-! ROFI Color theme
-! ------------------------------------------------------------------------------
-! Use extended color scheme
-rofi.color-enabled:                  true
-! Color scheme for normal row
-rofi.color-normal:                   #bbffffff,#525d76,#f5f5f5,#5294e2,#ffffff
-! Color scheme for urgent row
-rofi.color-urgent:                   #bbffffff,#dc322f,#f5f5f5,#5294e2,#dc322f
-! Color scheme for active row
-rofi.color-active:                   #bbffffff,#c2cad0,#f5f5f5,#5294e2,#c2cad0
-! Color scheme window
-rofi.color-window:                   #88ffffff,#88585858,#88f5f5f5
-! Separator style (none, dash, solid)
-rofi.separator-style:                solid
-
 
 ! Base16 Monokai
 ! Scheme: Wimer Hazenberg (http://www.monokai.nl)
