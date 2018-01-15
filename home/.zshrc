@@ -1,7 +1,16 @@
 export PATH=$HOME/.local/bin:$HOME/bin:$HOME/bin/go/bin:$PATH
 export ZSH=/home/bascht/.oh-my-zsh
 
-ZSH_THEME="juanghurtado"
+ZSH_THEME="powerlevel9k/powerlevel9k" # previously: juanghurtado
+POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs public_ip time)
+
+POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR="\uE0B4"
+POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 2 ))}|%f"
+POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR="\uE0B6"
+POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 2 ))}|%f"
+
 
 plugins=(
   git
