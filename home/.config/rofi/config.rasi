@@ -134,4 +134,4 @@ configuration {
 /*	me-accept-entry: "MouseD1";*/
 /*	me-accept-custom: "Control+MouseD1";*/
 }
-@import "/usr/share/rofi/themes//android_notification.rasi"
+@import "/usr/share/rofi/themes//paper-float.rasi"
