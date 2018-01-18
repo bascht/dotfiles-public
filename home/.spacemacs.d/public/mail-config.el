@@ -5,7 +5,10 @@
 ;;; Code:
 
 (cond
- ((string-equal (system-name) "kandalingo")
+ ((or
+   (string-equal (system-name) "zog")
+   (string-equal (system-name) "kandalingo"))
+  
 
   (use-package mu4e)
   (use-package mu4e-contrib)
