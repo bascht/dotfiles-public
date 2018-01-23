@@ -6,3 +6,4 @@
 .config/fish
 .config/fish/functions
 bin
+.oh-my-zsh/custom/themes
