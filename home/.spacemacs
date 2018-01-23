@@ -75,7 +75,6 @@ values."
      vagrant
      search-engine
      javascript
-     php
      ansible
      )
    ;; List of additional packages that will be installed without being
