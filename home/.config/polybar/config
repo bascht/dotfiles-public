@@ -36,13 +36,15 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Fira Sans-Regular:size=10
-font-1 = unifont:size=6:heavy:fontformat=truetype;-2
-font-2 = fontawesome:size=10
-font-3 = siji:pixelsize=10;0
+font-0 = ShureTechMono Nerd Font:size=15;3
+font-1 = Font Awesome:size=30;5
+font-2 = NotoEmoji:size=100;
+font-3 = fixed:pixelsize=10;1
+font-4 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-5 = siji:pixelsize=10;1
 
-modules-left = i3 xwindow
-modules-center =
+modules-left = i3
+modules-center = xwindow
 modules-right = mpd backlight volume memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right

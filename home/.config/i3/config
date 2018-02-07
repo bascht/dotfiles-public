@@ -29,14 +29,14 @@ gaps outer 10
 gaps inner 10
 smart_borders on
 
-font pango:Fira Sans Regular 10
+font pango:ShureTechMono Nerd Font 10
 
 floating_modifier $mod
 
-exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/summer.jpg
+exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
-exec --no-startup-id /usr/bin/gnome-terminal -- "tmuxinator start work"
+exec --no-startup-id /usr/bin/termite
 exec --no-startup-id /usr/bin/volumeicon
 exec --no-startup-id /usr/bin/nextcloud
 exec --no-startup-id /usr/bin/nm-applet
@@ -50,7 +50,7 @@ exec --no-startup-id /usr/bin/polybar bascht --reload&
 bindsym Control+Mod1+l exec i3-blur-lock
 
 # start a terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec --no-startup-id termite
 bindsym $mod+t exec urxvt
 bindsym Print exec --no-startup-id "i3-screenshot"
 bindsym Shift+Print exec --no-startup-id "i3-screenshot -s"
@@ -157,7 +157,7 @@ assign [class="Evince"] $WS4
 assign [class="Gimp"] $WS6
 
 # border / titlebar
-new_window normal 2 px
+new_window normal 1 px
 bindsym Control+Shift+x [class="^.*"] border toggle
 for_window [class="^.*"] border pixel 2
 for_window [class="Pavucontrol"] floating enable

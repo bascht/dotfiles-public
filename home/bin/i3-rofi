@@ -3,6 +3,9 @@
 if pgrep plasma
 then
     WINDOWED=""
+elif pgrep awesome
+    then
+        WINDOWED=""
 else
     WINDOWED="-fullscreen -normal-window"
 fi
