@@ -8,3 +8,4 @@
 bin
 .oh-my-zsh/custom/themes
 .config/awesome
+.weechat
