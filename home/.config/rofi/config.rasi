@@ -4,14 +4,14 @@ configuration {
 /*	lines: 15;*/
 /*	columns: 1;*/
 	font: "FantasqueSansMono Nerd Font 15";
-	bw: 10;
+	bw: 5;
 /*	location: 0;*/
 /*	padding: 5;*/
 	yoffset: 0;
 	xoffset: 0;
 /*	fixed-num-lines: true;*/
 	show-icons: true;
-	terminal: "xdg-terminal";
+	terminal: "konsole";
 /*	ssh-client: "ssh";*/
 /*	ssh-command: "{terminal} '{ssh-client} {host}'";*/
 /*	run-command: "{cmd}";*/
@@ -27,8 +27,8 @@ configuration {
 	sidebar-mode: true;
 /*	eh: 1;*/
 /*	auto-select: false;*/
-/*	parse-hosts: false;*/
-/*	parse-known-hosts: true;*/
+	parse-hosts: true;
+	parse-known-hosts: true;
 	combi-modi: "run,window";
 /*	matching: "normal";*/
 /*	tokenize: true;*/
@@ -36,7 +36,7 @@ configuration {
 /*	line-margin: 2;*/
 /*	line-padding: 1;*/
 /*	filter: ;*/
-	separator-style: "dash";
+/*	separator-style: "dash" */
 /*	hide-scrollbar: false;*/
 	fullscreen: false;
 	fake-transparency: false;
