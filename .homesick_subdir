@@ -7,3 +7,4 @@
 .config/fish/functions
 bin
 .oh-my-zsh/custom/themes
+.config/awesome
