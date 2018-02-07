@@ -34,13 +34,13 @@ font pango:ShureTechMono Nerd Font 10
 floating_modifier $mod
 
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
-exec --no-startup-id /usr/libexec/gnome-settings-daemon
+#exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
 exec --no-startup-id /usr/bin/termite
 exec --no-startup-id /usr/bin/volumeicon
-exec --no-startup-id /usr/bin/nextcloud
+#exec --no-startup-id /usr/bin/nextcloud
 exec --no-startup-id /usr/bin/nm-applet
-exec --no-startup-id /usr/bin/firefox
+#exec --no-startup-id /usr/bin/firefox
 #exec --no-startup-id /usr/bin/spotify
 exec --no-startup-id /usr/bin/compton --config ~/.config/i3/compton.conf
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
@@ -205,11 +205,30 @@ bindsym $mod+comma workspace prev
 
 bindsym XF86AudioMute exec amixer -c 0 -q set Master toggle
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set -c 0 -M Master 2%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set -c 0 -M Master 2%-
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set -M Master 2%+ #-c 0
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set -M Master 2%- #-c 0
 
 bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 set Master 15%+
 bindsym Shift+XF86AudioLowerVolume exec --no-startup-id amixer -c 0 set Master 15%-
 
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+
+# Plasma Integration
+for_window [class="yakuake"] floating enable;
+## Plasma Integration
+# Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
+exec --no-startup-id wmctrl -c Plasma
+for_window [title="Desktop — Plasma"] kill; floating enable; border none
+
+## Avoid tiling popups, dropdown windows from plasma
+# for the first time, manually resize them, i3 will remember the setting for floating windows
+for_window [class="plasmashell"] floating enable;
+for_window [class="Plasma"] floating enable; border none
+for_window [title="plasma-desktop"] floating enable; border none
+for_window [title="win7"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Kmix"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+for_window [class="Plasmoidviewer"] floating enable; border none

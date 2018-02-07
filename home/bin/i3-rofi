@@ -4,8 +4,8 @@ if pgrep plasma
 then
     WINDOWED=""
 elif pgrep awesome
-    then
-        WINDOWED=""
+then
+    WINDOWED=""
 else
     WINDOWED="-fullscreen -normal-window"
 fi
