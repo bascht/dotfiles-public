@@ -227,7 +227,7 @@ root.buttons(my_table.join(
 globalkeys = my_table.join(
     -- Take a screenshot
     -- https://github.com/lcpz/dots/blob/master/bin/screenshot
-    awful.key({ altkey }, "p", function() os.execute("screenshot") end,
+    awful.key({ altkey }, "p", function() os.execute("i3-dropshot") end,
               {description = "take a screenshot", group = "hotkeys"}),
 
     -- X screen locker
@@ -496,10 +496,10 @@ globalkeys = my_table.join(
     awful.key({ modkey, "Control" }, "p", function () awful.spawn("rofi-pass") end,
       {description = "run rofi", group = "launcher"}),
 
-    awful.key({ modkey, "Control" }, "j", function () awful.spawn("buku_run") end,
-      {description = "run buku", group = "launcher"}),
+    awful.key({ modkey, "Control" }, "b", function () awful.spawn("boosta") end,
+      {description = "run Boosta", group = "launcher"}),
 
-    awful.key({ altkey, "Control" }, "f", function () awful.spawn("rofi -modi 'clipboard:greenclip print' -show clipboard") end,
+    awful.key({ modkey, "Control" }, "f", function () awful.spawn("rofi -modi 'clipboard:greenclip print' -show clipboard") end,
       {description = "run rofi", group = "launcher"}),
 
     
