@@ -3,7 +3,7 @@
 .config/fish
 .config/fish/functions
 .config/gtk-3.0
-.gnupg/
+.gnupg
 .maid
 .mutt
 .oh-my-zsh/custom/themes
