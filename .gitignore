@@ -1,1 +1,7 @@
 *.elc
+home/.gnupg/S.*
+home/.gnupg/*.kbx
+home/.gnupg/*~
+home/.gnupg/*gpg
+home/.gnupg/private*
+home/.gnupg/*migrated
