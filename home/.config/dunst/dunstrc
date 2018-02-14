@@ -1,6 +1,6 @@
 [global]
-    font = Fira Sans Regular 12
-    allow_markup = yes
+    font = ShureTechMono Nerd Font 12
+    markup = full
     format = "<b>%s</b>\n%b"
     sort = yes
     indicate_hidden = yes
@@ -9,59 +9,47 @@
     show_age_threshold = 300
     word_wrap = yes
     ignore_newline = no
-    
-    geometry = "500x50-1100"
+    frame_width = 3
+    stack_duplicates = true
+    geometry = "1600+450-35"
     shrink = no
-
-    transparency = 10
-    
+    transparency = 0
     idle_threshold = 120
-
     monitor = 0
-    
     follow = mouse
     sticky_history = yes
     history_length = 20
-    
     show_indicators = yes
     line_height = 1
     separator_height = 2
-    
     padding = 12
     horizontal_padding = 10
-    
     separator_color = auto
-    
     startup_notification = false
-    
     dmenu = /usr/bin/dmenu -p dunst:
-    
     browser = /usr/bin/firefox -new-tab
-
     icon_position = left
-    icon_folders = /usr/share/icons/Paper/16x16/status/:/usr/share/icons/Paper/16x16/devices/:/usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_folders = /usr/share/icons/breeze/apps/48/:/usr/share/icons/breeze/actions/48/:/usr/share/icons/breeze/places/48/:/usr/share/icons/breeze/status/48/
+    frame_color = "#3b4252"
+    separator_color = auto
 
 [shortcuts]
     close = ctrl+space
     close_all = ctrl+shift+space
-    history = ctrl+grave
+    history = ctrl+shift+h
     context = ctrl+shift+period
-
-[frame]
-    width = 0
-    color = "#383838"
     
-[base16_low]
+[nord_low]
     msg_urgency = low
-    background = "#393939"
-    foreground = "#747369"
+    background = "#4c566a"
+    foreground = "#2e3440"
 
-[base16_normal]
+[nord_normal]
     msg_urgency = normal
-    background = "#515151"
-    foreground = "#d3d0c8"
-
-[base16_critical]
+    background = "#81a1c1"
+    foreground = "#2e3440"
+    
+[nord_critical]
     msg_urgency = critical
-    background = "#f2777a"
-    foreground = "#e8e6df"
+    background = "#bf616a"
+    foreground = "#2e3440"
