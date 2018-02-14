@@ -28,24 +28,25 @@ set $baseXX #a81c07
 gaps outer 10
 gaps inner 10
 smart_borders on
+smart_gaps on
 
 font pango:ShureTechMono Nerd Font 10
 
 floating_modifier $mod
 
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
+
 #exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/clipit
 exec --no-startup-id /usr/bin/termite
 exec --no-startup-id /usr/bin/volumeicon
-#exec --no-startup-id /usr/bin/nextcloud
+exec --no-startup-id /usr/bin/nextcloud
 exec --no-startup-id /usr/bin/nm-applet
-#exec --no-startup-id /usr/bin/firefox
-#exec --no-startup-id /usr/bin/spotify
+exec --no-startup-id /usr/bin/greenclip daemon
+exec --no-startup-id /usr/bin/dunst
 exec --no-startup-id /usr/bin/compton --config ~/.config/i3/compton.conf
 exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
-exec --no-startup-id /usr/bin/polybar bascht --reload&
-
+exec --no-startup-id MONITOR=eDP-1 /usr/bin/polybar --reload bascht
 # lock
 bindsym Control+Mod1+l exec i3-blur-lock
 
@@ -57,10 +58,12 @@ bindsym Shift+Print exec --no-startup-id "i3-screenshot -s"
 
 # Starters
 
-bindsym Control+$mod+f exec nautilus
+bindsym Control+$mod+f exec rofi -modi 'clipboard:greenclip print' -show clipboard
+#bindsym Control+$mod+b exec boosta
 bindsym Control+$mod+w exec firefox
 bindsym Control+$mod+e exec emacs
 bindsym Control+$mod+p exec rofi-pass
+bindsym Control+$mod+j exec rofi-marks
 
 # kill focused window
 bindsym $mod+q kill
@@ -157,9 +160,9 @@ assign [class="Evince"] $WS4
 assign [class="Gimp"] $WS6
 
 # border / titlebar
-new_window normal 1 px
+new_window normal 2 px
 bindsym Control+Shift+x [class="^.*"] border toggle
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 3
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Nautilus"] border pixel 0
 for_window [class="Nautilus"] floating enable
@@ -203,6 +206,10 @@ client.urgent           $base08         $base08         $base07         $baseXX
 bindsym $mod+period workspace next
 bindsym $mod+comma workspace prev
 
+# change focused container
+bindsym $mod+Tab focus parent; focus right; focus child
+bindsym $mod+Shift+Tab focus parent; focus left; focus child
+
 bindsym XF86AudioMute exec amixer -c 0 -q set Master toggle
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set -M Master 2%+ #-c 0
@@ -213,6 +220,44 @@ bindsym Shift+XF86AudioLowerVolume exec --no-startup-id amixer -c 0 set Master 1
 
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+# Toggle Gaps https://github.com/Airblader/i3#gaps
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
 
 
 # Plasma Integration
