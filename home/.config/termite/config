@@ -1,7 +1,7 @@
 [options]
 allow_bold = true
 clickable_url = true
-font = FuraMono Nerd Font 9
+font = FuraMono Nerd Font 12
 scrollback_lines = 10000
 cursor_shape = block
 
