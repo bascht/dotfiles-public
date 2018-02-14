@@ -3,7 +3,7 @@ configuration {
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
-	font: "FantasqueSansMono Nerd Font 15";
+	font: "FantasqueSansMono Nerd Font 20";
 	bw: 5;
 /*	location: 0;*/
 /*	padding: 5;*/
@@ -29,7 +29,7 @@ configuration {
 /*	auto-select: false;*/
 	parse-hosts: true;
 	parse-known-hosts: true;
-	combi-modi: "run,window";
+	combi-modi: "window,run";
 /*	matching: "normal";*/
 /*	tokenize: true;*/
 /*	m: "-5";*/
@@ -134,4 +134,4 @@ configuration {
 /*	me-accept-entry: "MouseD1";*/
 /*	me-accept-custom: "Control+MouseD1";*/
 }
-@import "/usr/share/rofi/themes//paper-float.rasi"
+@import "/usr/share/rofi/themes/Paper.rasi"
