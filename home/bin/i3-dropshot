@@ -1,0 +1,3 @@
+#!/bin/bash
+
+drop $(i3-screenshot -s)

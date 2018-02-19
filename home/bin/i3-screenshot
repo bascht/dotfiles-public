@@ -1,0 +1,4 @@
+#!/bin/bash
+
+escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png' $1
+
