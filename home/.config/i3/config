@@ -37,16 +37,15 @@ floating_modifier $mod
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
 
 #exec --no-startup-id /usr/libexec/gnome-settings-daemon
-exec --no-startup-id /usr/bin/clipit
-exec --no-startup-id /usr/bin/termite
-exec --no-startup-id /usr/bin/volumeicon
-exec --no-startup-id /usr/bin/nextcloud
-exec --no-startup-id /usr/bin/nm-applet
-exec --no-startup-id /usr/bin/greenclip daemon
-exec --no-startup-id /usr/bin/dunst
-exec --no-startup-id /usr/bin/compton --config ~/.config/i3/compton.conf
-exec --no-startup-id /usr/bin/xautolock -time 6 -locker "i3-blur-lock --dpms"
-exec --no-startup-id MONITOR=eDP-1 /usr/bin/polybar --reload bascht
+exec --no-startup-id termite
+exec --no-startup-id volumeicon
+exec --no-startup-id nextcloud
+exec --no-startup-id nm-applet
+exec --no-startup-id greenclip daemon
+exec --no-startup-id dunst
+exec --no-startup-id compton --config ~/.config/i3/compton.conf
+exec --no-startup-id xautolock -time 6 -locker "i3-blur-lock --dpms"
+exec --no-startup-id i3-polybar
 # lock
 bindsym Control+Mod1+l exec i3-blur-lock
 
@@ -55,21 +54,19 @@ bindsym $mod+Return exec --no-startup-id termite
 bindsym $mod+t exec urxvt
 bindsym Print exec --no-startup-id "i3-screenshot"
 bindsym Shift+Print exec --no-startup-id "i3-screenshot -s"
+bindsym Control+Shift+Print exec --no-startup-id "i3-dropshot"
 
-# Starters
+# Rofi Launchers
 
 bindsym Control+$mod+f exec rofi -modi 'clipboard:greenclip print' -show clipboard
-#bindsym Control+$mod+b exec boosta
 bindsym Control+$mod+w exec firefox
 bindsym Control+$mod+e exec emacs
 bindsym Control+$mod+p exec rofi-pass
-bindsym Control+$mod+j exec rofi-marks
+bindsym --release Control+$mod+j exec rofi-marks &
+bindsym $mod+d exec "i3-rofi"
 
 # kill focused window
 bindsym $mod+q kill
-
-# start menu menu
-bindsym $mod+d exec "i3-rofi"
 
 # change focus
 bindsym $mod+j focus left
@@ -138,6 +135,9 @@ bindsym Mod4+5 workspace $WS5
 bindsym Mod4+6 workspace $WS6
 bindsym Mod4+7 workspace $WS7
 bindsym Mod4+8 workspace $WS8
+
+# Move window to "other" monitor
+bindsym $mod+o move workspace to output right
 
 # move focused container to workspace
 bindsym Mod4+Shift+1 move container to workspace $WS1
