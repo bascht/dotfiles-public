@@ -92,6 +92,7 @@ values."
                                       org-super-agenda
                                       org-journal
                                       dictcc
+                                      salt-mode
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
