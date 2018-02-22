@@ -1,0 +1,5 @@
+#!/bin/bash
+
+killall -9  polybar
+MONITOR=DP-3.8 polybar bascht --reload &
+polybar bascht --reload &
