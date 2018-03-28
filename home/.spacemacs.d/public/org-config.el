@@ -110,6 +110,8 @@
 (load "~/Documents/Code/org-mode/contrib/lisp/ox-taskjuggler.el")
 (require 'ox-taskjuggler)
 
+(spacemacs/toggle-mode-line-org-clock-on)
+
 (provide 'org-config)
 ;;; org-config.el ends here
 ;; Local Variables:
