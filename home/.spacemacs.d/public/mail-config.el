@@ -74,12 +74,11 @@
   (setq message-kill-buffer-on-exit t)
 
   (setq mail-host-address "bascht.com")
-
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-maildir "/home/bascht/Mail/bascht.com")
-  (setq mu4e-refile-folder (format "/Archiv.%s" (format-time-string "%Y")))
-  (setq mu4e-sent-folder "/Sent")
-  (setq mu4e-trash-folder "/Trash")
+  (setq mu4e-maildir "/home/bascht/Mail")
+  (setq mu4e-refile-folder (format "/bascht.com/Archiv.%s" (format-time-string "%Y")))
+  (setq mu4e-sent-folder "/bascht.com/Sent")
+  (setq mu4e-trash-folder "/bascht.com/Trash")
+  (setq mu4e-drafts-folder "/bascht.com/Drafts")
   (setq mu4e-view-prefer-html nil)
   (setq mu4e-view-show-images nil)
   (setq mu4e-use-fancy-chars nil)
