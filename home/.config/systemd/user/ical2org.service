@@ -1,0 +1,6 @@
+[Unit]
+Description=Sync Owncloud + Todoist Calenders into OrgMode
+
+[Service]
+Type=oneshot
+ExecStart=/home/bascht/Documents/Code/ical2org/sync.sh

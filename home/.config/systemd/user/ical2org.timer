@@ -1,0 +1,10 @@
+[Unit]
+Description=Run ical2org timer
+
+[Timer]
+OnActiveSec=30s
+OnUnitActiveSec=10m
+Unit=ical2org.service
+
+[Install]
+WantedBy=timers.target
