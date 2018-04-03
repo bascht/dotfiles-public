@@ -86,6 +86,8 @@
   (setq mml-secure-openpgp-signers nil)
   ;(setq mu4e-html2text-command "pandoc -f html -t markdown")
 
+  ;;; Sod it. Nobody is making proper HTML emails enyway
+  (setq mu4e-view-html-plaintext-ratio-heuristic most-positive-fixnum)
 
   ;;; load mail-mode when starting up from mutt
   (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
