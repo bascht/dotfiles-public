@@ -106,9 +106,8 @@
              )))
          (org-agenda nil "a"))))
 
-
-(load "~/Documents/Code/org-mode/contrib/lisp/ox-taskjuggler.el")
-(require 'ox-taskjuggler)
+(setq org-bullets-bullet-list
+      '("" "" ""))
 
 (spacemacs/toggle-mode-line-org-clock-on)
 
