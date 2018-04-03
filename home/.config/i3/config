@@ -58,7 +58,7 @@ bindsym Control+Shift+Print exec --no-startup-id "i3-dropshot"
 
 # Rofi Launchers
 
-bindsym Control+$mod+f exec rofi -modi 'clipboard:greenclip print' -show clipboard
+bindsym Control+$mod+f exec rofi-clipboard
 bindsym Control+$mod+w exec firefox
 bindsym Control+$mod+e exec emacs
 bindsym Control+$mod+p exec rofi-pass
