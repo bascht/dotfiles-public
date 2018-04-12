@@ -1,3 +1,9 @@
 [submodule "home/.emacs.d"]
 	path = home/.emacs.d
 	url = https://github.com/syl20bnr/spacemacs
+[submodule "home/.oh-my-zsh"]
+	path = home/.oh-my-zsh
+	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "home/.zplug"]
+	path = home/.zplug
+	url = https://github.com/zplug/zplug.git
