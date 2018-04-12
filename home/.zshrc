@@ -3,19 +3,7 @@ export ZSH=/home/bascht/.oh-my-zsh
 # Back out if we're surrounded by Emacs
 [ "$TERM" = "eterm-color" ] && exec bash
 
-ZSH_THEME="powerlevel9k/powerlevel9k" # previously: juanghurtado
-POWERLEVEL9K_MODE='nerdfont-complete'
-POWERLEVEL9K_FOLDER_ICON='blub'
-POWERLEVEL9K_HOME_ICON=' '
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(dir root_indicator background_jobs time)
-
-POWERLEVEL9K_PUBLIC_IP_ICON=" "
-POWERLEVEL9K_OK_ICON=" "
-
-POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR="\uE0C6 "
-POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR="\uE0C7"
-POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 2 ))}•%f"
+ZSH_THEME="wedisagree"
 
 plugins=(
   git
