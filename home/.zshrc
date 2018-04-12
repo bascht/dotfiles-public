@@ -3,32 +3,38 @@ export ZSH=/home/bascht/.oh-my-zsh
 # Back out if we're surrounded by Emacs
 [ "$TERM" = "eterm-color" ] && exec bash
 
-ZSH_THEME="wedisagree"
-
-plugins=(
-  git
-  fasd
-  rails
-  bundler
-  ruby
-  cp
-  jump
-  docker
-  docker-compose
-  dotenv
-  emacs
-  gem
-  npm
-  pip
-  rake
-  tmux
-  tmuxinator
-  tig
-  vagrant
-)
+ZSH_THEME="spaceship"
+AUTOENV_FILE_ENTER=".direnv"
 
 source $ZSH/oh-my-zsh.sh
-eval "$(direnv hook zsh)"
+source ~/.zplug/init.zsh
+
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/fasd", from:oh-my-zsh
+zplug "plugins/rails", from:oh-my-zsh
+zplug "plugins/bundler", from:oh-my-zsh
+zplug "plugins/ruby", from:oh-my-zsh
+zplug "plugins/cp", from:oh-my-zsh
+zplug "plugins/jump", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/docker-compose", from:oh-my-zsh
+zplug "plugins/dotenv", from:oh-my-zsh
+zplug "plugins/emacs", from:oh-my-zsh
+zplug "plugins/gem", from:oh-my-zsh
+zplug "plugins/npm", from:oh-my-zsh
+zplug "plugins/pip", from:oh-my-zsh
+zplug "plugins/rake", from:oh-my-zsh
+zplug "plugins/tmux", from:oh-my-zsh
+zplug "plugins/tmuxinator", from:oh-my-zsh
+zplug "plugins/tig", from:oh-my-zsh
+zplug "plugins/vagrant", from:oh-my-zsh
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
+zplug "junegunn/fzf", use:shell/key-bindings.zsh
+zplug "urbainvaes/fzf-marks"
+zplug "Tarrasch/zsh-autoenv"
+zplug "MichaelAquilina/zsh-emojis"
+zplug "stedolan/jq", as:command, from:gh-r, rename-to:jq
 
 alias va="vagrant"
 alias tm="tmux -2"
@@ -37,10 +43,6 @@ alias bi="bundle install"
 alias be="bundle exec"
 alias ber="bundle exec rake"
 alias e=$EDITOR
-alias vi=$EDITOR #going emacs
-alias vim=$EDITOR
-alias er="e --eval '(writeroom-mode)'"
-alias dvm="cd ~/DevVM; and vagrant ssh -- -A"
 alias ssh-yop="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias docker-rm-stopped="docker rm (docker ps -a -q)"
 alias docker-rm-dangling="docker rmi (docker images -q -f dangling=true)"
@@ -51,4 +53,4 @@ letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .;
 
 [ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+zplug load
