@@ -37,7 +37,7 @@ floating_modifier $mod
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
 
 #exec --no-startup-id /usr/libexec/gnome-settings-daemon
-exec --no-startup-id termite
+exec --no-startup-id termite --name quake
 exec --no-startup-id volumeicon
 exec --no-startup-id nextcloud
 exec --no-startup-id nm-applet
@@ -51,7 +51,6 @@ bindsym Control+Mod1+l exec i3-blur-lock
 
 # start a terminal
 bindsym $mod+Return exec --no-startup-id termite
-bindsym $mod+t exec urxvt
 bindsym Print exec --no-startup-id "i3-screenshot"
 bindsym Shift+Print exec --no-startup-id "i3-screenshot -s"
 bindsym Control+Shift+Print exec --no-startup-id "i3-dropshot"
@@ -259,6 +258,10 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
+exec --no-startup-id termite --name quake
+for_window [instance="quake"] floating enable;
+for_window [instance="quake"] move scratchpad; [instance="quake"] scratchpad show; move position 200px 35px; resize shrink height 400px; resize grow width 800px; move scratchpad;
+bindsym $mod+t [instance="quake"] scratchpad show
 
 # Plasma Integration
 for_window [class="yakuake"] floating enable;
