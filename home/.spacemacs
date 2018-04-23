@@ -94,6 +94,7 @@ values."
                                       org-journal
                                       dictcc
                                       salt-mode
+                                      dracula-theme
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -168,7 +169,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-tomorrow-night
+   dotspacemacs-themes '(dracula
+                         doom-tomorrow-night
                          nord
                          doom-peacock
                          doom-vibrant
