@@ -3,11 +3,8 @@ export ZSH=/home/bascht/.oh-my-zsh
 # Back out if we're surrounded by Emacs
 [ "$TERM" = "eterm-color" ] && exec bash
 
-ZSH_THEME="spaceship"
-AUTOENV_FILE_ENTER=".direnv"
-
-source $ZSH/oh-my-zsh.sh
 source ~/.zplug/init.zsh
+source $ZSH/oh-my-zsh.sh
 
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/fasd", from:oh-my-zsh
@@ -15,7 +12,6 @@ zplug "plugins/rails", from:oh-my-zsh
 zplug "plugins/bundler", from:oh-my-zsh
 zplug "plugins/ruby", from:oh-my-zsh
 zplug "plugins/cp", from:oh-my-zsh
-zplug "plugins/jump", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
 zplug "plugins/dotenv", from:oh-my-zsh
@@ -35,6 +31,9 @@ zplug "urbainvaes/fzf-marks"
 zplug "Tarrasch/zsh-autoenv"
 zplug "MichaelAquilina/zsh-emojis"
 zplug "stedolan/jq", as:command, from:gh-r, rename-to:jq
+
+AUTOENV_FILE_ENTER=".direnv"
+ZSH_THEME="spaceship"
 
 alias va="vagrant"
 alias tm="tmux -2"
