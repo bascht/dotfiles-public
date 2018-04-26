@@ -31,6 +31,7 @@ zplug "urbainvaes/fzf-marks"
 zplug "Tarrasch/zsh-autoenv"
 zplug "MichaelAquilina/zsh-emojis"
 zplug "stedolan/jq", as:command, from:gh-r, rename-to:jq
+zplug "jgm/pandoc", from:gh-r, as:command, use:"*linux*tar*", at: "2.1.3"
 
 AUTOENV_FILE_ENTER=".direnv"
 ZSH_THEME="spaceship"
