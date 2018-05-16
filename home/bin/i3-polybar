@@ -1,5 +1,10 @@
 #!/bin/bash
 
-killall -9  polybar
-MONITOR=DP-3.8 polybar bascht --reload &
-polybar bascht --reload &
+killall -9 polybar
+
+if [[ $HOSTNAME == "zog"* ]]; then
+    MONITOR=DP-3.8 polybar bascht &
+    MONITOR=DP-2 polybar bascht &
+else
+    polybar bascht &
+fi;
