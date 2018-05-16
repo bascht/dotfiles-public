@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $HOSTNAME == "zog"* ]]; then
+    xrandr --output DP-3.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-I-1 --off --output DP-1 --off --output DP-2 --mode 3440x1440 -r 49.99 --pos 1440x440 --rotate normal --output DP-2-1 --off
+    feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
+fi;
+
+i3-polybar
