@@ -5,7 +5,6 @@
 .config/gtk-3.0
 .maid
 .mutt
-.oh-my-zsh/custom/themes
 .spacemacs.d/public
 .spacemacs.d/snippets
 .weechat
