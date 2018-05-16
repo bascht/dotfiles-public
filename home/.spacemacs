@@ -373,7 +373,10 @@ you should place your code here."
   (spacemacs/set-leader-keys "om" 'mu4e)
   (spacemacs/set-leader-keys "oO" 'helm-org-agenda-files-headings)
 
-  (load-file "~/.spacemacs.d/public/mail-config.el")
+  (if
+      (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
+      (load-file "~/.spacemacs.d/public/mail-config.el"))
+
   (load-file "~/.spacemacs.d/public/org-config.el")
   )
 
