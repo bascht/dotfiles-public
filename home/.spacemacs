@@ -83,6 +83,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
+                                      org-mru-clock
                                       multiple-cursors
                                       twilight-bright-theme
                                       doom-themes
