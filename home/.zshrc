@@ -24,6 +24,7 @@ zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "plugins/tig", from:oh-my-zsh
 zplug "plugins/vagrant", from:oh-my-zsh
+zplug "plugins/kubectl", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
 zplug "junegunn/fzf", use:shell/key-bindings.zsh
@@ -31,7 +32,6 @@ zplug "urbainvaes/fzf-marks"
 zplug "Tarrasch/zsh-autoenv"
 zplug "MichaelAquilina/zsh-emojis"
 zplug "stedolan/jq", as:command, from:gh-r, rename-to:jq
-zplug "jgm/pandoc", from:gh-r, as:command, use:"*linux*tar*", at: "2.1.3"
 
 AUTOENV_FILE_ENTER=".direnv"
 ZSH_THEME="spaceship"
