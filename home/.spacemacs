@@ -86,6 +86,8 @@ values."
                                       org-mru-clock
                                       multiple-cursors
                                       twilight-bright-theme
+                                      atomic-chrome
+                                      kaolin-themes
                                       doom-themes
                                       moe-theme
                                       nord-theme
@@ -170,7 +172,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(dracula
+   dotspacemacs-themes '(kaolin-dark
                          doom-tomorrow-night
                          nord
                          doom-peacock
