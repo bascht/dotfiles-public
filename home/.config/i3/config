@@ -217,8 +217,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id amixer set -M Master 2%- #-c 0
 bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 set Master 15%+
 bindsym Shift+XF86AudioLowerVolume exec --no-startup-id amixer -c 0 set Master 15%-
 
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 # Toggle Gaps https://github.com/Airblader/i3#gaps
 set $mode_gaps Gaps: (o) outer, (i) inner
