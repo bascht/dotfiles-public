@@ -367,6 +367,11 @@ you should place your code here."
       (load-file "~/.spacemacs.d/public/mail-config.el"))
 
   (load-file "~/.spacemacs.d/public/org-config.el")
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (add-hook 'yaml-mode-hook
+            'indent-guide-mode
+            (lambda () (auto-fill-mode -1)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
