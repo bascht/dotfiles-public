@@ -61,7 +61,7 @@ bindsym Control+Shift+Mod1+f exec rofi-clipboard
 bindsym Control+$mod+w exec firefox
 bindsym Control+$mod+e exec emacs
 bindsym Control+Shift+Mod1+p exec rofi-pass
-bindsym --release Control+$mod+j exec rofi-marks &
+bindsym --release Control+Shift+mod1+j exec rofi-marks &
 bindsym $mod+d exec "i3-rofi"
 
 # kill focused window
