@@ -19,14 +19,14 @@ set $base09 #E67E22
 set $base0A #F1C40F
 set $base0B #2ECC71
 set $base0C #1ABC9C
-set $base0D #81a1c1
+set $base0D #c065db
 set $base0E #9B59B6
 set $base0F #be643c
 set $baseXX #a81c07
 
 # Gaps!
-gaps outer 10
-gaps inner 10
+# gaps outer 10
+# gaps inner 10
 smart_borders on
 smart_gaps on
 
