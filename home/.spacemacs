@@ -48,9 +48,6 @@ values."
      syntax-checking
      version-control
      mu4e
-     ruby-on-rails
-     emoji
-     games
      selectric
      ruby
      html
@@ -66,17 +63,13 @@ values."
      finance
      pandoc
      pdf-tools
-     puppet
      restclient
      shell
      speed-reading
      terraform
      tmux
-     vagrant
-     search-engine
      javascript
      ansible
-     nginx
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -85,19 +78,15 @@ values."
    dotspacemacs-additional-packages '(
                                       org-mru-clock
                                       multiple-cursors
-                                      twilight-bright-theme
                                       atomic-chrome
                                       kaolin-themes
                                       doom-themes
-                                      moe-theme
-                                      nord-theme
                                       pocket-reader
                                       hledger-mode
                                       org-super-agenda
                                       org-journal
                                       dictcc
                                       salt-mode
-                                      dracula-theme
                                       mu4e-conversation
                                       )
    ;; A list of packages that cannot be updated.
@@ -174,14 +163,9 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(kaolin-dark
+                         kaolin-light
                          doom-nord
-                         dracula
-                         doom-tomorrow-night
-                         nord
                          doom-peacock
-                         doom-vibrant
-                         doom-one-light
-                         doom-tomorrow-day
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
