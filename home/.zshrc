@@ -8,20 +8,11 @@ source $ZSH/oh-my-zsh.sh
 
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/fasd", from:oh-my-zsh
-zplug "plugins/rails", from:oh-my-zsh
-zplug "plugins/bundler", from:oh-my-zsh
-zplug "plugins/ruby", from:oh-my-zsh
-zplug "plugins/cp", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
 zplug "plugins/dotenv", from:oh-my-zsh
-zplug "plugins/emacs", from:oh-my-zsh
-zplug "plugins/gem", from:oh-my-zsh
-zplug "plugins/npm", from:oh-my-zsh
-zplug "plugins/pip", from:oh-my-zsh
 zplug "plugins/rake", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "plugins/tig", from:oh-my-zsh
 zplug "plugins/vagrant", from:oh-my-zsh
 zplug "plugins/kubectl", from:oh-my-zsh
