@@ -77,6 +77,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
                                       org-mru-clock
+                                      org-cliplink
                                       multiple-cursors
                                       atomic-chrome
                                       kaolin-themes
