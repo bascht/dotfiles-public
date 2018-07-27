@@ -25,7 +25,8 @@
 (setq org-archive-location "::* Archive")
 (setq org-deadline-warning-days 5)
 (setq org-scheduled-delay-days 0)
-
+(setq org-duration-format (quote (("h" . t) (special . 2))))
+(setq org-confirm-elisp-link-function nil)
 (setq org-icalendar-alarm-time 120)
 (setq org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics")
 (setq org-icalendar-include-todo (quote all))
