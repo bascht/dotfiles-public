@@ -353,7 +353,9 @@ you should place your code here."
   (setq user-full-name "Sebastian Schulze")
   (setq user-mail-address "github.com@bascht.com")
 
-
+  ;; Fixes undefined functions at startup
+  (require 'helm)
+  (require 'tramp)
   (require 'multiple-cursors)
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
