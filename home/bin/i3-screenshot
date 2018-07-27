@@ -1,4 +1,4 @@
 #!/bin/bash
-
-escrotum '/home/bascht/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png' $*
-
+FOLDER="/home/bascht/Pictures/Screenshots/$(date +'%Y-%m')"
+mkdir -p ${FOLDER}
+escrotum "${FOLDER}/Screenshot-%Y-%m-%d-%H%M%S-$wx$h.png" $*
