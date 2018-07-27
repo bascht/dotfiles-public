@@ -166,10 +166,18 @@
   ;; default is to ask 
   ;(setq mu4e-compose-context-policy 'pick-first)
 
+  (setq mu4e-enable-notifications t)
+  (setq mu4e-enable-async-operations t)
   (setq mu4e-user-mail-address-list (quote ("mail@bascht.com" "bascht@rubyberlin.org")))
 
   (setq mu4e-compose-dont-reply-to-self 't)
-  
-  (provide 'mail-config)))
+
+  (setq mu4e-enable-mode-line t)
+  (with-eval-after-load 'mu4e-alert (mu4e-alert-set-default-style 'notifications))
+  (with-eval-after-load 'mu4e (require 'mu4e-conversation))
+  (setq mu4e-conversation-print-function (quote mu4e-conversation-print-tree))
+  (global-mu4e-conversation-mode)
+
+  (provide 'mail-config)
 
 ;;; mail-config.el ends here
