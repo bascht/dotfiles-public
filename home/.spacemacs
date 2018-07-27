@@ -82,6 +82,7 @@ values."
                                       atomic-chrome
                                       kaolin-themes
                                       doom-themes
+                                      gruvbox-theme
                                       pocket-reader
                                       hledger-mode
                                       org-super-agenda
@@ -165,6 +166,8 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(kaolin-dark
                          kaolin-light
+                         gruvbox-light-soft
+                         gruvbox-light-hard
                          doom-nord
                          doom-peacock
                          spacemacs-light
