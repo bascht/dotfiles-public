@@ -177,11 +177,12 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
+
    dotspacemacs-default-font '("FuraMono Nerd Font"
-                               :size 15
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)
+
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -372,7 +373,11 @@ you should place your code here."
 
   (if
       (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
-      (load-file "~/.spacemacs.d/public/mail-config.el"))
+      (load-file "~/.spacemacs.d/private/mail-config.el"))
+
+  ; Scale up fonts for non-hdpi display
+  (if (s-starts-with? "zog" system-name)
+      (set-face-attribute 'default nil :height 150))
 
   (load-file "~/.spacemacs.d/public/org-config.el")
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
