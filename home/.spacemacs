@@ -91,6 +91,7 @@ values."
                                       salt-mode
                                       mu4e-conversation
                                       org-cliplink
+                                      writeroom-mode
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -388,6 +389,7 @@ you should place your code here."
 
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
+  (setq writeroom-width 100)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
