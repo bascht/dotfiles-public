@@ -264,7 +264,7 @@ values."
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
@@ -309,7 +309,7 @@ values."
    dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
-   dotspacemacs-folding-method 'evil
+   dotspacemacs-folding-method 'origami
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
@@ -378,7 +378,7 @@ you should place your code here."
 
   ; Scale up fonts for non-hdpi display
   (if (s-starts-with? "zog" system-name)
-      (set-face-attribute 'default nil :height 150))
+      (set-face-attribute 'default nil :height 160))
 
   (load-file "~/.spacemacs.d/public/org-config.el")
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
