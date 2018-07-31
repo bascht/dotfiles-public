@@ -1,0 +1,10 @@
+[Unit]
+Description=Run worklogger timer
+
+[Timer]
+OnActiveSec=30s
+OnUnitActiveSec=60m
+Unit=worklogger.service
+
+[Install]
+WantedBy=timers.target

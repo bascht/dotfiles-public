@@ -1,0 +1,6 @@
+[Unit]
+Description=Ask for periodic worklog updates
+
+[Service]
+Type=oneshot
+ExecStart=/home/bascht/bin/worklogger
