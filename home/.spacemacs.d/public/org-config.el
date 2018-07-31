@@ -110,6 +110,10 @@
 (setq org-bullets-bullet-list
       '("" "" ""))
 
+;; Switch to German Dictionary for org files
+(add-hook 'org-mode-hook (lambda ()
+                           (adict-change-dictionary "german")))
+
 (spacemacs/toggle-mode-line-org-clock-on)
 
 (provide 'org-config)
