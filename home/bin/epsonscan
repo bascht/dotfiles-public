@@ -4,11 +4,12 @@ require 'pathname'
 require 'fileutils'
 
 PREFIX=ARGV[0] || Time.now.strftime("%Y-%m-%d-Scan")
+FEED=ARGV[1].eql?("-d") ? 'ADF Duplex' : "ADF Front"
 
 SCAN_PATH = Pathname.new("~/Documents/Scans").expand_path
 CURRENT_FILE = Pathname.new(SCAN_PATH.join(PREFIX))
 COMMANDS = [
-  "scanimage -d 'epjitsu' --format tiff --batch='#{CURRENT_FILE}-%d.tif' --source 'ADF Duplex' --mode 'Gray' --resolution 300",
+  "scanimage -d 'epjitsu' --format tiff --batch='#{CURRENT_FILE}-%d.tif' --source '#{FEED}' --mode 'Gray' --resolution 300",
   "img2pdf --output=#{CURRENT_FILE}_input.pdf #{CURRENT_FILE}*tif",
   "ocrmypdf -l deu #{CURRENT_FILE}_input.pdf #{CURRENT_FILE}.pdf"
 ]
