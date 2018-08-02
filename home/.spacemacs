@@ -390,6 +390,7 @@ you should place your code here."
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
   (setq writeroom-width 100)
+  (setq ruby-insert-encoding-magic-comment nil)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
