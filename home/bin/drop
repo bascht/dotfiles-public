@@ -16,5 +16,5 @@ Net::SCP.start("drop.bascht.space", "bascht") do |scp|
   scp.upload(file.expand_path.to_s, "/home/bascht/drop/#{new_name}")
 end
 
-Open3.popen3( "xclip" ){ |input, _, _| input << url }
+Open3.popen3( "xclip -i -selection clipboard" ){ |input, _, _| input << url }
 system("xdg-open '#{url}'")
