@@ -91,6 +91,9 @@
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
 
+(setq org-ellipsis "  ")
+(setq org-pretty-entities t)
+
 (setq org-agenda-custom-commands
       '(("c" "Super Agenda" agenda
          (org-super-agenda-mode)
