@@ -349,6 +349,9 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+; Scale up fonts for non-hdpi display
+  (if (equal (car (split-string (system-name) "\\.")) "zog")
+      (set-face-attribute 'default nil :height 120))
   )
 
 (defun dotspacemacs/user-config ()
