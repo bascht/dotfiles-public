@@ -45,3 +45,8 @@ letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .;
 [ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
 
 zplug load
+
+# Work around a broken autocompletion https://github.com/gopasspw/gopass/issues/585
+source <(gopass completion zsh | head -n -1 | tail -n +2)
+compdef _gopass gopass
+
