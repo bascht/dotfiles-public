@@ -289,6 +289,8 @@ values."
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
+
+   dotspacemacs-mode-line-theme '(all-the-icons)
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -376,22 +378,56 @@ you should place your code here."
       (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
       (load-file "~/.spacemacs.d/private/mail-config.el"))
 
-  ; Scale up fonts for non-hdpi display
-  (if (s-starts-with? "zog" system-name)
-      (set-face-attribute 'default nil :height 160))
 
+  (setq spaceline-all-the-icons-separator-type 'none)
+  (setq spaceline-all-the-icons-time-p nil)
+  
   (load-file "~/.spacemacs.d/public/org-config.el")
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   (add-hook 'yaml-mode-hook
             'indent-guide-mode
             (lambda () (auto-fill-mode -1)))
-
+  (use-package spaceline-all-the-icons
+    :after spaceline
+    :config (spaceline-all-the-icons-theme))
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
   (setq writeroom-width 100)
   (setq ruby-insert-encoding-magic-comment nil)
+  (setq git-gutter-fr+-side (quote left-fringe))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (nginx-mode logstash-conf puppet-mode origami zeal-at-point yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit symon string-inflection sql-indent spray spaceline-all-the-icons smeargle slim-mode shell-pop selectric-mode scss-mode sass-mode salt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pocket-reader pippel pipenv pip-requirements persp-mode password-generator paradox pandoc-mode ox-pandoc overseer orgit org-super-agenda org-projectile org-present org-pomodoro org-mru-clock org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file ob-restclient ob-http neotree nameless mwim multi-term mu4e-maildirs-extension mu4e-conversation mu4e-alert move-text minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode link-hint less-css-mode ledger-mode kaolin-themes json-navigator js2-refactor js-doc jinja2-mode insert-shebang indent-guide importmagic impatient-mode hungry-delete hledger-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mu helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag gruvbox-theme graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font--lock+ flyspell-correct-helm flycheck-rust flycheck-pos-tip flycheck-ledger flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes dockerfile-mode docker diminish diff-hl dictcc define-word cython-mode csv-mode counsel-projectile company-web company-terraform company-tern company-statistics company-shell company-restclient company-ansible company-anaconda column-enforce-mode clean-aindent-mode chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile atomic-chrome ansible-doc ansible aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell)))
+ '(spaceline-all-the-icons-eyebrowse-display-name t)
+ '(spaceline-all-the-icons-flycheck-alternate t)
+ '(spaceline-all-the-icons-hide-long-buffer-path nil)
+ '(spaceline-all-the-icons-icon-set-bookmark (quote heart))
+ '(spaceline-all-the-icons-icon-set-eyebrowse-slot (quote square))
+ '(spaceline-all-the-icons-icon-set-flycheck-slim (quote outline))
+ '(spaceline-all-the-icons-icon-set-git-ahead (quote commit))
+ '(spaceline-all-the-icons-icon-set-git-stats (quote arrows))
+ '(spaceline-all-the-icons-icon-set-window-numbering (quote solid))
+ '(spaceline-all-the-icons-separator-type (quote none))
+ '(spaceline-all-the-icons-slim-render t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-current-time ((t (:inherit org-time-grid :foreground "orange red")))))
+)
