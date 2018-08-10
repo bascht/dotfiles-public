@@ -62,7 +62,6 @@ values."
      docker
      finance
      pandoc
-     pdf-tools
      restclient
      shell
      speed-reading
@@ -92,6 +91,7 @@ values."
                                       mu4e-conversation
                                       org-cliplink
                                       writeroom-mode
+                                      puppet-mode
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
