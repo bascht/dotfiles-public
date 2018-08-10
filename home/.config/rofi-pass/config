@@ -31,6 +31,14 @@ count=2
 # Possible options: primary, clipboard, both
 clip=clipboard
 
+# Fix keyboard layout
+fix_layout=true
+
+layout_cmd () {
+  setxkbmap de
+}
+
+
 # Custom Keybindings
 autotype="Alt+1"
 type_user="Alt+2"
