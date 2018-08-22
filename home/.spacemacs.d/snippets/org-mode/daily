@@ -2,8 +2,8 @@
 # name: <daily
 # comment: Via https://medium.com/@mwfogleman/plan-your-day-daily-time-management-with-emacs-org-mode-and-google-calendar-a9162837fdb3 and https://jamesstuber.com/plan-your-day/
 # --
-* TODO <`(format-time-string "%Y-%m-%d")`> Daily Planning
-- [ ] $0⏰ [[elisp:(org-clock-in)][Checkin]]
+* TODO <`(format-time-string "%Y-%m-%d")`> Daily Planning [%]
+- [ ] $0[[elisp:(progn (org-clock-in)(org-toggle-checkbox))][⏰ Checkin]]
 - [ ] Schreibtisch + Zimmer aufräumen, Müll leeren
 - [ ] Offene Loops im heutigen [[elisp:(org-agenda-list)][Kalender]]? (+/- 2 Tage)
 - [ ] Email Inbox [[elisp:(mu4e)][ausleeren]]
@@ -12,4 +12,4 @@
 - [ ] OrgMode [[elisp:(progn (org-agenda nil "t")(org-agenda-filter-by-category "Todo"))][Inbox]] ausleeren
 - [ ] Todoist [[https://todoist.com/app?lang=de#project%2F2160201103][Inbox]] ausleeren
 - [ ] [[elisp:(progn (org-agenda nil "a")(org-agenda-day-view))][Tasks für heute aufteilen]] (@immersive > @process, @deep → @shallow)
-- [ ] ⏰ [[elisp:(org-clock-out)][Checkout]]
+- [ ] [[elisp:(progn (org-clock-out)(org-toggle-checkbox))][⏰ Checkout]]
