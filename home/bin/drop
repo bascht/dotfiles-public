@@ -17,4 +17,4 @@ Net::SCP.start("drop.bascht.space", "bascht") do |scp|
 end
 
 Open3.popen3( "xclip -i -selection clipboard" ){ |input, _, _| input << url }
-system("xdg-open '#{url}'")
+system("notify-send 'Uploaded successfully' '<a href=\'#{url}\'>drop.bascht.space</a>'")
