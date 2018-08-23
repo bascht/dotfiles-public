@@ -259,7 +259,7 @@ mode "$mode_gaps_outer" {
 
 exec --no-startup-id termite --name quake
 for_window [instance="quake"] floating enable;
-for_window [instance="quake"] move scratchpad; [instance="quake"] scratchpad show; move position 200px 35px; resize shrink height 400px; resize grow width 800px; move scratchpad;
+for_window [instance="quake"] move scratchpad; [instance="quake"] scratchpad show; resize grow height 600px; resize grow width 800px; move position center; move scratchpad;
 bindsym $mod+t [instance="quake"] scratchpad show
 
 # Plasma Integration
