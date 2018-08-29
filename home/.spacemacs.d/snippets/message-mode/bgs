@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-#name : bgs
-#group : greetings
+# name: bgs
+# key:  bgs
 # --
 Beste Grüße,
   Sebastian Schulze
