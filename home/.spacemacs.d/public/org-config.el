@@ -95,13 +95,17 @@
 (setq org-pretty-entities t)
 
 (setq org-agenda-custom-commands
-      '(("c" "Super Agenda" agenda
+      '(("c" "Mega Agenda" agenda
          (org-super-agenda-mode)
          ((org-super-agenda-groups
            '(
              (:name "Next Items"
-                    :time-grid t
                     :tag ("NEXT" "outbox"))
+             (:name "Immersive + Deep"
+                    :tag ("@immersive" "@deep"))
+             (:name "Process + Shallow"
+                    :time-grid t
+                    :tag ("@process" "@shallow"))
              (:name "Important"
                     :priority "A")
              (:name "Quick Picks"
