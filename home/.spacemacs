@@ -92,6 +92,9 @@ values."
                                       org-cliplink
                                       writeroom-mode
                                       puppet-mode
+                                      lsp-mode
+                                      lsp-ui
+                                      company-lsp
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -166,12 +169,22 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(kaolin-dark
+   dotspacemacs-themes '(doom-one
+                         kaolin-dark
                          kaolin-light
                          gruvbox-light-soft
                          gruvbox-light-hard
                          doom-nord
                          doom-peacock
+                         doom-solarized-light
+                         doom-spacegrey
+                         doom-opera
+                         doom-opera-light
+                         doom-one-light
+                         doom-city-lights
+                         doom-dracula
+                         doom-molokai
+                         doom-nord-light
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
@@ -399,6 +412,12 @@ you should place your code here."
   (setq writeroom-width 100)
   (setq ruby-insert-encoding-magic-comment nil)
   (setq git-gutter-fr+-side (quote left-fringe))
+
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
