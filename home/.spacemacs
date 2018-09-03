@@ -389,6 +389,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "om" 'mu4e)
   (spacemacs/set-leader-keys "oo" 'helm-org-agenda-files-headings)
   (spacemacs/set-leader-keys "oc" 'org-mru-clock-select-recent-task)
+  (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
 
   (if
       (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
