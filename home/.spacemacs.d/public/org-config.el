@@ -95,7 +95,11 @@
 (setq org-pretty-entities t)
 
 (setq org-agenda-custom-commands
-      '(("c" "Mega Agenda" agenda
+      '(("l" "Open loops" agenda ""
+         ((org-agenda-start-day "-2d")
+          (org-agenda-span 4)
+          (org-agenda-start-with-log-mode '(closed clock state) )))
+        ("c" "Mega Agenda" agenda
          (org-super-agenda-mode)
          ((org-super-agenda-groups
            '(
