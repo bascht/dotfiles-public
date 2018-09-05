@@ -144,9 +144,16 @@
 (setq org-bullets-bullet-list
       '("" "" ""))
 
-;; Switch to German Dictionary for org files
-(add-hook 'org-mode-hook (lambda ()
-                           (adict-change-dictionary "german")))
+; Recent loops callable for daily review
+(defun my-org-agenda-recent-open-loops ()
+  (interactive)
+  (let ((org-agenda-start-with-log-mode t)
+        (org-agenda-use-time-grid nil))
+    (org-agenda nil "l")
+    (beginend-org-agenda-mode-goto-beginning)))
+
+(add-to-list 'org-global-properties
+             '("Effort_ALL". "0:05 0:15 0:30 1:00 2:00 3:00 4:00"))
 
 (spacemacs/toggle-mode-line-org-clock-on)
 
