@@ -121,6 +121,26 @@
              )))
          (org-agenda nil "a"))))
 
+(setq org-tag-alist '(
+                      (:startgroup . nil)
+                      ("@immersive" . ?i)
+                      ("@process" . ?p)
+                      (:endgroup . nil)
+                      (:startgroup . nil)
+                      ("@deep" . ?d)
+                      ("@shallow" . ?s)
+                      (:endgroup . nil)
+                      (:startgroup . nil)
+                      ("@office" . ?o)
+                      ("@home" . ?h)
+                      (:endgroup . nil)
+                      ("errand" . ?E)
+                      ("phone" . ?P)
+                      ("outbox" . ?O)
+                      ("money" . ?M)
+                      ("paper" . ?P)
+                      ("next" . ?N)))
+
 (setq org-bullets-bullet-list
       '("" "" ""))
 
