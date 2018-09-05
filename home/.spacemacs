@@ -399,9 +399,7 @@ you should place your code here."
       (load-file "~/.spacemacs.d/private/mail-config.el"))
 
 
-  (setq spaceline-all-the-icons-separator-type 'none)
-  (setq spaceline-all-the-icons-time-p nil)
-  
+  (spaceline-toggle-minor-modes-off)
   (load-file "~/.spacemacs.d/public/org-config.el")
   (add-hook 'yaml-mode-hook
             'indent-guide-mode
