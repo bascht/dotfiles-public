@@ -44,7 +44,7 @@ values."
      markdown
      (org :variables
           org-enable-org-journal-support t)
-     spell-checking
+     (spell-checking :variables spell-checking-enable-auto-dictionary t)
      syntax-checking
      version-control
      mu4e
