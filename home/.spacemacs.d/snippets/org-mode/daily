@@ -5,11 +5,11 @@
 * TODO <`(format-time-string "%Y-%m-%d")`> Daily Planning [%]
 - [ ] $0[[elisp:(progn (org-clock-in)(org-toggle-checkbox))][⏰ Checkin]]
 - [ ] Schreibtisch + Zimmer aufräumen, Müll leeren
-- [ ] Offene Loops im heutigen [[elisp:(org-agenda-list)][Kalender]]? (+/- 2 Tage)
+- [ ] Offene Loops im [[elisp:(my-org-agenda-recent-open-loops)][Kalender gestern]]?
 - [ ] Email Inbox [[elisp:(mu4e)][ausleeren]]
 - [ ] Meta-Inboxen leeren: Slack, [[https://www.inoreader.com/][Inoreader]], [[https://tweetdeck.twitter.com][Twitter]]
 - [ ] Übrige offene Loops zu Aufgaben machen
 - [ ] OrgMode [[elisp:(progn (org-agenda nil "t")(org-agenda-filter-by-category "Todo"))][Inbox]] ausleeren
 - [ ] Todoist [[https://todoist.com/app?lang=de#project%2F2160201103][Inbox]] ausleeren
-- [ ] [[elisp:(progn (org-agenda nil "a")(org-agenda-day-view))][Tasks für heute aufteilen]] (@immersive > @process, @deep → @shallow)
+- [ ] [[elisp:(progn (org-agenda nil "c")(org-agenda-day-view))][Tasks für heute aufteilen]] (@immersive ↷ @process, @deep ↷ @shallow)
 - [ ] [[elisp:(progn (org-clock-out)(org-toggle-checkbox))][⏰ Checkout]]
