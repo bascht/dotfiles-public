@@ -95,6 +95,8 @@ values."
                                       lsp-mode
                                       lsp-ui
                                       company-lsp
+                                      beginend
+                                      flycheck-yamllint
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
