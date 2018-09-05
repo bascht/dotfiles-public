@@ -406,10 +406,11 @@ you should place your code here."
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   (add-hook 'yaml-mode-hook
             'indent-guide-mode
-            (lambda () (auto-fill-mode -1)))
-  (use-package spaceline-all-the-icons
-    :after spaceline
-    :config (spaceline-all-the-icons-theme))
+            (lambda ()
+              (auto-fill-mode -1)
+              (flycheck-yamllint-setup)
+              ))
+  (set-face-attribute 'mode-line nil :font "FantasqueSansMono Nerd Font:style=Italic")
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
   (setq writeroom-width 100)
