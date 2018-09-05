@@ -392,6 +392,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "oo" 'helm-org-agenda-files-headings)
   (spacemacs/set-leader-keys "oc" 'org-mru-clock-select-recent-task)
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
+  (spacemacs/toggle-hungry-delete-on)
 
   (if
       (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
@@ -420,6 +421,7 @@ you should place your code here."
   (doom-themes-visual-bell-config)
   (doom-themes-neotree-config)
   (doom-themes-org-config)
+  (beginend-global-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
