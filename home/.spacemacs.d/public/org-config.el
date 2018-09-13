@@ -117,8 +117,26 @@
                     )
              (:priority<= "B"
                           :scheduled future
-                          :order 1)
-             )))
+                          :order 1))))
+         (org-agenda nil "a"))
+        ("s" "Sort during Daily" agenda
+         (org-super-agenda-mode)
+         ((org-super-agenda-groups
+           '(
+             (:name "Immersive + Deep"
+                    :tag ("@immersive" "@deep"))
+             (:name "Immersive + Shallow"
+                    :tag ("@immersive" "@shallow"))
+             (:name "Process + Deep"
+                    :tag ("@process" "@deep"))
+             (:name "Process + Shallow"
+                    :tag ("@process" "@shallow"))
+             (:name "Quick Picks"
+                    :effort< "0:30"
+                    )
+             (:priority<= "B"
+                          :scheduled future
+                          :order 1))))
          (org-agenda nil "a"))))
 
 (setq org-tag-alist '(
