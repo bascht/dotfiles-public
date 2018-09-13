@@ -425,6 +425,9 @@ you should place your code here."
   (doom-themes-neotree-config)
   (doom-themes-org-config)
   (beginend-global-mode)
+  (require 'atomic-chrome)
+  (atomic-chrome-start-server)
+  (setq atomic-chrome-default-major-mode 'markdown-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
