@@ -97,6 +97,7 @@ values."
                                       company-lsp
                                       beginend
                                       flycheck-yamllint
+                                      flycheck-shellcheck
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
