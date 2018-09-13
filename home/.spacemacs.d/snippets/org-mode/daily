@@ -3,6 +3,7 @@
 # comment: Via https://medium.com/@mwfogleman/plan-your-day-daily-time-management-with-emacs-org-mode-and-google-calendar-a9162837fdb3 and https://jamesstuber.com/plan-your-day/
 # --
 * TODO <`(format-time-string "%Y-%m-%d")`> Daily Planning [%]
+SCHEDULED: <`(format-time-string "%Y-%m-%d %H:%M")`>
 :PROPERTIES:
 :Effort:   0:25
 :END:
