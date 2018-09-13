@@ -11,7 +11,7 @@ configuration {
 	xoffset: 0;
 /*	fixed-num-lines: true;*/
 	show-icons: true;
-	terminal: "konsole";
+	terminal: "termite";
 /*	ssh-client: "ssh";*/
 /*	ssh-command: "{terminal} '{ssh-client} {host}'";*/
 /*	run-command: "{cmd}";*/
