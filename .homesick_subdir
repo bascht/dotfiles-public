@@ -9,3 +9,4 @@
 .spacemacs.d/snippets
 .weechat
 bin
+.local/share/applications

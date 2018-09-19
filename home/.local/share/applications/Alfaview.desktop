@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=/home/bascht/Documents/Code/Alfatraining/linux-starter/alfaview %u
+Icon=/home/bascht/Documents/Code/Alfatraining/linux-starter/logo.jpg
+MimeType=x-scheme-handler/alfastaging
+Name=Alfaview
