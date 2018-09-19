@@ -56,6 +56,8 @@
                             ("waiting" . "blue")
                             )))
 
+;(setq org-agenda-current-time ((t (:inherit org-time-grid :foreground "orange red"))))
+
 ;;store link to message if in header view, not to header query
 (setq org-mu4e-link-query-in-headers-mode nil)
 
