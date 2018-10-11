@@ -397,6 +397,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "oo" 'helm-org-agenda-files-headings)
   (spacemacs/set-leader-keys "oc" 'org-mru-clock-select-recent-task)
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
+  (spacemacs/set-leader-keys "od" 'my-daily-review)
   (spacemacs/toggle-hungry-delete-on)
 
   (if
