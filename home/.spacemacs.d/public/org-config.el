@@ -49,7 +49,8 @@
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
-(setq org-completion-use-ido t)
+(setq org-clock-sound t)
+(setq org-show-notification-handler "notify-send")
 
 (setq org-tag-faces (quote (
                             ("next" . "red")
@@ -164,13 +165,13 @@
 (setq org-bullets-bullet-list
       '("" "" ""))
 
-; Recent loops callable for daily review
 ; Daily Review
 (defun my-daily-review ()
   (interactive)
   (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
   (end-of-buffer))
 
+; Recent loops callable for daily review
 (defun my-org-agenda-recent-open-loops ()
   (interactive)
   (let ((org-agenda-start-with-log-mode t)
