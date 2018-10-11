@@ -165,6 +165,12 @@
       '("" "" ""))
 
 ; Recent loops callable for daily review
+; Daily Review
+(defun my-daily-review ()
+  (interactive)
+  (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
+  (end-of-buffer))
+
 (defun my-org-agenda-recent-open-loops ()
   (interactive)
   (let ((org-agenda-start-with-log-mode t)
