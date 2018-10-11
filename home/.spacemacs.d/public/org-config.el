@@ -45,7 +45,7 @@
         ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
          "* %?\nEntered on %U\n  %i\n  %a")))
 
-(setq org-refile-targets '((org-agenda-files :maxlevel . 4)))
+(setq org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
