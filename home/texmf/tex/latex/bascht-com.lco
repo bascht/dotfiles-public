@@ -1,5 +1,5 @@
 \ProvidesFile{brief.lco}[2010/07/08 letter class option]
-\RequirePackage{ngerman}                % Deutsche Sprache
+\RequirePackage{ngermanb}                % Deutsche Sprache
 \RequirePackage{fix-cm}
 \RequirePackage[T1]{fontenc}            % Ligaturschriften
 \RequirePackage[utf8]{inputenc}      % Eingabezeichensatz
