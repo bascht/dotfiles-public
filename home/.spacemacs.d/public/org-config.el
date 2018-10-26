@@ -101,6 +101,7 @@
       '(("l" "Open loops" agenda ""
          ((org-agenda-start-day "-2d")
           (org-agenda-span 4)
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
           (org-agenda-start-with-log-mode '(closed clock state) )))
         ("c" "Mega Agenda" agenda
          (org-super-agenda-mode)
