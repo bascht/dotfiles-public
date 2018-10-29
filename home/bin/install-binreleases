@@ -22,7 +22,14 @@ binaries = {
     version: "1.0.10",
     version_argument: "version",
     version_match: '^Version: {KustomizeVersion:(?<version><%= version %>) '
-  }
+  },
+  yq: {
+    url: "https://github.com/mikefarah/yq/releases/download/<%= version %>/yq_linux_amd64",
+    version: "2.1.1",
+    version_argument: "version",
+    version_match: '^yq version: :(?<version><%= version %>) '
+  },
+
 }
 
 binaries.each do |binary, download|
