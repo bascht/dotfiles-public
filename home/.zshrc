@@ -10,10 +10,8 @@ zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/fasd", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
-zplug "plugins/dotenv", from:oh-my-zsh
 zplug "plugins/rake", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/tig", from:oh-my-zsh
 zplug "plugins/vagrant", from:oh-my-zsh
 zplug "plugins/kubectl", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
@@ -21,10 +19,12 @@ zplug "junegunn/fzf", use:shell/key-bindings.zsh
 zplug "urbainvaes/fzf-marks"
 zplug "Tarrasch/zsh-autoenv"
 zplug "MichaelAquilina/zsh-emojis"
-zplug "stedolan/jq", as:command, from:gh-r, rename-to:jq
 
 AUTOENV_FILE_ENTER=".direnv"
 ZSH_THEME="spaceship"
+
+# Only show kubecontext on demand
+SPACESHIP_KUBECONTEXT_SHOW=false
 
 alias va="vagrant"
 alias tm="tmux -2"
