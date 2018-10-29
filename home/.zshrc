@@ -17,9 +17,6 @@ zplug "plugins/tig", from:oh-my-zsh
 zplug "plugins/vagrant", from:oh-my-zsh
 zplug "plugins/kubectl", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
-zplug "GoogleContainerTools/skaffold", from:gh-r, as:command, rename-to:skaffold, use:"*linux*amd64*", at: "v0.16.0", hook-build: "chmod +x ~/.homesick/repos/public/home/.zplug/bin/skaffold"
-zplug "kubernetes-sigs/kustomize", from:gh-r, as:command, rename-to:skaffold, use:"*linux*amd64*", at: "v1.0.8", hook-build: "chmod +x ~/.homesick/repos/public/home/.zplug/bin/kustomize"
 zplug "junegunn/fzf", use:shell/key-bindings.zsh
 zplug "urbainvaes/fzf-marks"
 zplug "Tarrasch/zsh-autoenv"

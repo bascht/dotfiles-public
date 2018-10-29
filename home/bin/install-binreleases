@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'erb'
+require 'pry'
+
+binaries = {
+  skaffold: {
+    url: "https://storage.googleapis.com/skaffold/releases/<%= version %>/skaffold-linux-amd64",
+    version: "v0.17.0",
+    version_argument: "version",
+    version_match: "<%= version %>"
+  },
+  kubectl: {
+    url: "https://storage.googleapis.com/kubernetes-release/release/<%= version %>/bin/linux/amd64/kubectl",
+    version: "v1.12.2",
+    version_argument: "version --client",
+    version_match: '^Client Version.*GitVersion:\"(?<version><%= version %>)\"'
+  },
+  kustomize: {
+    url: "https://github.com/kubernetes-sigs/kustomize/releases/download/v<%= version %>/kustomize_<%= version %>_linux_amd64",
+    version: "1.0.10",
+    version_argument: "version",
+    version_match: '^Version: {KustomizeVersion:(?<version><%= version %>) '
+  }
+}
+
+binaries.each do |binary, download|
+  target         = File.expand_path("~/bin/#{binary}")
+  version        = download[:version]
+  download_url   = ERB.new(download[:url]).result(binding)
+  version_match  = Regexp.new(ERB.new(download[:version_match]).result(binding))
+  version_string = "#{target} #{download[:version_argument]}"
+
+  puts target
+
+  if File.executable? target and `#{version_string}`.match(version_match)
+    puts "→ Already at #{version}"
+  else
+    puts "→ Installing #{binary} #{download[:version]}"
+    File.unlink target if File.exists? target
+    system "curl -s -L -o #{target} #{download_url}"
+    File.chmod(0755, target)
+  end
+end
