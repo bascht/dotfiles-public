@@ -204,6 +204,7 @@ client.urgent           $base08         $base08         $base07         $baseXX
 # switching between workspace
 bindsym $mod+period workspace next
 bindsym $mod+comma workspace prev
+bindsym $mod+Escape workspace back_and_forth
 
 # change focused container
 bindsym $mod+Tab focus parent; focus right; focus child
