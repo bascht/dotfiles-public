@@ -39,6 +39,7 @@ alias docker-rm-dangling="docker rmi (docker images -q -f dangling=true)"
 alias dco="docker-compose"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
 alias dry="docker run -it -v /var/run/docker.sock:/var/run/docker.sock moncho/dry"
+timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
 [ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
