@@ -47,6 +47,8 @@ exec --no-startup-id compton --config ~/.config/i3/compton.conf
 exec --no-startup-id xautolock -time 6 -locker "i3-blur-lock --dpms"
 exec --no-startup-id i3-polybar
 exec --no-startup-id redshift -l 48.15:11.64
+exec --no-startup-id bash -c "sleep 2 && i3-autostart"
+
 # lock
 bindsym Control+Mod1+l exec i3-blur-lock
 
