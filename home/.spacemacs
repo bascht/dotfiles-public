@@ -199,7 +199,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
 
-   dotspacemacs-default-font '("Lekton Nerd Font"
+   dotspacemacs-default-font '("FuraCode Nerd Font"
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)
@@ -414,7 +414,7 @@ you should place your code here."
               (auto-fill-mode -1)
               (flycheck-yamllint-setup)
               ))
-  (set-face-attribute 'mode-line nil :font "FantasqueSansMono Nerd Font:style=Italic")
+
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
   (setq writeroom-width 100)
