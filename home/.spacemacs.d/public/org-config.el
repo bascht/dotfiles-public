@@ -82,6 +82,23 @@
 ;;          (plantuml . t)
 ;;          (latex . t))))
 
+(setq org-modules
+  (quote
+   (org-bbdb
+    org-bibtex
+    org-docview
+    org-gnus
+    org-habit
+    org-info
+    org-irc
+    org-mhe
+    org-habit
+    org-checklist
+    org-rmail
+    org-mouse
+    org-w3m)))
+
+
 (setq org-feed-alist
       '(("Pinboard"
          "http://feeds.pinboard.in/rss/secret:05e96c41c91076f3ca0e/u:bascht/toread/"
@@ -125,6 +142,7 @@
          (org-agenda nil "a"))
         ("s" "Sort during Daily" agenda
          (org-super-agenda-mode)
+         (setq org-agenda-span 1)
          ((org-super-agenda-groups
            '(
              (:name "Immersive + Deep"
