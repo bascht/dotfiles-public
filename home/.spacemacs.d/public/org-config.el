@@ -188,7 +188,9 @@
 (defun my-daily-review ()
   (interactive)
   (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
-  (end-of-buffer))
+  (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
+  (org-narrow-to-subtree)
+  (org-open-at-point))
 
 ; Recent loops callable for daily review
 (defun my-org-agenda-recent-open-loops ()
