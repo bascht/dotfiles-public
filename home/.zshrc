@@ -25,6 +25,21 @@ ZSH_THEME="spaceship"
 
 # Only show kubecontext on demand
 SPACESHIP_KUBECONTEXT_SHOW=false
+SPACESHIP_PROMPT_ORDER=(
+  user
+  dir
+  host
+  git
+  ruby
+  docker
+  aws
+  kubecontext
+  exec_time
+  line_sep
+  jobs
+  exit_code
+  char
+)
 
 alias va="vagrant"
 alias tm="tmux -2"
