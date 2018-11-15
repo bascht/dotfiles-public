@@ -1,5 +1,5 @@
 [global]
-    font = ShureTechMono Nerd Font 10
+    font = Iosevka Nerd Font 10
     markup = full
     format = "<b>%s</b>\n%b"
     sort = yes
