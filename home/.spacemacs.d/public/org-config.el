@@ -101,7 +101,7 @@
 
 (setq org-feed-alist
       '(("Pinboard"
-         "http://feeds.pinboard.in/rss/secret:05e96c41c91076f3ca0e/u:bascht/toread/"
+         "https://rss.bascht.space/feed/makefulltextfeed.php?url=sec%3A%2F%2Ffeeds.pinboard.in%2Frss%2Fsecret%3A05e96c41c91076f3ca0e%2Fu%3Abascht%2Ftoread%2F&max=10&links=footnotes&exc=1&submit=Create+Feed/"
          "~/Documents/Zettelkasten/Feeds.org" "Pinboard Unread")))
 
 (setq org-confirm-babel-evaluate nil)
@@ -120,6 +120,12 @@
           (org-agenda-span 4)
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
           (org-agenda-start-with-log-mode '(closed clock state) )))
+        ("h" "Daily habits" 
+           ((agenda ""))
+           ((org-agenda-show-log t)
+            (org-agenda-ndays 7)
+            (org-agenda-log-mode-items '(state))
+            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
         ("c" "Mega Agenda" agenda
          (org-super-agenda-mode)
          ((org-super-agenda-groups
