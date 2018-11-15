@@ -6,14 +6,8 @@ export ZSH=/home/bascht/.oh-my-zsh
 source ~/.zplug/init.zsh
 source $ZSH/oh-my-zsh.sh
 
-zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/fasd", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/docker-compose", from:oh-my-zsh
-zplug "plugins/rake", from:oh-my-zsh
-zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/vagrant", from:oh-my-zsh
-zplug "plugins/kubectl", from:oh-my-zsh
+-zplug "plugins/tmux", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "junegunn/fzf", use:shell/key-bindings.zsh
 zplug "urbainvaes/fzf-marks"
