@@ -395,7 +395,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "oa" 'org-agenda)
   (spacemacs/set-leader-keys "om" 'mu4e)
   (spacemacs/set-leader-keys "oo" 'helm-org-agenda-files-headings)
-  (spacemacs/set-leader-keys "oc" 'org-mru-clock-select-recent-task)
+  (spacemacs/set-leader-keys "oc" 'org-mru-clock-in)
   (spacemacs/set-leader-keys "ok" 'org-clock-jump-to-current-clock)
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
   (spacemacs/set-leader-keys "od" 'my-daily-review)
