@@ -26,8 +26,14 @@ binaries = {
   yq: {
     url: "https://github.com/mikefarah/yq/releases/download/<%= version %>/yq_linux_amd64",
     version: "2.1.1",
-    version_argument: "version",
+    version_argument: "--version",
     version_match: '^yq version: :(?<version><%= version %>) '
+  },
+  lab: {
+    url: "https://github.com/zaquestion/lab/releases/download/v<%= version %>/lab_<%= version %>_linux_amd64.tar.gz",
+    version: "0.14.0",
+    version_argument: "version",
+    version_match: '^yq version: :(?<version><%= version %>) ',
   },
 
 }
