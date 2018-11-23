@@ -37,7 +37,7 @@ floating_modifier $mod
 exec --no-startup-id /usr/bin/feh --bg-fill ~/Pictures/Wallpapers/mountains-valley.jpg
 
 #exec --no-startup-id /usr/libexec/gnome-settings-daemon
-exec --no-startup-id termite --name quake
+exec --no-startup-id alacritty --name quake
 exec --no-startup-id volumeicon
 exec --no-startup-id nextcloud
 exec --no-startup-id nm-applet
@@ -53,7 +53,7 @@ exec --no-startup-id bash -c "sleep 2 && i3-autostart"
 bindsym Control+Mod1+l exec i3-blur-lock
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id termite
+bindsym $mod+Return exec --no-startup-id alacritty
 bindsym Print exec --no-startup-id "i3-screenshot"
 bindsym Shift+Print exec --no-startup-id "i3-screenshot -s"
 bindsym Control+Shift+Print exec --no-startup-id "i3-dropshot"
@@ -261,7 +261,7 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-exec --no-startup-id termite --name quake
+exec --no-startup-id alacritty --name quake
 for_window [instance="quake"] floating enable;
 for_window [instance="quake"] move scratchpad; [instance="quake"] scratchpad show; resize grow height 600px; resize grow width 800px; move position center; move scratchpad;
 bindsym $mod+t [instance="quake"] scratchpad show
