@@ -27,16 +27,27 @@ binaries = {
     url: "https://github.com/mikefarah/yq/releases/download/<%= version %>/yq_linux_amd64",
     version: "2.1.1",
     version_argument: "--version",
-    version_match: '^yq version: :(?<version><%= version %>) '
+    version_match: '^yq version <%= version %>'
   },
   lab: {
     url: "https://github.com/zaquestion/lab/releases/download/v<%= version %>/lab_<%= version %>_linux_amd64.tar.gz",
     version: "0.14.0",
     version_argument: "version",
-    version_match: '^yq version: :(?<version><%= version %>) ',
+    version_match: '^lab version <%= version %>',
+  },
+  gopass: {
+    url: "https://github.com/gopasspw/gopass/releases/download/v<%= version %>/gopass-<%= version %>-linux-amd64.tar.gz",
+    version: "1.8.3",
+    version_argument: "version",
+    version_match: '^gopass <%= version %> ',
+    extractor: lambda() do
+      Dir.glob("gopass*/gopass")
+    end
   },
 
 }
+
+tmpdir = Dir.mktmpdir
 
 binaries.each do |binary, download|
   target         = File.expand_path("~/bin/#{binary}")
@@ -52,7 +63,16 @@ binaries.each do |binary, download|
   else
     puts "→ Installing #{binary} #{download[:version]}"
     File.unlink target if File.exists? target
-    system "curl -s -L -o #{target} #{download_url}"
+
+    download_dir = File.join(tmpdir, binary.to_s)
+    Dir.mkdir(download_dir)
+    Dir.chdir(download_dir) do
+      system "curl -s -L -O #{download_url}"
+      downloaded_file = Dir.glob("*").first
+
+      system("tar xvf #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".gz")
+      FileUtils.mv(File.realpath(Dir.glob("**/**/#{binary}*").first), target)
+    end
     File.chmod(0755, target)
   end
 end
