@@ -209,7 +209,7 @@
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:15 0:30 1:00 2:00 3:00 4:00"))
 
-(spacemacs/toggle-mode-line-org-clock-on)
+;(spacemacs/toggle-mode-line-org-clock-on)
 
 (provide 'org-config)
 ;;; org-config.el ends here

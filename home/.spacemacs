@@ -98,6 +98,7 @@ values."
                                       flycheck-yamllint
                                       flymake-shellcheck
                                       logstash-conf
+                                      ox-epub
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -309,7 +310,7 @@ values."
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
 
-   dotspacemacs-mode-line-theme '(spacemacs)
+   dotspacemacs-mode-line-theme '(doom)
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -405,7 +406,7 @@ you should place your code here."
       (load-file "~/.spacemacs.d/private/mail-config.el"))
 
 
-  (spaceline-toggle-minor-modes-off)
+  ;(spaceline-toggle-minor-modes-off)
   (load-file "~/.spacemacs.d/public/org-config.el")
   (add-hook 'yaml-mode-hook
             'indent-guide-mode
@@ -429,6 +430,8 @@ you should place your code here."
   (require 'atomic-chrome)
   (atomic-chrome-start-server)
   (setq atomic-chrome-default-major-mode 'markdown-mode)
+  (setq web-mode-engines-alist
+        '(("go"    . "\\.phtml\\'")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
