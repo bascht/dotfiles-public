@@ -83,7 +83,7 @@ binaries.each do |binary, download|
 
       system("tar xvf #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".gz")
       system("unzip #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".zip")
-      FileUtils.mv(File.realpath(Dir.glob("#{binary}-*/#{binary}*").first), target)
+      FileUtils.mv(File.realpath([Dir.glob("#{binary}-*/#{binary}*"), Dir.glob("**/**/#{binary}*"), binary].flatten.first), target)
     end
     File.chmod(0755, target)
   end
