@@ -63,6 +63,7 @@ bindsym Control+Shift+Print exec --no-startup-id "i3-dropshot"
 bindsym Control+Shift+Mod1+f exec rofi-clipboard
 bindsym Control+$mod+w exec firefox
 bindsym Control+$mod+e exec emacs
+bindsym Control+$mod+f exec pcmanfm
 bindsym Control+Shift+Mod1+p exec rofi-pass
 bindsym --release Control+Shift+mod1+j exec rofi-marks &
 bindsym $mod+d exec "i3-rofi"
@@ -73,8 +74,8 @@ bindsym $mod+q kill
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+odiaeresis focus right
+bindsym $mod+i focus up
+bindsym $mod+l focus right
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -83,8 +84,8 @@ bindsym $mod+Right focus right
 # move focused window
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+odiaeresis move right
+bindsym $mod+Shift+i move up
+bindsym $mod+Shift+l move right
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
