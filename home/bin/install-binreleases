@@ -44,7 +44,18 @@ binaries = {
       Dir.glob("gopass*/gopass")
     end
   },
-
+  greenclip: {
+    url: "https://github.com/erebe/greenclip/releases/download/<%= version %>/greenclip",
+    version: "3.1",
+    version_argument: "version",
+    version_match: '^greenclip v<%= version %>',
+  },
+  packer: {
+    url: "https://releases.hashicorp.com/packer/<%= version %>/packer_<%= version %>_linux_amd64.zip",
+    version: "1.3.3",
+    version_argument: "version",
+    version_match: "<%= version %>"
+  }
 }
 
 tmpdir = Dir.mktmpdir
@@ -71,7 +82,8 @@ binaries.each do |binary, download|
       downloaded_file = Dir.glob("*").first
 
       system("tar xvf #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".gz")
-      FileUtils.mv(File.realpath(Dir.glob("**/**/#{binary}*").first), target)
+      system("unzip #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".zip")
+      FileUtils.mv(File.realpath(Dir.glob("#{binary}-*/#{binary}*").first), target)
     end
     File.chmod(0755, target)
   end
