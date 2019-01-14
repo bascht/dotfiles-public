@@ -8,6 +8,7 @@ source $ZSH/oh-my-zsh.sh
 
 zplug "plugins/fasd", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
+zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "junegunn/fzf", use:shell/key-bindings.zsh
 zplug "urbainvaes/fzf-marks"
