@@ -1,10 +1,10 @@
 configuration {
-	modi: "combi,window,run,ssh,files:~/bin/rofi-file-browser.sh,emoji:~/bin/rofi-moji";
+	modi: "combi,window,run,ssh";
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
 	font: "FantasqueSansMono Nerd Font 20";
-	bw: 5;
+	bw: 20;
 /*	location: 0;*/
 /*	padding: 5;*/
 	yoffset: 0;
@@ -26,7 +26,7 @@ configuration {
 /*	cycle: true;*/
 	sidebar-mode: true;
 /*	eh: 1;*/
-/*	auto-select: false;*/
+/*	auto-select: true ;*/
 	parse-hosts: true;
 	parse-known-hosts: true;
 	combi-modi: "window,run";
