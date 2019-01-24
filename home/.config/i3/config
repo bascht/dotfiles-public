@@ -157,6 +157,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 assign [class="alfaview.exe"] $WS8
+assign [class="Slack"] $WS3
 assign [class="Vlc"] $WS5
 assign [class="Evince"] $WS4
 assign [class="Gimp"] $WS6
