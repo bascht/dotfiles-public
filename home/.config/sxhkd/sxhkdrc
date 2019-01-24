@@ -59,7 +59,7 @@ super + ctrl + {m,x,y,z}
 #
 
 # focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
+super + {_,shift + }{j,k,i,l}
 	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
@@ -84,16 +84,12 @@ super + {o,i}
 	bspc node {older,newer} -f; \
 	bspc wm -h on
 
-# focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
-
 #
 # preselect
 #
 
 # preselect the direction
-super + ctrl + {h,j,k,l}
+super + ctrl + {j,k,i,l}
 	bspc node -p {west,south,north,east}
 
 # preselect the ratio
@@ -113,11 +109,11 @@ super + ctrl + shift + space
 #
 
 # expand a window by moving one of its side outward
-super + alt + {h,j,k,l}
+super + alt + {j,k,i,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
-super + alt + shift + {h,j,k,l}
+super + alt + shift + {j,k,i,l}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
@@ -175,3 +171,37 @@ control + shift + alt + f
 
 control + shift + alt + j
     rofi-marks
+
+super + 1
+    bspc desktop -f work
+super + 2
+    bspc desktop -f web
+super + 3
+    bspc desktop -f comm
+super + 4
+    bspc desktop -f docs
+super + 5
+    bspc desktop -f media
+super + 6
+    bspc desktop -f files
+super + 7
+    bspc desktop -f graphics
+super + 8
+    bspc desktop -f dump
+
+super + shift + 1
+    bspc node -d work
+super + shift + 2
+    bspc node -d web
+super + shift + 3
+    bspc node -d comm
+super + shift + 4
+    bspc node -d docs
+super + shift + 5
+    bspc node -d media
+super + shift + 6
+    bspc node -d files
+super + shift + 7
+    bspc node -d graphics
+super + shift + 8
+    bspc node -d dump

@@ -5,7 +5,20 @@ if [[ $HOSTNAME == "zog"* ]]; then
     feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
     MONITOR=DP-2
 else
-    xinput --set-prop 12  "libinput Natural Scrolling Enabled" 1
+    xinput --set-prop $(xinput |grep -oP "TouchPad.*id=\K[0-9]+")  "libinput Natural Scrolling Enabled" 1
 fi;
 
+python ~/.local/lib/python2.7/site-packages/mopidy &
+killall alacritty; alacritty --name quake &
+killall volumeicon; volumeicon &
+nextcloud &
+nm-applet &
+killall greenclip; greenclip daemon &
+dunst &
+killall compton; compton --config ~/.config/i3/compton.conf &
+xautolock -time 6 -locker "i3-blur-lock --dpms" &
+killall redshift; redshift -l 48.15:11.64 &
+bash -c "sleep 1 && i3-autostart" &
+
+feh --bg-fill ~/Pictures/Wallpapers/mountains-snowy-dark.jpg &
 MONITOR=${MONITOR} i3-polybar
