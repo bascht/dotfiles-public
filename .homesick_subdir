@@ -6,7 +6,8 @@
 .maid
 .mutt
 .spacemacs.d/public
-.spacemacs.d/snippets
+.spacemacs.d/snippets/org-mode
+.spacemacs.d/snippets/message-mode
 .weechat
 bin
 .local/share/applications
