@@ -6,7 +6,7 @@ if [[ "$HOSTNAME" == "zog"* ]]; then
     bspc monitor 0x00400004 -d work web docs media files graphics
     bspc monitor 0x00400002 -d comm dump
 else
-    bspc monitor -d work comm web docs media files graphics dump
+    bspc monitor -d work web comm docs media files graphics dump
 fi
 
 bspc config border_width            2
