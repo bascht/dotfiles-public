@@ -18,9 +18,7 @@ height = 30
 ;offset-x = 0
 ;offset-y = 0
 ;override-redirect = true
-wm-restack = i3
 
-;background = ${xrdb:color9}
 background = ${colors.background}
 foreground = ${colors.foreground}
 
@@ -45,7 +43,7 @@ font-3 = fixed:pixelsize=10;1
 font-4 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-5 = siji:pixelsize=5;1
 
-modules-left = emwh 
+modules-left = ewmh
 modules-center = xwindow
 modules-right = mpd volume memory wlan eth battery temperature date
 ; wlan eth battery temperature date powermenu
@@ -87,14 +85,23 @@ label-mounted = %mountpoint%: %percentage_free%
 label-unmounted = %mountpoint%: not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
-[module/emwh]
-type = internal/i3
+[module/ewmh]
+type = internal/bspwm
 index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = false
 pin-workspaces = true
 enable-click = true
+inline-mode = false
 
+label-focused = "● %icon%"
+label-empty = "○"
+label-occupied = "◍ %icon%"
+label-urgent = ● %icon%
+label-urgen-foreground = #ffb600
+label-separator = " "
+
+label-occupied-padding = 1
 
 ; Available tags:
 ;   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
@@ -105,7 +112,7 @@ enable-click = true
 ;   %mode%
 ; Default: %mode%
 label-mode = %mode%
-label-mode-padding = 0
+label-mode-padding = 1
 label-mode-background = #e60053
 
 ; Available tokens:
@@ -114,7 +121,7 @@ label-mode-background = #e60053
 ;   %index%
 ;   %output%
 ; Default: %icon%  %name%
-label-focused = %name%
+;label-focused = %icon%
 label-focused-foreground = #ffffff
 label-focused-background = #3f3f3f
 label-focused-underline = #fba922
@@ -125,34 +132,37 @@ label-focused-padding = 1
 ;   %icon%
 ;   %index%
 ; Default: %icon%  %name%
-label-unfocused = %name%%icon%
+;label-unfocused = %name%:%icon%
 label-unfocused-padding = 1
-
-Available tokens:
-  %name%
-  %icon%
-  %index%
-Default: %icon%  %name%
-label-visible = %name%
-label-visible-underline = #555555
-label-visible-padding = 1
 
 ; Available tokens:
 ;   %name%
 ;   %icon%
 ;   %index%
 ; Default: %icon%  %name%
-label-urgent = %index%
+;label-visible = %name%:icon%
+;label-visible-underline = #555555
+;label-visible-padding = 4
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+;label-urgent = %index%
 label-urgent-foreground = #000000
 label-urgent-background = #bd2c40
 label-urgent-padding = 1
 
-;ws-icon-0 = 0:
-;ws-icon-1 = 1:♛
-;ws-icon-2 = 2;♜
-;ws-icon-3 = 3;♝
-;ws-icon-4 = 4;♞
-;ws-icon-default = ♟
+ws-icon-0 = work;
+ws-icon-1 = web;
+ws-icon-2 = comm;
+ws-icon-3 = docs; 
+ws-icon-4 = media;
+ws-icon-5 = files;
+ws-icon-6 = graphics;
+ws-icon-7 = dump;
+ws-icon-default = 
 
 [module/mpd]
 type = internal/mpd
@@ -217,7 +227,7 @@ interval = 5
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = %percentage_used%%
+label = %gb_used%
 
 [module/wlan]
 type = internal/network
@@ -232,12 +242,19 @@ label-connected = %essid%
 label-disconnected = 
 label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground-alt}
+animation-packetloss-0 = 
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${bar/top.foreground}
+animation-packetloss-framerate = 500
+
+
 
 [module/eth]
 type = internal/network
