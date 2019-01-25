@@ -101,6 +101,7 @@ values."
                                       flymake-shellcheck
                                       logstash-conf
                                       ox-epub
+                                      ialign
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
