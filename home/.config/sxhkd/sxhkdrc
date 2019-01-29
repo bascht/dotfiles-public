@@ -82,10 +82,17 @@ super + {Escape,Tab}
 	bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history
-super + {o,i}
+super + {_, shift +} Tab
 	bspc wm -h off; \
 	bspc node {older,newer} -f; \
 	bspc wm -h on
+
+super + r
+   bspc node @/ -R 90
+
+super + shift + r
+   bspc node -f @parent; \
+   bspc node -R 90
 
 #
 # preselect
@@ -160,6 +167,9 @@ XF86MonBrightnessDown
 control + shift + alt + p
     rofi-pass
 
+control + shift + alt + o
+    pcmanfm
+
 Print
     i3-screenshot
 
@@ -208,3 +218,18 @@ super + shift + 7
     bspc node -d graphics
 super + shift + 8
     bspc node -d dump
+
+# un/hide currently active window
+super + h
+    bspc node -g hidden
+
+super + shift + h
+    bspc node $(bspc query -N -n .hidden | tail -n1) -g hidden=off
+
+super + o
+  if ! xdotool search --onlyvisible --classname 'scratchpad' windowunmap; then
+    if ! xdotool search --classname 'scratchpad' windowmap; then
+      termite --title 'scratchpad' --name 'scratchpad' -e tmux a;
+      bspc node --swap biggest;
+    fi;
+  fi
