@@ -11,7 +11,7 @@
   :commands (org-alert-enable))
 
 (setq org-directory "~/Documents/Zettelkasten")
-(setq org-agenda-files '("~/Documents/Zettelkasten" "~/Documents/Worklog"))
+(setq org-agenda-files '("~/Documents/Zettelkasten"))
 (setq org-default-notes-file "~/Documents/Zettelkasten/refile.org")
 (setq org-agenda-file-regexp (format-time-string "\\`[^.].*\\.org\\'\\|\\`%Y%m[0-9]+\\'"))
 (setq org-agenda-hide-tags-regexp "presents")
@@ -101,7 +101,7 @@
 
 (setq org-feed-alist
       '(("Pinboard"
-         "https://rss.bascht.space/feed/makefulltextfeed.php?url=sec%3A%2F%2Ffeeds.pinboard.in%2Frss%2Fsecret%3A05e96c41c91076f3ca0e%2Fu%3Abascht%2Ftoread%2F&max=10&links=footnotes&exc=1&submit=Create+Feed/"
+         "https://rss.bascht.space/feed/makefulltextfeed.php?url=sec%3A%2F%2Ffeeds.pinboard.in%2Frss%2Fsecret%3A05e96c41c91076f3ca0e%2Fu%3Abascht%2Ftoread%2F&max=10&links=remove&exc=1&content=text"
          "~/Documents/Zettelkasten/Feeds.org" "Pinboard Unread")))
 
 (setq org-confirm-babel-evaluate nil)
@@ -120,7 +120,7 @@
           (org-agenda-span 4)
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
           (org-agenda-start-with-log-mode '(closed clock state) )))
-        ("h" "Daily habits" 
+        ("h" "Daily habits"
            ((agenda ""))
            ((org-agenda-show-log t)
             (org-agenda-ndays 7)
@@ -128,6 +128,7 @@
             (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
         ("c" "Mega Agenda" agenda
          (org-super-agenda-mode)
+         (setq org-agenda-span 1)
          ((org-super-agenda-groups
            '(
              (:name "Next Items"
@@ -144,7 +145,7 @@
                     )
              (:priority<= "B"
                           :scheduled future
-                          :order 1))))
+                          :order 1)))
          (org-agenda nil "a"))
         ("s" "Sort during Daily" agenda
          (org-super-agenda-mode)
@@ -165,7 +166,7 @@
              (:priority<= "B"
                           :scheduled future
                           :order 1))))
-         (org-agenda nil "a"))))
+         (org-agenda nil "a")))))
 
 (setq org-tag-alist '(
                       (:startgroup . nil)

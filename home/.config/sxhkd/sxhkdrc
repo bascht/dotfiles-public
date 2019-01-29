@@ -11,7 +11,7 @@ super + d
     i3-rofi
 
 # make sxhkd reload its configuration files:
-super + Escape
+super + shift + alt +  Escape
 	pkill -USR1 -x sxhkd
 
 #
@@ -78,7 +78,7 @@ super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-super + {grave,Tab}
+super + {Escape,Tab}
 	bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history
