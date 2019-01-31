@@ -43,8 +43,8 @@ font-3 = fixed:pixelsize=10;1
 font-4 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-5 = siji:pixelsize=5;1
 
-modules-left = ewmh
-modules-center = xwindow
+modules-left = ewmh xwindow
+modules-center =
 modules-right = mpd volume memory wlan eth battery temperature date
 ; wlan eth battery temperature date powermenu
 
@@ -278,7 +278,7 @@ date =
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
-time-alt = %H:%M:%S
+time-alt = %H:%M
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
