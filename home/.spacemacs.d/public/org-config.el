@@ -13,6 +13,8 @@
 (setq org-directory "~/Documents/Zettelkasten")
 (setq org-agenda-files '("~/Documents/Zettelkasten"))
 (setq org-default-notes-file "~/Documents/Zettelkasten/refile.org")
+(setq org-agenda-sticky t)
+(setq org-agenda-ndays 1)
 (setq org-agenda-file-regexp (format-time-string "\\`[^.].*\\.org\\'\\|\\`%Y%m[0-9]+\\'"))
 (setq org-agenda-hide-tags-regexp "presents")
 (setq org-agenda-include-diary t)
