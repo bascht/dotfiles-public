@@ -411,6 +411,7 @@ you should place your code here."
 
   ;(spaceline-toggle-minor-modes-off)
   (load-file "~/.spacemacs.d/public/org-config.el")
+  (load-file "~/.spacemacs.d/private/org-config.el")
   (add-hook 'yaml-mode-hook
             'indent-guide-mode
             (lambda ()
