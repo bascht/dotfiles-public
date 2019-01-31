@@ -135,7 +135,13 @@ super + {Left,Down,Up,Right}
 XF86AudioRaiseVolume
     amixer -D pulse sset Master 1%+
 
+super + Prior
+    amixer -D pulse sset Master 1%+
+
 XF86AudioLowerVolume
+    amixer -D pulse sset Master 1%-
+
+super + Next
     amixer -D pulse sset Master 1%-
 
 XF86AudioMute
@@ -178,6 +184,9 @@ shift + Print
 
 control + shift + Print
     i3-dropshot
+
+control + alt + l
+    i3-blur-lock
 
 control + shift + alt + f
     rofi-clipboard
