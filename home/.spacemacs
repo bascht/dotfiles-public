@@ -424,7 +424,7 @@ you should place your code here."
   (setq writeroom-width 100)
   (setq ruby-insert-encoding-magic-comment nil)
   (setq git-gutter-fr+-side (quote left-fringe))
-
+  (setq helm-org-rifle-show-path t)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (doom-themes-visual-bell-config)
