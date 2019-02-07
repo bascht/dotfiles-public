@@ -129,9 +129,20 @@
             (org-agenda-ndays 7)
             (org-agenda-log-mode-items '(state))
             (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+        ("u" "Super view"
+           ((agenda "" ((org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t)))))
+            (todo "" ((org-agenda-overriding-header "Projects")
+                      (org-super-agenda-groups
+                       '((auto-category t))                     )))
+            (todo "" ((org-agenda-overriding-header "Projects")
+                      (org-super-agenda-groups
+                       '((:name none  ; Disable super group header
+                                :children todo)
+                         (:discard (:anything t))))))))
         ("c" "Mega Agenda" agenda
          (org-super-agenda-mode)
-         (setq org-agenda-span 1)
          ((org-super-agenda-groups
            '(
              (:name "Next Items"
@@ -150,7 +161,7 @@
                           :scheduled future
                           :order 1)))
          (org-agenda nil "a"))
-        ("s" "Sort during Daily" agenda
+        ("d" "Sort during Daily" agenda
          (org-super-agenda-mode)
          (setq org-agenda-span 1)
          ((org-super-agenda-groups
