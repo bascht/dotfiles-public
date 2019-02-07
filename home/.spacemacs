@@ -179,7 +179,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-vibrant
+   dotspacemacs-themes '(doom-spacegrey
+                         doom-vibrant
                          doom-one
                          doom-one-light
                          doom-nord
@@ -187,7 +188,6 @@ values."
                          kaolin-light
                          doom-peacock
                          doom-solarized-light
-                         doom-spacegrey
                          doom-opera
                          doom-opera-light
                          doom-one-light
@@ -458,5 +458,5 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-agenda-current-time ((t (:inherit org-time-grid :foreground "hot pink")))))
 )
