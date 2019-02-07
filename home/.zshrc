@@ -47,6 +47,7 @@ alias ssh-yop="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias docker-rm-stopped="docker rm (docker ps -a -q)"
 alias docker-rm-dangling="docker rmi (docker images -q -f dangling=true)"
 alias dco="docker-compose"
+alias dcorrm="docker-compose run --rm"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
 alias dry="docker run -it -v /var/run/docker.sock:/var/run/docker.sock moncho/dry"
 timestamp() { date +%Y-%m-%d-%H%M%S }
