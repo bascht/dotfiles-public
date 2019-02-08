@@ -13,7 +13,7 @@ binaries = {
   },
   kubectl: {
     url: "https://storage.googleapis.com/kubernetes-release/release/<%= version %>/bin/linux/amd64/kubectl",
-    version: "v1.12.2",
+    version: "v1.13.2",
     version_argument: "version --client",
     version_match: '^Client Version.*GitVersion:\"(?<version><%= version %>)\"'
   },
