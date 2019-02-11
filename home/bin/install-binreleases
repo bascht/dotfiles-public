@@ -55,7 +55,13 @@ binaries = {
     version: "1.3.4",
     version_argument: "version",
     version_match: "^Packer v<%= version %>"
-  }
+  },
+  minikube: {
+    url: "https://storage.googleapis.com/minikube/releases/v<%= version %>/minikube-linux-amd64",
+    version: "0.33.1",
+    version_argument: "version",
+    version_match: "^minikube version: v<%= version %>"
+  },
 }
 
 tmpdir = Dir.mktmpdir
