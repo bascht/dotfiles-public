@@ -32,3 +32,4 @@ bspc rule -a pcmanfm state=floating
 # bspc rule -a Screenkey manage=off
 
 i3-autostart &
+numlockx on
