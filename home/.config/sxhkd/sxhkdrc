@@ -174,7 +174,13 @@ control + shift + alt + p
     rofi-pass
 
 control + shift + alt + o
-    pcmanfm
+    dolphin
+
+control + shift + alt + t
+    tdrop -ma -w -4 -y "$PANEL_HEIGHT" -h 70% -s dropdown termite
+
+control + shift + alt + e
+    tdrop -ma -w 50% -h 50% -y 25% -x 25% -s dropdown emacs
 
 Print
     i3-screenshot
