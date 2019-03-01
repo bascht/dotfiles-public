@@ -62,6 +62,18 @@ binaries = {
     version_argument: "version",
     version_match: "^minikube version: v<%= version %>"
   },
+  terraform: {
+    url: "https://releases.hashicorp.com/terraform/<%= version %>/terraform_<%= version %>_linux_amd64.zip",
+    version: "0.11.11",
+    version_argument: "version",
+    version_match: "^Terraform v<%= version %>"
+  },
+  helm: {
+    url: "https://storage.googleapis.com/kubernetes-helm/helm-v<%= version %>-linux-amd64.tar.gz",
+    version: "2.13.0",
+    version_argument: "version -c",
+    version_match: "v<%= version %>"
+  },
 }
 
 tmpdir = Dir.mktmpdir
