@@ -10,7 +10,8 @@ fi;
 
 python ~/.local/lib/python2.7/site-packages/mopidy &
 killall volumeicon; volumeicon &
-nextcloud &
+kwalletd &
+kwalletmanager &
 nm-applet &
 killall greenclip; greenclip daemon &
 dunst &
@@ -18,5 +19,6 @@ killall compton; compton --config ~/.config/i3/compton.conf &
 xautolock -time 6 -locker "i3-blur-lock --dpms" &
 killall redshift; redshift -l 48.15:11.64 &
 emacsclient ~/ &
-feh --bg-fill ~/Pictures/Wallpapers/mountains-snowy-dark.jpg &
+feh --bg-fill ~/Pictures/Wallpapers/mountains-blue.jpg &
+nextcloud &
 MONITOR=${MONITOR} i3-polybar
