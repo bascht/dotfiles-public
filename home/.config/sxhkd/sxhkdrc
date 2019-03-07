@@ -26,7 +26,13 @@ super + alt + Escape
 super + {_,shift + }q
 	bspc node -{c,k}
 
+{_,shift + } button11
+	bspc node -{c,k}
+
 # alternate between the tiled and monocle layout
+button10
+	bspc desktop -l next
+
 super + m
 	bspc desktop -l next
 
@@ -75,6 +81,9 @@ super + {_,shift + }c
 
 # focus the next/previous desktop in the current monitor
 super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+super + {button8, button9}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
