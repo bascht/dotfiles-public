@@ -50,6 +50,7 @@ alias dco="docker-compose"
 alias dcorrm="docker-compose run --rm"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
 alias dry="docker run -it -v /var/run/docker.sock:/var/run/docker.sock moncho/dry"
+alias k=kubectl
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
