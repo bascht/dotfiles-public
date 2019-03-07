@@ -3,6 +3,9 @@ export ZSH=/home/bascht/.oh-my-zsh
 # Back out if we're surrounded by Emacs
 [ "$TERM" = "eterm-color" ] && exec bash
 
+# Back out if we are in a Emacs tramp session
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
 source ~/.zplug/init.zsh
 source $ZSH/oh-my-zsh.sh
 
