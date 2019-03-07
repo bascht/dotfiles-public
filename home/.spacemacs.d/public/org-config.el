@@ -22,7 +22,6 @@
 (setq org-agenda-include-diary t)
 (setq org-agenda-show-inherited-tags (quote always))
 (setq org-agenda-with-colors t)
-(setq org-agenda-show-inherited-tags (quote always))
 (setq org-agenda-tags-column -105)
 (setq org-agenda-default-appointment-duration 30)
 (setq org-agenda-columns-add-appointments-to-effort-sum t)
