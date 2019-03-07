@@ -397,12 +397,40 @@ you should place your code here."
 
   (if
       (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
-      (load-file "~/.spacemacs.d/private/mail-config.el"))
+      (progn
+        (load-file "~/.spacemacs.d/private/mail-config.el")
+        (load-file "~/.spacemacs.d/public/org-config.el")
+        (load-file "~/.spacemacs.d/private/org-config.el")))
+
+  ;; Tramp speed up
+  (setq remote-file-name-inhibit-cache nil)
+  (setq vc-ignore-dir-regexp
+        (format "%s\\|%s"
+                vc-ignore-dir-regexp
+                tramp-file-name-regexp))
+  ;;(setq tramp-verbose 6)
+  (customize-set-variable 'tramp-use-ssh-controlmaster-options nil)
+
+  (customize-set-variable 'tramp-default-method "ssh")
+  (with-eval-after-load 'git-gutter+
+    (defun git-gutter+-remote-default-directory (dir file)
+      (let* ((vec (tramp-dissect-file-name file))
+             (method (tramp-file-name-method vec))
+             (user (tramp-file-name-user vec))
+             (domain (tramp-file-name-domain vec))
+             (host (tramp-file-name-host vec))
+             (port (tramp-file-name-port vec)))
+        (tramp-make-tramp-file-name method user domain host port dir)))
+
+    (defun git-gutter+-remote-file-path (dir file)
+      (let ((file (tramp-file-name-localname (tramp-dissect-file-name file))))
+        (replace-regexp-in-string (concat "\\`" dir) "" file))))
+  (setq projectile-enable-caching t)
+  (setq explicit-shell-file-name "/bin/bash")
+  (setq vc-handled-backends '(Git))
 
 
   ;(spaceline-toggle-minor-modes-off)
-  (load-file "~/.spacemacs.d/public/org-config.el")
-  (load-file "~/.spacemacs.d/private/org-config.el")
   (add-hook 'yaml-mode-hook
             'indent-guide-mode
             (lambda ()
