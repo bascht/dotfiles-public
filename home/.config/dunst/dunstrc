@@ -1,5 +1,5 @@
 [global]
-    font = Iosevka Nerd Font 10
+    font = FuraMono Nerd Font 10
     markup = full
     format = "<b>%s</b>\n%b"
     sort = yes
@@ -11,7 +11,7 @@
     ignore_newline = no
     frame_width = 3
     stack_duplicates = true
-    geometry = "400x5-0+35"
+    geometry = "800x5-0+35"
     max_icon_size = 32
     shrink = no
     transparency = 0
