@@ -387,6 +387,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "oa" 'org-agenda)
   (spacemacs/set-leader-keys "om" 'mu4e)
   (spacemacs/set-leader-keys "oo" 'helm-org-agenda-files-headings)
+  (spacemacs/set-leader-keys "oO" 'helm-org-rifle-agenda-files)
   (spacemacs/set-leader-keys "oc" 'org-mru-clock-in)
   (spacemacs/set-leader-keys "ok" 'org-clock-goto)
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
