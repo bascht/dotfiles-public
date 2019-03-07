@@ -179,22 +179,10 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-spacegrey
-                         doom-vibrant
+   dotspacemacs-themes '(doom-one-light
                          doom-one
-                         doom-one-light
+                         doom-spacegrey
                          doom-nord
-                         kaolin-dark
-                         kaolin-light
-                         doom-peacock
-                         doom-solarized-light
-                         doom-opera
-                         doom-opera-light
-                         doom-one-light
-                         doom-city-lights
-                         doom-dracula
-                         doom-molokai
-                         doom-nord-light
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
@@ -202,7 +190,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
 
-   dotspacemacs-default-font '("Iosevka Light"
+   dotspacemacs-default-font '("FuraCode Nerd Font"
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)
