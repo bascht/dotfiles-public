@@ -105,10 +105,14 @@ binaries.each do |binary, download|
       system "curl -s -L -O #{download_url}"
       downloaded_file = Dir.glob("*").first
 
-      system("tar xvf #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".tgz")
-      system("tar xvf #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".gz")
-      system("unzip #{downloaded_file} > /dev/null") if downloaded_file.end_with?(".zip")
-      FileUtils.mv(File.realpath([Dir.glob("#{binary}-*/#{binary}*"), Dir.glob("**/**/#{binary}*"), binary].flatten.first), target)
+      extraction_command = case File.extname(downloaded_file)
+                           when ".tgz", ".tar.gz", ".gz" then
+                             "tar xvf"
+                           when ".zip" then
+                             "unzip"
+                           end
+      system("#{extraction_command} #{downloaded_file} > /dev/null")
+      FileUtils.mv(File.realpath(Dir.glob("**/**").select{|f| `file #{f}`.match(/LSB executable/)}.first), target)
     end
     File.chmod(0755, target)
   end
