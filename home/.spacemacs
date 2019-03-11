@@ -102,6 +102,7 @@ values."
                                       logstash-conf
                                       ox-epub
                                       ialign
+                                      color-theme-sanityinc-tomorrow
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -183,6 +184,10 @@ values."
                          doom-one
                          doom-spacegrey
                          doom-nord
+                         sanityinc-tomorrow-bright
+                         sanityinc-tomorrow-blue
+                         sanityinc-tomorrow-bright
+                         sanityinc-tomorrow-eighties
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
