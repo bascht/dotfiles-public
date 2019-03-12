@@ -5,54 +5,43 @@ font = FuraCode Nerd Font 12
 scrollback_lines = 10000
 cursor_shape = block
 
-
 [colors]
-# Base16 Tomorrow
-# Author: Chris Kempson (http://chriskempson.com)
 
-foreground          = #4d4d4c
-foreground_bold     = #282a2e
-cursor              = #282a2e
-cursor_foreground   = #ffffff
-background          = #ffffff
+# special
+foreground      = #f8f8f2
+foreground_bold = #f8f8f2
+cursor          = #f8f8f2
+background      = #282a36
 
-# 16 color space
+# black
+color0  = #000000
+color8  = #4d4d4d
 
-# Black, Gray, Silver, White
-color0  = #ffffff
-color8  = #8e908c
-color7  = #4d4d4c
-color15 = #1d1f21
+# red
+color1  = #ff5555
+color9  = #ff6e67
 
-# Red
-color1  = #c82829
-color9  = #c82829
+# green
+color2  = #50fa7b
+color10 = #5af78e
 
-# Green
-color2  = #718c00
-color10 = #718c00
+# yellow
+color3  = #f1fa8c
+color11 = #f4f99d
 
-# Yellow
-color3  = #eab700
-color11 = #eab700
+# blue
+color4  = #bd93f9
+color12 = #caa9fa
 
-# Blue
-color4  = #4271ae
-color12 = #4271ae
+# magenta
+color5  = #ff79c6
+color13 = #ff92d0
 
-# Purple
-color5  = #8959a8
-color13 = #8959a8
+# cyan
+color6  = #8be9fd
+color14 = #9aedfe
 
-# Teal
-color6  = #3e999f
-color14 = #3e999f
-
-# Extra colors
-color16 = #f5871f
-color17 = #a3685a
-color18 = #e0e0e0
-color19 = #d6d6d6
-color20 = #969896
-color21 = #282a2e
+# white
+color7  = #bfbfbf
+color15 = #e6e6e6
 
