@@ -4,17 +4,17 @@ if [[ $HOSTNAME == "zog"* ]]; then
     xrandr --output DP-3.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-I-1 --off --output DP-1 --off --output DP-2 --mode 3440x1440 -r 49.99 --pos 1440x440 --rotate normal --output DP-2-1 --off
     feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
     MONITOR=DP-2
-    xinput --set-prop $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1)  "libinput Natural Scrolling Enabled" 1
 else
     xinput --set-prop $(xinput |grep -oP "TouchPad.*id=\K[0-9]+")  "libinput Natural Scrolling Enabled" 1
-    xinput set-button-map $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1) 1 10 3 4 5 6 7 8 9 2 11 12
-
 fi;
+
+xinput --set-prop $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1)  "libinput Natural Scrolling Enabled" 1
+xinput set-button-map $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1) 1 10 3 4 5 6 7 8 9 2 11 12
 
 python ~/.local/lib/python2.7/site-packages/mopidy &
 killall volumeicon; volumeicon &
-kwalletd &
-kwalletmanager &
+kwalletd5 &
+kwalletmanager5 &
 nm-applet &
 killall greenclip; greenclip daemon &
 dunst &

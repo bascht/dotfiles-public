@@ -10,17 +10,15 @@ alert = #bd2c40
 [global/wm]
 margin-top = 5
 margin-bottom = 5
-
-[bar/bascht]
-monitor = ${env:MONITOR:eDP-1}
-width = 100%
-height = 30
 ;offset-x = 0
 ;offset-y = 0
 ;override-redirect = true
 
+[section/base]
 background = ${colors.background}
 foreground = ${colors.foreground}
+width = 100%
+height = 30
 
 overline-size = 0
 overline-color = #f00
@@ -43,15 +41,26 @@ font-3 = fixed:pixelsize=10;1
 font-4 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-5 = siji:pixelsize=5;1
 
+
+[bar/secondary]
+monitor = ${env:MONITOR:DP-3.8}
+inherit = section/base
 modules-left = ewmh xwindow
-modules-center =
-modules-right = mpd volume memory wlan eth battery temperature date
+; modules-center =
+; modules-right = mpd volume memory wlan eth battery temperature date
 ; wlan eth battery temperature date powermenu
 
+[bar/bascht]
+monitor = ${env:MONITOR:eDP1}
+monitor-fallback = DP-2
+inherit = section/base
+modules-left = ewmh xwindow
+modules-center =
+modules-right = ${env:BAR_MODULES:mpd volume memory wlan eth battery temperature date}
+; wlan eth battery temperature date powermenu
 tray-position = right
 tray-padding = 0
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+
 
 
 [module/xwindow]
@@ -101,7 +110,7 @@ label-unmounted-foreground = ${colors.foreground-alt}
 ; label-separator = " "
 
 [module/ewmh]
-type = internal/i3
+type = ${env:WINDOW_MODULE:internal/bspwm}
 index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = false
@@ -109,12 +118,12 @@ pin-workspaces = true
 enable-click = true
 inline-mode = false
 
-label-focused = "● %name%"
-label-visible = "● v%name%"
-label-unfocused = "○ %name%"
-label-empty = "○ %name%"
-label-occupied = "◍ %name%"
-label-urgent = "● %name%"
+label-focused = "● %icon%"
+label-visible = "● v%icon%"
+label-unfocused = "○ %icon%"
+label-empty = "○ %icon%"
+label-occupied = "◍ %icon%"
+label-urgent = "● %icon%"
 label-separator = " "
 
 label-occupied-padding = 1
@@ -274,13 +283,15 @@ animation-packetloss-framerate = 500
 
 [module/eth]
 type = internal/network
-interface = eth0
+interface = ${env:BAR_ETH_INTERFACE:eth0}
 interval = 10.0
 
 format-connected-underline = #55aa55
-format-connected-prefix = "CC "
+format-connected-prefix = " "
 format-connected-foreground-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
+
+label-connected = %upspeed% %downspeed%
+
 ; 
 format-disconnected-underline = ${self.format-connected-underline}
 label-disconnected = 
@@ -305,7 +316,7 @@ label = %date% %time%
 [module/volume]
 type = internal/pulseaudio
 format-volume = <ramp-volume><label-volume>
-
+sink = ${env:BAR_PA_SINK}
 label-muted = 
 label-muted-foreground = #22
 
@@ -353,36 +364,11 @@ format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
-label = %temperature%
-label-warn = %temperature%
+label = %temperature-c%
+label-warn = %temperature-c%
 label-warn-foreground = ${colors.secondary}
 
 ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
-
-[module/powermenu]
-type = custom/menu
-
-label-open =  power
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0

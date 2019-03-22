@@ -2,9 +2,21 @@
 
 killall -9 polybar
 
-if [[ $HOSTNAME == "zog"* ]]; then
-    MONITOR=DP-3.8 polybar bascht &
-    MONITOR=DP-2 polybar bascht &
+if [[ $DESKTOP_SESSION == "i3" ]]; then
+    WINDOW_MODULE="internal/i3"
+    WS_LABEL="%name%"
 else
-    polybar bascht &
+    WINDOW_MODULE="internal/bspwm"
+    WS_LABEL="%icon%"
 fi;
+export WINDOW_MODULE
+export WS_LABEL
+
+if [[ $HOSTNAME == "zog"* ]]; then
+    export BAR_ETH_INTERFACE=eno1
+    export BAR_MODULES="mpd volume memory eth temperature date"
+    export BAR_PA_SINK="alsa_output.pci-0000_00_1b.0.analog-stereo"
+    polybar secondary &
+fi;
+
+polybar bascht &
