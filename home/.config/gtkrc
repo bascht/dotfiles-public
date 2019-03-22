@@ -1,4 +1,4 @@
-# created by KDE Plasma, Sa. Mäz 9 22:17:20 2019
+# created by KDE Plasma, Wed Mar 20 11:21:29 2019
 #
 # If you do not want Plasma to override your GTK settings, select
 # Colors in the System Settings and disable the checkbox
@@ -36,14 +36,15 @@ class "*" style "default"
 
 style "ToolTip"
 {
-  bg[NORMAL] = { 0.937, 0.937, 0.937 }
-  base[NORMAL] = { 1.000, 1.000, 1.000 }
-  text[NORMAL] = { 0.000, 0.000, 0.000 }
-  fg[NORMAL] = { 0.000, 0.000, 0.000 }
+  bg[NORMAL] = { 0.157, 0.157, 0.157 }
+  base[NORMAL] = { 0.157, 0.157, 0.157 }
+  text[NORMAL] = { 0.875, 0.875, 0.875 }
+  fg[NORMAL] = { 0.875, 0.875, 0.875 }
 }
 
 widget "gtk-tooltip" style "ToolTip"
 widget "gtk-tooltips" style "ToolTip"
+widget "gtk-tooltip*" style "ToolTip"
 
 style "MenuItem"
 {
