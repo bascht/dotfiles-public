@@ -3,6 +3,9 @@
 #
 
 # terminal emulator
+XF86Explorer
+  termite
+
 super + Return
 	termite
 
@@ -26,11 +29,8 @@ super + alt + Escape
 super + {_,shift + }q
 	bspc node -{c,k}
 
-{_,shift + } button11
-	bspc node -{c,k}
-
 # alternate between the tiled and monocle layout
-button10
+button11
 	bspc desktop -l next
 
 super + m
