@@ -3,8 +3,8 @@ configuration {
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
-	font: "FantasqueSansMono Nerd Font 20";
-	bw: 20;
+	font: "FantasqueSansMono Nerd Font 15";
+	bw: 15;
 /*	location: 0;*/
 /*	padding: 5;*/
 	yoffset: 0;
