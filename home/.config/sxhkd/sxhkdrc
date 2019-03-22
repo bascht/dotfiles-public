@@ -183,10 +183,10 @@ control + shift + alt + p
     rofi-pass
 
 control + shift + alt + o
-    dolphin
+    tdrop -ma -w 800 -h 400 -y -500 -x -900 nautilus
 
 control + shift + alt + t
-    tdrop -ma -w -4 -y "$PANEL_HEIGHT" -h 70% -s dropdown termite
+    tdrop -ma -w -4 -y "30" -h 70% -s dropdown termite
 
 control + shift + alt + e
     tdrop -ma -w 50% -h 50% -y 25% -x 25% -s dropdown emacs

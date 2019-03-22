@@ -85,8 +85,23 @@ label-mounted = %mountpoint%: %percentage_free%
 label-unmounted = %mountpoint%: not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
+; [module/ewmh]
+; type = internal/bspwm
+; index-sort = true
+; wrapping-scroll = false
+; strip-wsnumbers = false
+; pin-workspaces = true
+; enable-click = true
+; inline-mode = false
+
+; label-focused = "● %icon%"
+; label-empty = "○"
+; label-occupied = "◍ %icon%"
+; label-urgent = ● %icon%
+; label-separator = " "
+
 [module/ewmh]
-type = internal/bspwm
+type = internal/i3
 index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = false
@@ -94,11 +109,12 @@ pin-workspaces = true
 enable-click = true
 inline-mode = false
 
-label-focused = "● %icon%"
-label-empty = "○"
-label-occupied = "◍ %icon%"
-label-urgent = ● %icon%
-label-urgen-foreground = #ffb600
+label-focused = "● %name%"
+label-visible = "● v%name%"
+label-unfocused = "○ %name%"
+label-empty = "○ %name%"
+label-occupied = "◍ %name%"
+label-urgent = "● %name%"
 label-separator = " "
 
 label-occupied-padding = 1

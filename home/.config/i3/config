@@ -200,7 +200,7 @@ mode "resize" {
 }
 
 # class                 border          backgr.         text            indicator
-client.focused          $base0D         $base0D         $base07         $base08
+client.focused          $base0C         $base0C         $base07         $base08
 client.focused_inactive $base02         $base02         $base06         $base03
 client.unfocused        $base04         $base04         $base01         $base06
 client.urgent           $base08         $base08         $base07         $baseXX
@@ -224,6 +224,10 @@ bindsym Shift+XF86AudioLowerVolume exec --no-startup-id amixer -c 0 set Master 1
 
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+bindsym Control+Mod1+Shift+t exec tdrop -ma -w -4 -y "30" -h 70% -s dropdown termite
+bindsym Control+Mod1+Shift+e exec tdrop -ma -w 50% -h 50% -y 25% -x 25% -s dropdown emacs
+bindsym Control+Mod1+Shift+o exec tdrop -ma -w 800 -h 400 -y -500 -x -900 nautilus
 
 # Toggle Gaps https://github.com/Airblader/i3#gaps
 set $mode_gaps Gaps: (o) outer, (i) inner
