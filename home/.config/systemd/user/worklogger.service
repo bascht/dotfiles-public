@@ -3,4 +3,6 @@ Description=Ask for periodic worklog updates
 
 [Service]
 Type=oneshot
+Environment="QT_QPA_PLATFORMTHEME=qt5ct"
+Environment="XDG_CURRENT_DESKTOP=KDE"
 ExecStart=/home/bascht/bin/worklogger
