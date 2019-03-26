@@ -11,7 +11,7 @@
     ignore_newline = no
     frame_width = 3
     stack_duplicates = true
-    geometry = "800x5-0+35"
+    geometry = "800x5-0+31"
     max_icon_size = 32
     shrink = no
     transparency = 0
@@ -23,7 +23,7 @@
     show_indicators = yes
     line_height = 1
     separator_height = 2
-    padding = 12
+    padding = 10
     horizontal_padding = 10
     separator_color = auto
     startup_notification = false
@@ -31,7 +31,7 @@
     browser = /usr/bin/firefox -new-tab
     icon_position = left
     icon_folders = /usr/share/icons/breeze/apps/48/:/usr/share/icons/breeze/actions/48/:/usr/share/icons/breeze/places/48/:/usr/share/icons/breeze/status/48/
-    frame_color = "#3b4252"
+    frame_color = "#3f3f3f"
     separator_color = auto
 
 [shortcuts]
@@ -47,8 +47,8 @@
 
 [nord_normal]
     msg_urgency = normal
-    background = "#81a1c1"
-    foreground = "#2e3440"
+    background = "#222222"
+    foreground = "#dfdfdf"
     
 [nord_critical]
     msg_urgency = critical
