@@ -19,7 +19,7 @@ binaries = {
   },
   kustomize: {
     url: "https://github.com/kubernetes-sigs/kustomize/releases/download/v<%= version %>/kustomize_<%= version %>_linux_amd64",
-    version: "1.0.10",
+    version: "2.0.3",
     version_argument: "version",
     version_match: '^Version: {KustomizeVersion:(?<version><%= version %>) '
   },
