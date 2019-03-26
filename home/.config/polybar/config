@@ -19,6 +19,7 @@ background = ${colors.background}
 foreground = ${colors.foreground}
 width = 100%
 height = 30
+wm-restack = bspwm
 
 overline-size = 0
 overline-color = #f00
