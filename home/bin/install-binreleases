@@ -68,6 +68,12 @@ binaries = {
     version_argument: "version",
     version_match: "^Terraform v<%= version %>"
   },
+  vagrant: {
+    url: "https://releases.hashicorp.com/vagrant/<%= version %>/vagrant_<%= version %>_linux_amd64.zip",
+    version: "2.2.4",
+    version_argument: "version",
+    version_match: "^Vagrant <%= version %>"
+  },
   helm: {
     url: "https://storage.googleapis.com/kubernetes-helm/helm-v<%= version %>-linux-amd64.tar.gz",
     version: "2.13.0",
