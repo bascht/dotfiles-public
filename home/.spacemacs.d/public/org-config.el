@@ -211,7 +211,7 @@
   (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
   (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
   (org-narrow-to-subtree)
-  (org-open-at-point))
+  (search-forward "[ ]"))
 
 ; Recent loops callable for daily review
 (defun my-org-agenda-recent-open-loops ()
