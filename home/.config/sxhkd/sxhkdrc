@@ -4,10 +4,10 @@
 
 # terminal emulator
 XF86Explorer
-  termite
+  alacritty
 
 super + Return
-	termite
+	alacritty
 
 # program launcher
 super + d
@@ -183,10 +183,10 @@ control + shift + alt + p
     rofi-pass
 
 control + shift + alt + o
-    tdrop -ma -w 800 -h 400 -y -500 -x -900 nautilus
+    tdrop -ma -w 800 -h 400 -y -500 -x -900 pcmanfm
 
 control + shift + alt + t
-    tdrop -ma -w -4 -y "30" -h 70% -s dropdown termite
+    tdrop -ma -w -4 -y "30" -h 70% -s dropdown alacritty
 
 control + shift + alt + e
     tdrop -ma -w 50% -h 50% -y 25% -x 25% -s dropdown emacs
@@ -253,7 +253,7 @@ super + shift + h
 super + o
   if ! xdotool search --onlyvisible --classname 'scratchpad' windowunmap; then
     if ! xdotool search --classname 'scratchpad' windowmap; then
-      termite --title 'scratchpad' --name 'scratchpad' -e tmux a;
+      alacritty --title 'scratchpad' --name 'scratchpad' -e tmux a;
       bspc node --swap biggest;
     fi;
   fi
