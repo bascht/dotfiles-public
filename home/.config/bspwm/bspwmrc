@@ -1,15 +1,9 @@
-#! /bin/sh
+#!/bin/bash
 
 sxhkd &
-xrdb -merge ~/.Xresources
 
-
-if [[ "$HOSTNAME" == "zog"* ]]; then
-    bspc monitor %DP-2 -d work web docs media files graphics
-    bspc monitor %DP-3.8 -d comm dump
-else
-    bspc monitor -d work web comm docs media files graphics dump
-fi
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
 
 bspc config border_width            2
 bspc config window_gap              10
@@ -27,8 +21,10 @@ bspc config focus_follows_pointer   true
 bspc config click_to_focus          true
 
 bspc rule -a Slack desktop='comm'
-bspc rule -a Vivaldi desktop='comm'
+bspc rule -a Emacs desktop='docs' state='pseudo_tiled'
+bspc rule -a Firefox desktop='web'
+bspc rule -a vivaldi-stable desktop='comm'
 bspc rule -a pcmanfm state=floating
-
+bspc rule -a Nautilus state=floating
+bspc config external_rules_command ~/.config/bspwm/external_rules
 i3-autostart &
-numlockx on
