@@ -64,19 +64,31 @@ binaries = {
   },
   terraform: {
     url: "https://releases.hashicorp.com/terraform/<%= version %>/terraform_<%= version %>_linux_amd64.zip",
-    version: "0.11.11",
+    version: "0.11.13",
     version_argument: "version",
     version_match: "^Terraform v<%= version %>"
   },
   helm: {
     url: "https://storage.googleapis.com/kubernetes-helm/helm-v<%= version %>-linux-amd64.tar.gz",
     version: "2.13.0",
-    version_argument: "version -c",
+    version_argument: "--version",
     version_match: "v<%= version %>"
   },
   fzf: {
     url: "https://github.com/junegunn/fzf-bin/releases/download/<%= version %>/fzf-<%= version %>-linux_amd64.tgz",
     version: "0.17.5",
+    version_argument: "--version",
+    version_match: "<%= version %>.*"
+  },
+  bat: {
+    url: "https://github.com/sharkdp/bat/releases/download/v<%= version %>/bat-v<%= version %>-x86_64-unknown-linux-gnu.tar.gz",
+    version: "0.10.0",
+    version_argument: "--version",
+    version_match: "v<%= version %>"
+  },
+  hcloud: {
+    url: "https://github.com/hetznercloud/cli/releases/download/v<%= version %>/hcloud-linux-amd64-v<%= version %>.tar.gz",
+    version: "1.12.0",
     version_argument: "--version",
     version_match: "v<%= version %>"
   },
@@ -112,7 +124,10 @@ binaries.each do |binary, download|
                              "unzip"
                            end
       system("#{extraction_command} #{downloaded_file} > /dev/null")
-      FileUtils.mv(File.realpath(Dir.glob("**/**").select{|f| `file #{f}`.match(/LSB executable/)}.first), target)
+      extracted_executables = Dir.glob("**/**").select do |f| 
+        `file #{f}`.match(/LSB executable|ELF 64-bit LSB shared object/)
+      end
+      FileUtils.mv(File.realpath(extracted_executables.first), target)
     end
     File.chmod(0755, target)
   end
