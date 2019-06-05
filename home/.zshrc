@@ -10,7 +10,6 @@ source ~/.zplug/init.zsh
 source $ZSH/oh-my-zsh.sh
 
 zplug "plugins/fasd", from:oh-my-zsh
-zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "junegunn/fzf", use:shell/key-bindings.zsh
@@ -66,6 +65,23 @@ SSH_TMUX_SOCK="${HOME}/.ssh/ssh_auth_sock"
 if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ]; then
     ln -sf "$SSH_AUTH_SOCK" "$SSH_TMUX_SOCK"
 fi
+
+source /usr/share/zsh/site-functions/tmuxinator.zsh
+
+# Via @dohq
+# https://gist.github.com/dohq/1dc702cc0b46eb62884515ea52330d60
+function fzf-ssh () {
+    local selected_host=$(grep "Host " ~/.ssh/config | grep -v '*' | cut -b 6- | fzf --query "$LBUFFER")
+
+    if [ -n "$selected_host" ]; then
+        BUFFER="ssh ${selected_host}"
+        zle accept-line
+    fi
+    zle reset-prompt
+}
+
+zle -N fzf-ssh
+bindkey '\es' fzf-ssh
 
 # Work around a broken autocompletion https://github.com/gopasspw/gopass/issues/585
 source <(gopass completion zsh | head -n -1 | tail -n +2)
