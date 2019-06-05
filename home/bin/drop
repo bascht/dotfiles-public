@@ -16,5 +16,10 @@ Net::SCP.start("drop.bascht.space", "bascht") do |scp|
   scp.upload(file.expand_path.to_s, "/home/bascht/drop/#{new_name}")
 end
 
-Open3.popen3( "xclip -i -selection clipboard" ){ |input, _, _| input << url }
+if ENV["WAYLAND_DISPLAY"].nil?
+  Open3.popen3( "xclip -i -selection clipboard" ){ |input, _, _| input << url }
+else
+  system "wl-copy #{url}"
+end
+
 system("notify-send 'Uploaded successfully' '<a href=\'#{url}\'>drop.bascht.space</a>'")

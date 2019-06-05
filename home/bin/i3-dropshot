@@ -1,3 +1,5 @@
 #!/bin/bash
 
-drop $(i3-screenshot -s)
+SHOT=$(i3-screenshot -s)
+chmod o+r $SHOT
+drop $SHOT
