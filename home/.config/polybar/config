@@ -10,6 +10,7 @@ alert = #bd2c40
 [global/wm]
 margin-top = 5
 margin-bottom = 5
+
 ;offset-x = 0
 ;offset-y = 0
 ;override-redirect = true
@@ -20,6 +21,8 @@ foreground = ${colors.foreground}
 width = 100%
 height = 30
 wm-restack = bspwm
+enable-ipc = true
+
 
 overline-size = 0
 overline-color = #f00
@@ -35,16 +38,16 @@ padding-right = 1
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Iosevka Nerd Font:size=16;3
-font-1 = Font Awesome:size=10;5
-font-2 = NotoEmoji:size=10;
-font-3 = fixed:pixelsize=10;1
+font-0 = Iosevka Nerd Font:size=14;3
+font-1 = Font Awesome:size=8;5
+font-2 = NotoEmoji:size=8;
+font-3 = fixed:pixelsize=8;1
 font-4 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-5 = siji:pixelsize=5;1
 
 
 [bar/secondary]
-monitor = ${env:MONITOR:DP-3.8}
+monitor = ${env:MONITOR:DP-2-2-8}
 inherit = section/base
 modules-left = ewmh xwindow
 ; modules-center =
@@ -52,7 +55,7 @@ modules-left = ewmh xwindow
 ; wlan eth battery temperature date powermenu
 
 [bar/bascht]
-monitor = ${env:MONITOR:eDP1}
+monitor = ${env:MONITOR:DP2-1}
 monitor-fallback = DP-2
 inherit = section/base
 modules-left = ewmh xwindow
@@ -95,21 +98,6 @@ label-mounted = %mountpoint%: %percentage_free%
 label-unmounted = %mountpoint%: not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
-; [module/ewmh]
-; type = internal/bspwm
-; index-sort = true
-; wrapping-scroll = false
-; strip-wsnumbers = false
-; pin-workspaces = true
-; enable-click = true
-; inline-mode = false
-
-; label-focused = "● %icon%"
-; label-empty = "○"
-; label-occupied = "◍ %icon%"
-; label-urgent = ● %icon%
-; label-separator = " "
-
 [module/ewmh]
 type = ${env:WINDOW_MODULE:internal/bspwm}
 index-sort = true
@@ -122,7 +110,7 @@ inline-mode = false
 label-focused = "● %icon%"
 label-visible = "● v%icon%"
 label-unfocused = "○ %icon%"
-label-empty = "○ %icon%"
+label-empty = "○"
 label-occupied = "◍ %icon%"
 label-urgent = "● %icon%"
 label-separator = " "
@@ -257,7 +245,7 @@ label = %gb_used%
 
 [module/wlan]
 type = internal/network
-interface = wlp4s0
+interface = wlp59s0
 interval = 5.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -358,7 +346,7 @@ animation-charging-framerate = 750
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
-warn-temperature = 60
+warn-temperature = 80
 
 format = <ramp><label>
 format-underline = #f50a4d
