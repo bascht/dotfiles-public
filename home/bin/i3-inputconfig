@@ -1,0 +1,10 @@
+#!/bin/bash
+
+xinput set-prop $(xinput |grep -oP "TouchPad.*id=\K[0-9]+")  "libinput Natural Scrolling Enabled" 1
+xinput set-prop "pointer:Synaptics TM3381-002" "libinput Natural Scrolling Enabled" 1
+xinput set-prop $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1)  "libinput Natural Scrolling Enabled" 1
+xinput set-button-map $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1) 1 10 3 4 5 6 7 8 9 2 11 12
+xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" 'libinput Button Scrolling Button' 12
+xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" 'libinput Scroll Method Enabled' 0 0 1
+xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" "libinput Accel Profile Enabled"  0 1
+xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" "libinput Accel Speed"  -0.2

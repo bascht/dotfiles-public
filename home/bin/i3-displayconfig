@@ -1,0 +1,40 @@
+#!/bin/bash
+set -e
+
+if xrandr | grep "^DP-2-3-8 connected" > /dev/null; then
+    if xrandr | grep "^eDP-1 connected"; then
+        xrandr --output eDP-1 --off
+    fi
+    if xrandr | grep "^DP-2-2 connected"; then
+        xrandr --output DP-2-2 --primary --mode 3440x1440 --pos 1440x632 --rotate normal
+    fi
+    if xrandr | grep "^DP-2-3-8 connected"; then
+        xrandr --output DP-3-8 --mode 2560x1440 --pos 0x0 --rotate left
+    fi
+    sleep 0.2
+    bspc monitor %DP-2-2 -d work web files graphics
+    bspc monitor %DP-2-3-8 -d comm docs media dump
+else
+    if xrandr | grep "^eDP-1 connected"; then
+        xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal
+    fi
+    if xrandr | grep "^DP-2-1 connected"; then
+        xrandr --output DP-2-1 --off
+    fi
+    if xrandr | grep "^DP-2-2 connected"; then
+        xrandr --output DP-2-2 --off
+    fi
+    if xrandr | grep "^DP-2-2 connected"; then
+        xrandr --output DP-2-2 --off
+    fi
+    if xrandr | grep "^DP-2-3-8 connected"; then
+        xrandr --output DP-3-8 --off
+    fi
+    sleep 0.2
+    bspc monitor -d work web comm docs media files graphics dump
+
+
+fi
+
+~/bin/i3-polybar &
+feh --randomize --bg-fill ~/Pictures/Wallpapers/
