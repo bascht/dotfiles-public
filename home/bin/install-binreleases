@@ -95,7 +95,7 @@ binaries = {
   hcloud: {
     url: "https://github.com/hetznercloud/cli/releases/download/v<%= version %>/hcloud-linux-amd64-v<%= version %>.tar.gz",
     version: "1.12.0",
-    version_argument: "--version",
+    version_argument: "version",
     version_match: "v<%= version %>"
   },
 }
