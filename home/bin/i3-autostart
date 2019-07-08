@@ -1,27 +1,42 @@
 #!/bin/bash
 
-if [[ $HOSTNAME == "zog"* ]]; then
-    xrandr --output DP-3.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-I-1 --off --output DP-1 --off --output DP-2 --mode 3440x1440 -r 49.99 --pos 1440x440 --rotate normal --output DP-2-1 --off
-    feh --bg-fill ~/Pictures/Wallpapers/mountains-pale.jpg
-    MONITOR=DP-2
+if [ -z "$WAYLAND_DISPLAY" ]; then
+    i3-inputconfig &
+    i3-displayconfig &
+
+    numlockx on &
+    killall volumeicon; volumeicon &
+    killall tdrop
+    nm-applet &
+    killall greenclip; greenclip daemon &
+    dunst &
+    #killall compton; compton --config ~/.config/i3/compton.conf &
+    xsetroot -cursor_name left_ptr &
+    xautolock -time 6 -locker "i3-blur-lock --dpms" &
+    killall redshift; redshift -l 48.15:11.64 -t 6500K:3000K &
+    emacs ~/ &
+    firefox &
+    vivaldi-stable &
+    nextcloud &
 else
-    xinput --set-prop $(xinput |grep -oP "TouchPad.*id=\K[0-9]+")  "libinput Natural Scrolling Enabled" 1
+    swaymsg exec volumeicon
+    swaymsg exec nm-applet
+    swaymsg exec nextcloud
+    swaymsg exec qrmako
+
+    killall redshift; swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000K"
+
+    swaymsg workspace "4: Docs"
+    swaymsg exec "emacs ~/"
+    swaymsg workspace "2: Web"
+    swaymsg exec firefox-wayland
+    swaymsg workspace "3: Comms"
+    swaymsg exec vivaldi-stable
+    swaymsg workspace "1: Code"
+
+    swaymsg -- exec swayidle \
+         timeout 300 'swaylock -c 000000' \
+         timeout 600 'swaymsg "output * dpms off"' \
+         resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock -c 000000'
 fi;
-
-xinput --set-prop $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1)  "libinput Natural Scrolling Enabled" 1
-xinput set-button-map $(xinput |grep -oP "HUGE.*id=\K[0-9]+"|head -n 1) 1 10 3 4 5 6 7 8 9 2 11 12
-
-python ~/.local/lib/python2.7/site-packages/mopidy &
-killall volumeicon; volumeicon &
-kwalletd5 &
-kwalletmanager5 &
-nm-applet &
-killall greenclip; greenclip daemon &
-dunst &
-killall compton; compton --config ~/.config/i3/compton.conf &
-xautolock -time 6 -locker "i3-blur-lock --dpms" &
-killall redshift; redshift -l 48.15:11.64 &
-emacsclient ~/ &
-feh --bg-fill ~/Pictures/Wallpapers/mountains-blue.jpg &
-nextcloud &
-MONITOR=${MONITOR} i3-polybar

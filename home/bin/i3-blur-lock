@@ -1,5 +1,16 @@
 #!/bin/bash
-scrot '/home/bascht/.lockbg.png' -e 'convert -resize 20% -fill "#282828" -colorize 50% -blur 0x3 -resize 500% $f /home/bascht/.lockbg.png'
-convert -gravity center -composite /home/bascht/.lockbg.png /home/bascht/Pictures/Wallpapers/lock.png /tmp/lockfinal.png
-i3lock -i /tmp/lockfinal.png $1
 
+if [ -z "$WAYLAND_DISPLAY" ]; then
+    SHOTTER="scrot"
+    LOCKER="i3lock"
+else
+    SHOTTER="grim"
+    LOCKER="swaylock"
+fi;
+
+$SHOTTER '/home/bascht/.lockbg.png'
+
+convert -resize 20% -fill "#282828" -colorize 50% -blur 0x3 -resize 500% /home/bascht/.lockbg.png /home/bascht/.lockbg.png
+convert -gravity center -composite /home/bascht/.lockbg.png /home/bascht/Pictures/Wallpapers/lock.png /tmp/lockfinal.png
+
+$LOCKER -i /tmp/lockfinal.png $1
