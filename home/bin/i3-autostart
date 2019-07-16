@@ -22,7 +22,8 @@ else
     swaymsg exec volumeicon
     swaymsg exec nm-applet
     swaymsg exec nextcloud
-    swaymsg exec qrmako
+    swaymsg exec mako
+    swaymsg exec clipman -d
 
     killall redshift; swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000K"
 

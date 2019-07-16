@@ -5,3 +5,5 @@ export QT_QPA_PLATFORMTHEME="qt5ct"
 export DICPATH="${HOME}/.local/share/hunspell"
 export XDG_CURRENT_DESKTOP=GNOME
 export PASSWORD_STORE_DIR="${HOME}/Documents/Passwords/.password-store"
+export MOZ_ENABLE_WAYLAND=1
+export MOZ_USE_XINPUT2=1
