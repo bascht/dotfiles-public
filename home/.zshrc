@@ -10,12 +10,10 @@ source ~/.zplug/init.zsh
 source $ZSH/oh-my-zsh.sh
 
 zplug "plugins/fasd", from:oh-my-zsh
-zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "junegunn/fzf", use:shell/key-bindings.zsh
 zplug "urbainvaes/fzf-marks"
 zplug "Tarrasch/zsh-autoenv"
-zplug "MichaelAquilina/zsh-emojis"
 
 AUTOENV_FILE_ENTER=".direnv"
 ZSH_THEME="spaceship"
@@ -51,7 +49,7 @@ alias docker-rm-dangling="docker rmi (docker images -q -f dangling=true)"
 alias dco="docker-compose"
 alias dcorrm="docker-compose run --rm"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
-alias dry="docker run -it -v /var/run/docker.sock:/var/run/docker.sock moncho/dry"
+alias dry="docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui"
 alias k=kubectl
 alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep -v '(^\*|master)' | xargs git branch -d"
 timestamp() { date +%Y-%m-%d-%H%M%S }
@@ -67,7 +65,7 @@ if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ]; then
     ln -sf "$SSH_AUTH_SOCK" "$SSH_TMUX_SOCK"
 fi
 
-source /usr/share/zsh/site-functions/tmuxinator.zsh
+#source /usr/share/zsh/site-functions/tmuxinator.zsh
 
 # Via @dohq
 # https://gist.github.com/dohq/1dc702cc0b46eb62884515ea52330d60
@@ -83,6 +81,10 @@ function fzf-ssh () {
 
 zle -N fzf-ssh
 bindkey '\es' fzf-ssh
+
+if [ -f ~/Code/architecture/bin/ia ]; then
+  source <(~/Code/architecture/bin/ia completion)
+fi;
 
 # Work around a broken autocompletion https://github.com/gopasspw/gopass/issues/585
 source <(gopass completion zsh | head -n -1 | tail -n +2)
