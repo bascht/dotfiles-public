@@ -1,0 +1,353 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+set $base00 #2E3440
+set $base01 #3B4252
+set $base02 #434C5E
+set $base03 #4C566A
+set $base04 #D8DEE9
+set $base05 #E5E9F0
+set $base06 #ECEFF4
+set $base07 #8FBCBB
+set $base08 #88C0D0
+set $base09 #81A1C1
+set $base0A #5E81AC
+set $base0B #BF616A
+set $base0C #D08770
+set $base0D #EBCB8B
+set $base0E #A3BE8C
+set $base0F #B48EAD
+
+
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Your preferred terminal emulator
+set $term alacritty
+# Your preferred application launcher
+# Note: it's recommended that you pass the final command to sway
+set $menu dmenu_path | i3-rofi | xargs swaymsg exec
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg ~/Pictures/Wallpapers/mountains-blue.jpg fill
+output "Dell Inc. DELL U2415 7MT018BM1PGU" transform 270 pos 0 0
+#output eDP-1 scale 1 pos 1440 500
+output "Goldstar Company Ltd 34UM95 0x00000101" mode 3440x1440@49.987000Hz pos 1200 290
+# output "Dell Inc. DELL U2713H C6F0K34O095L" transform 270 pos 0 0
+
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+    tap enabled
+    natural_scroll enabled
+}
+
+input "1133:45074:MX_Master_Mouse" {
+    natural_scroll enabled
+    accel_profile flat
+}
+
+input "1739:0:Synaptics_TM3381-002" {
+    tap enabled
+    natural_scroll enabled
+}
+
+input "2:10:TPPS/2_IBM_TrackPoint" {
+    tap enabled
+    natural_scroll enabled
+}
+
+input "1390:269:ELECOM_TrackBall_Mouse_HUGE_TrackBall" {
+    natural_scroll enabled
+    accel_profile flat  
+}
+
+input "ErgoDox EZ ErgoDox EZ Keyboard" {
+    xkb_layout "de"
+    xkb_numlock enabled
+}
+
+input "1:1:AT_Translated_Set_2_keyboard" {
+   xkb_layout "de"
+   xkb_options caps:super
+}
+
+input * xkb_layout "de"
+
+bindsym $mod+shift+b border toggle
+
+
+### Key bindings
+#
+# Mine
+
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 1%+
+bindsym $mod+Prior exec amixer -D pulse sset Master 1%+
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 1%-
+bindsym $mod+Next exec amixer -D pulse sset Master 1%-
+bindsym XF86AudioMute exec amixer -D pulse set Master toggle
+
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+bindsym Print exec i3-screenshot
+bindsym shift+Print exec i3-screenshot -s
+bindsym control+shift+Print exec i3-dropshot
+bindsym control+alt+l exec i3-blur-lock
+
+bindsym $mod+shift+m exec em
+bindsym $mod+shift+v exec rofi-pass
+bindsym $mod+shift+o exec nautilus
+
+
+bindsym $mod+shift+x exec rofi-clipboard
+bindsym $mod+shift+a exec rofi-marks
+
+bindsym control+shift+Space exec makoctl dismiss
+
+bindsym $mod+o move workspace to output right
+
+# Basics:
+#
+# start a terminal
+bindsym $mod+Return exec $term
+
+# kill focused window
+bindsym $mod+q kill
+
+# start your launcher
+bindsym $mod+d exec $menu
+
+bindsym $mod+shift+d exec alacritty --class 'launcher' --command bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'
+for_window [app_id="^launcher$"] floating enable, border none, resize set width 25 ppt height 100 ppt, move position 0 px 0 px
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# _move_ the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+# switch to workspace
+bindsym $mod+1 workspace 1: Code
+bindsym $mod+2 workspace 2: Web
+bindsym $mod+3 workspace 3: Comms
+bindsym $mod+4 workspace 4: Docs
+bindsym $mod+5 workspace 5: Media
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1: Code
+bindsym $mod+Shift+2 move container to workspace 2: Web
+bindsym $mod+Shift+3 move container to workspace 3: Comms
+bindsym $mod+Shift+4 move container to workspace 4: Docs
+bindsym $mod+Shift+5 move container to workspace 5: Media
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+bindsym $mod+c move position center
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# move focus to the parent container
+bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles gh them.
+bindsym $mod+minus scratchpad show
+
+bindsym $mod+t scratchpad toggle
+
+for_window [title="terminal_scratchpad"] move scratchpad
+for_window [title="terminal_scratchpad"] fullscreen enable
+
+bindsym $mod+u exec swaymsg [title="terminal_scratchpad"] scratchpad show
+
+exec alacritty --title terminal_scratchpad
+
+for_window [title="worklogger"] floating enable
+
+
+#
+# Resizing containers:
+#
+mode "resize" {
+# left will shrink the containers width
+# right will grow the containers width
+# up will shrink the containers height
+# down will grow the containers height
+bindsym $left resize shrink width 10px
+bindsym $down resize grow height 10px
+bindsym $up resize shrink height 10px
+bindsym $right resize grow width 10px
+
+# ditto, with arrow keys
+bindsym Left resize shrink width 10px
+bindsym Down resize grow height 10px
+bindsym Up resize shrink height 10px
+bindsym Right resize grow width 10px
+
+# return to default mode
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+set $font_family FuraMono Nerd Font
+set $font_size 10
+font pango:$font_family $font_size
+default_border pixel 1
+
+
+
+# class border backgr. text indic. child_border
+
+# Property Name         Border  BG      Text    Indicator Child Border
+client.focused          $base05 $base0D $base00 $base0D $base0C
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
+client.placeholder      $base00 $base00 $base05 $base00 $base00
+client.background $base07
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+position top
+
+# When the status_command prints a new line to stdout, swaybar updates.
+# The default just shows the current date and time.
+# swaybar_command waybar
+status_command i3status
+
+
+colors {
+background $base00
+separator  $base01
+statusline $base04
+
+# State             Border  BG      Text
+focused_workspace   $base05 $base0D $base00
+active_workspace    $base05 $base03 $base00
+inactive_workspace  $base03 $base01 $base05
+urgent_workspace    $base08 $base08 $base00
+binding_mode $base00 $base0A $base00
+}
+}
+
+include /etc/sway/config.d/*
+exec i3-autostart
