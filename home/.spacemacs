@@ -30,7 +30,8 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(systemd
+   '(go
+     systemd
      php
      nginx
      ;; ----------------------------------------------------------------
@@ -108,6 +109,8 @@ values."
                                       plantuml-mode
                                       flycheck-plantuml
                                       nord-theme
+                                      backline
+                                      magit-todos
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -157,7 +160,8 @@ values."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'emacs
+   dotspacemacs-editing-style 'hybrid
+
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -185,7 +189,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one-light
+   dotspacemacs-themes '(sanityinc-tomorrow-day
+                         doom-one-light
                          doom-opera-light
                          doom-solarized-light
                          doom-nord-light
@@ -404,8 +409,7 @@ you should place your code here."
 
   (spacemacs/set-leader-keys "oa" 'org-agenda)
   (spacemacs/set-leader-keys "om" 'mu4e)
-  (spacemacs/set-leader-keys "oo" 'helm-org-agenda-files-headings)
-  (spacemacs/set-leader-keys "oO" 'helm-org-rifle-agenda-files)
+  (spacemacs/set-leader-keys "oo" 'helm-org-rifle-agenda-files)
   (spacemacs/set-leader-keys "oc" 'org-mru-clock-in)
   (spacemacs/set-leader-keys "ok" 'org-clock-goto)
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
@@ -415,12 +419,14 @@ you should place your code here."
   (spacemacs/set-leader-keys "drl" 'rake-rerun)
   (spacemacs/toggle-hungry-delete-on)
 
-  (if
-      (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
-      (progn
-        (load-file "~/.spacemacs.d/private/mail-config.el")
-        (load-file "~/.spacemacs.d/public/org-config.el")
-        (load-file "~/.spacemacs.d/private/org-config.el")))
+  (with-eval-after-load 'org
+    (if
+        (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
+        (progn
+          (load-file "~/.spacemacs.d/private/mail-config.el")
+          (load-file "~/.spacemacs.d/public/org-config.el")
+          (load-file "~/.spacemacs.d/private/org-config.el")))
+  )
 
   ;; Tramp speed up
   (setq remote-file-name-inhibit-cache nil)
@@ -448,6 +454,15 @@ you should place your code here."
   (setq projectile-enable-caching t)
   (setq explicit-shell-file-name "/bin/bash")
   (setq vc-handled-backends '(Git))
+
+  (use-package outline-minor-faces
+    :after outline
+    :config (add-hook 'outline-minor-mode-hook
+                      'outline-minor-faces-add-font-lock-keywords))
+
+  (use-package backline
+    :after outline
+    :config (advice-add 'outline-flag-region :after 'backline-update))
 
 
   ;(spaceline-toggle-minor-modes-off)
