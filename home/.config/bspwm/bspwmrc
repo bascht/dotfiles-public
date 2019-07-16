@@ -9,8 +9,10 @@ bspc config border_width            2
 bspc config window_gap              10
 bspc config top_padding             34
 bspc config split_ratio             0.52
-bspc config borderless_monocle      true
+bspc config borderless_monocle      false
 bspc config gapless_monocle         true
+bspc config right_monocle_padding   200
+bspc config left_monocle_padding    200
 bspc config border_radius           10
 bspc config normal_border_color     "#7f8c8d"
 bspc config active_border_color     "#c065db"
@@ -22,7 +24,7 @@ bspc config click_to_focus          true
 
 bspc rule -a Slack desktop='comm'
 bspc rule -a Emacs desktop='docs' state='pseudo_tiled'
-bspc rule -a Firefox desktop='web'
+#bspc rule -a Firefox desktop='web'
 bspc rule -a vivaldi-stable desktop='comm'
 bspc rule -a pcmanfm state=floating
 bspc rule -a Nautilus state=floating
