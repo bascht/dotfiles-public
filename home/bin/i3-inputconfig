@@ -8,3 +8,5 @@ xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" 'libinput Button
 xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" 'libinput Scroll Method Enabled' 0 0 1
 xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" "libinput Accel Profile Enabled"  0 1
 xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" "libinput Accel Speed"  -0.2
+
+setxkbmap -option caps:super

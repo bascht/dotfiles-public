@@ -14,11 +14,25 @@ export WS_LABEL
 
 # Check if we're docked in
 export BAR_PA_SINK=$(pactl info |grep -oP "^Default Sink: \K.*")
-
-if [[ $HOSTNAME == "zog"* ]]; then
-    export BAR_ETH_INTERFACE=eno1
-    export BAR_MODULES="mpd volume memory eth temperature date"
-    polybar secondary &
+if xrandr |grep "HDMI2 connected" > /dev/null; then
+    export MONITOR=HDMI2
+else
+    export MONITOR=eDP1
 fi;
 
-polybar bascht &
+
+if xrandr | grep "^DP-2-3 connected" > /dev/null; then
+    export BAR_ETH_INTERFACE=enp0s31f6
+    export BAR_MODULES="mpd volume memory eth wlan temperature date"
+    unset MONITOR
+    MONITOR=DP-2-2 polybar bascht &
+    MONITOR=DP-2-3 polybar secondary &
+elif xrandr | grep "^DP-2-2-8 connected" > /dev/null; then
+    export BAR_MODULES="mpd volume memory wlan temperature date"
+    unset MONITOR
+    MONITOR=DP-2-2-8 polybar bascht &
+else
+    MONITOR=eDP-1 polybar bascht &
+fi;
+
+
