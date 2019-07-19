@@ -7,3 +7,6 @@
 [submodule "home/.zplug"]
 	path = home/.zplug
 	url = https://github.com/zplug/zplug.git
+[submodule "home/.kubectx"]
+	path = home/.kubectx
+	url = https://github.com/ahmetb/kubectx.git
