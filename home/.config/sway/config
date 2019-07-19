@@ -134,6 +134,10 @@ bindsym XF86AudioMute exec amixer -D pulse set Master toggle
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioPlay exec mpc toggle
+
 bindsym Print exec i3-screenshot
 bindsym shift+Print exec i3-screenshot -s
 bindsym control+shift+Print exec i3-dropshot
