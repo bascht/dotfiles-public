@@ -55,6 +55,8 @@ alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep 
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
+fpath=( ~/.kubectx/completion "${fpath[@]}" )
+
 [ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
 
 zplug load
