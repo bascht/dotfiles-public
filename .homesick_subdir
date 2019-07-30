@@ -9,5 +9,6 @@
 .spacemacs.d/snippets/org-mode
 .spacemacs.d/snippets/message-mode
 .weechat
+.gnupg
 bin
 .local/share/applications
