@@ -30,10 +30,11 @@ else
     swaymsg workspace "4: Docs"
     swaymsg exec "emacs ~/"
     swaymsg workspace "2: Web"
-    swaymsg exec firefox-wayland
+    swaymsg exec chromium-browser
     swaymsg workspace "3: Comms"
-    swaymsg exec vivaldi-stable
+    swaymsg exec start-comms
     swaymsg workspace "1: Code"
+    swaymsg exec alacritty
 
     swaymsg -- exec swayidle \
          timeout 300 'swaylock -c 000000' \
