@@ -1,43 +1,28 @@
-export ZSH=/home/bascht/.oh-my-zsh
-
 # Back out if we're surrounded by Emacs
 [ "$TERM" = "eterm-color" ] && exec bash
+[ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
 
 # Back out if we are in a Emacs tramp session
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+if [[ $TERM == "eterm-color " ]] || [[ $TERM == "dumb" ]]; then
+    unsetopt zle
+    PS1='$ '
+    return
+fi
 
-source ~/.zplug/init.zsh
+plugins=(fzf fasd jump dotenv tmuxinator)
+fpath=( ~/.kubectx/completion "${fpath[@]}" )
+
+ZSH_CUSTOM="${HOME}/.zsh-custom"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_DOTENV_FILE=".direnv"
+FZF_MARKS_FILE="~/.config/fzf/${HOSTNAME}"
+
+export ZSH=/home/bascht/.oh-my-zsh
+
 source $ZSH/oh-my-zsh.sh
-
-zplug "plugins/fasd", from:oh-my-zsh
-zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-zplug "junegunn/fzf", use:shell/key-bindings.zsh
-zplug "urbainvaes/fzf-marks"
-zplug "Tarrasch/zsh-autoenv"
-
-AUTOENV_FILE_ENTER=".direnv"
-ZSH_THEME="spaceship"
-
-# Only show kubecontext on demand
-SPACESHIP_KUBECONTEXT_SHOW=false
-SPACESHIP_PROMPT_ORDER=(
-  user
-  dir
-  host
-  git
-  ruby
-  docker
-  aws
-  kubecontext
-  exec_time
-  line_sep
-  jobs
-  exit_code
-  char
-)
+source $ZSH_CUSTOM/plugins/fzf-marks/fzf-marks.plugin.zsh
 
 alias va="vagrant"
-alias tm="tmux -2"
 alias ta="tm a -t"
 alias bi="bundle install"
 alias be="bundle exec"
@@ -55,12 +40,6 @@ alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep 
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
-fpath=( ~/.kubectx/completion "${fpath[@]}" )
-
-[ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
-
-zplug load
-
 # Override the tmux ssh auth sock
 SSH_TMUX_SOCK="${HOME}/.ssh/ssh_auth_sock"
 if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ]; then
@@ -72,7 +51,7 @@ fi
 # Via @dohq
 # https://gist.github.com/dohq/1dc702cc0b46eb62884515ea52330d60
 function fzf-ssh () {
-    local selected_host=$(grep "Host " ~/.ssh/config | grep -v '*' | cut -b 6- | fzf --query "$LBUFFER")
+    local selected_host=$(grep "Host " ~/.ssh/config | grep -v '*' | cut -b 6- | fzf --reverse --height=20 --query "$LBUFFER")
 
     if [ -n "$selected_host" ]; then
         BUFFER="ssh ${selected_host}"
@@ -84,11 +63,14 @@ function fzf-ssh () {
 zle -N fzf-ssh
 bindkey '\es' fzf-ssh
 
+# Via @leahneukirchen
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+bindkey "^[m" copy-earlier-word
+
 if [ -f ~/Code/architecture/bin/ia ]; then
   source <(~/Code/architecture/bin/ia completion)
 fi;
-
-# Work around a broken autocompletion https://github.com/gopasspw/gopass/issues/585
-source <(gopass completion zsh | head -n -1 | tail -n +2)
-compdef _gopass gopass
-
+source ~/.zsh-custom/plugins/
+# To customize prompt, run `p9k_configure` or edit ~/.p10k.zsh.
+source ~/.p10k.zsh
