@@ -9,13 +9,13 @@ if [[ $TERM == "eterm-color " ]] || [[ $TERM == "dumb" ]]; then
     return
 fi
 
-plugins=(fzf fasd jump dotenv tmuxinator)
+plugins=(fzf fasd dotenv tmuxinator)
 fpath=( ~/.kubectx/completion "${fpath[@]}" )
 
 ZSH_CUSTOM="${HOME}/.zsh-custom"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_DOTENV_FILE=".direnv"
-FZF_MARKS_FILE="~/.config/fzf/${HOSTNAME}"
+FZF_MARKS_FILE="${HOME}/.config/fzf/${HOSTNAME}"
 
 export ZSH=/home/bascht/.oh-my-zsh
 
