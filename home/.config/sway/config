@@ -283,6 +283,10 @@ exec alacritty --title terminal_scratchpad
 
 for_window [title="worklogger"] floating enable
 
+assign [instance="^.*\.yakshed\.org$"] "3: Comms"
+assign [instance="^.*\.slack\.com$"] "3: Comms"
+assign [instance="web.whatsapp.com"] "3: Comms"
+assign [instance="inoreader.com"] "3: Comms"
 
 #
 # Resizing containers:
@@ -355,3 +359,4 @@ binding_mode $base00 $base0A $base00
 
 include /etc/sway/config.d/*
 exec i3-autostart
+ 
