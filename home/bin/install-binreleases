@@ -104,6 +104,12 @@ binaries = {
     version_argument: "version",
     version_match: "Hugo Static Site Generator v<%= version %>"
   },
+  pandoc: {
+    url: "https://github.com/jgm/pandoc/releases/download/<%= version %>/pandoc-<%= version %>-linux.tar.gz",
+    version: "2.7.3",
+    version_argument: "--version",
+    version_match: "pandoc-citeproc 0.16.2"
+  },
 }
 
 tmpdir = Dir.mktmpdir
