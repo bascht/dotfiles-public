@@ -34,11 +34,6 @@ values."
      systemd
      php
      nginx
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
      helm
      auto-completion
      better-defaults
@@ -46,6 +41,7 @@ values."
      git
      markdown
      (org :variables
+          org-want-todo-bindings t
           org-enable-org-journal-support t)
      (spell-checking :variables spell-checking-enable-auto-dictionary t)
      syntax-checking
@@ -54,7 +50,6 @@ values."
      selectric
      ruby
      html
-     graphviz
      csv
      python
      rust
@@ -67,7 +62,6 @@ values."
      pandoc
      restclient
      shell
-     speed-reading
      terraform
      tmux
      javascript
@@ -82,33 +76,20 @@ values."
                                       org-cliplink
                                       multiple-cursors
                                       atomic-chrome
-                                      kaolin-themes
-                                      darktooth-theme
-                                      srcery-theme
                                       doom-themes
-                                      pocket-reader
                                       hledger-mode
                                       org-super-agenda
                                       org-journal
                                       dictcc
-                                      salt-mode
-                                      mu4e-conversation
-                                      org-cliplink
                                       writeroom-mode
                                       puppet-mode
-                                      lsp-mode
-                                      lsp-ui
-                                      company-lsp
                                       beginend
                                       flycheck-yamllint
                                       flymake-shellcheck
                                       logstash-conf
-                                      ox-epub
                                       ialign
-                                      color-theme-sanityinc-tomorrow
                                       plantuml-mode
                                       flycheck-plantuml
-                                      nord-theme
                                       backline
                                       magit-todos
                                       )
@@ -189,22 +170,15 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(sanityinc-tomorrow-day
-                         doom-one-light
+   dotspacemacs-themes '(doom-one-light
                          doom-opera-light
                          doom-solarized-light
                          doom-nord-light
-                         srcery
-                         nord
                          doom-dracula
                          doom-spacegrey
                          doom-one-light
                          doom-one
                          doom-nord
-                         sanityinc-tomorrow-bright
-                         sanityinc-tomorrow-blue
-                         sanityinc-tomorrow-bright
-                         sanityinc-tomorrow-eighties
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
@@ -473,6 +447,8 @@ you should place your code here."
               (flycheck-yamllint-setup)
               ))
 
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
   (setq writeroom-width 100)
@@ -490,6 +466,7 @@ you should place your code here."
   (setq atomic-chrome-default-major-mode 'markdown-mode)
   (setq web-mode-engines-alist
         '(("go"    . "\\.phtml\\'")))
+  (setq recentf-save-file "~/.emacs.d.recentf")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -504,9 +481,84 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-color "#6272a4")
+ '(global-vi-tilde-fringe-mode nil)
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX" . "#dc752f")
+     ("XXXX" . "#dc752f"))))
+ '(jdee-db-active-breakpoint-face-colors (cons "#1E2029" "#bd93f9"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#1E2029" "#50fa7b"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#1E2029" "#565761"))
+ '(org-agenda-columns-add-appointments-to-effort-sum t)
+ '(org-agenda-current-time-string " now - - - - - - - - - - - - - - - - - - - - - - - - -")
+ '(org-agenda-default-appointment-duration 30)
+ '(org-agenda-files (quote ("~/Documents/Zettelkasten")))
+ '(org-agenda-hide-tags-regexp "presents")
+ '(org-agenda-include-diary t)
+ '(org-agenda-restore-windows-after-quit t)
+ '(org-agenda-show-inherited-tags (quote always))
+ '(org-agenda-span 3)
+ '(org-agenda-sticky t)
+ '(org-agenda-tags-column -105)
+ '(org-agenda-time-grid
+   (quote
+    ((daily today)
+     (800 1000 1200 1400 1600 1800 2000)
+     "......" "––––")))
+ '(org-agenda-time-leading-zero t)
+ '(org-archive-location "%s_archive::")
+ '(org-clock-persist nil t)
+ '(org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics")
+ '(org-mu4e-convert-to-html t t)
+ '(org-super-agenda-mode t)
  '(package-selected-packages
    (quote
-    (helm-rails nimbus-theme zeal-at-point yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile toml-mode toc-org tagedit systemd symon string-inflection sql-indent spray spaceline-all-the-icons smeargle slim-mode shell-pop selectric-mode seeing-is-believing scss-mode sass-mode salt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort puppet-mode pug-mode prettier-js popwin pocket-reader pippel pipenv pip-requirements phpunit phpcbf php-extras php-auto-yasnippets persp-mode password-generator paradox pandoc-mode ox-pandoc ox-epub overseer origami orgit org-super-agenda org-projectile org-present org-pomodoro org-mru-clock org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file ob-restclient ob-http nginx-mode nameless mwim multi-term mu4e-maildirs-extension mu4e-conversation mu4e-alert move-text minitest markdown-toc magit-svn magit-gitflow macrostep lsp-ui lorem-ipsum logstash-conf livid-mode live-py-mode link-hint ledger-mode kaolin-themes json-navigator js2-refactor js-doc jinja2-mode insert-shebang indent-guide importmagic impatient-mode ialign hungry-delete hledger-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mu helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flymake-shellcheck flycheck-yamllint flycheck-rust flycheck-pos-tip flycheck-ledger flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump drupal-mode dotenv-mode doom-themes doom-modeline dockerfile-mode docker diminish diff-hl dictcc define-word cython-mode csv-mode counsel-projectile company-web company-terraform company-tern company-statistics company-shell company-restclient company-php company-lsp company-ansible company-anaconda column-enforce-mode clean-aindent-mode chruby centered-cursor-mode cargo bundler browse-at-remote beginend auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile atomic-chrome ansible-doc ansible aggressive-indent ace-link ace-jump-helm-line ac-ispell))))
+    (gitlab-ci-mode-flycheck gitlab-ci-mode helm-gitlab helm-tramp vterm pomidor coffee-fof coffee-mode pretty-symbols mpdel vagrant vagrant-tramp srcery-theme monokai-pro-theme zenburn-theme nord-theme zones theme-magic darktooth-theme groovy-mode flycheck-plantuml plantuml-mode org-trello color-theme-sanityinc-tomorrow systemd phpunit phpcbf php-extras php-auto-yasnippets nginx-mode ialign drupal-mode company-php ac-php-core xcscope php-mode zeal-at-point yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile toml-mode toc-org tagedit symon string-inflection sql-indent spray spaceline-all-the-icons smeargle slim-mode shell-pop selectric-mode seeing-is-believing scss-mode sass-mode salt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort puppet-mode pug-mode prettier-js popwin pocket-reader pippel pipenv pip-requirements persp-mode password-generator paradox pandoc-mode ox-pandoc ox-epub overseer origami orgit org-super-agenda org-projectile org-present org-pomodoro org-mru-clock org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file ob-restclient ob-http nameless mwim multi-term mu4e-maildirs-extension mu4e-conversation mu4e-alert move-text minitest markdown-toc magit-svn magit-gitflow macrostep lsp-ui lorem-ipsum logstash-conf livid-mode live-py-mode link-hint ledger-mode kaolin-themes json-navigator js2-refactor js-doc jinja2-mode insert-shebang indent-guide importmagic impatient-mode hungry-delete hlint-refactor hledger-mode hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mu helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flymake-shellcheck flycheck-yamllint flycheck-rust flycheck-pos-tip flycheck-ledger flycheck-haskell flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline dockerfile-mode docker diminish diff-hl dictcc define-word cython-mode csv-mode counsel-projectile company-web company-terraform company-tern company-statistics company-shell company-restclient company-lua company-lsp company-ghci company-cabal company-ansible company-anaconda column-enforce-mode cmm-mode clean-aindent-mode chruby centered-cursor-mode cargo bundler browse-at-remote beginend auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile atomic-chrome ansible-doc ansible aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+ '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
+ '(plantuml-jar-path "/home/bascht/bin/plantuml.jar")
+ '(tramp-default-method "ssh")
+ '(tramp-persistency-file-name "/home/bascht/.emacs.d/.cache/tramp")
+ '(tramp-use-ssh-controlmaster-options nil)
+ '(tramp-verbose 1)
+ '(vc-annotate-background "#282a36")
+ '(vc-annotate-color-map
+   (list
+    (cons 20 "#50fa7b")
+    (cons 40 "#85fa80")
+    (cons 60 "#bbf986")
+    (cons 80 "#f1fa8c")
+    (cons 100 "#f5e381")
+    (cons 120 "#face76")
+    (cons 140 "#ffb86c")
+    (cons 160 "#ffa38a")
+    (cons 180 "#ff8ea8")
+    (cons 200 "#ff79c6")
+    (cons 220 "#ff6da0")
+    (cons 240 "#ff617a")
+    (cons 260 "#ff5555")
+    (cons 280 "#d45558")
+    (cons 300 "#aa565a")
+    (cons 320 "#80565d")
+    (cons 340 "#6272a4")
+    (cons 360 "#6272a4")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
