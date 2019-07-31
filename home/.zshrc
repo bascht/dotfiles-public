@@ -16,6 +16,7 @@ ZSH_CUSTOM="${HOME}/.zsh-custom"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_DOTENV_FILE=".direnv"
 FZF_MARKS_FILE="${HOME}/.config/fzf/${HOSTNAME}"
+FZF_BASE="${HOME}/bin"
 
 export ZSH=/home/bascht/.oh-my-zsh
 
@@ -79,6 +80,6 @@ bindkey "^[m" copy-earlier-word
 if [ -f ~/Code/architecture/bin/ia ]; then
   source <(~/Code/architecture/bin/ia completion)
 fi;
+
 source ~/.zsh-custom/plugins/
-# To customize prompt, run `p9k_configure` or edit ~/.p10k.zsh.
 source ~/.p10k.zsh
