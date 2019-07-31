@@ -344,7 +344,9 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
-   ))
+   )
+  (setq recentf-save-file "~/.emacs.d.recentf")
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -463,7 +465,6 @@ you should place your code here."
   (setq atomic-chrome-default-major-mode 'markdown-mode)
   (setq web-mode-engines-alist
         '(("go"    . "\\.phtml\\'")))
-  (setq recentf-save-file "~/.emacs.d.recentf")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

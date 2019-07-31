@@ -13,3 +13,6 @@
 [submodule "home/.zsh-custom/plugins/fzf-marks"]
 	path = home/.zsh-custom/plugins/fzf-marks
 	url = git@github.com:urbainvaes/fzf-marks.git
+[submodule "home/.fzf"]
+	path = home/.fzf
+	url = git@github.com:junegunn/fzf.git
