@@ -110,6 +110,10 @@ binaries = {
     version_argument: "--version",
     version_match: "pandoc-citeproc 0.16.2"
   },
+  "wally-cli": {
+    url: "https://github.com/zsa/wally/releases/download/<%= version %>-linux/wally-cli",
+    version: "1.1.0"
+  },
 }
 
 tmpdir = Dir.mktmpdir
@@ -123,7 +127,9 @@ binaries.each do |binary, download|
 
   puts target
 
-  if File.executable? target and `#{version_string}`.match(version_match)
+  if not download.has_key? :version_argument
+    puts "→ Cannot check for version, no version_argument supplied"
+  elsif File.executable? target and `#{version_string}`.match(version_match)
     puts "→ Already at #{version}"
   else
     puts "→ Installing #{binary} #{download[:version]}"
