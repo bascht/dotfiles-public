@@ -2,6 +2,9 @@
 
 Apart from my [[https://github.com/bascht/dotfiles][Real Dotfiles]], here is some other stuff.
 
+** Quick Screenshot
+[[./screenshot.jpg]]
+
 ** Installation via Homesick
 
 - Install [[https://github.com/technicalpickles/homesick][Homesick]].
