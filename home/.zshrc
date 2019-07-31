@@ -16,7 +16,6 @@ ZSH_CUSTOM="${HOME}/.zsh-custom"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_DOTENV_FILE=".direnv"
 FZF_MARKS_FILE="${HOME}/.config/fzf/${HOSTNAME}"
-FZF_BASE="${HOME}/bin"
 
 export ZSH=/home/bascht/.oh-my-zsh
 
