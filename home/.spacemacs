@@ -56,10 +56,8 @@ values."
      shell-scripts
      sql
      yaml
-     dash
      docker
      finance
-     pandoc
      restclient
      shell
      terraform
@@ -96,9 +94,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(
-;;                                    doom-peacock-theme ;; see https://github.com/syl20bnr/spacemacs/issues/9937
-                                    )
+   dotspacemacs-excluded-packages '(exec-path-from-shell)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -530,7 +526,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-super-agenda-mode t)
  '(package-selected-packages
    (quote
-    (gitlab-ci-mode-flycheck gitlab-ci-mode helm-gitlab helm-tramp vterm pomidor coffee-fof coffee-mode pretty-symbols mpdel vagrant vagrant-tramp srcery-theme monokai-pro-theme zenburn-theme nord-theme zones theme-magic darktooth-theme groovy-mode flycheck-plantuml plantuml-mode org-trello color-theme-sanityinc-tomorrow systemd phpunit phpcbf php-extras php-auto-yasnippets nginx-mode ialign drupal-mode company-php ac-php-core xcscope php-mode zeal-at-point yasnippet-snippets yapfify xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile toml-mode toc-org tagedit symon string-inflection sql-indent spray spaceline-all-the-icons smeargle slim-mode shell-pop selectric-mode seeing-is-believing scss-mode sass-mode salt-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe restclient-helm restart-emacs rbenv rake rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort puppet-mode pug-mode prettier-js popwin pocket-reader pippel pipenv pip-requirements persp-mode password-generator paradox pandoc-mode ox-pandoc ox-epub overseer origami orgit org-super-agenda org-projectile org-present org-pomodoro org-mru-clock org-mime org-journal org-download org-cliplink org-bullets org-brain open-junk-file ob-restclient ob-http nameless mwim multi-term mu4e-maildirs-extension mu4e-conversation mu4e-alert move-text minitest markdown-toc magit-svn magit-gitflow macrostep lsp-ui lorem-ipsum logstash-conf livid-mode live-py-mode link-hint ledger-mode kaolin-themes json-navigator js2-refactor js-doc jinja2-mode insert-shebang indent-guide importmagic impatient-mode hungry-delete hlint-refactor hledger-mode hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mu helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flymake-shellcheck flycheck-yamllint flycheck-rust flycheck-pos-tip flycheck-ledger flycheck-haskell flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline dockerfile-mode docker diminish diff-hl dictcc define-word cython-mode csv-mode counsel-projectile company-web company-terraform company-tern company-statistics company-shell company-restclient company-lua company-lsp company-ghci company-cabal company-ansible company-anaconda column-enforce-mode cmm-mode clean-aindent-mode chruby centered-cursor-mode cargo bundler browse-at-remote beginend auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile atomic-chrome ansible-doc ansible aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+    ()))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(plantuml-jar-path "/home/bascht/bin/plantuml.jar")
  '(tramp-default-method "ssh")
