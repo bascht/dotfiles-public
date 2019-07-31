@@ -1,0 +1,6 @@
+[Unit]
+Description=Run maid cleanup
+
+[Service]
+Type=oneshot
+ExecStart=maid clean --force
