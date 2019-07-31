@@ -36,6 +36,7 @@ alias dcorrm="docker-compose run --rm"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
 alias dry="docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui"
 alias k=kubectl
+alias g=git
 alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep -v '(^\*|master)' | xargs git branch -d"
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
@@ -46,6 +47,12 @@ if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ]; then
     ln -sf "$SSH_AUTH_SOCK" "$SSH_TMUX_SOCK"
 fi
 
+# Pretty up FZF
+export FZF_DEFAULT_OPTS='
+  --color=bg+:#f0f0f1,bg:#fafafa,spinner:#0184bc,hl:#4078f2
+  --color=fg:#696c77,header:#4078f2,info:#c18401,pointer:#0184bc
+  --color=marker:#0184bc,fg+:#202227,prompt:#c18401,hl+:#4078f2
+'
 #source /usr/share/zsh/site-functions/tmuxinator.zsh
 
 # Via @dohq
