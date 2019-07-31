@@ -385,6 +385,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
   (spacemacs/set-leader-keys "od" 'my-daily-review)
 
+  (spacemacs/set-leader-keys "glu" 'mu4e-view-go-to-url)
   (spacemacs/set-leader-keys "drr" 'rake)
   (spacemacs/set-leader-keys "drl" 'rake-rerun)
   (spacemacs/toggle-hungry-delete-on)
