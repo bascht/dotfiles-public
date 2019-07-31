@@ -9,6 +9,13 @@ Maid.rules do
     )
   end
 
+  rule 'Safe the Ergodox Layouts' do
+    move(
+      dir('~/Downloads/ergodox_ez*.hex'),
+      mkdir("~/Lager/Ergodox-Layouts/")
+    )
+  end
+
   rule 'Move PDF Files to be buffered' do
     move(
       dir('~/Downloads/*.{PDF,pdf}'),
@@ -45,15 +52,16 @@ Maid.rules do
   end
 
   rule 'Delete old and partial downloads' do
-    dir('~/Downloads/*.{deb,zip,nzb,bin,tgz,xz,gz,bz,jar,txz,dmg,exe,bz2,7z,rpm,part}').each do |path|
+    dir('~/Downloads/*.{deb,zip,nzb,bin,tgz,tar.gz,xz,gz,bz,jar,txz,dmg,exe,bz2,7z,rpm,part}').each do |path|
       trash(path) if 3.days.since?(modified_at(path))
     end
   end
 
-  rule 'Delete extracted folders' do
-    dir('~/Downloads/*').each do |path|
+  rule 'Delete extracted folders and really old shit' do
+    dir('~/Downloads/.*').each do |path|
+      puts path
       trash(path) if 5.days.since?(modified_at(path)) && File.directory?(path)
+      trash(path) if 2.weeks.since?(modified_at(path))
     end
   end
-
 end
