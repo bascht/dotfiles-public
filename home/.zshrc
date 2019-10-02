@@ -15,7 +15,7 @@ fpath=( ~/.kubectx/completion "${fpath[@]}" )
 ZSH_CUSTOM="${HOME}/.zsh-custom"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_DOTENV_FILE=".direnv"
-FZF_MARKS_FILE="${HOME}/.config/fzf/${HOSTNAME}"
+FZF_MARKS_FILE="${HOME}/.config/fzf/${HOST}"
 
 export ZSH=/home/bascht/.oh-my-zsh
 
