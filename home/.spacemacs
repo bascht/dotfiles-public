@@ -345,7 +345,6 @@ values."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
    )
-  (setq recentf-save-file "~/.emacs.d.recentf")
   )
 
 (defun dotspacemacs/user-init ()
@@ -400,6 +399,9 @@ you should place your code here."
           (load-file "~/.spacemacs.d/public/org-config.el")
           (load-file "~/.spacemacs.d/private/org-config.el")))
   )
+
+  ;; Don't litter
+  (setq recentf-save-file "~/.emacs.d.recentf")
 
   ;; Tramp speed up
   (setq remote-file-name-inhibit-cache nil)
