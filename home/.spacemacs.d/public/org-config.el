@@ -56,7 +56,14 @@
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-clock-sound t)
 (setq org-clock-out-remove-zero-time-clocks t)
+;; Resume clocking task when emacs is restarted
+(org-clock-persistence-insinuate)
+;; Save the running clock and all clock history when exiting Emacs, load it on startup
 (setq org-clock-persist t)
+;; Resume clocking task on clock-in if the clock is open
+(setq org-clock-in-resume t)
+;; Do not prompt to resume an active clock, just resume it
+(setq org-clock-persist-query-resume nil)
 
 (setq org-agenda-start-with-clockreport-mode t)
 (setq org-clock-report-include-clocking-task t)
