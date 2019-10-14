@@ -400,8 +400,8 @@ you should place your code here."
           (load-file "~/.spacemacs.d/private/org-config.el")))
   )
 
-  ;; Don't litter
-  (setq recentf-save-file "~/.emacs.d.recentf")
+  ;; Don't litter. Use one file per VM.
+  (setq recentf-save-file (format "%s.%s.%s" recentf-save-file system-name server-name))
 
   ;; Tramp speed up
   (setq remote-file-name-inhibit-cache nil)
