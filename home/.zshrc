@@ -1,3 +1,8 @@
+# Directly start sway if we're on tty1
+if [ "$(tty)" = "/dev/tty1" ]; then
+	  exec sway
+fi
+
 # Back out if we're surrounded by Emacs
 [ "$TERM" = "eterm-color" ] && exec bash
 [ "$TERM" = "xterm-termite" ] && export TERM=xterm-256color
@@ -38,6 +43,7 @@ alias dry="docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skaneh
 alias k=kubectl
 alias g=git
 alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep -v '(^\*|master)' | xargs git branch -d"
+alias wttr="curl v2.wttr.in/Bogenhausen"
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
@@ -70,6 +76,13 @@ function fzf-ssh () {
 
 zle -N fzf-ssh
 bindkey '\es' fzf-ssh
+
+function fzf-vm () {
+    local selected_vm=$(grep "Host " ~/.ssh/config | grep -oP "vm-(\w+)" | sort -u | cut -b 4-)
+    vm $selected_vm
+}
+zle -N fzf-ssh
+bindkey '\ev' fzf-vm
 
 # Via @leahneukirchen
 autoload -Uz copy-earlier-word
