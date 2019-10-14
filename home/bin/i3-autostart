@@ -30,15 +30,18 @@ else
     swaymsg workspace "4: Docs"
     swaymsg exec "emacs ~/"
     swaymsg workspace "2: Web"
-    swaymsg exec chromium-browser
+    swaymsg exec firefox-wayland
     swaymsg workspace "3: Comms"
     swaymsg exec start-comms
+    swaymsg workspace "5: Media"
+    swaymsg exec alacritty -- -e "mux start music"
     swaymsg workspace "1: Code"
     swaymsg exec alacritty
+    swaymsg exec -- wl-paste -t text --watch clipman store
 
-    swaymsg -- exec swayidle \
-         timeout 300 'swaylock -c 000000' \
+    swayidle \
+         timeout 300 'i3-blur-lock' \
          timeout 600 'swaymsg "output * dpms off"' \
          resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -c 000000'
+         before-sleep 'i3-blur-lock' &
 fi;
