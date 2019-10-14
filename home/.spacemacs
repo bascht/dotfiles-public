@@ -379,7 +379,7 @@ you should place your code here."
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
   (spacemacs/set-leader-keys "oa" 'org-agenda)
-  (spacemacs/set-leader-keys "om" 'mu4e)
+  (spacemacs/set-leader-keys "om" 'bascht/mu4e-inbox)
   (spacemacs/set-leader-keys "oo" 'helm-org-rifle-agenda-files)
   (spacemacs/set-leader-keys "oc" 'org-mru-clock-in)
   (spacemacs/set-leader-keys "ok" 'org-clock-goto)
