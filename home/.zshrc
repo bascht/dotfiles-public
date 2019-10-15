@@ -39,7 +39,8 @@ alias docker-rm-dangling="docker rmi (docker images -q -f dangling=true)"
 alias dco="docker-compose"
 alias dcorrm="docker-compose run --rm"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
-alias dry="docker run --rm -itv /var/run/docker.sock:/var/run/docker.sock skanehira/docui"
+alias drri="docker run --rm -ti"
+alias dry="drri -v /var/run/docker.sock:/var/run/docker.sock skanehira/docui"
 alias k=kubectl
 alias g=git
 alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep -v '(^\*|master)' | xargs git branch -d"
