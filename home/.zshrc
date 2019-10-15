@@ -74,6 +74,11 @@ function fzf-ssh () {
     zle reset-prompt
 }
 
+# Only load kubectl completion when needed. I's bog-slow
+if [ -f $KUBECONFIG ]; then
+    source <(kubectl completion zsh);
+fi;
+
 zle -N fzf-ssh
 bindkey '\es' fzf-ssh
 
