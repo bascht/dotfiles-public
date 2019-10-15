@@ -120,7 +120,7 @@ binaries = YAML.load <<EOB
   :version_match: "---"
 :rancher:
   :url: https://github.com/rancher/cli/releases/download/v<%= version %>/rancher-linux-amd64-v<%= version %>.tar.gz
-  :version: 0.6.14
+  :version: 2.3.0
   :version_match: "rancher version v<%= version %>"
   :version_argument: "--version"
 EOB
