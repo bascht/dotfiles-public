@@ -117,6 +117,9 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 
 input * xkb_layout "de"
 
+bindswitch lid:on output $display_laptop disable
+bindswitch lid:off output $display_laptop enable
+
 bindsym $mod+shift+b border toggle
 
 
