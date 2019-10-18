@@ -1,6 +1,6 @@
 # Directly start sway if we're on tty1
 if [ "$(tty)" = "/dev/tty1" ]; then
-	  exec sway
+	  exec sway-run
 fi
 
 # Back out if we're surrounded by Emacs
