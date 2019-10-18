@@ -284,6 +284,8 @@ assign [instance="^.*\.yakshed\.org$"] "3: Comms"
 assign [instance="^.*\.slack\.com$"] "3: Comms"
 assign [instance="web.whatsapp.com"] "3: Comms"
 assign [instance="inoreader.com"] "3: Comms"
+assign [title="Wire"] "3: Comms"
+assign [title="Signal"] "3: Comms"
 
 #
 # Resizing containers:
