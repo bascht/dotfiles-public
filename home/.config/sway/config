@@ -353,31 +353,22 @@ client.urgent           $base08 $base08 $base00 $base08 $base08
 client.placeholder      $base00 $base00 $base05 $base00 $base00
 client.background $base07
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
 bar {
-position top
+    position top
+    status_command i3status
+    font pango:FuraMono Nerd Font, FontAwesome 12
+    colors {
+        background $base00
+        separator  $base01
+        statusline $base04
 
-# When the status_command prints a new line to stdout, swaybar updates.
-# The default just shows the current date and time.
-# swaybar_command waybar
-status_command i3status
-
-
-colors {
-background $base00
-separator  $base01
-statusline $base04
-
-# State             Border  BG      Text
-focused_workspace   $base05 $base0D $base00
-active_workspace    $base05 $base03 $base00
-inactive_workspace  $base03 $base01 $base05
-urgent_workspace    $base08 $base08 $base00
-binding_mode $base00 $base0A $base00
-}
+        # State             Border  BG      Text
+        focused_workspace   $base05 $base0D $base00
+        active_workspace    $base05 $base03 $base00
+        inactive_workspace  $base03 $base01 $base05
+        urgent_workspace    $base08 $base08 $base00
+        binding_mode $base00 $base0A $base00
+    }
 }
 
 include /etc/sway/config.d/*
