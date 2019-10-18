@@ -166,15 +166,15 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one-light
+   dotspacemacs-themes '(doom-nord
+                         doom-nord-light
+                         doom-one-light
                          doom-opera-light
                          doom-solarized-light
-                         doom-nord-light
                          doom-dracula
                          doom-spacegrey
                          doom-one-light
                          doom-one
-                         doom-nord
                          spacemacs-light
                          spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
