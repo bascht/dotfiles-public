@@ -145,17 +145,8 @@ bindsym shift+Print exec i3-screenshot -s
 bindsym control+shift+Print exec i3-dropshot
 bindsym control+alt+l exec i3-blur-lock
 
-bindsym $mod+shift+m exec em
-bindsym $mod+shift+v exec rofi-pass
-bindsym $mod+shift+o exec nautilus
-
-
-bindsym $mod+shift+x exec rofi-clipboard
-bindsym $mod+shift+a exec rofi-marks
-
-bindsym control+shift+Space exec makoctl dismiss
-
-bindsym $mod+o move workspace to output right
+bindsym $mod+shift+o move workspace to output right
+bindsym $mod+o focus output right
 
 # Basics:
 #
@@ -165,11 +156,9 @@ bindsym $mod+Return exec $term
 # kill focused window
 bindsym $mod+q kill
 
-# start your launcher
-bindsym $mod+d exec $menu
 
 bindsym $mod+shift+d exec alacritty --class 'launcher' --command bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'
-for_window [app_id="^launcher$"] floating enable, border none, resize set width 25 ppt height 100 ppt, move position 0 px 0 px
+for_window [app_id="^launcher$"] floating enable, border pixel 4, resize set width 25 ppt height 100 ppt, move position center
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -258,7 +247,7 @@ bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 
 # Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
+bindsym $mod+alt+space focus mode_toggle
 
 # move focus to the parent container
 bindsym $mod+a focus parent
@@ -284,7 +273,12 @@ bindsym $mod+u exec swaymsg [title="terminal_scratchpad"] scratchpad show
 
 exec alacritty --title terminal_scratchpad
 
+# mako
+bindsym $mod+n exec makoctl dismiss
+bindsym $mod+Shift+n exec makoctl dismiss -a
+
 for_window [title="worklogger"] floating enable
+for_window [title="Firefox - Sharing Indicator"] floating enable
 
 assign [instance="^.*\.yakshed\.org$"] "3: Comms"
 assign [instance="^.*\.slack\.com$"] "3: Comms"
@@ -295,24 +289,24 @@ assign [instance="inoreader.com"] "3: Comms"
 # Resizing containers:
 #
 mode "resize" {
-# left will shrink the containers width
-# right will grow the containers width
-# up will shrink the containers height
-# down will grow the containers height
-bindsym $left resize shrink width 10px
-bindsym $down resize grow height 10px
-bindsym $up resize shrink height 10px
-bindsym $right resize grow width 10px
-
-# ditto, with arrow keys
-bindsym Left resize shrink width 10px
-bindsym Down resize grow height 10px
-bindsym Up resize shrink height 10px
-bindsym Right resize grow width 10px
-
-# return to default mode
-bindsym Return mode "default"
-bindsym Escape mode "default"
+  # left will shrink the containers width
+  # right will grow the containers width
+  # up will shrink the containers height
+  # down will grow the containers height
+  bindsym $left resize shrink width 10px
+  bindsym $down resize grow height 10px
+  bindsym $up resize shrink height 10px
+  bindsym $right resize grow width 10px
+  
+  # ditto, with arrow keys
+  bindsym Left resize shrink width 10px
+  bindsym Down resize grow height 10px
+  bindsym Up resize shrink height 10px
+  bindsym Right resize grow width 10px
+  
+  # return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
