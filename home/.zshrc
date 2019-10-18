@@ -50,7 +50,7 @@ letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .;
 
 # Override the tmux ssh auth sock
 SSH_TMUX_SOCK="${HOME}/.ssh/ssh_auth_sock"
-if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ]; then
+if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ] && [ "${SSH_AUTH_SOCK}" != "" ]; then
     ln -sf "$SSH_AUTH_SOCK" "$SSH_TMUX_SOCK"
 fi
 
