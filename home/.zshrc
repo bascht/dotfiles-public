@@ -75,7 +75,7 @@ function fzf-ssh () {
 }
 
 # Only load kubectl completion when needed. I's bog-slow
-if [ -f $KUBECONFIG ]; then
+if [[ -f $KUBECONFIG ]]; then
     source <(kubectl completion zsh);
 fi;
 
