@@ -339,7 +339,7 @@ bindsym $mod+d mode "run"
 set $font_family FuraMono Nerd Font
 set $font_size 10
 font pango:$font_family $font_size
-default_border pixel 1
+default_border pixel 2
 
 
 
