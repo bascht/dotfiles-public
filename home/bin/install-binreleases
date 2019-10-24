@@ -71,7 +71,7 @@ binaries = YAML.load <<EOB
   :version_match: "^Installed Version: <%= version %>"
 :helm:
   :url: https://storage.googleapis.com/kubernetes-helm/helm-v<%= version %>-linux-amd64.tar.gz
-  :version: 2.13.0
+  :version: 3.0.0-beta.5
   :version_argument: "--version"
   :version_match: v<%= version %>
 :fzf:
