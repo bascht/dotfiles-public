@@ -44,7 +44,8 @@ alias dry="drri -v /var/run/docker.sock:/var/run/docker.sock skanehira/docui"
 alias k=kubectl
 alias g=git
 alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep -v '(^\*|master)' | xargs git branch -d"
-alias wttr="curl v2.wttr.in/Bogenhausen"
+alias wttr="curl 'wttr.in/Bogenhausen?1pQF&lang=de'"
+alias termbin="nc termbin.com 9999"
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
