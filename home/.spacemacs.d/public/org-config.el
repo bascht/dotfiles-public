@@ -241,6 +241,15 @@
   (org-cycle-hide-drawers 'all)
   (search-forward "[ ]"))
 
+(defun my-org-agenda ()
+  (interactive)
+  (let ((org-agenda-start-with-log-mode 'nil)
+        (org-agenda-show-log 'nil)
+        (org-agenda-span 'day)
+        (org-agenda-use-time-grid t))
+    (org-agenda nil "c")
+    (org-agenda-redo)
+    ))
                                         ; Recent loops callable for daily review
 (defun my-org-agenda-recent-open-loops ()
   (interactive)
@@ -252,6 +261,9 @@
 
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+
+; Save file on every state change
+(add-hook 'org-trigger-hook 'save-buffer)
 
 (provide 'org-config)
 ;;; org-config.el ends here
