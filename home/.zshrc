@@ -57,8 +57,9 @@ fi
 # Pretty up FZF
 export FZF_DEFAULT_OPTS='
   --prompt=" "
---color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C
---color pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B
+  --color=bg+:#eee8d5,bg:#fdf6e3,spinner:#2aa198,hl:#268bd2
+  --color=fg:#657b83,header:#268bd2,info:#b58900,pointer:#2aa198
+  --color=marker:#2aa198,fg+:#073642,prompt:#b58900,hl+:#268bd2
 '
 #source /usr/share/zsh/site-functions/tmuxinator.zsh
 
