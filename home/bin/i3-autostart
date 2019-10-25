@@ -37,7 +37,6 @@ else
     swaymsg exec alacritty -- -e "mux start music"
     swaymsg workspace "1: Code"
     swaymsg exec alacritty
-    swaymsg exec -- wl-paste -t text --watch clipman store
 
     swayidle \
          timeout 300 'i3-blur-lock' \
