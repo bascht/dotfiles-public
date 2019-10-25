@@ -453,7 +453,16 @@ you should place your code here."
               (flycheck-yamllint-setup)
               ))
 
+  (with-eval-after-load "ispell"
+    (setq ispell-program-name "hunspell")
+    ;; ispell-set-spellchecker-params has to be called
+    ;; before ispell-hunspell-add-multi-dic will work
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "de_DE,en_GB")
+    (setq ispell-dictionary "de_DE,en_GB"))
+
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (setq delete-selection-mode nil)
   (setq hledger-currency-string "EUR")
