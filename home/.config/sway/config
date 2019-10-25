@@ -47,6 +47,7 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 output * bg ~/Pictures/Wallpapers/mountains-blue.jpg fill
 output $display_dell transform 270 pos 0 0
 output $display_lg mode 3440x1440@49.987000Hz pos 1200 290
+output $display_coworking pos 2560 0
 #
 # Example configuration:
 #
@@ -266,8 +267,7 @@ bindsym $mod+minus scratchpad show
 
 bindsym $mod+t scratchpad toggle
 
-for_window [title="terminal_scratchpad"] move scratchpad
-for_window [title="terminal_scratchpad"] fullscreen enable
+for_window [title="terminal_scratchpad"] move scratchpad, fullscreen disable, border pixel 4, move position center
 
 bindsym $mod+u exec swaymsg [title="terminal_scratchpad"] scratchpad show
 
@@ -278,6 +278,7 @@ bindsym $mod+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl dismiss -a
 
 for_window [title="worklogger"] floating enable
+for_window [app_id="org.gnome.Nautilus"] floating enable
 for_window [title="Firefox - Sharing Indicator"] floating enable
 
 assign [instance="^.*\.yakshed\.org$"] "3: Comms"
@@ -327,6 +328,7 @@ mode "run" {
 
   bindsym c exec clipman pick --tool=rofi; mode "default"
   bindsym b exec rofi-marks; mode "default"
+  bindsym o exec pavucontrol; mode "default"
 
   bindsym v exec alacritty --class 'vm' --command zsh -c 'vm'
   # return to default mode
@@ -372,5 +374,11 @@ bar {
 }
 
 include /etc/sway/config.d/*
+
+# Currently inactive – see https://github.com/swaywm/sway/issues/4649
+#exec wl-paste -t text --watch clipman store
+
+# See https://github.com/swaywm/sway/wiki#after-unplugging-an-external-display-some-applications-appear-too-large-on-my-hidpi-screen
+exec xrdb -load ~/.Xresources
 exec i3-autostart
  
