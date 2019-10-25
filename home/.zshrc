@@ -46,6 +46,7 @@ alias g=git
 alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep -v '(^\*|master)' | xargs git branch -d"
 alias wttr="curl 'wttr.in/Bogenhausen?1pQF&lang=de'"
 alias termbin="nc termbin.com 9999"
+alias ssh='TERM=xterm-256color ssh'
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
