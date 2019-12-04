@@ -1,9 +1,10 @@
-export PATH=$HOME/.local/bin:$HOME/bin:$HOME/bin/go/bin:$HOME/.cargo/bin:$PATH
+source ~/.config/environment.d/*
+export PATH
+export DICPATH
+export XDG_CURRENT_DESKTOP
+export PASSWORD_STORE_DIR
+export MOZ_ENABLE_WAYLAND
+export MOZ_USE_XINPUT2
 export VAGRANT_DEFAULT_PROVIDER=libvirt
 export VAGRANT_DOTFILE_PATH=".vagrant-$(hostname)"
 export QT_QPA_PLATFORMTHEME="qt5ct"
-export DICPATH="${HOME}/.local/share/hunspell"
-export XDG_CURRENT_DESKTOP=GNOME
-export PASSWORD_STORE_DIR="${HOME}/Documents/Passwords/.password-store"
-export MOZ_ENABLE_WAYLAND=1
-export MOZ_USE_XINPUT2=1
