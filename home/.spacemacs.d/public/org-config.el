@@ -161,7 +161,7 @@
                                 :time-grid t)))))
           (todo "" ((org-agenda-overriding-header "Other")
                     (org-super-agenda-groups
-                     '((auto-category t))                     )))
+                     '((:auto-category t))                     )))
           (todo "" ((org-agenda-overriding-header "Grouped")
                     (org-super-agenda-groups
                      '((:name none  ; Disable super group header
@@ -180,6 +180,9 @@
              (:name "Process + Shallow"
                     :time-grid t
                     :tag ("@process" "@shallow"))
+             (:name "Customer Projects"
+                    :file-path "Customer"
+                    )
              (:name "Quick Picks"
                     :effort< "0:30"
                     )
@@ -192,6 +195,9 @@
           (setq org-agenda-span 1)
           ((org-super-agenda-groups
             '(
+              (:name "Quick Picks"
+                     :effort< "0:30"
+                     )
               (:name "Immersive + Deep"
                      :tag ("@immersive" "@deep"))
               (:name "Immersive + Shallow"
@@ -200,10 +206,11 @@
                      :tag ("@process" "@deep"))
               (:name "Process + Shallow"
                      :tag ("@process" "@shallow"))
-              (:name "Quick Picks"
-                     :effort< "0:30"
+              (:name "Customer Projects"
+                     :file-path "Customer"
                      )
-              (:priority<= "B"
+              (:name "Low Prio and future"
+               :priority<= "B"
                            :scheduled future
                            :order 1))))
           (org-agenda nil "a"))
@@ -262,8 +269,18 @@
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
 
+(setq org-agenda-category-icon-alist
+      '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
+        ("Personal.*" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
+        ("Customer.*" "~/.icons/emacs/briefcase-16x16.png" nil nil :ascent center)
+        ("Project.*" "~/.icons/emacs/generic-folder-16x16.png" nil nil :ascent center)
+        ("\\(ROPrivat\\|ROArbeit\\)" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
+        (".*" '(space . (:width (16))))))
+
 ; Save file on every state change
 (add-hook 'org-trigger-hook 'save-buffer)
+(add-hook 'org-clock-in-hook 'save-buffer)
+(add-hook 'org-clock-out-hook 'save-buffer)
 
 (provide 'org-config)
 ;;; org-config.el ends here
