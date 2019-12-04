@@ -17,7 +17,7 @@ now = Time.now
 
 JOURNAL_PATH = Pathname.new("~/Documents/Worklog").expand_path
 CURRENT_FILE = Pathname.new(JOURNAL_PATH.join(now.strftime("%Y%m%d")))
-DIALOG="zenity --entry --title='worklogger'"
+DIALOG="zenity --entry"
 
 we_are_appending = CURRENT_FILE.exist?
 
@@ -28,11 +28,12 @@ File.open(CURRENT_FILE, "a+") do |f|
      all_tasks = f.each_line.select{|line| line.start_with? "**" }
      all_tasks.map{ |task| task.sub(/^\*\* /, "") }.last(3).join("")
   else
-    location = `#{DIALOG} --text="Where are we today?"`.strip
+    location = `#{DIALOG} --title='worklogger' --text="Where are we today?"`.strip
     f.write(now.strftime("* %A, %d/%m/%Y\n"))
     f.write("   :PROPERTIES:\n    :WORKLOG_LOCATION: #{location}\n    :END:\n\n")
     "First entry for today!"
                end
-  entry = `#{DIALOG} --text="#{last_tasks}"`.strip
-  f.write("** #{now.strftime('%H:%M')} #{entry}\n") unless entry.empty?
+  time = now.strftime('%H:%M')
+  entry = `#{DIALOG} --title='worklogger @#{time}' --text="#{last_tasks}"`.strip
+  f.write("** #{time} #{entry}\n") unless entry.empty?
 end
