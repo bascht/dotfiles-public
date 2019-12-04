@@ -12,13 +12,13 @@
 	url = https://github.com/romkatv/powerlevel10k.git
 [submodule "home/.zsh-custom/plugins/fzf-marks"]
 	path = home/.zsh-custom/plugins/fzf-marks
-	url = git@github.com:urbainvaes/fzf-marks.git
+	url = https://github.com/urbainvaes/fzf-marks.git
 [submodule "home/.fzf"]
 	path = home/.fzf
-	url = git@github.com:junegunn/fzf.git
+	url = https://github.com/junegunn/fzf.git
 [submodule "home/.config/base16-shell"]
 	path = home/.config/base16-shell
 	url = https://github.com/chriskempson/base16-shell.git
 [submodule "home/home/.vim/bundle/Vundle.vim"]
 	path = home/home/.vim/bundle/Vundle.vim
-	url = git@github.com:VundleVim/Vundle.vim.git
+	url = https://github.com/VundleVim/Vundle.vim.git
