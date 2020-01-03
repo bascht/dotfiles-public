@@ -70,8 +70,8 @@ binaries = YAML.load <<EOB
   :version_argument: version
   :version_match: "^Installed Version: <%= version %>"
 :helm:
-  :url: https://storage.googleapis.com/kubernetes-helm/helm-v<%= version %>-linux-amd64.tar.gz
-  :version: 3.0.0-beta.5
+  :url: https://get.helm.sh/helm-v<%= version %>-linux-amd64.tar.gz
+  :version: 3.0.1
   :version_argument: "--version"
   :version_match: v<%= version %>
 :fzf:
@@ -123,8 +123,12 @@ binaries = YAML.load <<EOB
   :version: 2.3.0
   :version_match: "rancher version v<%= version %>"
   :version_argument: "--version"
+:uni:
+  :url: https://github.com/arp242/uni/releases/download/v<%= version %>/uni-v<%= version %>-linux-amd64.gz
+  :version: 1.0.0
+  :version_match: "v<%= version %>"
+  :version_argument: "--version"
 EOB
-
 tmpdir = Dir.mktmpdir
 
 binaries.each do |binary, download|
