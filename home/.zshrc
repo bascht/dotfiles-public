@@ -86,10 +86,14 @@ zle -N fzf-ssh
 bindkey '\es' fzf-ssh
 
 function fzf-vm () {
-    local selected_vm=$(grep "Host " ~/.ssh/config | grep -oP "vm-(\w+)" | sort -u | cut -b 4-)
-    vm $selected_vm
+    local selected_vm=$(grep "Host " ~/.ssh/config | grep -oP "vm-(\w+)" | sort -u | cut -b 4- | fzf --reverse --height=20 --query "$LBUFFER")
+    if [ -n "$selected_vm" ]; then
+        BUFFER="vm ${selected_vm} ''"
+        zle accept-line
+    fi
+    zle reset-prompt
 }
-zle -N fzf-ssh
+zle -N fzf-vm
 bindkey '\ev' fzf-vm
 
 # Via @leahneukirchen
