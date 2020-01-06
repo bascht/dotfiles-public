@@ -44,7 +44,7 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Pictures/Wallpapers/mountains-blue.jpg fill
+output * bg ~/Pictures/Wallpapers/scheidegg-mountains.jpg fill
 output $display_dell transform 270 pos 0 0
 output $display_lg mode 3440x1440@49.987000Hz pos 1200 290
 output $display_coworking pos 2560 0
