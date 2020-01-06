@@ -254,6 +254,7 @@ bindsym $mod+alt+space focus mode_toggle
 
 # move focus to the parent container
 bindsym $mod+a focus parent
+bindsym $mod+shift+a focus child
 #
 # Scratchpad:
 #
