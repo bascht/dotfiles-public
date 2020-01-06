@@ -347,8 +347,11 @@ set $font_family FuraMono Nerd Font
 set $font_size 10
 font pango:$font_family $font_size
 default_border pixel 2
+workspace_auto_back_and_forth yes
 
 
+smart_gaps on
+smart_borders on
 
 # class border backgr. text indic. child_border
 
