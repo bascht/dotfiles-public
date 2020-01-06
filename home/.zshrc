@@ -105,5 +105,9 @@ if [ -f ~/Code/architecture/bin/ia ]; then
   source <(~/Code/architecture/bin/ia completion)
 fi;
 
+if [ -f /home/bascht/Code/infrastructure-cli/Rakefile ]; then
+  alias chuck="rake -f /home/bascht/Code/infrastructure-cli/Rakefile"
+fi;
+
 source ~/.zsh-custom/plugins/
 source ~/.p10k.zsh
