@@ -156,8 +156,10 @@ binaries.each do |binary, download|
       downloaded_file = Dir.glob("*").first
       puts "Downloaded as #{downloaded_file}" if verbose
       extraction_command = case File.basename(downloaded_file)
-                           when /.tgz$/, /.tar.gz$/, /.gz$/, /.tar.xz$/ then
+                           when /.tgz$/, /.tar.gz$/, /.tar.xz$/ then
                              "tar xvf"
+                           when /.gz$/ then
+                             "gunzip"
                            when /.zip$/ then
                              "unzip"
                            end
