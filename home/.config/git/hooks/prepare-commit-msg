@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+abort "No tempfile given" if ARGV.empty?
+
+commit_file = ARGV[0]
+
+commit_msg = File.read(commit_file)
+abort "No commit given" if commit_msg.nil?
+
+branch_match = commit_msg.match(%r{# On branch (?<ticket>[A-Z]{1,10}-\d+)})
+
+if branch_match.nil? or branch_match["ticket"].nil?
+  puts "Could not extract a ticket from the commit message"
+  exit
+end
+
+ticket = branch_match["ticket"]
+new_commit = "#{ticket}: \n" + commit_msg
+File.write(commit_file, new_commit, mode: "w")
