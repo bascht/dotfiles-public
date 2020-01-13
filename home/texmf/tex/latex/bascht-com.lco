@@ -1,8 +1,7 @@
 \ProvidesFile{brief.lco}[2010/07/08 letter class option]
-\RequirePackage{ngermanb}                % Deutsche Sprache
+\RequirePackage[ngermanb]{babel}
 \RequirePackage{fix-cm}
 \RequirePackage[T1]{fontenc}            % Ligaturschriften
-\RequirePackage[utf8]{inputenc}      % Eingabezeichensatz
 \RequirePackage{graphicx}               % Grafikpaket
 \RequirePackage[colorlinks=false]{hyperref}
 \RequirePackage[sfdefault]{FiraSans}
