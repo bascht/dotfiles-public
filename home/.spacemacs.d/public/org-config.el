@@ -44,9 +44,11 @@
       '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
          "* TODO %?\n  %i")
         ("m" "MailTodo" entry (file "~/Documents/Zettelkasten/Todo.org")
-         "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
+         "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
+        ("p" "Print" entry (file+headline "~/Documents/Zettelkasten/Personal.org" "Drucken")
+         "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
         ("c" "CustomerIssue" entry (file "~/Documents/Zettelkasten/Todo.org")
-         "* TODO [#A] is-issue%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
+         "* TODO issue%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
         ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
          "* %?\nEntered on %U\n  %i\n  %a")))
 
