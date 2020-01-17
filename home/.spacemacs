@@ -184,10 +184,11 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
 
-   dotspacemacs-default-font '("Fura Code Nerd Font"
-                               :size 12.0
-                               ;; :weight normal
-                               ;; :width normal
+   dotspacemacs-default-font '("JetBrains Mono"
+                               ;; :size 12.0
+                               :height 133
+                               :weight normal
+                               :width normal
                                :powerline-scale 0.8)
 
    ;; The leader key
