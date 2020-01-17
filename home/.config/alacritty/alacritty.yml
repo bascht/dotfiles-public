@@ -20,12 +20,10 @@ draw_bold_text_with_bright_colors: true
 
 font:
   normal:
-    family: FuraMono NerdFont
-  bold:
-    family: monospace
-  italic:
-    family: monospace
+    family: JetBrains Mono
   size: 12.0
+  fallback_size: 20.0
+
 
   offset:
     x: 0
