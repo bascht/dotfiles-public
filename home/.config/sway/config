@@ -323,8 +323,10 @@ mode "run" {
   bindsym d exec $menu; mode "default";
   bindsym r exec i3-rofi; mode "default";
   bindsym p exec rofi-pass; mode "default";
+  bindsym g exec sway-switch-window; mode "default";
 
   bindsym w exec qutebrowser; mode "default";
+  bindsym $mod+w exec chromium-browser; mode "default";
 
   bindsym e exec em; mode "default"
   bindsym f exec nautilus; mode "default"
