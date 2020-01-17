@@ -531,7 +531,6 @@ This function is called at the very end of Spacemacs initialization."
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-show-inherited-tags (quote always))
  '(org-agenda-span 3)
- '(org-agenda-sticky t)
  '(org-agenda-tags-column -105)
  '(org-agenda-time-grid
    (quote
