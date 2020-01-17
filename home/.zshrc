@@ -28,7 +28,7 @@ source $ZSH/oh-my-zsh.sh
 source $ZSH_CUSTOM/plugins/fzf-marks/fzf-marks.plugin.zsh
 
 alias va="vagrant"
-alias ta="tm a -t"
+alias ta="tmux attach $(tmux ls -F "#{session_name}" | fzf)"
 alias bi="bundle install"
 alias be="bundle exec"
 alias ber="bundle exec rake"
