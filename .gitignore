@@ -5,3 +5,4 @@ home/.gnupg/*~
 home/.gnupg/*gpg
 home/.gnupg/private*
 home/.gnupg/*migrated
+home/.vim/
