@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: <ia-meeting
 # --
-<`(format-time-string "%Y-%m-%d %a %H:%M")`> ${2:$$(yas-choose-value '("Infrastructure" "Development"))}-Weekly
+<`(format-time-string "%Y-%m-%d %a %H:%M")`> ${2:$$(yas-choose-value '("Development-Weekly" "Planning" "Retrospective"))}
 $0
