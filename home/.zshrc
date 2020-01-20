@@ -46,6 +46,10 @@ alias git-cleanup-merged-branches="git fetch -va && git branch --merged | egrep 
 alias wttr="curl 'wttr.in/Bogenhausen?1pQF&lang=de'"
 alias termbin="nc termbin.com 9999"
 alias ssh='TERM=xterm-256color ssh'
+alias sudo='TERM=xterm-256color sudo'
+alias gp="gopass"
+alias hl="hledger"
+
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
@@ -114,3 +118,4 @@ fi;
 
 source ~/.zsh-custom/plugins/
 source ~/.p10k.zsh
+autoload -U compinit && compinit
