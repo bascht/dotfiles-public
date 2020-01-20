@@ -22,3 +22,6 @@
 [submodule "home/.vim/bundle/Vundle.vim"]
 	path = home/.vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "home/.zsh-custom/plugins/zsh-completions"]
+	path = home/.zsh-custom/plugins/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
