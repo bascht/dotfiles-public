@@ -49,6 +49,8 @@ alias ssh='TERM=xterm-256color ssh'
 alias sudo='TERM=xterm-256color sudo'
 alias gp="gopass"
 alias hl="hledger"
+alias cm="chezmoi"
+alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
