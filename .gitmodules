@@ -1,27 +1,4 @@
 [submodule "home/.emacs.d"]
 	path = home/.emacs.d
 	url = https://github.com/syl20bnr/spacemacs
-[submodule "home/.oh-my-zsh"]
-	path = home/.oh-my-zsh
-	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule "home/.kubectx"]
-	path = home/.kubectx
-	url = https://github.com/ahmetb/kubectx.git
-[submodule "home/.zsh-custom/themes/powerlevel10k"]
-	path = home/.zsh-custom/themes/powerlevel10k
-	url = https://github.com/romkatv/powerlevel10k.git
-[submodule "home/.zsh-custom/plugins/fzf-marks"]
-	path = home/.zsh-custom/plugins/fzf-marks
-	url = https://github.com/urbainvaes/fzf-marks.git
-[submodule "home/.fzf"]
-	path = home/.fzf
-	url = https://github.com/junegunn/fzf.git
-[submodule "home/.config/base16-shell"]
-	path = home/.config/base16-shell
-	url = https://github.com/chriskempson/base16-shell.git
-[submodule "home/.vim/bundle/Vundle.vim"]
-	path = home/.vim/bundle/Vundle.vim
-	url = https://github.com/VundleVim/Vundle.vim.git
-[submodule "home/.zsh-custom/plugins/zsh-completions"]
-	path = home/.zsh-custom/plugins/zsh-completions
-	url = https://github.com/zsh-users/zsh-completions.git
+

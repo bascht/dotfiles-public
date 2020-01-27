@@ -1,0 +1,65 @@
+#+TITLE: Sphinx layer
+
+#+TAGS: layer|tool
+
+[[file:img/sphinx.png]]
+
+* Table of Contents                     :TOC_5_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+- [[#configuration][Configuration]]
+  - [[#sphinx-target][Sphinx target]]
+  - [[#web-browser][Web browser]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+The layer adds support for the documentation generation system =Sphinx= to
+the =restructuredtext= layer.
+
+** Features:
+- Support for =Sphinx= project compilation
+- Support for opening =Sphinx= project target
+- Support for opening =Sphinx= config file
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =sphinx= to the existing =dotspacemacs-configuration-layers= list
+in this file.
+
+* Configuration
+** Sphinx target
+To use the layer's Sphinx feature, the following variables should be set.
+
+A parent directory is needed for all Sphinx projects' builds.
+
+#+BEGIN_SRC emacs-lisp
+  (setq rst-sphinx-target-parent "/your/path/of/build/")
+#+END_SRC
+
+Set a directory in the parent directory for each Sphinx project.
+
+#+BEGIN_SRC emacs-lisp
+  (setq rst-sphinx-target-projects
+        '(("project1" . (latex "folder/in/target/parent" t))
+          ("project2" . (html  "folder/in/target/parent" nil))
+          ))
+#+END_SRC
+
+** Web browser
+Set the browser for viewing the HTML page of current rst file. This one
+is optional. If not set, the default browser will be used.
+
+#+BEGIN_SRC emacs-lisp
+  (setq rst-slides-program "chromium")
+#+END_SRC
+
+* Key bindings
+
+| Key binding   | Description                             |
+|---------------+-----------------------------------------|
+| ~<SPC> m c c~ | compile projects                        |
+| ~<SPC> m c C~ | clean projects                          |
+| ~<SPC> m c r~ | rebuild projects                        |
+| ~<SPC> m g c~ | open =conf.py= of current project       |
+| ~<SPC> m o~   | open compiled HTML page of current page |
