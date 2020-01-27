@@ -44,3 +44,7 @@ update-kubectx:
  
 update-plug.vim:
 	curl -s -L https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim > $$(~/bin/chezmoi source-path ~/.vim/autoload/plug.vim)
+
+update-homeschick:
+	curl -s -L -o homeshick-master.tar.gz https://github.com/andsens/homeshick/archive/master.tar.gz
+	chezmoi import --strip-components 1 --destination ${HOME}/.homesick/repos/homeshick homeshick-master.tar.gz
