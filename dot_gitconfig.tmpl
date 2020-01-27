@@ -1,0 +1,80 @@
+[user]
+	name = Sebastian Schulze
+	email = github.com@{{ .chezmoi.username }}.com
+	signingkey = github.com@{{ .chezmoi.username }}.com
+
+[core]
+	excludesfile = ~/.gitignore
+	editor = em -nw
+	hooksPath = ~/.config/git/hooks
+
+[commit]
+	gpgsign = true
+
+[alias]
+	lol= 'log' '--oneline' '--graph' '--decorate'
+	lg1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+	lg2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(bold white)— %an%C(reset)' --abbrev-commit
+	log= 'log' '--decorate' '--pretty=full'
+	me = $GIT_AUTHOR_NAME
+	lg = log --pretty=format:'%Cred%h%Creset - %Cgreen(%cr)%Creset%C(yellow)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit --graph
+	lg-me = !git lg --author=\"$GIT_AUTHOR_NAME\"
+	today-all = !git lg --all --since='12am'
+	lg-day = "!f() { git lg-me --all --after=\"${1-(date \"+%Y-%m-%d\")} 00:00\" --before=\"${1-(date \"+%Y-%m-%d\")} 23:59\"; }; f"
+	log-grep = "!f() { git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' ${1-HEAD..HEAD} | grep ${2-\"Merge pull\"}; }; f"
+	ribbon = tag --force _ribbon origin/master
+	catchup = log --patch --reverse --topo-order _ribbon..origin/master
+	st = 'status'
+	rb = 'rebase'
+	f = 'fetch'
+	pl = 'pull'
+	ps = 'push'
+	co = 'checkout'
+	cod = 'checkout develop'
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[difftool]
+	prompt = false
+
+[push]
+	default = current
+	
+[branch]
+	autosetuprebase = always
+
+[gpg]
+	program = /usr/bin/gpg2
+
+[tig]
+	line-graphics = utf-8
+	reference-format = (branch) <tag>
+	mouse = yes
+
+[credential]
+	helper = !gopass git-credential $@
+
+[pull]
+	rebase = true
