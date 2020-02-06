@@ -30,7 +30,7 @@ else
     swaymsg workspace "4: Docs"
     swaymsg exec "emacs ~/"
     swaymsg workspace "2: Web"
-    swaymsg exec firefox-wayland
+    swaymsg exec "qutebrowser -r default"
     swaymsg workspace "3: Comms"
     swaymsg exec start-comms
     swaymsg workspace "5: Media"
