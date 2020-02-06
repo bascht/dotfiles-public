@@ -25,6 +25,7 @@
 (setq org-agenda-tags-column -105)
 (setq org-agenda-default-appointment-duration 30)
 (setq org-agenda-columns-add-appointments-to-effort-sum t)
+(setq org-agenda-time-leading-zero t)
 (setq org-archive-location "%s_archive::")
 (setq org-deadline-warning-days 5)
 (setq org-scheduled-delay-days 0)
