@@ -32,10 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(go
+   '(
      systemd
-     php
-     nginx
      helm
      auto-completion
      better-defaults
@@ -48,24 +46,29 @@ This function should only modify configuration layer settings."
      (spell-checking :variables spell-checking-enable-auto-dictionary t)
      syntax-checking
      version-control
+     {{- if eq .chezmoi.hostname "kandalingo" -}}
      mu4e
+     finance
+     {{- else -}}
+     go
+     php
+     nginx
+     docker
+     rust
+     restclient
+     terraform
+     ansible
+     javascript
+     sql
+     {{- end -}}
      selectric
      ruby
      html
      csv
      python
-     rust
      shell-scripts
-     sql
      yaml
-     docker
-     finance
-     restclient
      shell
-     terraform
-     tmux
-     javascript
-     ansible
      )
 
    ;; List of additional packages that will be installed without being
@@ -76,25 +79,27 @@ This function should only modify configuration layer settings."
                                       org-mru-clock
                                       org-cliplink
                                       multiple-cursors
-                                      atomic-chrome
                                       doom-themes
-                                      hledger-mode
-                                      org-super-agenda
-                                      org-journal
                                       dictcc
                                       writeroom-mode
-                                      puppet-mode
-                                      beginend
-                                      flycheck-yamllint
-                                      flymake-shellcheck
-                                      logstash-conf
-                                      ialign
                                       plantuml-mode
+                                      ialign
                                       flycheck-plantuml
                                       backline
                                       magit-todos
+                                      beginend
                                       enh-ruby-mode
+                                      {{- if eq .chezmoi.hostname "kandalingo" -}}
+                                      hledger-mode
+                                      org-super-agenda
+                                      org-journal
                                       org-trello
+                                      {{- else -}}
+                                      flycheck-yamllint
+                                      flymake-shellcheck
+                                      logstash-conf
+                                      puppet-mode
+                                      {{- end -}}
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -496,14 +501,14 @@ you should place your code here."
     (interactive)
     (helm-find-files-1 "~/Documents/Zettelkasten/"))
 
+  {{- if eq .chezmoi.hostname "kandalingo" -}}
   (with-eval-after-load 'org
-    (if
-        (or (s-starts-with? "zog" system-name) (s-starts-with? "kandalingo" system-name))
         (progn
           (load-file "~/.spacemacs.d/private/mail-config.el")
           (load-file "~/.spacemacs.d/public/org-config.el")
-          (load-file "~/.spacemacs.d/private/org-config.el")))
+          (load-file "~/.spacemacs.d/private/org-config.el"))
   )
+  {{- end -}}
 
   ;; Don't litter. Use one file per VM.
   (setq recentf-save-file (format "%s.%s.%s" recentf-save-file system-name server-name))

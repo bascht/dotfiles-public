@@ -55,8 +55,9 @@
 
 (setq org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
 (setq org-refile-use-outline-path 'file)
-(setq org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
+(setq org-refile-history nil)
+(setq org-outline-path-complete-in-steps nil)
 (setq org-clock-sound t)
 (setq org-clock-out-remove-zero-time-clocks t)
 ;; Resume clocking task when emacs is restarted
@@ -271,6 +272,13 @@
 
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+
+(add-hook 'org-mode-hook (lambda ()
+                           "Beautify Org Checkbox Symbol"
+                           (push '("[ ]" .  "☐") prettify-symbols-alist)
+                           (push '("[X]" . "☑" ) prettify-symbols-alist)
+                           (push '("[-]" . "❍" ) prettify-symbols-alist)
+                           (prettify-symbols-mode)))
 
 (setq org-agenda-category-icon-alist
       '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
