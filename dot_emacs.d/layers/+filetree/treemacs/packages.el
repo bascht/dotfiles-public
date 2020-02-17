@@ -36,17 +36,7 @@
     :defer t
     :init
     (progn
-      (setq treemacs-follow-after-init t
-            treemacs-width 35
-            treemacs-position 'left
-            treemacs-is-never-other-window nil
-            treemacs-silent-refresh nil
-            treemacs-indentation 2
-            treemacs-change-root-without-asking nil
-            treemacs-sorting 'alphabetic-desc
-            treemacs-show-hidden-files t
-            treemacs-never-persist nil
-            treemacs-goto-tag-strategy 'refetch-index)
+      (setq treemacs-follow-after-init t)
       (add-hook 'treemacs-mode-hook
                 #'spacemacs/treemacs-setup-width-lock)
       (spacemacs/set-leader-keys

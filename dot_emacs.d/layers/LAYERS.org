@@ -74,6 +74,7 @@
 - [[#programming-languages][Programming languages]]
   - [[#domain-specific-dsls][Domain-specific (DSLs)]]
     - [[#coq][Coq]]
+    - [[#elasticsearch][Elasticsearch]]
     - [[#ess-r][Ess (r)]]
     - [[#extra-languages][Extra languages]]
     - [[#faust][Faust]]
@@ -113,7 +114,6 @@
   - [[#frameworks][Frameworks]]
     - [[#django][Django]]
     - [[#emberjs][Emberjs]]
-    - [[#flow-type][Flow-type]]
     - [[#phoenix][Phoenix]]
     - [[#react][React]]
     - [[#ruby-on-rails][Ruby on rails]]
@@ -180,7 +180,7 @@
   - [[#speed-reading][Speed reading]]
 - [[#source-control][Source control]]
   - [[#git][Git]]
-  - [[#github][GitHub]]
+  - [[#github][Github]]
   - [[#perforce][Perforce]]
   - [[#version-control][Version-control]]
 - [[#spacemacs][Spacemacs]]
@@ -553,20 +553,20 @@ This layer sets up a file navigation and project explorer side-window via [[http
 
 Features:
 
-An detailed overview over Treemacs' available features is available in [[https://github.com/Alexander-Miller/treemacs#detailed-feature-list][its
-readme]]. In a short summary Treemacs offers the following:
+A detailed overview of the features of Treemacs is available in [[https://github.com/Alexander-Miller/treemacs#detailed-feature-list][the Treemacs
+readme]]. In short, Treemacs offers:
 - Simple and powerful navigation and ability to detail exactly how and where a
-  file should be opened
-- Good looking png icons.
+  file should be opened.
+- Good looking icons.
 - Display of multiple file trees organized as projects residing in a workspace.
-- Ability to show tags contained in files. Tags are provided by imenu, so
-  nearly every filetype is supported.
-- Mouse interface for single and double left clicks in line with modern GUI standards.
-  (Clicking on an icon will also display a file's tags)
-- Locational awareness: commands like ~find-file~ or ~magit-status~ will use the location
-  of the node at point (with $HOME as fallback)
-- Optionally fontifying files based on their git status.
-- Optionally collapsing single-dir-child directories into one.
+- Ability to show tags contained in files. Tags are provided by [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Imenu.html][Imenu]], so nearly
+  every filetype is supported.
+- Mouse interface for single and double left clicks in line with modern GUI
+  standards (clicking on an icon will also display the file's tags).
+- Location awareness: commands like ~find-file~ or ~magit-status~ will use the
+  location of the node at point (with =$HOME= as fallback).
+- Optional fontifying of files based on their git status.
+- Optional collapsing of /single-dir-child/ directories into one.
 - Doing both asynchronously for an imperceptible performance cost.
 - Optional =follow-mode= to automatically focus the currently selected file or tag.
 - Optional =filewatch-mode= to automatically refresh the view after (and only
@@ -1050,6 +1050,16 @@ Features:
 - Debugging of mathematical proofs from within Emacs using a special proof layout
 - Replacement of certain constants with the correct mathematical signs
 - Inserting of certain preconfigured proof elements
+
+*** Elasticsearch
+[[file:+tools/elasticsearch/README.org][+tools/elasticsearch/README.org]]
+
+This layer adds Elasticsearch query and monitoring support to Spacemacs.
+
+Features:
+- Autocompletion for Elasticsearch Query DSL
+- Support for Org-Babel
+- Support for an Elasticsearch Command Center to monitor a cluster
 
 *** Ess (r)
 [[file:+lang/ess/README.org][+lang/ess/README.org]]
@@ -1559,19 +1569,6 @@ Features:
 - Key bindings for generators and also easily revert generator actions
 - Ability to build, start server, and run tests
 
-*** Flow-type
-[[file:+lang/flow-type/README.org][+lang/flow-type/README.org]]
-
-This layer adds support for static type checking in javascript based
-on the [[https://flowtype.org/][flow]] project to spacemacs.
-
-Features:
-- Syntax highlighting
-- Linting
-- Code-completion
-- Eldoc integration for flow-types
-- Compilation
-
 *** Phoenix
 [[file:+frameworks/phoenix/README.org][+frameworks/phoenix/README.org]]
 
@@ -1975,9 +1972,9 @@ This layer adds support for the Python language.
 
 Features:
 - Support for the following backends:
-  - [[https://github.com/proofit404/anaconda-mode][anaconda]],
-  - [[https://github.com/emacs-lsp/lsp-python][Language Server Protocol]]
-    - python-language-server (default)
+  - [[https://github.com/proofit404/anaconda-mode][anaconda]] (default),
+  - [[https://github.com/emacs-lsp/lsp-python][Language Server Protocol]] (experimental - 2 implementations),
+    - python-language-server
     - Microsoft python language server
 - Auto-completion
 - Code Navigation
@@ -2038,7 +2035,7 @@ Features:
 This layer supports [[https://www.rust-lang.org][Rust]] development in Spacemacs.
 
 Features:
-- Auto-completion and navigation support through [[https://github.com/emacs-lsp/lsp-rust][lsp]] or [[https://github.com/phildawes/racer][Racer]]
+- Auto-completion and navigation support through [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] or [[https://github.com/phildawes/racer][Racer]]
 - Interactive debugger using [[https://github.com/emacs-lsp/dap-mode][dap-mode]]
 - support for the Rust package manager [[http://doc.crates.io/index.html][Cargo]]
 
@@ -2345,7 +2342,7 @@ Features:
 
 New to Magit? Checkout the [[https://magit.vc/about/][official intro]].
 
-** GitHub
+** Github
 [[file:+source-control/github/README.org][+source-control/github/README.org]]
 
 This layers adds support for [[http://github.com][GitHub]].

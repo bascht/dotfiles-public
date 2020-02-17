@@ -21,6 +21,7 @@ update-third-parties: update-zsh update-plug.vim update-spacemacs update-kubectx
 update-spacemacs:
 	curl -s -L -o spacemacs-develop.tar.gz https://github.com/syl20bnr/spacemacs/archive/develop.tar.gz
 	chezmoi import --strip-components 1 --destination ${HOME}/.emacs.d spacemacs-develop.tar.gz
+	find ~/.emacs.d -name "*.elc" -print0 -exec rm {} \;
 
 update-zsh:
 	curl -s -L -o oh-my-zsh-master.tar.gz https://github.com/robbyrussell/oh-my-zsh/archive/master.tar.gz
