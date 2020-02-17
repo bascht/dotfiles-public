@@ -78,7 +78,6 @@
 (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
 (setq org-columns-default-format
       "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-(setq org-agenda-current-time ((t (:inherit org-time-grid :foreground "hot pink")))))
 
 (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
 (setq org-agenda-time-grid
