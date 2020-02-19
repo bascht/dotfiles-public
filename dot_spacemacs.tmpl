@@ -552,10 +552,14 @@ you should place your code here."
 
   ;(spaceline-toggle-minor-modes-off)
   (add-hook 'yaml-mode-hook
-            'indent-guide-mode
             (lambda ()
+              (indent-guide-mode 1)
               (auto-fill-mode -1)
+              (flyspell-mode -1)
+              (flyspell-prog-mode)
+              (flycheck-mode 1)
               (flycheck-yamllint-setup)
+              (flycheck-select-checker 'yaml-yamllint)
               ))
 
   (with-eval-after-load "ispell"
