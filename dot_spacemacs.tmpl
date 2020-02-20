@@ -567,7 +567,9 @@ you should place your code here."
     (ispell-hunspell-add-multi-dic "de_DE,en_GB")
     (setq ispell-dictionary "de_DE,en_GB"))
 
-  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  (add-hook 'git-commit-mode-hook (lambda ()
+                                    (end-of-line)
+                                    (evil-insert-state)))
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (setq delete-selection-mode nil)
