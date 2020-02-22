@@ -253,6 +253,7 @@
                                         ; Daily Review
 (defun my-daily-review ()
   (interactive)
+  (persp-switch "@Org")
   (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
   (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
   (org-narrow-to-subtree)
@@ -261,6 +262,7 @@
 
 (defun my-org-agenda ()
   (interactive)
+  (persp-switch "@Org")
   (let ((org-agenda-start-with-log-mode 'nil)
         (org-agenda-show-log 'nil)
         (org-agenda-span 'day)
