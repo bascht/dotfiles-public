@@ -18,7 +18,7 @@ plugins=(fzf fasd dotenv tmuxinator)
 fpath=( ~/.kubectx/completion "${fpath[@]}" )
 
 ZSH_CUSTOM="${HOME}/.zsh-custom"
-{{- if eq .chezmoi.hostname "mcnaught.uberspace.de" }}
+{{- if eq .chezmoi.fullHostname "mcnaught.uberspace.de" }}
 ZSH_THEME="jreese"
 {{ else }}
 ZSH_THEME="powerlevel10k/powerlevel10k"
