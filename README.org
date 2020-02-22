@@ -10,7 +10,7 @@ Apart from my [[https://github.com/bascht/dotfiles][Real Dotfiles]], here is som
 #+begin_src bash
 curl -sfL https://git.io/chezmoi | sh
 mkdir -p ~/.local/share/
-git clone https://github.com/bascht/dotfiles-public.git ~/.local/share/chezmoi
+git clone https://git.bascht.space/bascht/dotfiles.git ~/.local/share/chezmoi
 chmod 0700 ~/.local/share/cezmoi
 ~/bin/chezmoi apply
 #+end_src
