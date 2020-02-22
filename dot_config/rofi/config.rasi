@@ -134,4 +134,5 @@ configuration {
 /*	me-accept-entry: "MouseD1";*/
 /*	me-accept-custom: "Control+MouseD1";*/
 }
-@import "/usr/share/rofi/themes/Arc.rasi"
+/*@import "/usr/share/rofi/themes/Arc.rasi" */
+@import "./breeze-light.rasi"
