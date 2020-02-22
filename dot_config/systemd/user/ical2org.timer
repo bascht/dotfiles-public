@@ -3,7 +3,7 @@ Description=Run ical2org timer
 
 [Timer]
 OnActiveSec=30s
-OnUnitActiveSec=10m
+OnUnitActiveSec=5m
 Unit=ical2org.service
 
 [Install]
