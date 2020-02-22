@@ -7,7 +7,7 @@ require 'securerandom'
 require 'net/scp'
 
 file = Pathname.new(ARGV[0])
-new_name = SecureRandom.uuid + File.extname(file)
+new_name = SecureRandom.hex(12) + File.extname(file)
 abort "Och komm." unless file.exist? and file.readable?
 
 url = URI.escape("https://drop.bascht.space/#{new_name}")
