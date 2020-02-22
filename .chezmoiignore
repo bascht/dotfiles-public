@@ -1,1 +1,8 @@
 README.org
+.config/systemd/user/default.target.wants/emacs.service
+{{ if ne .chezmoi.hostname "kandalingo" }}
+.config/systemd/user/default.target.wants/mopidy.service
+.config/systemd/user/timers.target.wants/maid.timer
+.config/systemd/user/timers.target.wants/ical2org.timer
+.config/systemd/user/timers.target.wants/worklogger.timer
+{{ end }}
