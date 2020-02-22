@@ -5,8 +5,12 @@ Apart from my [[https://github.com/bascht/dotfiles][Real Dotfiles]], here is som
 ** Quick Screenshot
 [[./screenshot.jpg]]
 
-** Installation via Homesick
+** Installation via Chezmoi
 
-- Install [[https://github.com/technicalpickles/homesick][Homesick]].
-- ~homesick clone git@github.com:bascht/dotfiles-public.git~
-- ~homesick symlink public~
+#+begin_src bash
+curl -sfL https://git.io/chezmoi | sh
+mkdir -p ~/.local/share/
+git clone https://github.com/bascht/dotfiles-public.git ~/.local/share/chezmoi
+chmod 0700 ~/.local/share/cezmoi
+~/bin/chezmoi apply
+#+end_src
