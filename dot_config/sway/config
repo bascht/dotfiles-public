@@ -36,7 +36,7 @@ set $right l
 set $term alacritty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu dmenu_path | i3-rofi | xargs swaymsg exec
+set $menu dmenu_path | rofi | xargs swaymsg exec
 set $display_laptop eDP-1
 set $display_dell "Dell Inc. DELL U2415 7MT018BM1PGU"
 set $display_lg "Goldstar Company Ltd 34UM95 0x00000101"
@@ -143,10 +143,10 @@ bindsym XF86AudioNext exec mpc next
 bindsym XF86AudioPrev exec mpc prev
 bindsym XF86AudioPlay exec mpc toggle
 
-bindsym Print exec i3-screenshot
-bindsym shift+Print exec i3-screenshot -s
-bindsym control+shift+Print exec i3-dropshot
-bindsym control+alt+l exec i3-blur-lock
+bindsym Print exec screenshot
+bindsym shift+Print exec screenshot -s
+bindsym control+shift+Print exec dropshot
+bindsym control+alt+l exec blur-lock
 
 bindsym $mod+shift+o move workspace to output right
 bindsym $mod+o focus output right
@@ -321,7 +321,7 @@ mode "run" {
   # start your launcher
   bindsym $mod+d exec $menu; mode "default";
   bindsym d exec $menu; mode "default";
-  bindsym r exec i3-rofi; mode "default";
+  bindsym r exec rofi; mode "default";
   bindsym p exec rofi-pass; mode "default";
   bindsym g exec sway-switch-window; mode "default";
 
@@ -386,5 +386,5 @@ include /etc/sway/config.d/*
 
 # See https://github.com/swaywm/sway/wiki#after-unplugging-an-external-display-some-applications-appear-too-large-on-my-hidpi-screen
 exec xrdb -load ~/.Xresources
-exec i3-autostart
+exec autostart
  

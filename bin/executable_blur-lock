@@ -1,12 +1,7 @@
 #!/bin/bash
 
-if [ -z "$WAYLAND_DISPLAY" ]; then
-    SHOTTER="scrot"
-    LOCKER="i3lock"
-else
-    SHOTTER="grim"
-    LOCKER="swaylock"
-fi;
+SHOTTER="grim"
+LOCKER="swaylock"
 
 $SHOTTER '/home/bascht/.lockbg.png'
 

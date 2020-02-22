@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SHOT=$(i3-screenshot -s)
+SHOT=$(screenshot -s)
 pngquant 64 --skip-if-larger --strip --ext=.png --force $SHOT
 chmod o+r $SHOT
 drop $SHOT

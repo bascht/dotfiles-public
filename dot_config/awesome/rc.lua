@@ -82,7 +82,7 @@ local editor       = os.getenv("EDITOR") or "nano"
 local gui_editor   = "emacs"
 local browser      = "firefox"
 local guieditor    = "emacs"
-local scrlocker    = "i3-blur-lock"
+local scrlocker    = "blur-lock"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5" }

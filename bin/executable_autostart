@@ -1,0 +1,26 @@
+#!/bin/bash
+
+swaymsg exec volumeicon
+swaymsg exec nm-applet
+swaymsg exec nextcloud
+swaymsg exec mako
+swaymsg exec clipman -d
+
+killall redshift; swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000K"
+
+swaymsg workspace "4: Docs"
+swaymsg exec "emacs ~/"
+swaymsg workspace "2: Web"
+swaymsg exec "qutebrowser -r default"
+swaymsg workspace "3: Comms"
+swaymsg exec start-comms
+swaymsg workspace "5: Media"
+swaymsg exec alacritty -- -e "mux start music"
+swaymsg workspace "1: Code"
+swaymsg exec alacritty
+
+swayidle \
+    timeout 300 'blur-lock' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'blur-lock' &
