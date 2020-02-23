@@ -1,0 +1,7 @@
+#!/bin/bash
+
+SWAYSOCK=$(ls /run/user/1000/sway-ipc.1000.*.sock)
+export SWAYSOCK
+
+swaymsg exec blur-lock
+swaymsg exec -- 'notify-send -t 2000 -u low "Yubikey unplugged, locking screen"'
