@@ -3,14 +3,22 @@
 abort "No tempfile given" if ARGV.empty?
 
 commit_file = ARGV[0]
-
 commit_msg = File.read(commit_file)
-abort "No commit given" if commit_msg.nil?
+
+if commit_msg.nil?
+  $stderr.puts "Nothing given, aborting"
+  exit 0
+end
+
+unless commit_msg.lines.first.strip.empty?
+  $stderr.puts "Commit message not empty, aborting"
+  exit 0
+end
 
 branch_match = commit_msg.match(%r{# On branch (?<ticket>[A-Z]{1,10}-\d+)})
 
 if branch_match.nil? or branch_match["ticket"].nil?
-  puts "Could not extract a ticket from the commit message"
+  $stderr.puts "Could not extract a ticket from the commit message"
   exit
 end
 
