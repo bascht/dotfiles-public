@@ -203,7 +203,10 @@ bindsym $mod+Shift+Right move right
 # Workspaces:
 #
 # switch to workspace
-workspace '3: Comms' output "Dell Inc. DELL U2415 7MT018BM1PGU"
+workspace '1: Code' output $display_lg
+workspace '2: Web' output $display_lg
+workspace '3: Comms' output $display_dell
+workspace '5: Media' output $display_dell
 bindsym $mod+1 workspace 1: Code
 bindsym $mod+2 workspace 2: Web
 bindsym $mod+3 workspace 3: Comms
