@@ -282,13 +282,6 @@
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
 
-(add-hook 'org-mode-hook (lambda ()
-                           "Beautify Org Checkbox Symbol"
-                           (push '("[ ]" .  "☐") prettify-symbols-alist)
-                           (push '("[X]" . "☑" ) prettify-symbols-alist)
-                           (push '("[-]" . "❍" ) prettify-symbols-alist)
-                           (prettify-symbols-mode)))
-
 (setq org-agenda-category-icon-alist
       '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
         ("Personal.*" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
