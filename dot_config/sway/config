@@ -288,12 +288,13 @@ for_window [app_id="org.gnome.Nautilus"] floating enable
 for_window [title="Firefox - Sharing Indicator"] floating enable
 
 assign [instance="^.*\.yakshed\.org$"] "3: Comms"
-assign [instance="^.*\.slack\.com$"] "3: Comms"
+assign [title=".*slack.*"] "3: Comms"
 assign [instance="web.whatsapp.com"] "3: Comms"
 assign [instance="inoreader.com"] "3: Comms"
 assign [title=".*qutebrowser-comms.*"] "3: Comms"
-assign [title="Wire"] "3: Comms"
-assign [title="Signal"] "3: Comms"
+assign [app_id="org.qutebrowser.qutebrowser"] "3: Comms"
+assign [instance="wire"] "3: Comms"
+assign [instance="signal"] "3: Comms"
 
 #
 # Resizing containers:
