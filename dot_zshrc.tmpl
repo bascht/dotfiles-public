@@ -59,12 +59,6 @@ alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() { take $1 && cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .; }
 
-# Override the tmux ssh auth sock
-SSH_TMUX_SOCK="${HOME}/.ssh/ssh_auth_sock"
-if [ "${SSH_AUTH_SOCK}" != "${SSH_TMUX_SOCK}" ] && [ "${SSH_AUTH_SOCK}" != "" ]; then
-    ln -sf "$SSH_AUTH_SOCK" "$SSH_TMUX_SOCK"
-fi
-
 # Pretty up FZF
 export FZF_DEFAULT_OPTS='
   --prompt=" "

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Override the tmux ssh auth sock with the most current version
+SSH_TMUX_SOCK="${HOME}/.ssh/ssh_auth_sock"
+LATEST_SSH_SOCK=$(ls -t1 /tmp/ssh-*/agent.* | head -n 1)
+ln -sf "$LATEST_SSH_SOCK" "$SSH_TMUX_SOCK"
+export SSH_AUTH_SOCK="${SSH_TMUX_SOCK}"
