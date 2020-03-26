@@ -10,14 +10,19 @@ killall redshift; swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000
 
 swaymsg workspace "4: Docs"
 swaymsg exec "emacs ~/"
+sleep 0.5
 swaymsg workspace "2: Web"
 swaymsg exec "qutebrowser -r default"
-swaymsg workspace "3: Comms"
-swaymsg exec start-comms
+sleep 3
 swaymsg workspace "5: Media"
-swaymsg exec alacritty -- -e "mux start music"
+swaymsg exec alacritty -- -e "tmuxinator start music"
+sleep 0.5
 swaymsg workspace "1: Code"
 swaymsg exec alacritty
+sleep 0.5
+swaymsg workspace "3: Comms"
+swaymsg layout tabbed
+swaymsg exec start-comms
 
 swayidle \
     timeout 300 'blur-lock' \
