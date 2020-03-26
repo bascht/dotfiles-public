@@ -165,85 +165,87 @@ key_bindings:
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                  }
 # Base16 Default Light 256 - alacritty color config
 # Chris Kempson (http://chriskempson.com)
-colors:
-  # Default colors
-  primary:
-    background: '0xf8f8f8'
-    foreground: '0x383838'
+schemes:
+  base16_default_light: &light
+    # Default colors
+    primary:
+      background: '0xf8f8f8'
+      foreground: '0x383838'
+  
+    # Colors the cursor will use if `custom_cursor_colors` is true
+    cursor:
+      text: '0xf8f8f8'
+      cursor: '0x383838'
+  
+    # Normal colors
+    normal:
+      black:   '0xf8f8f8'
+      red:     '0xab4642'
+      green:   '0xa1b56c'
+      yellow:  '0xf7ca88'
+      blue:    '0x7cafc2'
+      magenta: '0xba8baf'
+      cyan:    '0x86c1b9'
+      white:   '0x383838'
+  
+    # Bright colors
+    bright:
+      black:   '0xb8b8b8'
+      red:     '0xab4642'
+      green:   '0xa1b56c'
+      yellow:  '0xf7ca88'
+      blue:    '0x7cafc2'
+      magenta: '0xba8baf'
+      cyan:    '0x86c1b9'
+      white:   '0x181818'
+  
+    indexed_colors:
+      - { index: 16, color: '0xdc9656' }
+      - { index: 17, color: '0xa16946' }
+      - { index: 18, color: '0xe8e8e8' }
+      - { index: 19, color: '0xd8d8d8' }
+      - { index: 20, color: '0x585858' }
+      - { index: 21, color: '0x282828' }
 
-  # Colors the cursor will use if `custom_cursor_colors` is true
-  cursor:
-    text: '0xf8f8f8'
-    cursor: '0x383838'
+  base16_nord: &dark
+    # Default colors
+    primary:
+      background: '0x2e3440'
+      foreground: '0xe5e9f0'
 
-  # Normal colors
-  normal:
-    black:   '0xf8f8f8'
-    red:     '0xab4642'
-    green:   '0xa1b56c'
-    yellow:  '0xf7ca88'
-    blue:    '0x7cafc2'
-    magenta: '0xba8baf'
-    cyan:    '0x86c1b9'
-    white:   '0x383838'
+    # Colors the cursor will use if `custom_cursor_colors` is true
+    cursor:
+      text: '0x2e3440'
+      cursor: '0xe5e9f0'
 
-  # Bright colors
-  bright:
-    black:   '0xb8b8b8'
-    red:     '0xab4642'
-    green:   '0xa1b56c'
-    yellow:  '0xf7ca88'
-    blue:    '0x7cafc2'
-    magenta: '0xba8baf'
-    cyan:    '0x86c1b9'
-    white:   '0x181818'
+    # Normal colors
+    normal:
+      black:   '0x2e3440'
+      red:     '0x88c0d0'
+      green:   '0xbf616a'
+      yellow:  '0x5e81ac'
+      blue:    '0xebcb8b'
+      magenta: '0xa3be8c'
+      cyan:    '0xd08770'
+      white:   '0xe5e9f0'
 
-  indexed_colors:
-    - { index: 16, color: '0xdc9656' }
-    - { index: 17, color: '0xa16946' }
-    - { index: 18, color: '0xe8e8e8' }
-    - { index: 19, color: '0xd8d8d8' }
-    - { index: 20, color: '0x585858' }
-    - { index: 21, color: '0x282828' }
-    # Base16 T# omorrow 256 - alacritty color config
-# # Chris Kempson (http://chriskempson.com)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0xffffff'
-#     foreground: '0x4d4d4c'
+    # Bright colors
+    bright:
+      black:   '0x4c566a'
+      red:     '0x88c0d0'
+      green:   '0xbf616a'
+      yellow:  '0x5e81ac'
+      blue:    '0xebcb8b'
+      magenta: '0xa3be8c'
+      cyan:    '0xd08770'
+      white:   '0x8fbcbb'
 
-#   # Colors the cursor will use if `custom_cursor_colors` is true
-#   cursor:
-#     text: '0xffffff'
-#     cursor: '0x4d4d4c'
+    indexed_colors:
+      - { index: 16, color: '0x81a1c1' }
+      - { index: 17, color: '0xb48ead' }
+      - { index: 18, color: '0x3b4252' }
+      - { index: 19, color: '0x434c5e' }
+      - { index: 20, color: '0xd8dee9' }
+      - { index: 21, color: '0xeceff4' }
 
-#   # Normal colors
-#   normal:
-#     black:   '0xffffff'
-#     red:     '0xc82829'
-#     green:   '0x718c00'
-#     yellow:  '0xeab700'
-#     blue:    '0x4271ae'
-#     magenta: '0x8959a8'
-#     cyan:    '0x3e999f'
-#     white:   '0x4d4d4c'
-
-#   # Bright colors
-#   bright:
-#     black:   '0x8e908c'
-#     red:     '0xc82829'
-#     green:   '0x718c00'
-#     yellow:  '0xeab700'
-#     blue:    '0x4271ae'
-#     magenta: '0x8959a8'
-#     cyan:    '0x3e999f'
-#     white:   '0x1d1f21'
-
-#   indexed_colors:
-#     - { index: 16, color: '0xf5871f' }
-#     - { index: 17, color: '0xa3685a' }
-#     - { index: 18, color: '0xe0e0e0' }
-#     - { index: 19, color: '0xd6d6d6' }
-#     - { index: 20, color: '0x969896' }
-#     - { index: 21, color: '0x282a2e' }
+colors: *light
