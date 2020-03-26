@@ -162,6 +162,7 @@ bindsym $mod+q kill
 
 bindsym $mod+shift+d exec alacritty --class 'launcher' --command bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'
 for_window [app_id="^launcher$"] floating enable, border pixel 4, resize set width 25 ppt height 100 ppt, move position center
+for_window [app_id="^wofi$"] floating enable, border none
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -291,8 +292,7 @@ assign [instance="^.*\.yakshed\.org$"] "3: Comms"
 assign [title=".*slack.*"] "3: Comms"
 assign [instance="web.whatsapp.com"] "3: Comms"
 assign [instance="inoreader.com"] "3: Comms"
-assign [title=".*qutebrowser-comms.*"] "3: Comms"
-assign [app_id="org.qutebrowser.qutebrowser"] "3: Comms"
+assign [title="(?i).*qutebrowser-comms$"] "3: Comms"
 assign [instance="wire"] "3: Comms"
 assign [instance="signal"] "3: Comms"
 
