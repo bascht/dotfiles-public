@@ -71,7 +71,7 @@ binaries = YAML.load <<EOB
   :version_match: "^Installed Version: <%= version %>"
 :helm:
   :url: https://get.helm.sh/helm-v<%= version %>-linux-amd64.tar.gz
-  :version: 3.0.2
+  :version: 3.1.2
   :version_argument: "version --short"
   :version_match: v<%= version %>
 :fzf:
