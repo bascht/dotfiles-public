@@ -22,6 +22,7 @@
     rjsx-mode
     smartparens
     tern
+    tide
     web-beautify
     yasnippet
     ))
@@ -80,10 +81,12 @@
     :config
     ;; declare prefix
     (spacemacs/declare-prefix-for-mode 'rjsx-mode "mr" "refactor")
+    (spacemacs/declare-prefix-for-mode 'rjsx-mode "mrl" "localize/log")
     (spacemacs/declare-prefix-for-mode 'rjsx-mode "mrr" "rename")
     (spacemacs/declare-prefix-for-mode 'rjsx-mode "mh" "documentation")
     (spacemacs/declare-prefix-for-mode 'rjsx-mode "mg" "goto")
 
+    (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode "rlt" 'js2r-log-this)
     (spacemacs/set-leader-keys-for-major-mode 'rjsx-mode "rt" 'rjsx-rename-tag-at-point)
 
     (with-eval-after-load 'rjsx-mode
@@ -100,6 +103,10 @@
 
 (defun react/post-init-tern ()
   (add-to-list 'tern--key-bindings-modes 'rjsx-mode))
+
+(defun react/post-init-tide ()
+  (when (eq (spacemacs//typescript-backend) `tide)
+    (add-to-list 'tide-managed-modes 'rjsx-mode)))
 
 (defun react/pre-init-web-beautify ()
   (when (eq javascript-fmt-tool 'web-beautify)

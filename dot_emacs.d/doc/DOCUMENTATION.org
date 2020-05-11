@@ -193,6 +193,11 @@
       - [[#lisp-key-bindings][Lisp Key bindings]]
         - [[#lisp-state-key-bindings][Lisp state key bindings]]
         - [[#emacs-lisp-specific-key-bindings][Emacs lisp specific key bindings]]
+    - [[#keyboard-macros][Keyboard macros]]
+      - [[#vim-keyboard-macros][Vim keyboard macros]]
+      - [[#emacs-keyboard-macros][Emacs keyboard macros]]
+        - [[#macro-counter][Macro counter]]
+        - [[#key-bindings-1][Key bindings]]
     - [[#mouse-usage][Mouse usage]]
   - [[#comparing-diff][Comparing (diff)]]
   - [[#managing-projects][Managing projects]]
@@ -3274,7 +3279,7 @@ The key bindings start with ~SPC x r~ and have the following mnemonic structure:
 - ~SPC x r <source> <target>~ convert from source to target
 - ~SPC x r~ do what I mean
 
-| Key binding   | Function                                                                               |
+| Key binding   | Description                                                                            |
 |---------------+----------------------------------------------------------------------------------------|
 | ~SPC x r /~   | Explain the regexp around point with =rx=                                              |
 | ~SPC x r '​~   | Generate strings given by a regexp given this list is finite                           |
@@ -3322,7 +3327,7 @@ Examples:
 ***** Lisp state key bindings
 These commands automatically switch to =lisp state=.
 
-| Key binding | Function                                                            |
+| Key binding | Description                                                         |
 |-------------+---------------------------------------------------------------------|
 | ~SPC k %~   | evil jump item                                                      |
 | ~SPC k :~   | ex command                                                          |
@@ -3373,23 +3378,96 @@ These commands automatically switch to =lisp state=.
 
 ***** Emacs lisp specific key bindings
 
-| Key binding | Function                                   |
-|-------------+--------------------------------------------|
-| ~SPC m e $~ | go to end of line and evaluate last sexp   |
-| ~SPC m e b~ | evaluate buffer                            |
-| ~SPC m e c~ | evaluate current form (a =def= or a =set=) |
-| ~SPC m e e~ | evaluate last sexp                         |
-| ~SPC m e f~ | evaluate current defun                     |
-| ~SPC m e l~ | go to end of line and evaluate last sexp   |
-| ~SPC m e r~ | evaluate region                            |
-
-| Key binding | Function                                           |
+| Key binding | Description                                        |
 |-------------+----------------------------------------------------|
+| ~SPC m e $~ | go to end of line and evaluate last sexp           |
+| ~SPC m e b~ | evaluate buffer                                    |
+| ~SPC m e c~ | evaluate current form (a =def= or a =set=)         |
+| ~SPC m e e~ | evaluate last sexp                                 |
+| ~SPC m e f~ | evaluate current defun                             |
+| ~SPC m e l~ | go to end of line and evaluate last sexp           |
+| ~SPC m e r~ | evaluate region                                    |
 | ~SPC m g g~ | go to definition                                   |
 | ~SPC m g G~ | go to definition in another window                 |
 | ~SPC m h h~ | describe elisp thing at point (show documentation) |
 | ~SPC m t b~ | execute buffer tests                               |
 | ~SPC m t q~ | ask for test function to execute                   |
+
+*** Keyboard macros
+Keyboard macros are a powerful feature of Emacs. A keyboard macro is a record of
+keystrokes that can be replayed at any time.
+
+*Important note:* When creating a macro, do not use the =evil-escape= key
+sequence (by default press ~fd~ quickly), instead press the ~ESC~ key
+explicitly. Currently =evil-escape= does not support being replayed in macros.
+
+**** Vim keyboard macros
+Spacemacs supports the VIM interface for creating macros in normal state using
+~q~ to start a macro and ~@~ to play a macro.
+
+To record a keyboard macro:
+- Press ~q~ (there's no visual indicator, but it's waiting for a letter key to
+  be pressed).
+- Press a letter key to start recording to that letter register.
+  (the minibuffer shows: Defining kbd macro...)
+- Perform the actions that will be recorded.
+- Press ~q~ to stop recording the macro.
+  (the minibuffer shows: Keyboard macro defined).
+
+To execute a recorded macro:
+(A macro can be played back multiple times, by typing a number before starting
+the macro)
+- Press ~@~ (the minibuffer shows: ~@-~, and it waits for a letter register key
+  to be pressed).
+- Press a letter key for a register where a previous macro has been recorded.
+- The macro can be repeated by pressing the repeat last editing command key:
+  ~.~ (period).
+
+**** Emacs keyboard macros
+The Emacs way to define macros is available behind the prefix: ~SPC K~
+
+To start recording a keyboard macro:
+- Press ~SPC K k~ (uppercase then lowercase) to start recording a macro.
+- Perform the actions that should be recorded.
+- Press ~SPC K K~ (uppercase twice) to stop recording the macro.
+
+To execute the last recorded macro press: ~SPC K K~
+The macro can be executed again by pressing ~K~ one or more times.
+The single character replay works until another key than ~K~ is pressed.
+
+***** Macro counter
+Emacs has an interesting concept: The macro counter.
+
+When starting to record a macro, the counter starts at 0 (you can also set it to
+a specific value), then each time the counter is inserted, it is incremented
+by 1 afterwards.
+
+When recording a macro it's possible to insert the current value by pressing:
+~SPC K k~
+
+***** Key bindings
+
+| Key binding | Description                                                               |
+|-------------+---------------------------------------------------------------------------|
+| ~SPC K c a~ | increment macro counter                                                   |
+| ~SPC K c c~ | insert the current value of the macro counter                             |
+| ~SPC K c C~ | set the macro counter                                                     |
+| ~SPC K c f~ | set the display format for the macro counter                              |
+| ~SPC K e b~ | assign a key binding to the last macro                                    |
+| ~SPC K e e~ | edit last macro in a buffer                                               |
+| ~SPC K e l~ | edit a macro from lossage information (last 300 executed commands)        |
+| ~SPC K e n~ | give a name to the last macro                                             |
+| ~SPC K e r~ | write the last macro to a register (use ~SPC r r~ to call it)             |
+| ~SPC K e s~ | step by step edit of the last macro                                       |
+| ~SPC K k~   | start recording macro, if already recording then insert the macro counter |
+| ~SPC K K~   | stop recording macro, if no macro is recording then run last macro        |
+| ~SPC K r L~ | view head macro in ring                                                   |
+| ~SPC K r d~ | delete head macro in ring                                                 |
+| ~SPC K r l~ | run second macro in ring                                                  |
+| ~SPC K r n~ | cycle to next macro in ring                                               |
+| ~SPC K r p~ | cycle to previous macro in ring                                           |
+| ~SPC K r s~ | swap the first two macros in ring                                         |
+| ~SPC K v~   | view last macro string in minibuffer                                      |
 
 *** Mouse usage
 There are some added mouse features set for the line number margin (if shown):
@@ -3417,6 +3495,7 @@ All =ediff= commands starts with D:
 | ~SPC D f 3~   | ask for 3 files and start an ediff session with them                                                                              |
 | ~SPC D f f~   | ask for 2 files and start an ediff session with them                                                                              |
 | ~SPC D f p~   | ask for a buffer or file that contains a patch to apply to a file and start an ediff session with the result                      |
+| ~SPC D f v~   | start ediff between versions of a file                                                                                            |
 | ~SPC D h~     | open ediff documentation within Emacs                                                                                             |
 | ~SPC D m b 3~ | start an ediff merge session between 2 buffers and their ancestor                                                                 |
 | ~SPC D m b b~ | start an ediff merge session between 2 buffers                                                                                    |
@@ -3429,7 +3508,6 @@ All =ediff= commands starts with D:
 | ~SPC D r l~   | start an ediff session between two regions to perform a linewise diff (use this for large regions)                                |
 | ~SPC D r w~   | start an ediff session between two regions to perform a wordwise diff (use this for small regions)                                |
 | ~SPC D s~     | display ediff registries                                                                                                          |
-| ~SPC D v~     | start ediff between versions of a file                                                                                            |
 | ~SPC D w l~   | compare linewise the portions of visible text of 2 windows which are selected by clicking                                         |
 | ~SPC D w w~   | compare wordwise the portions of visible text of 2 windows which are selected by clicking                                         |
 

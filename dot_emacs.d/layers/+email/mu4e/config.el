@@ -33,8 +33,16 @@
 (defvar mu4e-use-maildirs-extension nil
   "Use mu4e-maildirs-extension package if value is non-nil.")
 
+(defvar mu4e-list-modes
+  '(mu4e-main-mode mu4e-headers-mode)
+  "Modes that are associated with mu4e's listing buffers.")
+
+(defvar mu4e-view-modes
+  '(mu4e-view-mode mu4e-compose-mode mu4e-loading-mode)
+  "Modes that are associated with mu4e's view/compose buffers.")
+
 (defvar mu4e-modes
-  '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode)
+  '(append 'mu4e-list-modes 'mu4e-view-modes)
   "Modes that are associated with mu4e buffers.")
 
 (when mu4e-installation-path

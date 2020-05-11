@@ -11,7 +11,6 @@
 
 (defconst julia-packages
   '(
-    company-lsp
     evil-surround
     flycheck
     julia-mode
@@ -25,7 +24,7 @@
     :init
     (progn
       (add-hook 'julia-mode-hook #'spacemacs//julia-setup-buffer)
-      (add-hook 'julia-mode-local-vars-hook #'spacemacs//julia-setup-lsp)
+      (add-hook 'julia-mode-local-vars-hook #'spacemacs//julia-setup-backend)
       (if (and (configuration-layer/layer-used-p 'ess)
                julia-mode-enable-ess)
           (add-to-list 'auto-mode-alist
@@ -104,14 +103,6 @@
     :config
     (progn
       (push 'xref-find-definitions spacemacs-jump-handlers-julia-mode))))
-
-(defun julia/post-init-company-lsp ()
-  (spacemacs|add-company-backends
-    :backends company-lsp
-    :modes julia-mode
-    :variables
-    company-minimum-prefix-length 0
-    company-idle-delay 0.5))
 
 (defun julia/post-init-flycheck ()
   (spacemacs/enable-flycheck 'julia-mode))

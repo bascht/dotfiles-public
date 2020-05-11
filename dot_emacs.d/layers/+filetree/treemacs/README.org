@@ -11,12 +11,16 @@
 - [[#configuration][Configuration]]
   - [[#follow-mode][Follow mode]]
   - [[#file-watch][File watch]]
+  - [[#scope-settings][Scope Settings]]
   - [[#git-mode][Git mode]]
   - [[#flattening-of-directories][Flattening of directories]]
   - [[#locking-width][Locking width]]
 - [[#key-bindings][Key bindings]]
   - [[#global][Global]]
   - [[#inside-treemacs][Inside Treemacs]]
+    - [[#ace-mode-to-open-files][Ace mode to open files]]
+      - [[#set-ace-mode-as-default-action][Set ace mode as default action]]
+      - [[#use-digits-in-ace-mode][Use digits in ace mode]]
 
 * Description
 This layer sets up a file navigation and project explorer side-window via [[https://github.com/Alexander-Miller/treemacs][Treemacs]].
@@ -69,6 +73,23 @@ part of the file system shown by treemacs set the layer variable
 #+END_SRC
 
 Default is =t=.
+
+** Scope Settings
+By default treemacs buffers and their workspaces will be uniquely scoped within
+the current frame. As an alternative it is possible to scope treemacs to the
+currently active perspective, including the automatic creation of a workspace
+for every perspective. The scope type is determined by setting the layer
+variable =treemacs-use-scope-type= to either ='Frames= or ='Perspectives=.
+
+Note that persective-based scoping will only take effect when =persp-mode= is
+actually first used.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dotspacemacs-configuration-layers '(
+    (treemacs :variables treemacs-use-scope-type 'Perspectives)))
+#+END_SRC
+
+Default is ='Frames=.
 
 ** Git mode
 To enable Treemacs to check for the git status information of files and directories
@@ -172,3 +193,26 @@ many other commands.
 | ~tw~        | Toggle whether the treemacs buffer should have a fixed width.                                                    |
 | ~yr~        | Copy the absolute path of the nearest project node at point.                                                     |
 | ~yy~        | Copy the absolute path of the node at point.                                                                     |
+
+*** Ace mode to open files
+It is possible to open the file under cursor in exact the window you want.
+By default you have to press ~o a a~ to run ace selection mode and choose
+the window with keys ~a s d f~.
+That behavior can be changed in two ways.
+
+**** Set ace mode as default action
+It is possible to set =ace mode= as default action for pressing RET on a file.
+To do this add following configuration to your dotfile.
+
+#+BEGIN_SRC emacs-lisp
+  (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+  (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
+#+END_SRC
+
+**** Use digits in ace mode
+Just add the following to use digits instead of ~a s d f~ in ace (window selection) mode.
+Please note that the following code changes ace mode globally.
+
+#+BEGIN_SRC emacs-lisp
+  (setq aw-keys '(?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9 ?0))
+#+END_SRC

@@ -9,4 +9,8 @@
 ;;
 ;;; License: GPLv3
 
-(configuration-layer/declare-layer-dependencies '(lsp java))
+(configuration-layer/declare-layer-dependencies '(java))
+
+(when (and (boundp 'scala-backend)
+           (eq scala-backend 'scala-metals))
+  (configuration-layer/declare-layer-dependencies '(dap)))

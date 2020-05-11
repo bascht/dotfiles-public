@@ -45,6 +45,7 @@
         (ox-jira :toggle org-enable-jira-support)
         (org-trello :toggle org-enable-trello-support)
         (org-sticky-header :toggle org-enable-sticky-header)
+        (verb :toggle org-enable-verb-support)
         ))
 
 (defun org/post-init-company ()
@@ -131,6 +132,9 @@
             ;; `helm-org-headings-max-depth'.
             org-imenu-depth 8)
 
+      (with-eval-after-load 'org-agenda
+      (add-to-list 'org-modules 'org-habit))
+
       (with-eval-after-load 'org-indent
         (spacemacs|hide-lighter org-indent-mode))
 
@@ -141,12 +145,20 @@
 
       ;; Follow the confirm and abort conventions
       (with-eval-after-load 'org-capture
-        (spacemacs/set-leader-keys-for-minor-mode 'org-capture-mode
-          dotspacemacs-major-mode-leader-key 'org-capture-finalize
-          "a" 'org-capture-kill
-          "c" 'org-capture-finalize
-          "k" 'org-capture-kill
-          "r" 'org-capture-refile))
+        (defun spacemacs//org-capture-start ()
+          "Make sure that the keybindings are available for org capture."
+          (spacemacs/set-leader-keys-for-minor-mode 'org-capture-mode
+            dotspacemacs-major-mode-leader-key 'org-capture-finalize
+            "a" 'org-capture-kill
+            "c" 'org-capture-finalize
+            "k" 'org-capture-kill
+            "r" 'org-capture-refile)
+          ;; Evil bindins seem not to be applied until at least one
+          ;; Evil state is executed
+          (evil-normal-state))
+        ;; Must be done everytime we run org-capture otherwise it will
+        ;; be ignored until insert mode is entered.
+        (add-hook 'org-capture-mode-hook 'spacemacs//org-capture-start))
 
       (with-eval-after-load 'org-src
         (spacemacs/set-leader-keys-for-minor-mode 'org-src-mode
@@ -431,14 +443,6 @@ Will work on both org-mode and any mode that accepts plain html."
         ("e" org-babel-execute-maybe :exit t)
         ("'" org-edit-special :exit t)))))
 
-(defun org/post-init-org ()
-  ;; unfold the org headings for a target line
-  ;; There's a pending upstream PR:
-  ;; Use helm-goto-char to show match and reveal outlines
-  ;; https://github.com/syohex/emacs-helm-ag/pull/304
-  ;; when/if it's accepted, then this advice can be removed.
-  (advice-add 'helm-ag--find-file-action :after #'spacemacs/org-reveal-advice))
-
 (defun org/init-org-agenda ()
   (use-package org-agenda
     :defer t
@@ -460,6 +464,7 @@ Will work on both org-mode and any mode that accepts plain html."
         "ds" 'org-agenda-schedule
         "ie" 'org-agenda-set-effort
         "ip" 'org-agenda-set-property
+        "iP" 'org-agenda-priority
         "it" 'org-agenda-set-tags
         "sr" 'org-agenda-refile)
       (spacemacs|define-transient-state org-agenda
@@ -759,7 +764,9 @@ Headline^^            Visit entry^^               Filter^^                    Da
       (spacemacs/declare-prefix "aoj" "org-journal")
       (spacemacs/set-leader-keys
         "aojj" 'org-journal-new-entry
-        "aojs" 'org-journal-search-forever)
+        "aojs" 'org-journal-search-forever
+        "aojt" 'org-journal-new-scheduled-entry
+        "aojv" 'org-journal-schedule-view)
 
       (setq spacemacs-org-journal-mode-map (copy-keymap spacemacs-org-mode-map))
 
@@ -810,3 +817,33 @@ Headline^^            Visit entry^^               Filter^^                    Da
     :defer t
     :init
     (add-hook 'org-mode-hook 'org-sticky-header-mode)))
+
+(defun org/init-verb ()
+  (use-package verb
+    :defer t
+    :init
+      (spacemacs/set-leader-keys-for-major-mode
+        'org-mode
+        "rf" #'verb-send-request-on-point
+        "rs" #'verb-send-request-on-point-other-window
+        "rr" #'verb-send-request-on-point-other-window-stay
+        "rm" #'verb-send-request-on-point-no-window
+        "rk" #'verb-kill-all-response-buffers
+        "re" #'verb-export-request-on-point
+        "ru" #'verb-export-request-on-point-curl
+        "rb" #'verb-export-request-on-point-verb
+        "rv" #'verb-set-var)
+    :config
+    (progn
+      (spacemacs/set-leader-keys-for-minor-mode
+        'verb-response-body-mode
+        "rr" #'verb-toggle-show-headers
+        "rk" #'verb-kill-response-buffer-and-window
+        "rf" #'verb-re-send-request)
+      (spacemacs/set-leader-keys-for-major-mode
+        'verb-response-headers-mode
+        "rq" #'verb-kill-buffer-and-window))))
+
+(defun org/pre-init-verb ()
+  (spacemacs|use-package-add-hook org
+    :post-config (add-to-list 'org-babel-load-languages '(verb . t))))

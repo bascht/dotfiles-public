@@ -1,4 +1,4 @@
-;;; packages.el --- DAP mode functions File for Spacemacs
+;;; config.el --- DAP mode functions File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
 ;;
@@ -15,3 +15,6 @@
 
 (defvar dap-enable-mouse-support t
   "If non-nil, enable `dap-mode''s mouse support.")
+
+(defvar dap-enable-ui-controls t
+  "If non-nil, enable `dap-mode''s UI controls.")

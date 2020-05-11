@@ -9,20 +9,22 @@
   - [[#features][Features:]]
 - [[#layer-installation][Layer Installation]]
 - [[#backends][Backends]]
-  - [[#ensime][Ensime]]
+  - [[#metals][Metals]]
+  - [[#ensime-deprecated][Ensime (deprecated)]]
     - [[#installation-when-using-sbt][Installation when using SBT]]
     - [[#installation-when-using-gradle][Installation when using Gradle]]
     - [[#configuration][Configuration]]
     - [[#usage][Usage]]
-  - [[#metals][Metals]]
 - [[#scalastyle][Scalastyle]]
   - [[#use-java-doc-style][Use Java doc-style]]
+- [[#enable-debug-adapter-protocol-dap][Enable Debug Adapter Protocol (DAP)]]
 - [[#automatically-show-the-type-of-the-symbol-under-the-cursor][Automatically show the type of the symbol under the cursor]]
 - [[#automatically-insert-asterisk-in-multiline-comments][Automatically insert asterisk in multiline comments]]
 - [[#automatically-replace-arrows-with-unicode-ones][Automatically replace arrows with unicode ones]]
+- [[#enable-gtags-as-a-fallback-navigation-utility][Enable GTags as a fallback navigation utility]]
 - [[#auto-start][Auto-start]]
 - [[#key-bindings][Key bindings]]
-  - [[#ensime-1][Ensime]]
+  - [[#ensime][Ensime]]
     - [[#search][Search]]
     - [[#ensime-search-mode][Ensime Search Mode]]
     - [[#sbt][sbt]]
@@ -43,13 +45,16 @@ This layer adds support for the Scala language to Spacemacs.
 ** Features:
 - Syntax highlighting
 - Support for language backend. Either using [[https://ensime.github.io/][ENSIME]] or [[https://scalameta.org/metals/][Metals]]
+- Debugging support via dap
 - Auto-completion
+- Treeview support for viewing project structure and triggering compilation
 - Syntax-checking
 - Refactoring
 - Incremental compilation
 - Scala Repl
 - Style linting
 - Eldoc integration
+- Optional GGTags search
 - Test execution directly from Emacs
 - Automatic replacement of ASCII arrows with unicode ones
 
@@ -58,29 +63,50 @@ To use this configuration layer, add it to your =~/.spacemacs=. You will need to
 add =scala= to the existing =dotspacemacs-configuration-layers= list in this
 file.
 
-Then, you should modify your =~/.spacemacs= to use the recommended Ensime
-version (Stable). Please add the following lines to =dotspacemacs/user-init=:
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'configuration-layer-elpa-archives '("melpa-stable" . "stable.melpa.org/packages/"))
-  (add-to-list 'package-pinned-packages '(ensime . "melpa-stable"))
-#+END_SRC
-
 * Backends
 The currently supported language backends are:
-- scala-ensime (default)
 - scala-metals
+- scala-ensime (deprecated)
 
 To set your choice of backend, configure the layer variable =scala-backend=.
 
 #+BEGIN_SRC emacs-lisp
   (setq-default dotspacemacs-configuration-layers
-                '((scala :variables scala-backend 'scala-ensime))) ;or 'scala-metals
+                '((scala :variables scala-backend 'scala-metals))) ;or 'scala-ensime
 #+END_SRC
 
-** Ensime
+** Metals
+Currently, you must manually install the metals server. It is possible to do so
+via coursier; the latest version can be built using the following commands,
+where =0.7.6= can be replaced with the current version of [[https://github.com/scalameta/metals/][Metals]]:
+
+#+BEGIN_SRC bash
+  ./coursier bootstrap \
+    --java-opt -Xss4m \
+    --java-opt -Xms100m \
+    --java-opt -Dmetals.client=emacs \
+    org.scalameta:metals_2.12:0.7.6 \
+    -r bintray:scalacenter/releases \
+    -r sonatype:snapshots \
+    -o /usr/local/bin/metals-emacs -f
+#+END_SRC
+
+You will then have the common LSP key bindings; see
+[[https://github.com/syl20bnr/spacemacs/tree/develop/layers/%2Btools/lsp#key-bindings][LSP#key-bindings]] for more details.
+
+** Ensime (deprecated)
+This package is mainly unmaintained today and should only be used as a last resort.
+
 [[https://ensime.github.io/][ENSIME]] provides IDE-like features, such as refactoring, incremental compilation
 and project-wide type-checking.
+
+You will also need to modify your =dotspacemacs/user-init= to pull the recommended Ensime
+version (Stable):
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'configuration-layer-elpa-archives '("melpa-stable" . "stable.melpa.org/packages/"))
+  (add-to-list 'package-pinned-packages '(ensime . "melpa-stable"))
+#+END_SRC
 
 ENSIME requires a configuration file at the root of each Scala project. It
 provides an SBT plugin, a gradle plugin and others (see [[https://web.archive.org/web/20190427005241/https://ensime.github.io/build_tools/][ensime.org]] for a full
@@ -115,25 +141,6 @@ For example,
 ~SPC SPC spacemacs/ensime-gen-and-restart~ or ~SPC m D r~ generates a new config
 for a project and starts the server. Afterwards ~SPC SPC ensime~ or ~SPC m D s~
 will suffice do the trick.
-
-** Metals
-Currently, you must manually install the metals server. It is possible to do so
-via coursier; the latest version can be built using the following commands,
-where =0.7.6= can be replaced with the current version of [[https://github.com/scalameta/metals/][Metals]]:
-
-#+BEGIN_SRC bash
-  ./coursier bootstrap \
-    --java-opt -Xss4m \
-    --java-opt -Xms100m \
-    --java-opt -Dmetals.client=emacs \
-    org.scalameta:metals_2.12:0.7.6 \
-    -r bintray:scalacenter/releases \
-    -r sonatype:snapshots \
-    -o /usr/local/bin/metals-emacs -f
-#+END_SRC
-
-You will then have the common LSP key bindings; see
-[[https://github.com/syl20bnr/spacemacs/tree/develop/layers/%2Btools/lsp#key-bindings][LSP#key-bindings]] for more details.
 
 * Scalastyle
 [[http://www.scalastyle.org/][Scalastyle]] provides style-checking and linting. The Emacs functionality is
@@ -172,6 +179,9 @@ To enable =java-doc-style=, set the variable =scala-indent:use-javadoc-style= to
     (scala :variables scala-indent:use-javadoc-style t)))
 #+END_SRC
 
+* Enable Debug Adapter Protocol (DAP)
+The metals backend enables integration with the DAP layer for debugging support.
+
 * Automatically show the type of the symbol under the cursor
 To enable the feature =ensime-type-at-point= when cursor moves, set the
 variable =scala-enable-eldoc= to =t=.
@@ -203,6 +213,15 @@ the ascii arrows back.
 #+BEGIN_SRC emacs-lisp
   (setq-default dotspacemacs-configuration-layers '(
     (scala :variables scala-use-unicode-arrows t)))
+#+END_SRC
+
+* Enable GTags as a fallback navigation utility
+To enable gtags when in scala-mode, in case metals, or, ensime are not fully
+functioning set the variable =scala-enable-gtags= to =t=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dotspacemacs-configuration-layers '(
+    (scala :variables scala-enable-gtags t)))
 #+END_SRC
 
 * Auto-start

@@ -25,13 +25,19 @@
 (defun spacemacs//go-setup-company ()
   "Conditionally setup go company based on backend"
   (pcase (spacemacs//go-backend)
-    ('go-mode (spacemacs//go-setup-company-go))
-    ('lsp (spacemacs//go-setup-company-lsp))))
+    ('go-mode (spacemacs//go-setup-company-go))))
 
 (defun spacemacs//go-setup-eldoc ()
   "Conditionally setup go eldoc based on backend"
   (pcase (spacemacs//go-backend)
     ('go-mode (go-eldoc-setup))))
+
+
+(defun spacemacs//go-setup-dap ()
+  "Conditionally setup go DAP integration."
+  ;; currently DAP is only available using LSP
+  (pcase (spacemacs//go-backend)
+    (`lsp (spacemacs//go-setup-lsp-dap))))
 
 
 ;; go-mode
@@ -52,25 +58,18 @@
   "Setup lsp backend"
   (if (configuration-layer/layer-used-p 'lsp)
       (progn
-        ;; without setting lsp-prefer-flymake to :none
+        ;; without setting lsp-diagnostic-package to :none
         ;; golangci-lint errors won't be reported
         (when go-use-golangci-lint
-          (message "[go] Setting lsp-prefer-flymake :none to enable golangci-lint support.")
-          (setq-local lsp-prefer-flymake :none))
+          (message "[go] Setting lsp-diagnostic-package :none to enable golangci-lint support.")
+          (setq-local lsp-diagnostic-package :none))
         (lsp))
     (message "`lsp' layer is not installed, please add `lsp' layer to your dotfile.")))
 
-(defun spacemacs//go-setup-company-lsp ()
-  "Setup lsp auto-completion"
-  (if (configuration-layer/layer-used-p 'lsp)
-      (progn
-        (spacemacs|add-company-backends
-          :backends company-lsp
-          :modes go-mode
-          :append-hooks nil
-          :call-hooks t)
-        (company-mode))
-    (message "`lsp' layer is not installed, please add `lsp' layer to your dotfile.")))
+(defun spacemacs//go-setup-lsp-dap ()
+  "Setup DAP integration."
+  (require 'dap-go)
+  (dap-go-setup))
 
 
 ;; flycheck

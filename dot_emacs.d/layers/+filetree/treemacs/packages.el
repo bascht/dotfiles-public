@@ -15,6 +15,7 @@
     golden-ratio
     treemacs
     (treemacs-evil :toggle (memq dotspacemacs-editing-style '(vim hybrid)))
+    (treemacs-icons-dired :toggle treemacs-use-icons-dired)
     (treemacs-magit :requires magit)
     (treemacs-persp :requires persp-mode)
     treemacs-projectile
@@ -39,12 +40,16 @@
       (setq treemacs-follow-after-init t)
       (add-hook 'treemacs-mode-hook
                 #'spacemacs/treemacs-setup-width-lock)
-      (spacemacs/set-leader-keys
-        "ft"    'treemacs
-        "fB"    'treemacs-bookmark
-        "fT"    'treemacs-find-file
-        "f M-t" 'treemacs-find-tag
-        "pt"    'spacemacs/treemacs-project-toggle)
+      (spacemacs|spacebind
+       "Files manipulation."
+       :global
+       (("f" "Files"
+         ("t" treemacs "File tree")
+         ("B" treemacs-bookmark "Find bookmark in file tree")
+         ("T" treemacs-find-file "Focus current file in file tree")
+         ("M-t" treemacs-find-tag "Focus tag in file tree" ))
+        ("p" "Project"
+         ("t" spacemacs/treemacs-project-toggle "Open project in file tree"))))
       (which-key-add-major-mode-key-based-replacements 'treemacs-mode
         "c"         "treemacs-create"
         "o"         "treemacs-visit-node"
@@ -85,7 +90,14 @@
     :init (require 'treemacs-projectile)))
 
 (defun treemacs/init-treemacs-persp ()
-  (use-package treemacs-persp :after treemacs))
+  (use-package treemacs-persp
+    :after treemacs persp-mode
+    :config (when (eq treemacs-use-scope-type 'Perspectives)
+              (treemacs-set-scope-type 'Perspectives))))
+
+(defun treemacs/init-treemacs-icons-dired ()
+  (use-package treemacs-icons-dired
+    :hook (dired-load . treemacs-icons-dired-mode)))
 
 (defun treemacs/pre-init-winum ()
   (spacemacs|use-package-add-hook winum

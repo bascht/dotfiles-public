@@ -16,6 +16,7 @@
   - [[#format-buffer-before-saving][Format buffer before saving]]
 - [[#backends][Backends]]
   - [[#tern][Tern]]
+  - [[#tide][Tide]]
   - [[#language-server-protocol][Language Server Protocol]]
     - [[#typescript][TypeScript]]
     - [[#flow][Flow]]
@@ -164,6 +165,9 @@ Default is =’web-beautify=.
 ** Tern
 See [[file:../../+tools/tern/README.org][tern layer]] documentation.
 
+** Tide
+See [[file:../../+tools/tide/README.org][tide layer]] documentation.
+
 ** Language Server Protocol
 To use an LSP server with JavaScript, add it as a =javascript-backend= to your
 =~/.spacemacs=.
@@ -196,7 +200,7 @@ You have to install =flow-bin=.
 #+END_SRC
 
 Or, if you'd rather use a locally-installed =flow-bin= from your project's
-node_modules directory, see the [[Node Modules][node-add-modules-path setting]].
+node_modules directory, see the [[#node-modules][node-add-modules-path setting]].
 
 *** Debugger (dap integration)
 To install the debug adapter you may run =M-x dap-firefox-setup= or
@@ -281,10 +285,10 @@ variable to =t= in the =javascript= config section:
 #+END_SRC
 
 ** Flow/Typescript
-   Enable the [[Language Server Protocol][lsp]] backend to view type information, jump to declarations, and more.
+Enable the [[#language-server-protocol][lsp]] backend to view type information, jump to declarations, and more.
 
-   js2-mode is sometimes confused by the type syntax, so you may wish to disable their
-   parse warnings:
+js2-mode is sometimes confused by the type syntax, so you may wish to disable their
+parse warnings:
 
 #+BEGIN_SRC emacs-lisp
   (javascript :variables javascript-backend 'lsp

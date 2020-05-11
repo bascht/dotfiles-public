@@ -138,7 +138,7 @@ If the universal prefix argument is used then kill also the window."
   (spacemacs/ahs-highlight-now-wrapper)
   (setq spacemacs-last-ahs-highlight-p (ahs-highlight-p))
   (spacemacs/symbol-highlight-transient-state/body)
-  (spacemacs/integrate-evil-search nil))
+  (spacemacs/integrate-evil-search t))
 
 (defun spacemacs//ahs-ts-on-exit ()
   ;; Restore user search direction state as ahs has exitted in a state
@@ -317,11 +317,16 @@ When ARG is non-nil search in junk files."
          (rel-fname (file-name-nondirectory fname))
          (junk-dir (file-name-directory fname))
          (default-directory junk-dir))
+    (make-directory junk-dir t)
     (cond ((and arg (configuration-layer/layer-used-p 'ivy))
            (spacemacs/counsel-search dotspacemacs-search-tools nil junk-dir))
           ((configuration-layer/layer-used-p 'ivy)
            (require 'counsel)
-           (counsel-find-file rel-fname))
+           ;; HACK: If major-mode is dired, counsel will use
+           ;; (dired-current-directory) instead of default-directory. So, trick
+           ;; counsel by shadowing major-mode.
+           (let ((major-mode nil))
+             (counsel-find-file rel-fname)))
           (arg
            (require 'helm)
            (let (helm-ff-newfile-prompt-p)

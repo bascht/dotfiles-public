@@ -4,7 +4,7 @@ Spacemacs is a volunteer effort. We encourage you to pitch in. The community
 makes Spacemacs what it is. We have a few guidelines, which we ask all
 contributors to follow.
 
-You can only consider reading the sections relevant to what you are going to do:
+You can only consider reading the sections relevant to what you are going to do or just watch this video [[https://www.youtube.com/watch?v=OMS-3Jl05mE&feature=youtu.be&list=PLpr9V-R8ZxiCHMl2_dn1Fovcd34Oz45sua][here]]:
 - [[#asking-for-help][Asking for help]] if you are about to open an issue to ask a question.
 - [[#reporting-issues][Reporting issues]] if you are about to open a new issue.
 - [[#contributing-code][Contributing code]] if you are about to send a PR.
@@ -109,7 +109,7 @@ You may want to [[https://github.com/syl20bnr/spacemacs/wiki/Beginner%27s-Guide-
 - One commit per PR
 - If you have several commits on different topics, close the PR and
   create one PR per topic
-- If you still have several commits, squash them into only one commit
+- If you still have several commits, squash them into only one commit ([[https://github.com/syl20bnr/spacemacs/pull/13381#pullrequestreview-380313280][here's a guide]])
 - Rebase your PR branch on top of upstream =develop= before submitting
   the PR
 

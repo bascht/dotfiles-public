@@ -690,6 +690,12 @@ ones created by `magit' and `dired'."
         (message "%s" file-name))
     (message "WARNING: Current buffer is not attached to a file!")))
 
+(defun spacemacs/copy-buffer-name ()
+  "Copy and show the name of the current buffer."
+  (interactive)
+  (kill-new (buffer-name))
+  (message "%s" (buffer-name)))
+
 (defun spacemacs/copy-file-name-base ()
   "Copy and show the file name without its final extension of the current
 buffer."
@@ -1280,6 +1286,16 @@ With negative N, comment out original line and use the absolute value."
         (forward-line 1)
         (forward-char pos)))))
 
+;; credits to Steve Purcell
+;; https://github.com/purcell/emacs.d/blob/master/lisp/init-editing-utils.el
+;; https://emacsredux.com/blog/2013/04/08/kill-line-backward/
+(defun spacemacs/kill-back-to-indentation ()
+  "Kill from point back to the first non-whitespace character on the line."
+  (interactive)
+  (let ((prev-pos (point)))
+    (back-to-indentation)
+    (kill-region (point) prev-pos)))
+
 (defun spacemacs/uniquify-lines ()
   "Remove duplicate adjacent lines in a region or the current buffer"
   (interactive)
@@ -1518,11 +1534,20 @@ if prefix argument ARG is given, switch to it in an other, possibly new window."
     (when (evil-evilified-state-p)
       (evil-normal-state))))
 
-(defun spacemacs/close-compilation-window ()
-  "Close the window containing the '*compilation*' buffer."
+(defun spacemacs/show-hide-compilation-window ()
+  "Show/Hide the window containing the compilation buffer."
   (interactive)
-  (when compilation-last-buffer
-    (delete-windows-on compilation-last-buffer)))
+  (when-let ((buffer compilation-last-buffer))
+    (if (get-buffer-window buffer 'visible)
+        (delete-windows-on buffer)
+      (spacemacs/switch-to-compilation-buffer))))
+
+(defun spacemacs/switch-to-compilation-buffer ()
+  "Go to last compilation buffer."
+  (interactive)
+  (if compilation-last-buffer
+      (pop-to-buffer compilation-last-buffer)
+    (user-error "There is no compilation buffer?")))
 
 
 ;; Line number
@@ -1642,35 +1667,35 @@ Decision is based on `dotspacemacs-line-numbers'."
 ;; randomize region
 
 (defun spacemacs/randomize-words (beg end)
-    "Randomize the order of words in region."
-    (interactive "*r")
-    (let ((all (mapcar
-                (lambda (w) (if (string-match "\\w" w)
-                                ;; Randomize words,
-                                (cons (random) w)
-                              ;; keep everything else in order.
-                              (cons -1 w)))
-                (split-string
-                 (delete-and-extract-region beg end) "\\b")))
-          words sorted)
-      (mapc (lambda (x)
-              ;; Words are numbers >= 0.
-              (unless (> 0 (car x))
-                (setq words (cons x words))))
-            all)
-      ;; Random sort!
-      (setq sorted (sort words
-                         (lambda (a b) (< (car a) (car b)))))
-      (mapc
-       'insert
-       ;; Insert using original list, `all',
-       ;; but pull *words* from randomly-sorted list, `sorted'.
-       (mapcar (lambda (x)
-                 (if (> 0 (car x))
-                     (cdr x)
-                   (prog1 (cdar sorted)
-                     (setq sorted (cdr sorted)))))
-               all))))
+  "Randomize the order of words in region."
+  (interactive "*r")
+  (let ((all (mapcar
+              (lambda (w) (if (string-match "\\w" w)
+                              ;; Randomize words,
+                              (cons (random) w)
+                            ;; keep everything else in order.
+                            (cons -1 w)))
+              (split-string
+               (delete-and-extract-region beg end) "\\b")))
+        words sorted)
+    (mapc (lambda (x)
+            ;; Words are numbers >= 0.
+            (unless (> 0 (car x))
+              (setq words (cons x words))))
+          all)
+    ;; Random sort!
+    (setq sorted (sort words
+                       (lambda (a b) (< (car a) (car b)))))
+    (mapc
+     'insert
+     ;; Insert using original list, `all',
+     ;; but pull *words* from randomly-sorted list, `sorted'.
+     (mapcar (lambda (x)
+               (if (> 0 (car x))
+                   (cdr x)
+                 (prog1 (cdar sorted)
+                   (setq sorted (cdr sorted)))))
+             all))))
 
 (defun spacemacs/randomize-lines (beg end)
   "Randomize lines in region from BEG to END."
