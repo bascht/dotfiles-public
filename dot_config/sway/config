@@ -108,6 +108,11 @@ input "1390:269:ELECOM_TrackBall_Mouse_HUGE_TrackBall" {
     scroll_method on_button_down
 }
 
+input "65261:4871:ErgoDox_EZ_ErgoDox_EZ" {
+    xkb_layout "de"
+    xkb_numlock enabled
+}
+
 input "65261:4871:ErgoDox_EZ_ErgoDox_EZ_Keyboard" {
     xkb_layout "de"
     xkb_numlock enabled
