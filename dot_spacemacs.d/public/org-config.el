@@ -247,9 +247,6 @@
                       ("paper" . ?P)
                       ("next" . ?N)))
 
-(setq org-bullets-bullet-list
-      '("⊶" "⊷"))
-
                                         ; Daily Review
 (defun my-daily-review ()
   (interactive)
