@@ -297,7 +297,6 @@ assign [instance="^.*\.yakshed\.org$"] "3: Comms"
 assign [title=".*slack.*"] "3: Comms"
 assign [instance="web.whatsapp.com"] "3: Comms"
 assign [instance="inoreader.com"] "3: Comms"
-assign [title="(?i).*qutebrowser-comms$"] "3: Comms"
 assign [instance="wire"] "3: Comms"
 assign [instance="signal"] "3: Comms"
 
@@ -336,7 +335,7 @@ mode "run" {
   bindsym b exec rofi-marks; mode "default"
   bindsym space exec sway-switch-window; mode "default";
 
-  bindsym w exec qutebrowser; mode "default";
+  bindsym w exec firefox; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
   bindsym e exec em; mode "default"
