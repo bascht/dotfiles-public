@@ -18,4 +18,4 @@ end
 
 system "wl-copy #{url}"
 
-system("notify-send 'Uploaded successfully' '<a href=\'#{url}\'>drop.bascht.space</a>'")
+system("notify-send -t 1000 'Uploaded successfully' '<a href=\'#{url}\'>drop.bascht.space</a>'")
