@@ -20,7 +20,6 @@ CURRENT_FILE = Pathname.new(JOURNAL_PATH.join(now.strftime("%Y%m%d")))
 DIALOG="zenity --entry"
 
 appending = File.exist?(CURRENT_FILE) && (not File.zero?(CURRENT_FILE))
-binding.pry
 
 File.open(CURRENT_FILE, "a+") do |f|
   last_tasks = if appending
