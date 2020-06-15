@@ -63,7 +63,7 @@ This function should only modify configuration layer settings."
      sql
      {{ end -}}
      selectric
-     ruby
+     (ruby :variables ruby-enable-enh-ruby-mode t) 
      html
      csv
      python
@@ -89,7 +89,6 @@ This function should only modify configuration layer settings."
                                       backline
                                       magit-todos
                                       beginend
-                                      enh-ruby-mode
                                       forge
                                       {{- if eq .chezmoi.hostname "kandalingo" }}
                                       hledger-mode
