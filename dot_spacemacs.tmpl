@@ -491,8 +491,8 @@ you should place your code here."
   (spacemacs/set-leader-keys "glu" 'mu4e-view-go-to-url)
   (spacemacs/set-leader-keys "drr" 'rake)
   (spacemacs/set-leader-keys "drl" 'rake-rerun)
-  (spacemacs/set-leader-keys "otd" (lambda () (interactive) (spacemacs/load-theme 'doom-dracula)))
-  (spacemacs/set-leader-keys "otl" (lambda () (interactive) (spacemacs/load-theme (car dotspacemacs-themes))))
+  (spacemacs/set-leader-keys "otd" (lambda () (interactive) (spacemacs/load-theme 'doom-dracula t)))
+  (spacemacs/set-leader-keys "otl" (lambda () (interactive) (spacemacs/load-theme (car dotspacemacs-themes) t)))
 
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "sa" 'org-archive-subtree)
   (spacemacs/toggle-hungry-delete-on)
