@@ -13,7 +13,7 @@ swaymsg workspace "4: Docs"
 swaymsg exec "emacs ~/"
 sleep 0.5
 swaymsg workspace "2: Web"
-swaymsg exec "qutebrowser -r default"
+swaymsg exec "firefox"
 sleep 3
 swaymsg workspace "5: Media"
 swaymsg exec alacritty -- -e "tmuxinator start music"
