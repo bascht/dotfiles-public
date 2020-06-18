@@ -1,0 +1,11 @@
+# Graphical word processors can go eat an egg
+
+name: letter-<%= File.basename(Dir.pwd) %>
+root: <%= Dir.pwd %>
+
+pre: make pdf
+
+windows:
+  - editor: em -nw brief.tex
+  - build: make watch
+  - preview: zathura brief.pdf
