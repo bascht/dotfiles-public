@@ -73,7 +73,7 @@ alias -g B="|bat"
 alias -g baml="|bat -l yaml"
 
 # Switch between multiple kubeconfigs, stored in gopass
-kp() { export KUBECONFIG=/dev/shm/kubeconfig && gopass $(gopass ls -f | fzf --query "'${1} kubeconfig" --select-1) > $KUBECONFIG && source <(kubectl completion zsh) }
+kp() { export KUBECONFIG=/dev/shm/kubeconfig-${1} && gopass $(gopass ls -f | fzf --query "'${1} kubeconfig" --select-1) > $KUBECONFIG && source <(kubectl completion zsh) }
 
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() {
