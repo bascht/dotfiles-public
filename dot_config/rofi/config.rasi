@@ -21,7 +21,6 @@ configuration {
 /*	drun-icon-theme: ;*/
 /*	disable-history: false;*/
 /*	sort: false;*/
-	levenshtein-sort: true;
 	case-sensitive: false;
 /*	cycle: true;*/
 	sidebar-mode: true;
