@@ -39,7 +39,7 @@ binaries = YAML.load <<EOB
 :gopass:
   :url: https://github.com/gopasspw/gopass/releases/download/v<%= version %>/gopass-<%=
     version %>-linux-amd64.tar.gz
-  :version: 1.8.6
+  :version: 1.9.2
   :version_argument: version
   :version_match: "^gopass <%= version %> "
 :greenclip:
