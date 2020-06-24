@@ -1,0 +1,2 @@
+#!/bin/sh
+exec rofi -combi-modi bookmarks:~/Documents/Code/rofi-marks/rofi-marks2.rb,drun,run  -show combi -modi combi

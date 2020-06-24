@@ -36,7 +36,7 @@ set $right l
 set $term alacritty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu "rofi -i -modi drun,run,ssh,window -show run"
+set $menu "my-rofi"
 set $display_laptop eDP-1
 set $display_dell "Dell Inc. DELL U2415 7MT018BM1PGU"
 set $display_lg "Goldstar Company Ltd 34UM95 0x00000101"
@@ -129,7 +129,7 @@ bindswitch --locked lid:on output $display_laptop disable
 bindswitch --locked lid:off output $display_laptop enable
 
 bindsym $mod+shift+b border toggle
-
+bindsym $mod+shift+s sticky toggle
 
 ### Key bindings
 #
