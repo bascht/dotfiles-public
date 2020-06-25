@@ -1,4 +1,4 @@
-;;; packages.el --- treemacs Layer packages File for Spacemacs
+;;; packages.el --- Treemacs Layer packages File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2019 Sylvain Benner & Contributors
 ;;
@@ -97,7 +97,7 @@
 
 (defun treemacs/init-treemacs-icons-dired ()
   (use-package treemacs-icons-dired
-    :hook (dired-load . treemacs-icons-dired-mode)))
+    :hook (dired-mode . treemacs-icons-dired-mode)))
 
 (defun treemacs/pre-init-winum ()
   (spacemacs|use-package-add-hook winum

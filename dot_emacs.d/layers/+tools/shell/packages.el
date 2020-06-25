@@ -240,17 +240,24 @@
              (initial-shell-mode (intern initial-shell-mode-name)))
         (evil-set-initial-state initial-shell-mode 'insert))
 
+      (when (fboundp 'spacemacs/make-variable-layout-local)
+        (spacemacs/make-variable-layout-local 'shell-pop-last-shell-buffer-index 1
+                                              'shell-pop-last-shell-buffer-name ""
+                                              'shell-pop-last-buffer nil))
+
       (add-hook 'term-mode-hook 'ansi-term-handle-close)
 
       (spacemacs/set-leader-keys
         "'"   'spacemacs/default-pop-shell
-        "ase" 'spacemacs/shell-pop-eshell
-        "asi" 'spacemacs/shell-pop-inferior-shell
-        "asm" 'spacemacs/shell-pop-multiterm
-        "ast" 'spacemacs/shell-pop-ansi-term
-        "asT" 'spacemacs/shell-pop-term)
+        "atse" 'spacemacs/shell-pop-eshell
+        "atsi" 'spacemacs/shell-pop-inferior-shell
+        "atsm" 'spacemacs/shell-pop-multiterm
+        "atst" 'spacemacs/shell-pop-ansi-term
+        "atsT" 'spacemacs/shell-pop-term)
       (spacemacs/declare-prefix "'" "open shell")
-      (spacemacs/declare-prefix "as" "shells"))))
+      (spacemacs/declare-prefix "ats" "shells"))
+    :config
+    (add-hook 'shell-pop-out-hook #'spacemacs//shell-pop-restore-window)))
 
 (defun shell/init-term ()
   (spacemacs/register-repl 'term 'term)

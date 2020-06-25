@@ -159,6 +159,7 @@ the [[file:CHANGELOG.org][CHANGELOG.org]] file.
 - Key bindings;
   - Changed ~SPC m p t~ to ~SPC m t F~ for =alchemist-project-find-test=
     (thanks to Lyuben Petrov)
+- Remove flycheck-mix-compile in favour of alchemist and lsp syntax checking
 ***** Git
 - Improvements:
   - Adapted configuration to new transient commands of Magit (thanks to bmag)
@@ -345,6 +346,7 @@ sane way, here is the complete list of changed key bindings
 - dart (thanks to Bruno Tavares)
 - dhall (thanks to Colin Woodbury)
 - elasticsearch (thanks to Jean Rigotti)
+- extempore (thanks to Ben Swift)
 - factor (thanks to timor)
 - forth (thanks to Tim Jaeger)
 - gpu (thanks to Evan Klitzke)
@@ -453,6 +455,8 @@ sane way, here is the complete list of changed key bindings
   - New variable =dotspacemacs-undecorated-at-startup= (thanks to bb2020)
   - New variable =dotspacemacs-startup-buffer-show-version=
     (thanks to Zach Pearson)
+  - New variable =dotspacemacs-read-process-output-max= to optimise lsp
+    performance in emacs 27 (thanks to Maximilian Wolff)
 - Removed Variables:
   - Removed unused variable =dotspacemacs-verbose-loading= from
     =.spacemacs.template= (thanks to Ying Qu)
@@ -562,6 +566,8 @@ Other:
     (thanks to Nikita Leshenko)
   - Open Spacemacs home buffer in other/new window with prefix argument
     (thanks to duianto)
+  - Add =emacs-version= to the default value for
+    =dotspacemacs-emacs-dumper-dump-file= (thanks to Evan Klitzke)
 - Fixes:
   - Avoid non-idempotent use of push in init code (thanks to Miciah Masters)
   - Moved Spacemacs startup progress bar to =core-progress-bar.el=, removed
@@ -656,6 +662,8 @@ Other:
   - Replace =spacemacs/close-compilation-window= with
     =spacemacs/show-hide-compilation-window= (thanks to Hans Jang)
   - Avoid unnecessary packages installation of tern layer
+  - Fixed terminal mode line indicator overlapping (thanks to duianto)
+  - Fixed broken --timed-requires and --adv-timers under Emacs 27 and above (thanks to Ying Qu)
 - Other:
   - New function =configuration-layer/message= to display message in
     =*Messages*= buffer (thanks to Sylvain Benner)
@@ -1157,6 +1165,10 @@ Other:
     (thanks to Andriy Kmit)
   - Improved google-translate for set source language to "auto" and
     select target language interactively (thanks to Lin Sun)
+  - Allowed users to specify layout local variables (thanks to CeleritasCelery, fauxsoup)
+  - Refactor +layers/+tools packages to use prefix ~at~
+    migrating most key bindings to lower cases and
+    expanding room for further aliases (thanks to John Stevenson)
 - Fixed:
   - Fixed ~h~ key binding in compilation and grep buffers
     (thanks to Sylvain Benner)
@@ -1304,6 +1316,7 @@ Other:
     (thanks to Muneeb Shaikh)
   - Fixed ~SPC h f~ =helm-spacemacs-help-faq= (thanks to duianto)
   - Fixed =cl= package deprecated =letf= (thanks to duianto)
+  - Fixed origami bindings in normal mode (thanks to Tomasz Kowal)
 *** Layer changes and fixes
 **** Agda
 - Fixes
@@ -1427,6 +1440,7 @@ Other:
 **** Cfengine
 - New packages:
   - Added =ob-cfengine3= (thanks to Nick Anderson)
+  - Added =mustache-mode=
 - Improvements:
   - Configure =org-babel= for =cfengine= source blocks
    (thanks to Sylvain Benner)
@@ -1855,6 +1869,9 @@ Other:
   =evil-snipe-override-mode= is enabled (thanks to Sylvain Benner)
 **** Factor
 - Misc fixes for factor version 0.98 (thanks to timor)
+- Support running graphical Factor listener instances from Spacemacs
+- Support reloading factor-mode/fuel-mode code when connecting to different
+  Factor versions
 **** Finance
 - Remove key-bindings pointing to removed commands (thanks to Alexander Baier)
 - Added =evil-ledger= package (thanks to Alexander Miller)
@@ -1991,6 +2008,8 @@ Other:
   - Make flycheck disable checkers covered by golangci (thanks to zhuoyikang)
   - Updated build instructions for =golangci-lint= (thanks to pancho horrillo)
   - Added =dap-go= integration (ljupchokotev)
+  - Added =go-run-command= variable (thanks to Jay Z)
+  - Added =go-test-command= variable (thanks to Jay Z)
 - Key bindings
   - =godoctor= key bindings (thanks to TinySong and Eivind Fonn):
     - ~SPC m r n~ to rename
@@ -2383,6 +2402,8 @@ Other:
 - Fixed key remapping after =cl= package deprecation (thanks to Damien Picard)
 - Fixed =bepo= layout, commented out broken evil-window :common bindings
   (thanks to CharlesHD)
+- Added evil-lisp-state mapping (thanks to Damien Picard)
+- Added ediff mapping (thanks to iv-nn)
 **** Kivy
 - Added the =kivy= package (thanks to Nasser Alshammari and Ryota Kayanuma)
 **** LaTeX
@@ -2401,6 +2422,7 @@ Other:
 - Fixed README to say auto-fill on by default. (thanks to Max Willsey)
 - Added ConTeXt mode to the key bindings (thanks to ft)
 - Fixed ~SPC m ;~ binding (thanks to Tianshu Wang)
+- Fix jump handlers setup and use dumb-jump as default (thanks to Matt Kramer)
 **** Lua
 - Added support for auto-completion with =company= (thanks to halfcrazy)
 - Added support for =LSP= (EmmyLua-LS-all) (thanks to Lin.Sun)
@@ -2772,6 +2794,8 @@ Other:
   =hyper=, =super= or =alt= (thanks to Binbin Ye)
 - Added a layer variable =osx-swap-option-and-command= defaults to =nil=
   (thanks to Binbin Ye)
+- Enabled GNU =gls= support in dired without requiring
+  =exec-path-from-shell= (thanks to Aaron Zeng)
 **** Pandoc
 - Fixed =spacemacs/run-pandoc= not to reset =pandoc--local-settings=
   (thanks to martian-f)
@@ -2909,6 +2933,8 @@ Other:
 **** Racket
 - Restore smart closing paren behavior in racket-mode (thanks to Don March)
 - Updated racket logo (thanks to Vityou)
+- Add racket-xp-mode to Racket layer (thanks to Shrutarshi Basu)
+- Correctly switch to insert state in REPL
 **** Ranger
 - Key bindings:
   - Added ~j D~ to jump other window (thanks to Rich Alesi)
@@ -3077,6 +3103,9 @@ Other:
 - Disabled =sbt-supershell= in =sbt-mode= (thanks to Rodolfo Hansen)
 - Enable new DAP and lsp-treemacs integration via metals
   (thanks to Rodolfo Hansen)
+- Turned off ability to convert to Unicode arrows deprecated in Scala (and remove
+  =scala-use-unicode-arrows= variable) (thanks to Keith Pinson)
+- Added =lsp-metals= and remove broken =lsp-treemacs= initialization (Bjarke Vad Andersen)
 **** Scheme
 - Added missing =parinfer= package declaration (thanks to Kalle Lindqvist)
 - Update install docs for Chicken 5 changes (thanks to Grant Shangreaux)
@@ -3120,6 +3149,8 @@ Other:
   (thanks to Paweł Siudak)
 - Restore =auto-completion-idle-delay= value for =company-idle-delay=
   (thanks to Miciah Dashiel Butler Masters)
+- Added =auto-completion-minimum-prefix-length= layer variable
+  (thanks to Maximilian Wolff)
 - Added =shell-default-width= layer variable (thanks to David Balatero)
 - Function =resize-shell-to-desired-width= check for shell buffer before
   changing size (thanks to thanhvg)
@@ -3144,6 +3175,13 @@ Other:
   movement in term shells on emacs 26.1
 - Stopped the cursor from jumping to =point-max= when entering insert state from
   a multi line (thanks to Steven Allen)
+- Prevented =shell-pop-out= from restoring a dead buffer or window
+  (thanks to CeleritasCelery, fauxsoup)
+- Made =pop-shell= layout local (thanks to CeleritasCelery, fauxsoup)
+- Checked that the following are bound in =spacemacs-base=:
+  - variable: =layouts-enable-local-variables=
+  - function: =spacemacs/make-variable-layout-local=
+  (thanks to JAremko and duianto)
 **** Shell Scripts
 - Added new company-shell environment variable backend
   (thanks to Alexander-Miller)
@@ -3180,6 +3218,7 @@ Other:
 - Install orgit only when org package is used (thanks to Boris Buliga)
 - Defer git-gutter loading (thanks to Aaron Jensen)
 - Remove redundant arg from git-gutter timer (thanks to bmag)
+- Added Git Blame Transient State (thanks to duianto)
 **** Spotify
 - Replaced helm-spotify package with helm-spotify-plus
   (thanks to Leonard Lausen)
@@ -3244,6 +3283,7 @@ Other:
 - Added opt-in layer variable =terraform-fmt-on-save= to format buffers on save
   with =terraform fmt= (thanks to Harry Hull)
 - Added support for =terraform-company= (thanks to Sylvain Benner)
+- Added LSP support for terraform-lsp
 **** Templates
 - Fixed issue with templates layer ignoring =templates-private-directory=
   (thanks to Seong Yong-ju)
@@ -3280,6 +3320,7 @@ Other:
 - Updated =doom-themes= list to reflect upstream
   (thanks to Dominic Pearson, Muneeb Shaikh)
 - Added highly accessible =modus-themes= (thanks to Muneeb Shaikh)
+- Added =doom-gruvbox-light= theme (thanks to John Stevenson)
 **** Tmux
 - Prevent =tmux-command= at GUI mode (thanks to Isaac Zeng)
 - Fixed regression in tmux by setting keybindings using =use-package=
@@ -3465,8 +3506,8 @@ Other:
   Sunghyun Hwang, Swaroop C H, Sylvain Benner, Szunti, Thijs Vermeir, Tianyi
   Wang, Tim Stewart, timor, TinySong, Titov Andrey, Thomas de Beauchêne, Tomasz
   Cichocinski, Trey Merkley, tzhao11, Vincent Taing, Ullas Holla, Vlad Bokov,
-  Vladimir Kochnev, wenpin, Wieland Hoffmann, Witoslaw Koczewski, Xiang Ji, Yi
-  Liu, Zach Latta, Zane Sterling, zer09, Zhige Xin)
+  Vladimir Kochnev, weihua-lu, wenpin, Wieland Hoffmann, Witoslaw Koczewski,
+  Xiang Ji, Yi Liu, Zach Latta, Zane Sterling, zer09, Zhige Xin)
 **** Documentation and website
   - DOCUMENTATION.org:
     - Fixed the example for how to change the separator style

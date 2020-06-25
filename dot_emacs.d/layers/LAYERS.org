@@ -64,6 +64,7 @@
   - [[#spacemacs-visual][Spacemacs-visual]]
 - [[#music][Music]]
   - [[#alda-layer][Alda Layer]]
+  - [[#extempore][Extempore]]
   - [[#pianobar][Pianobar]]
   - [[#spotify][Spotify]]
   - [[#tidalcycles][TidalCycles]]
@@ -215,6 +216,7 @@
   - [[#import-js][Import-js]]
   - [[#kubernetes][Kubernetes]]
   - [[#lsp][LSP]]
+  - [[#meson][Meson]]
   - [[#nginx][Nginx]]
   - [[#node][Node]]
   - [[#pandoc][Pandoc]]
@@ -474,7 +476,7 @@ This layer enables [[http://orgmode.org/][org mode]] for Spacemacs.
 
 Features:
 - Vim inspired key bindings are provided by [[https://github.com/Somelauw/evil-org-mode][evil-org-mode]]
-- Nicer bullet via [[https://github.com/sabof/org-bullets][org-bullets]]
+- Nicer bullet via [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]]
 - A [[https://cirillocompany.de/pages/pomodoro-technique][pomodoro method]] integration via [[https://github.com/lolownia/org-pomodoro][org-pomodoro]]
 - Presentation mode via [[https://github.com/rlister/org-present][org-present]]
 - Insertion of images via [[https://github.com/abo-abo/org-download][org-download]]
@@ -988,6 +990,16 @@ Features:
 - Syntax highlighting for Alda files.
 - Play portions of a buffer, or the entire buffer,
   through a running Alda server.
+
+** Extempore
+[[file:+lang/extempore/README.org][+lang/extempore/README.org]]
+
+This layer adds support for the [[https://github.com/digego/extempore][Extempore]] programming environment.
+
+Features:
+- run Extempore (inferior extempore buffer)
+- connect to & evaluate code
+- eldoc support
 
 ** Pianobar
 [[file:+music/pianobar/README.org][+music/pianobar/README.org]]
@@ -1779,7 +1791,6 @@ Features:
 - Smart code completion
 - Elixir project management
 - Integration with [[http://company-mode.github.io/][company-mode]]
-- Flycheck support for mix compile
 - Flycheck support for [[https://github.com/rrrene/credo][credo]]
 - Flycheck support for test results
 - Interactive debugger using [[https://github.com/emacs-lsp/dap-mode][dap-mode]]
@@ -1817,6 +1828,8 @@ Features:
 - Auto-Completion in REPL
 - Scaffolding support
 - Refactoring support
+- Running graphical Listeners
+- Reloading emacs-lisp portion of FUEL
 
 **** Go
 [[file:+lang/go/README.org][+lang/go/README.org]]
@@ -2600,7 +2613,7 @@ Features:
 This layer adds support for CFEngine policies to Spacemacs.
 
 Features:
-- Syntax highlighting
+- Syntax highlighting (CFEngine DSL, Mustache)
 - On the fly syntax checking via =flycheck= integration.
 - Auto completion via =company= integration.
 - Execution of =cfengine3= =SRC= blocks in =org-mode= via =ob-cfengine3= package.
@@ -2778,6 +2791,15 @@ Features:
 - Navigation using imenu
 - Consistent core key bindings in LSP modes
 
+** Meson
+[[file:+tools/meson/README.org][+tools/meson/README.org]]
+
+This layer adds support [[https://mesonbuild.com/][Meson]] scripts.
+
+Features:
+- Support for meson build scripts through meson-mode.
+- Syntax highlighting.
+
 ** Nginx
 [[file:+tools/nginx/README.org][+tools/nginx/README.org]]
 
@@ -2954,6 +2976,7 @@ This layer provides basic support for Terraform =.tf= files.
 Features:
 - Basic syntax highlighting via [[https://github.com/syohex/emacs-terraform-mode][terraform-mode]]
 - Auto formatting on save via =terraform fmt=
+- LSP support for terraform-lsp via =terraform-backend=
 
 ** Tide Layer
 [[file:+tools/tide/README.org][+tools/tide/README.org]]
@@ -2991,7 +3014,7 @@ This layer adds support for working with Vagrant using [[https://github.com/ottb
 [[https://github.com/dougm/vagrant-tramp][vagrant-tramp]].
 
 Features:
-- Manage boxes (under the ~SPC a V~ prefix)
+- Manage boxes (under the ~SPC a t v~ prefix)
 - Remote editing on Vagrant boxes via Tramp
 
 ** Web-beautify
