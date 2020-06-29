@@ -324,6 +324,10 @@ mode "resize" {
   bindsym Escape mode "default"
 }
 
+
+# Make Rofi accessible on Ergodox thumbs
+bindsym $mod+space exec $menu
+
 bindsym $mod+r mode "resize"
 
 mode "run" {
