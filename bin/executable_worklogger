@@ -32,6 +32,6 @@ File.open(CURRENT_FILE, "a+") do |f|
                  "First entry for today!"
                end
   time = now.strftime('%H:%M')
-  entry = `#{DIALOG} --title='worklogger @#{time}' --width=300 --text="#{last_tasks}"`.strip
+  entry = `#{DIALOG} --title='worklogger @#{time}' --width=300 --text="#{last_tasks}\nAdd entry for#{time}:"`.strip
   f.write("** #{time} #{entry}\n") unless entry.empty?
 end
