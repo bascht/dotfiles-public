@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec rofi -combi-modi run,bookmarks:~/Documents/Code/rofi-marks/rofi-marks  -show combi -modi combi -matching fuzzy -width 60% -format s -tokenize -location 0
+exec rofi -combi-modi run,bookmarks:~/Documents/Code/rofi-marks/rofi-marks  -show combi -modi combi,run,bookmarks:~/Documents/Code/rofi-marks/rofi-marks,ssh -matching fuzzy -width 60% -format s -tokenize -location 0
