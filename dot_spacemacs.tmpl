@@ -497,6 +497,8 @@ you should place your code here."
     (interactive)
     (helm-find-files-1 "~/Documents/Zettelkasten/"))
 
+  (load-file "~/.spacemacs.d/private/forge-config.el")
+
   {{- if eq .chezmoi.hostname "kandalingo" -}}
   (with-eval-after-load 'org
         (progn
