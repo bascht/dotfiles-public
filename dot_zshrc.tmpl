@@ -75,6 +75,12 @@ alias -g baml="|bat -l yaml"
 # Switch between multiple kubeconfigs, stored in gopass
 kp() { export KUBECONFIG=/dev/shm/kubeconfig-${1} && gopass $(gopass ls -f | fzf --query "'${1} kubeconfig" --select-1) > $KUBECONFIG && source <(kubectl completion zsh) }
 
+# Give my <tab> key some rest
+kfirstpod(){ kubectl get pod -l app="$1" -o jsonpath="{.items[0].metadata.name}" }
+kpodexec() { kubectl exec -ti $(kfirstpod) }
+kpodbash() { kpodexec bash }
+kpodlog() { kubectl log -f $(kfirstpod) }
+
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() {
 	if [[ ! -a $1 ]]; then
