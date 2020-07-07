@@ -41,6 +41,9 @@
 (setq org-icalendar-with-timestamps nil)
 (setq org-journal-dir "~/Documents/Worklog/")
 (setq org-journal-file-format "%Y%m%d")
+(setq org-journal-enable-agenda-integration t)
+(setq calendar-week-start-day 1)
+
 (setq org-capture-templates
       '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
          "* TODO %?\n  %i")
