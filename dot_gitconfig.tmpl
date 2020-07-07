@@ -78,3 +78,9 @@
 
 [pull]
 	rebase = true
+
+{{ range .git.instead -}}
+[url "{{.url}}"]
+insteadOf = {{.https}}
+insteadOf = {{.http}}
+{{ end -}}
