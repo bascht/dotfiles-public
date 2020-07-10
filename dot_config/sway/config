@@ -376,45 +376,45 @@ client.background $base07
 
 bar {
 	id main
-    position top
-    status_command i3status-rs  ~/.config/i3status-rs.toml
-    font pango:JetBrains Mono, FontAwesome 12
+  position top
+  status_command i3status-rs  ~/.config/i3status-main.toml
+  font pango:JetBrains Mono, FontAwesome 12
 	output $display_laptop
 	output $display_lg
 	output $display_coworking
-    colors {
-        background $base00
-        separator  $base01
-        statusline $base04
+  colors {
+      background $base00
+      separator  $base01
+      statusline $base04
 
-        # State             Border  BG      Text
-        focused_workspace   $base05 $base0D $base00
-        active_workspace    $base05 $base03 $base00
-        inactive_workspace  $base03 $base01 $base05
-        urgent_workspace    $base08 $base08 $base00
-        binding_mode $base00 $base0A $base00
-    }
+      # State             Border  BG      Text
+      focused_workspace   $base05 $base0D $base00
+      active_workspace    $base05 $base03 $base00
+      inactive_workspace  $base03 $base01 $base05
+      urgent_workspace    $base08 $base08 $base00
+      binding_mode $base00 $base0A $base00
+  }
 }
 
 bar {
 	id secondary
-    position top
-    status_command i3status-rs  ~/.config/i3status-secondary.toml
-    font pango:JetBrains Mono, FontAwesome 12
+  position top
+  status_command i3status-rs  ~/.config/i3status-secondary.toml
+  font pango:JetBrains Mono, FontAwesome 12
 	output $display_dell
 	tray_output none
-    colors {
-        background $base00
-        separator  $base01
-        statusline $base04
+  colors {
+      background $base00
+      separator  $base01
+      statusline $base04
 
-        # State             Border  BG      Text
-        focused_workspace   $base05 $base0D $base00
-        active_workspace    $base05 $base03 $base00
-        inactive_workspace  $base03 $base01 $base05
-        urgent_workspace    $base08 $base08 $base00
-        binding_mode $base00 $base0A $base00
-    }
+      # State             Border  BG      Text
+      focused_workspace   $base05 $base0D $base00
+      active_workspace    $base05 $base03 $base00
+      inactive_workspace  $base03 $base01 $base05
+      urgent_workspace    $base08 $base08 $base00
+      binding_mode $base00 $base0A $base00
+  }
 }
 
 include /etc/sway/config.d/*

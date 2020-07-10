@@ -1,0 +1,43 @@
+icons = "awesome"
+
+[theme]
+name = "plain"
+
+[theme.overrides]
+idle_bg = "#2E3440"
+good_bg = "#2E3440"
+warning_bg = "#81A1C1"
+critical_bg = "#88C0D0"
+separator_bg = "#2E3440"
+separator_fg = "#434C5E"
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "music"
+buttons = ["play", "next"]
+on_collapsed_click = "cantata"
+marquee = false
+max_width = 10
+
+[[block]]
+block = "toggle"
+text = ""
+command_state = "alfaview-screenshare status"
+command_on = "alfaview-screenshare start"
+command_off = "alfaview-screenshare stop"
+icon_on = "video_camera"
+interval = 10
+
+[[block]]
+block = "time"
+interval = 60
+format = "(u %R)"
+timezone = "UTC"
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a %d.%m. %R"
+timezone = "Europe/Berlin"

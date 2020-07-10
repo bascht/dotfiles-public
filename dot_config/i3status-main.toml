@@ -1,0 +1,93 @@
+icons = "awesome"
+
+[theme]
+name = "plain"
+
+[theme.overrides]
+idle_bg = "#2E3440"
+good_bg = "#2E3440"
+warning_bg = "#81A1C1"
+critical_bg = "#88C0D0"
+separator_bg = "#2E3440"
+separator_fg = "#434C5E"
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "music"
+buttons = ["play", "next"]
+on_collapsed_click = "cantata"
+marquee = false
+max_width = 10
+
+[[block]]
+block = "load"
+interval = 10
+format = "{1m}"
+
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{Mupi}%"
+format_swap = "{SUpi}%"
+
+[[block]]
+block = "net"
+device = "wlp59s0"
+ssid = true
+signal_strength = true
+speed_up = false
+speed_down = false
+interval = 10
+hide_missing = true
+hide_inactive = true
+
+[[block]]
+block = "net"
+device = "enp0s31f6"
+speed_up = false
+speed_down = false
+interval = 10
+hide_missing = true
+hide_inactive = true
+
+[[block]]
+block = "net"
+device = "dorhamm"
+ip = false
+interval = 10
+speed_up = false
+speed_down = false
+hide_missing = true
+hide_inactive = true
+
+[[block]]
+block = "toggle"
+text = ""
+command_state = "alfaview-screenshare status"
+command_on = "alfaview-screenshare start"
+command_off = "alfaview-screenshare stop"
+icon_on = "video_camera"
+interval = 10
+
+[[block]]
+block = "backlight"
+device = "intel_backlight"
+
+[[block]]
+block = "battery"
+driver = "upower"
+format = "{percentage}% {time}"
+
+[[block]]
+block = "time"
+interval = 60
+format = "(u %R)"
+timezone = "UTC"
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a %d.%m. %R"
+timezone = "Europe/Berlin"
