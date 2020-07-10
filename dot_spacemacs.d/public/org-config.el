@@ -53,6 +53,9 @@
          "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
         ("c" "CustomerIssue" entry (file "~/Documents/Zettelkasten/Todo.org")
          "* TODO issue%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
+
+        ("a" "Alfaview" entry (file+headline "~/Documents/Zettelkasten/CustomerAlfaview.org" "Arbeitszeiten")
+         "* %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
         ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
          "* %?\nEntered on %U\n  %i\n  %a")))
 
