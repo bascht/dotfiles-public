@@ -79,8 +79,10 @@
 [pull]
 	rebase = true
 
+{{ if (index . "git") and (index .git "instead") -}}
 {{ range .git.instead -}}
 [url "{{.url}}"]
 insteadOf = {{.https}}
 insteadOf = {{.http}}
+{{ end -}}
 {{ end -}}
