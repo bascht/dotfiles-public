@@ -132,9 +132,12 @@ function fzf-vm () {
 zle -N fzf-vm
 bindkey '\ev' fzf-vm
 
-function ta () {
+function fzf-ta () {
     tmux attach $(tmux ls -F "#{session_name}" | fzf)
 }
+
+zle -N fzf-ta
+bindkey '\et' fzf-ta
 
 # Via @leahneukirchen
 autoload -Uz copy-earlier-word
