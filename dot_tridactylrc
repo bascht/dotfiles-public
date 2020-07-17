@@ -1,0 +1,41 @@
+" Mostly 'inspired' by @bovine3dom's tridactylrc
+
+" Comment toggler for Reddit and Hacker News
+bind ;c hint -c [class*="expand"],[class="togg"]
+
+" Git{Hub,Lab} git clone via SSH yank
+bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+" Only hint search results on Google and DDG
+bindurl www.google.com f hint -Jc .rc > .r > a
+bindurl www.google.com F hint -Jbc .rc>.r>a
+
+bindurl ^https://duckduckgo.com f hint -Jc [class=result__a]
+bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
+
+" Allow Ctrl-a to select all in the commandline
+unbind --mode=ex <C-a>
+
+" Allow Ctrl-c to copy in the commandline
+unbind --mode=ex <C-c>
+
+" Handy multiwindow/multitasking binds
+bind gd tabdetach
+bind gD composite tabduplicate | tabdetach
+
+" Make yy use canonical / short links on the 5 websites that support them
+bind yy clipboard yankshort
+
+" Stupid workaround to let hint -; be used with composite which steals semi-colons
+command hint_focus hint -;
+
+set editorcmd em
+
+" Sane hinting mode
+set hintfiltermode vimperator-reflow
+set hintnames numeric
+
+" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
+set hintdelay 100
+
+" vim: set filetype=tridactyl

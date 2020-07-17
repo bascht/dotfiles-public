@@ -597,6 +597,8 @@ you should place your code here."
     :after outline
     :config (advice-add 'outline-flag-region :after 'backline-update))
 
+  ; Default to markdown-mode for generic text files (and Tridactyl)
+  (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
 
   ;(spaceline-toggle-minor-modes-off)
   (add-hook 'yaml-mode-hook
