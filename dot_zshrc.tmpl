@@ -21,7 +21,7 @@ if [[ $TERM == "eterm-color " ]] || [[ $TERM == "dumb" ]]; then
     return
 fi
 
-plugins=(fzf fasd dotenv tmuxinator)
+plugins=(fzf fasd tmuxinator)
 fpath=( ~/.kubectx/completion "${fpath[@]}" )
 
 ZSH_CUSTOM="${HOME}/.zsh-custom"
@@ -30,7 +30,6 @@ ZSH_THEME="jreese"
 {{ else }}
 ZSH_THEME="powerlevel10k/powerlevel10k"
 {{- end }}
-ZSH_DOTENV_FILE=".direnv"
 FZF_MARKS_FILE="${HOME}/.config/fzf/${HOST}"
 
 export ZSH=/home/bascht/.oh-my-zsh
@@ -65,6 +64,7 @@ alias sudo='TERM=xterm-256color sudo'
 alias gp="gopass"
 alias hl="hledger"
 alias cm="chezmoi"
+
 alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 alias kn="kubens"
 
@@ -74,12 +74,12 @@ alias -g baml="|bat -l yaml"
 
 # Switch between multiple kubeconfigs, stored in gopass
 kp() { export KUBECONFIG=/dev/shm/kubeconfig-${1} && gopass $(gopass ls -f | fzf --query "'${1} kubeconfig" --select-1) > $KUBECONFIG && source <(kubectl completion zsh) }
-
 # Give my <tab> key some rest
-kfirstpod(){ kubectl get pod -l app="$1" -o jsonpath="{.items[0].metadata.name}" }
-kpodexec() { kubectl exec -ti $(kfirstpod) }
-kpodbash() { kpodexec bash }
-kpodlog() { kubectl log -f $(kfirstpod) }
+kfp(){ kubectl get pod -l app="${1:-$(basename $PWD)}" -o jsonpath="{.items[0].metadata.name}" }
+kpe() { kubectl exec -ti $(kfp ${1:-$(basename $PWD)}) $2 }
+kpb() { kpe ${1:-$(basename $PWD)} bash }
+kgc() { k get pod $(kfp) -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n' }
+kgl() { kubectl logs -f $(kfp ${1:-$(basename $PWD)}) $(kgc|fzf) }
 
 timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() {
@@ -95,6 +95,9 @@ letterup() {
 # Pretty up FZF
 export FZF_DEFAULT_OPTS='
   --prompt=" "
+  --border
+  --height="40%"
+  --layout=reverse
   --color=bg+:#f0f0f1,bg:#fafafa,spinner:#0184bc,hl:#4078f2
   --color=fg:#696c77,header:#4078f2,info:#c18401,pointer:#0184bc
   --color=marker:#0184bc,fg+:#202227,prompt:#c18401,hl+:#4078f2
