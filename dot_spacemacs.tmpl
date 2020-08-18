@@ -247,7 +247,7 @@ It should only modify the values of Spacemacs settings."
                          doom-solarized-light
                          doom-one-light
                          doom-nord
-                         doom-dracula
+                         doom-monokai-pro
                          doom-spacegrey
                          doom-one
                          spacemacs-dark)
@@ -536,7 +536,7 @@ you should place your code here."
   (spacemacs/set-leader-keys "glu" 'mu4e-view-go-to-url)
   (spacemacs/set-leader-keys "drr" 'rake)
   (spacemacs/set-leader-keys "drl" 'rake-rerun)
-  (spacemacs/set-leader-keys "otd" (lambda () (interactive) (spacemacs/load-theme 'doom-dracula nil t)))
+  (spacemacs/set-leader-keys "otd" (lambda () (interactive) (spacemacs/load-theme 'doom-monokai-pro nil t)))
   (spacemacs/set-leader-keys "otl" (lambda () (interactive) (spacemacs/load-theme (car dotspacemacs-themes) nil t)))
 
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "sa" 'org-archive-subtree)
