@@ -165,7 +165,6 @@ bindsym $mod+Return exec $term
 bindsym $mod+q kill
 
 
-bindsym $mod+shift+d exec alacritty --class 'launcher' --command bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'
 for_window [app_id="^launcher$"] floating enable, border pixel 4, resize set width 25 ppt height 100 ppt, move position center
 for_window [app_id="^wofi$"] floating enable, border none
 
@@ -324,26 +323,27 @@ mode "resize" {
   bindsym Escape mode "default"
 }
 
-
-# Make Rofi accessible on Ergodox thumbs
-bindsym $mod+space exec $menu
-
-bindsym $mod+r mode "resize"
-
 mode "run" {
   # start your launcher
-  bindsym $mod+d exec $menu; mode "default";
   bindsym d exec $menu; mode "default";
+  bindsym $mod+d exec $menu; mode "default";
+
+  bindsym b exec $menu bookmarks; mode "default"
+  bindsym $mod+shift+d exec $menu bookmarks; mode "default"
+
   bindsym r exec rofi -show run; mode "default";
   bindsym p exec rofi-pass; mode "default";
-  bindsym b exec rofi-marks; mode "default"
-  bindsym space exec sway-switch-window; mode "default";
+
+  bindsym s exec swytch; mode "default"
+  bindsym tab exec swytch; mode "default"
 
   bindsym w exec firefox; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
   bindsym e exec em; mode "default"
-  bindsym f exec nautilus; mode "default"
+  bindsym $mod+e exec emacs; mode "default"
+  bindsym f exec screenshot-folder; mode "default"
+  bindsym $mod+f exec nautilus; mode "default"
 
   bindsym c exec clipman pick --tool=rofi; mode "default"
   bindsym o exec pavucontrol; mode "default"
@@ -355,6 +355,8 @@ mode "run" {
 }
 
 bindsym $mod+d mode "run"
+bindsym $mod+shift+d mode "run"
+bindsym $mod+r mode "resize"
 
 font pango:JetBrains Mono 10
 default_border pixel 2
