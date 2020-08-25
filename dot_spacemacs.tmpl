@@ -559,7 +559,7 @@ you should place your code here."
   {{- end -}}
 
   ;; Don't litter. Use one file per VM.
-  (setq recentf-save-file (format "%s.%s.%s" recentf-save-file system-name server-name))
+  (setq recentf-save-file (format "%s.%s.%s" recentf-save-file system-name (if (boundp 'server-name) server-name "noserver")))
 
   ;; Tramp speed up
   (setq remote-file-name-inhibit-cache nil)
