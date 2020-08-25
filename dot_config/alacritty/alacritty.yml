@@ -1,6 +1,7 @@
 env:
   TERM: xterm-24bit
 window:
+  dynamic_title: true
   dimensions:
     columns: 80
     lines: 24
@@ -30,7 +31,7 @@ font:
     y: 0
 
 
-visual_bell:
+visual:
   animation: EaseOutExpo
   duration: 0 # disabled
 
@@ -50,7 +51,6 @@ mouse:
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
-dynamic_title: true
 
 live_config_reload: true
 
