@@ -76,7 +76,7 @@ alias -g obaml="-o yaml|bat -l yaml"
 # Switch between multiple kubeconfigs, stored in gopass
 kp() { export KUBECONFIG=/dev/shm/kubeconfig-${1} && gopass $(gopass ls -f | fzf --query "'${1} kubeconfig" --select-1) > $KUBECONFIG && source <(kubectl completion zsh) }
 # Give my <tab> key some rest
-kfp(){ kubectl get pod -l app="${1:-$(basename $PWD)}" -o jsonpath="{.items[0].metadata.name}" }
+kfp() { kubectl get pod -l app="${1:-$(basename $PWD)}" -o jsonpath="{.items[0].metadata.name}" }
 kpe() { kubectl exec -ti $(kfp ${1:-$(basename $PWD)}) $2 }
 kpb() { kpe ${1:-$(basename $PWD)} bash }
 kgc() { k get pod $(kfp) -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n' }
