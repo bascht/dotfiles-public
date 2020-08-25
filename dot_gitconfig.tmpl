@@ -85,4 +85,8 @@
 insteadOf = {{.https}}
 insteadOf = {{.http}}
 {{ end -}}
+{{ range  .git.gitlab -}}
+[gitlab "{{.url}}"]
+user = "{{.user}}"
+{{ end -}}
 {{ end -}}
