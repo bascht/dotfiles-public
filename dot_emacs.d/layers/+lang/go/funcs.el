@@ -62,7 +62,7 @@
         ;; golangci-lint errors won't be reported
         (when go-use-golangci-lint
           (message "[go] Setting lsp-diagnostic-package :none to enable golangci-lint support.")
-          (setq-local lsp-diagnostic-package :none))
+          (setq-local lsp-diagnostic-provider :none))
         (lsp))
     (message "`lsp' layer is not installed, please add `lsp' layer to your dotfile.")))
 
@@ -125,6 +125,7 @@
   (interactive)
   (if (string-match "_test\\.go" buffer-file-name)
       (save-excursion
+        (move-end-of-line nil)
         (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
         (spacemacs/go-run-tests
          (cond (go-use-testify-for-testing (concat "-run='Test" (match-string-no-properties 2) "' -testify.m='" (match-string-no-properties 3) "'"))

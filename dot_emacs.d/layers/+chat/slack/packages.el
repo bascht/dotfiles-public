@@ -1,6 +1,6 @@
 ;;; packages.el --- slack layer packages file for Spacemacs.
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Kosta Harlan <kosta@kostaharlan.net>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -8,10 +8,6 @@
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
-
-;;; Commentary:
-
-;;; Code:
 
 ;; TODO: Integrate company-emoji.
 
@@ -23,8 +19,7 @@
     linum
     persp-mode
     slack
-    window-purpose
-    ))
+    window-purpose))
 
 (defun slack/init-alert ()
   (use-package alert
@@ -61,38 +56,44 @@
     :commands (slack-start)
     :defer t
     :init
-    (spacemacs/declare-prefix "aC" "slack")
+    (spacemacs/declare-prefix "acs" "slack")
     (spacemacs/set-leader-keys
-      "aCs" 'slack-start
-      "aCj" 'slack-channel-select
-      "aCg" 'slack-group-select
-      "aCr" 'slack-select-rooms
-      "aCd" 'slack-im-select
-      "aCq" 'slack-ws-close)
+      "acsT" 'slack-all-threads
+      "acsd" 'slack-im-select
+      "acsg" 'slack-group-select
+      "acsj" 'slack-channel-select
+      "acsq" 'slack-ws-close
+      "acsr" 'slack-select-rooms
+      "acss" 'slack-start
+      "acsu" 'slack-all-unreads)
     (setq slack-enable-emoji t)
     :config
-    (dolist (mode '(slack-mode slack-message-buffer-mode))
+    (dolist (mode '(slack-mode slack-message-buffer-mode slack-thread-message-buffer-mode))
       (spacemacs/set-leader-keys-for-major-mode mode
-        "j" 'slack-channel-select
-        "g" 'slack-group-select
-        "r" 'slack-select-rooms
-        "d" 'slack-im-select
-        "p" 'slack-room-load-prev-messages
-        "e" 'slack-message-edit
-        "t" 'slack-thread-show-or-create
-        "q" 'slack-ws-close
-        "mm" 'slack-message-embed-mention
-        "mc" 'slack-message-embed-channel
-        "k" 'slack-select-rooms
-        "@" 'slack-message-embed-mention
         "#" 'slack-message-embed-channel
+        "(" 'slack-message-remove-reaction
         ")" 'slack-message-add-reaction
-        "(" 'slack-message-remove-reaction))
-    (evil-define-key 'insert slack-mode-map
-      (kbd "@") 'slack-message-embed-mention
-      (kbd "#") 'slack-message-embed-channel)))
+        "@" 'slack-message-embed-mention
+        "T" 'slack-all-threads
+        "d" 'slack-im-select
+        "e" 'slack-message-edit
+        "g" 'slack-group-select
+        "j" 'slack-channel-select
+        "k" 'slack-select-rooms
+        "mc" 'slack-message-embed-channel
+        "mm" 'slack-message-embed-mention
+        "p" 'slack-room-load-prev-messages
+        "q" 'slack-ws-close
+        "r" 'slack-select-rooms
+        "t" 'slack-thread-show-or-create
+        "u" 'slack-all-unreads)
+      (let ((keymap (symbol-value (intern (concat (symbol-name mode) "-map")))))
+        (evil-define-key 'insert keymap
+          (kbd "#") 'slack-message-embed-channel
+          (kbd ":") 'slack-insert-emoji
+          (kbd "@") 'slack-message-embed-mention)))))
 
-(defun slack/pre-init-window-purpose ()
-  (spacemacs|use-package-add-hook window-purpose
-    :pre-config
-    (add-to-list 'purpose-user-mode-purposes '(slack-mode . chat))))
+(defun slack/post-init-window-purpose ()
+  (purpose-set-extension-configuration
+   :slack-layer
+   (purpose-conf :mode-purposes '((slack-mode . chat)))))

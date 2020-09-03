@@ -122,7 +122,7 @@
                                                     ".org-timestamps/")
             org-directory "~/org" ;; needs to be defined for `org-default-notes-file'
             org-default-notes-file (expand-file-name "notes.org" org-directory)
-            org-log-done t
+            org-log-done 'time
             org-startup-with-inline-images t
             org-latex-prefer-user-labels t
             org-image-actual-width nil
@@ -256,7 +256,7 @@ Will work on both org-mode and any mode that accepts plain html."
 
         ;; Subtree editing
         "sa" 'org-toggle-archive-tag
-        "sA" 'org-archive-subtree
+        "sA" 'org-archive-subtree-default
         "sb" 'org-tree-to-indirect-buffer
         "sd" 'org-cut-subtree
         "sh" 'org-promote-subtree
@@ -365,6 +365,7 @@ Will work on both org-mode and any mode that accepts plain html."
         "ao#" 'org-agenda-list-stuck-projects
         "ao/" 'org-occur-in-agenda-files
         "aoa" 'org-agenda-list
+        "aoo" 'org-agenda
         "aoc" 'org-capture
         "aoe" 'org-store-agenda-views
         "aofi" 'org-feed-goto-inbox
@@ -382,7 +383,6 @@ Will work on both org-mode and any mode that accepts plain html."
 
         "aol" 'org-store-link
         "aom" 'org-tags-view
-        "aoo" 'org-agenda
         "aos" 'org-search-view
         "aot" 'org-todo-list
         ;; SPC C- capture/colors
@@ -782,8 +782,8 @@ Headline^^            Visit entry^^               Filter^^                    Da
 
       (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
         "j" 'org-journal-new-entry
-        "n" 'org-journal-open-next-entry
-        "p" 'org-journal-open-previous-entry)
+        "n" 'org-journal-next-entry
+        "p" 'org-journal-previous-entry)
 
       (spacemacs//init-leader-mode-map 'org-journal-mode 'spacemacs-org-journal-mode-map))))
 

@@ -80,21 +80,24 @@
   (use-package enh-ruby-mode
     :mode (("Appraisals\\'" . enh-ruby-mode)
            ("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Puppet\\)file\\'" . enh-ruby-mode)
-           ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . enh-ruby-mode))
+           ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\|pryrc\\)\\'" . enh-ruby-mode))
     :interpreter "ruby"
     :init
     (progn
       (setq enh-ruby-deep-indent-paren nil
             enh-ruby-hanging-paren-deep-indent-level 2)
+      (spacemacs/declare-prefix-for-mode 'enh-ruby-mode "mi" "insert")
       (spacemacs/declare-prefix-for-mode 'enh-ruby-mode "mt" "test")
-      (spacemacs/declare-prefix-for-mode 'enh-ruby-mode "mT" "toggle")
 
       (add-hook 'enh-ruby-mode-hook #'spacemacs//ruby-setup-backend)
       (add-hook 'enh-ruby-mode-local-vars-hook
                 #'spacemacs/ruby-maybe-highlight-debugger-keywords))
     :config
     (spacemacs/set-leader-keys-for-major-mode 'enh-ruby-mode
-      "T{" 'enh-ruby-toggle-block)))
+      "if"  'spacemacs/ruby-insert-frozen-string-literal-comment
+      "is"  'spacemacs/ruby-insert-shebang
+      "r{" 'enh-ruby-toggle-block
+      "r}" 'enh-ruby-toggle-block)))
 
 (defun ruby/post-init-evil-matchit ()
   (dolist (hook '(ruby-mode-hook enh-ruby-mode-hook))
@@ -138,19 +141,21 @@
   (spacemacs|use-package-add-hook org
     :post-config (add-to-list 'org-babel-load-languages '(ruby . t))))
 
-(defun ruby/post-init-popwin ()
-  (push '("*Bundler*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-        popwin:special-display-config)
-  (push '("*projectile-rails-compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-        popwin:special-display-config)
-  (push '("*projectile-rails-generate*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-        popwin:special-display-config)
-  (push '("*rake-compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-        popwin:special-display-config)
-  (push '("*rspec-compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-        popwin:special-display-config)
-  (push '("^\\*RuboCop.+\\*$" :regexp t :dedicated t :position bottom :stick t :noselect t :height 0.4)
-        popwin:special-display-config))
+(defun ruby/pre-init-popwin ()
+  (spacemacs|use-package-add-hook popwin
+    :post-config
+    (push '("*Bundler*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
+          popwin:special-display-config)
+    (push '("*projectile-rails-compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
+          popwin:special-display-config)
+    (push '("*projectile-rails-generate*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
+          popwin:special-display-config)
+    (push '("*rake-compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
+          popwin:special-display-config)
+    (push '("*rspec-compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
+          popwin:special-display-config)
+    (push '("^\\*RuboCop.+\\*$" :regexp t :dedicated t :position bottom :stick t :noselect t :height 0.4)
+          popwin:special-display-config)))
 
 (defun ruby/init-rake ()
   (use-package rake
@@ -277,9 +282,11 @@
   (use-package ruby-mode
     :defer t
     :mode (("Appraisals\\'" . ruby-mode)
-           ("Puppetfile" . ruby-mode))
+            ("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Puppet\\)file\\'" . ruby-mode)
+            ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\|pryrc\\)\\'" . ruby-mode))
     :init
     (progn
+      (spacemacs/declare-prefix-for-mode 'ruby-mode "mi" "insert")
       (spacemacs/declare-prefix-for-mode 'ruby-mode "mt" "test")
       (spacemacs/declare-prefix-for-mode 'ruby-mode "mT" "toggle")
 
@@ -288,9 +295,18 @@
       (add-hook 'ruby-mode-hook #'spacemacs//ruby-setup-backend)
       (add-hook 'ruby-mode-local-vars-hook
                 #'spacemacs/ruby-maybe-highlight-debugger-keywords))
-    :config (spacemacs/set-leader-keys-for-major-mode 'ruby-mode
-              "T'" 'ruby-toggle-string-quotes
-              "T{" 'ruby-toggle-block)))
+    :config
+    (progn
+      ;; This might have been important 10 years ago but now it's frustrating.
+      (setq ruby-insert-encoding-magic-comment nil)
+
+      (spacemacs/set-leader-keys-for-major-mode 'ruby-mode
+        "if"  'spacemacs/ruby-insert-frozen-string-literal-comment
+        "is"  'spacemacs/ruby-insert-shebang
+        "r'"  'ruby-toggle-string-quotes
+        "r\"" 'ruby-toggle-string-quotes
+        "r{"  'ruby-toggle-block
+        "r}"  'ruby-toggle-block))))
 
 (defun ruby/init-ruby-refactor ()
   (use-package ruby-refactor

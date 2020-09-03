@@ -50,8 +50,6 @@
 (defun spacemacs//c-c++-setup-flycheck ()
   "Conditionally setup C/C++ flycheck integration based on backend."
   (pcase (spacemacs//c-c++-backend)
-    (`lsp-clangd (spacemacs//c-c++-setup-lsp-flycheck))
-    (`lsp-ccls (spacemacs//c-c++-setup-lsp-flycheck))
     (`rtags (spacemacs//c-c++-setup-rtags-flycheck))
     (`ycmd (spacemacs//c-c++-setup-ycmd-flycheck))))
 
@@ -169,14 +167,6 @@
   "Setup DAP integration."
   (require 'dap-gdb-lldb))
 
-(defun spacemacs//c-c++-setup-lsp-flycheck ()
-  "Setup LSP syntax checking."
-  (when (or (spacemacs/enable-flycheck 'c-mode)
-            (spacemacs/enable-flycheck 'c++-mode))
-    (require 'lsp-ui-flycheck)
-    (lsp-ui-flycheck-enable nil)
-    (flycheck-mode)))
-
 
 ;; rtags
 
@@ -207,6 +197,7 @@
       "gD" 'rtags-diagnostics
       "ge" 'rtags-reparse-file
       "gE" 'rtags-preprocess-file
+      "gf" 'rtags-find-dead-functions
       "gF" 'rtags-fixit
       "gG" 'rtags-guess-function-at-point
       "gh" 'rtags-print-class-hierarchy
@@ -215,9 +206,11 @@
       "gM" 'rtags-symbol-info
       "gO" 'rtags-goto-offset
       "gp" 'rtags-set-current-project
+      "gr" 'rtags-references-tree
       "gR" 'rtags-rename-symbol
       "gs" 'rtags-print-source-arguments
       "gS" 'rtags-display-summary
+      "gt" 'rtags-dependency-tree
       "gT" 'rtags-taglist
       "gv" 'rtags-find-virtuals-at-point
       "gV" 'rtags-print-enum-value-at-point

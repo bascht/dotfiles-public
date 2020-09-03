@@ -15,6 +15,7 @@
   - [[#git-mode][Git mode]]
   - [[#flattening-of-directories][Flattening of directories]]
   - [[#locking-width][Locking width]]
+  - [[#theme][Theme]]
 - [[#key-bindings][Key bindings]]
   - [[#global][Global]]
   - [[#inside-treemacs][Inside Treemacs]]
@@ -130,6 +131,14 @@ resizable through Treemacs commands and key bindings.
 
 Default is =nil=.
 
+** Theme
+To use the `all-the-icons` theme rather than the default one, set the `treemacs-use-all-the-icons-theme` variable:
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dotspacemacs-configuration-layers '(
+    (treemacs :variables treemacs-use-all-the-icons-theme t)))
+#+END_SRC
+
 * Key bindings
 ** Global
 
@@ -203,8 +212,9 @@ It is possible to set =ace mode= as default action for pressing RET on a file.
 To do this add following configuration to your dotfile.
 
 #+BEGIN_SRC emacs-lisp
-  (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
-  (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace)
+  (with-eval-after-load 'treemacs
+    (treemacs-define-RET-action 'file-node-closed #'treemacs-visit-node-ace)
+    (treemacs-define-RET-action 'file-node-open #'treemacs-visit-node-ace))
 #+END_SRC
 
 **** Use digits in ace mode

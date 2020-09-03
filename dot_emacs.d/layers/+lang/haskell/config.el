@@ -11,14 +11,14 @@
 
 ;; Variables
 
-(setq haskell-modes '(haskell-mode literate-haskell-mode))
+(setq haskell-modes '(haskell-mode haskell-literate-mode))
 
 (spacemacs|define-jump-handlers haskell-mode haskell-mode-jump-to-def-or-tag)
 
 (defvar haskell-completion-backend nil
   "Completion backend used by company.
-Available options are `ghci', `intero', `dante', `lsp' and `ghc-mod'.
-If `nil' then `ghci' is the default backend unless `lsp' layer is used.")
+Available options are `dante' and `lsp'.
+If `nil' then `dante' is the default backend unless `lsp' layer is used.")
 
 (defvar haskell-enable-hindent nil
   "Formatting with hindent; If t hindent is enabled.")

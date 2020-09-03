@@ -435,13 +435,25 @@ visiting README.org files of Spacemacs.")
 If non nil activate `clean-aindent-mode' which tries to correct
 virtual indentation of simple modes. This can interfer with mode specific
 indent handling like has been reported for `go-mode'.
-If it does deactivate it here.
-(default t)")
+If it does deactivate it here. (default t)")
+
+(defvar dotspacemacs-swap-number-row nil
+  "Shift number row for easier access.
+
+If non-nil shift your number row to match the entered keyboard layout
+(only in insert mode). Currently the keyboard layouts
+(qwerty-us qwertz-de) are supported.
+New layouts can be added in `spacemacs-editing' layer.
+(default nil)")
+
+(defvar dotspacemacs-home-shorten-agenda-source nil
+  "If nil the home buffer shows the full path of agenda items
+and todos. If non nil only the file name is shown.")
 
 (defvar dotspacemacs--pretty-ignore-subdirs
   '(".cache/junk")
   "Subdirectories of `spacemacs-start-directory' to ignore when
-  prettifying Org files.")
+prettifying Org files.")
 
 (defun dotspacemacs//prettify-spacemacs-docs ()
   "Run `spacemacs/prettify-org-buffer' if `buffer-file-name'
@@ -505,7 +517,7 @@ changed, and issue a warning if it did."
   "Read editing style CONFIG: apply variables and return the editing style.
 CONFIG can be the symbol of an editing style or a list where the car is
 the symbol of an editing style and the cdr is a list of keyword arguments like
-`:variables'."
+  `:variables'."
   (cond
    ((symbolp config) config)
    ((listp config)
@@ -828,7 +840,7 @@ error recovery."
                           "exists in filesystem" "path")
     (setq dotspacemacs-configuration-layers
           (mapcar (lambda (l) (if (listp l) (car l) l))
-                  dotspacemacs-configuration-layers))
+                  (remove nil dotspacemacs-configuration-layers)))
     (spacemacs//test-list 'configuration-layer/get-layer-path
                           'dotspacemacs-configuration-layers
                           "can be found" "layer")

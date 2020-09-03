@@ -102,13 +102,16 @@
     :defer t
     :init
     (with-eval-after-load 'flycheck
-      (flycheck-pos-tip-mode))))
+      (flycheck-pos-tip-mode)
+      (setq flycheck-pos-tip-timeout (or syntax-checking-auto-hide-tooltips 0)))))
 
-(defun syntax-checking/post-init-popwin ()
-  (push '("^\\*Flycheck.+\\*$"
-          :regexp t
-          :dedicated t
-          :position bottom
-          :stick t
-          :noselect t)
-        popwin:special-display-config))
+(defun syntax-checking/pre-init-popwin ()
+  (spacemacs|use-package-add-hook popwin
+    :post-config
+    (push '("^\\*Flycheck.+\\*$"
+            :regexp t
+            :dedicated t
+            :position bottom
+            :stick t
+            :noselect t)
+          popwin:special-display-config)))

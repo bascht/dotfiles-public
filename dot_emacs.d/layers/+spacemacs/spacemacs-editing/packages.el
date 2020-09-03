@@ -26,6 +26,7 @@
         password-generator
         pcre2el
         smartparens
+        (evil-swap-keys :toggle dotspacemacs-swap-number-row)
         (spacemacs-whitespace-cleanup :location local)
         string-inflection
         undo-tree
@@ -33,7 +34,6 @@
         ws-butler))
 
 ;; Initialization of packages
-
 (defun spacemacs-editing/init-aggressive-indent ()
   (use-package aggressive-indent
     :defer t
@@ -187,9 +187,12 @@
     :defer t
     :init
     (spacemacs/set-leader-keys
-      "xo" 'link-hint-open-link
-      "xO" 'link-hint-open-multiple-links
-      "xy" 'link-hint-copy-link)))
+      "xA" 'link-hint-open-all-links
+      "xm" 'link-hint-open-multiple-links
+      "xo" 'link-hint-open-link-at-point
+      "xO" 'link-hint-open-link
+      "xy" 'link-hint-copy-link-at-point
+      "xY" 'link-hint-copy-link)))
 
 (defun spacemacs-editing/init-lorem-ipsum ()
   (use-package lorem-ipsum
@@ -223,9 +226,9 @@
     :init
     (let
         ((rebind-normal-to-motion-state-map
-         (lambda (key def)
-           (define-key evil-normal-state-map key nil)
-           (define-key evil-motion-state-map key def))))
+          (lambda (key def)
+            (define-key evil-normal-state-map key nil)
+            (define-key evil-motion-state-map key def))))
       (global-origami-mode)
       (funcall rebind-normal-to-motion-state-map "za" 'origami-forward-toggle-node)
       (funcall rebind-normal-to-motion-state-map "zc" 'origami-close-node)
@@ -451,3 +454,42 @@
   ;; it to be loaded.
   (use-package ws-butler
     :config (spacemacs|hide-lighter ws-butler-mode)))
+
+(defun spacemacs-editing/init-evil-swap-keys ()
+  (use-package evil-swap-keys
+    :defer t
+    :init
+    (progn
+      (pcase dotspacemacs-swap-number-row
+        (`qwerty-us (setq evil-swap-keys-number-row-keys  '(("1" . "!")
+                                                            ("2" . "@")
+                                                            ("3" . "#")
+                                                            ("4" . "$")
+                                                            ("5" . "%")
+                                                            ("6" . "^")
+                                                            ("7" . "&")
+                                                            ("8" . "*")
+                                                            ("9" . "(")
+                                                            ("0" . ")"))))
+        (`qwertz-de (setq evil-swap-keys-number-row-keys  '(("1" . "!")
+                                                            ("2" . "\"")
+                                                            ("3" . "§")
+                                                            ("4" . "$")
+                                                            ("5" . "%")
+                                                            ("6" . "&")
+                                                            ("7" . "/")
+                                                            ("8" . "(")
+                                                            ("9" . ")")
+                                                            ("0" . "="))))
+        (`qwerty-ca-fr (setq evil-swap-keys-number-row-keys  '(("1" . "!")
+                                                               ("2" . "@")
+                                                               ("3" . "#")
+                                                               ("4" . "$")
+                                                               ("5" . "%")
+                                                               ("6" . "?")
+                                                               ("7" . "&")
+                                                               ("8" . "*")
+                                                               ("9" . "(")
+                                                               ("0" . ")"))))
+        (_ (message "dotspacemacs-swap-number-row %s is not supported." dotspacemacs-swap-number-row)))
+      (add-hook 'prog-mode-hook #'evil-swap-keys-swap-number-row))))
