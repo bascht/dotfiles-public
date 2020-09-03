@@ -151,7 +151,11 @@ bindsym XF86AudioPlay exec mpc toggle
 bindsym Print exec screenshot
 bindsym shift+Print exec screenshot -s
 bindsym control+shift+Print exec dropshot
+
 bindsym control+alt+l exec blur-lock
+bindsym XF86Mail exec blur-lock
+
+bindsym XF86Calculator exec swytch
 
 bindsym $mod+shift+o move workspace to output right
 bindsym $mod+o focus output right
@@ -340,7 +344,7 @@ mode "run" {
   bindsym w exec firefox; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
-  bindsym e exec em; mode "default"
+  bindsym e exec em -c; mode "default"
   bindsym $mod+e exec emacs; mode "default"
   bindsym f exec screenshot-folder; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
