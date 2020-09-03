@@ -282,8 +282,27 @@
     (org-agenda nil "l")
     (beginend-org-agenda-mode-goto-beginning)))
 
+(defun sway-org-clock-indicator ()
+  (if (org-clocking-p)
+      (format "%s @ %s"
+              org-clock-heading
+              (format-seconds "%h:%m" (* (org-clock-get-clocked-time) 60)))
+    (format "🕶 chilling")))
+
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+
+(defun bascht/alfatraining-clock-in ()
+  (interactive)
+  (persp-switch "@Org")
+  (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
+  (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
+  ;; (org-goto-first-child)
+  (org-end-of-subtree)
+  (org-insert-heading)
+  (org-insert-time-stamp (org-read-date nil t "+0d"))
+  (org-clock-in)
+  (save-buffer))
 
 (setq org-agenda-category-icon-alist
       '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
