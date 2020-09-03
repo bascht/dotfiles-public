@@ -12,6 +12,12 @@ separator_bg = "#2E3440"
 separator_fg = "#434C5E"
 
 [[block]]
+block = "custom"
+command = 'cat /run/user/1000/org/current-task 2>/dev/null || echo "no task"'
+interval = 10
+on_click = "em -c -e '(org-clock-goto)'"
+
+[[block]]
 block = "sound"
 
 [[block]]
@@ -33,34 +39,11 @@ format_mem = "{Mupi}%"
 format_swap = "{SUpi}%"
 
 [[block]]
-block = "net"
-device = "wlp59s0"
-ssid = true
-signal_strength = true
-speed_up = false
-speed_down = false
-interval = 10
-hide_missing = true
-hide_inactive = true
-
-[[block]]
-block = "net"
-device = "enp0s31f6"
-speed_up = false
-speed_down = false
-interval = 10
-hide_missing = true
-hide_inactive = true
-
-[[block]]
-block = "net"
-device = "dorhamm"
-ip = false
-interval = 10
-speed_up = false
-speed_down = false
-hide_missing = true
-hide_inactive = true
+block = "networkmanager"
+on_click = "alacritty -e nmtui"
+interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+", "tun0"]
+interface_name_include = []
+device_format = "{icon}{ap}"
 
 [[block]]
 block = "toggle"
