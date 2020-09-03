@@ -79,6 +79,11 @@
 [pull]
 	rebase = true
 
+[sendemail]
+    smtpserver = /usr/bin/msmtp
+    smtpserveroption = -a
+    smtpserveroption = bascht
+
 {{ if (index . "git") -}}
 {{ range .git.instead -}}
 [url "{{.url}}"]
