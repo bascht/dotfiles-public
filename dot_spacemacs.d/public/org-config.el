@@ -137,6 +137,8 @@
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
 
+(org-link-beautify-mode 1)
+
 (setq org-ellipsis "  ")
 (setq org-pretty-entities t)
 
@@ -273,7 +275,8 @@
     (org-agenda nil "c")
     (org-agenda-redo)
     ))
-                                        ; Recent loops callable for daily review
+
+; Recent loops callable for daily review
 (defun my-org-agenda-recent-open-loops ()
   (interactive)
   (let ((org-agenda-start-with-log-mode t)
@@ -292,12 +295,16 @@
 (add-to-list 'org-global-properties
              '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
 
+; Via https://www.reddit.com/r/emacs/comments/8kz8dv/tip_how_i_use_orgjournal_to_improve_my/
+(defun bascht/goto-yesterdays-journal ()
+  (interactive)
+  (find-file (expand-file-name (concat org-journal-dir (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))))
+
 (defun bascht/alfatraining-clock-in ()
   (interactive)
   (persp-switch "@Org")
   (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
   (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
-  ;; (org-goto-first-child)
   (org-end-of-subtree)
   (org-insert-heading)
   (org-insert-time-stamp (org-read-date nil t "+0d"))
