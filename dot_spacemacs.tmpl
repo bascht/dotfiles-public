@@ -33,9 +33,16 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     ;; ----------------------------------------------------------------
+     ;; Example of useful layers you may want to use right away.
+     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+     ;; `M-m f e R' (Emacs style) to install them.
+     ;; ----------------------------------------------------------------
+     ;; auto-completion
+     ;; better-defaults
      javascript
      systemd
-     helm
+     (helm :variables hybrid-style-enable-hjkl-bindings t)
      auto-completion
      better-defaults
      emacs-lisp
@@ -44,7 +51,7 @@ This function should only modify configuration layer settings."
      (org :variables
           org-want-todo-bindings t
           org-enable-org-journal-support t)
-     (spell-checking :variables spell-checking-enable-auto-dictionary t)
+     (spell-checking :variables spell-checking-enable-auto-dictionary nil)
      syntax-checking
      version-control
      multiple-cursors
@@ -73,13 +80,13 @@ This function should only modify configuration layer settings."
      shell
      )
 
-   ;; List of additional packages that will be installed without being
-   ;; wrapped in a layer. If you need some configuration for these
-   ;; packages, then consider creating a layer. You can also put the
-   ;; configuration in `dotspacemacs/user-config'.
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
                                       org-mru-clock
                                       org-cliplink
+                                      org-link-beautify
                                       doom-themes
                                       dictcc
                                       writeroom-mode
@@ -140,7 +147,7 @@ It should only modify the values of Spacemacs settings."
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
    ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
-   ;; (default spacemacs-27.1.pdmp)
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
    dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
@@ -195,14 +202,11 @@ It should only modify the values of Spacemacs settings."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style 'hybrid
+   ;; If non-nil show the version string in the Spacemacs buffer. It will
+   ;; appear as (spacemacs version)@(emacs version)
+   ;; (default t)
+   dotspacemacs-startup-buffer-show-version t
 
-   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
-   ;; (default spacemacs.pdmp)
-   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
-
-
-   ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -251,7 +255,17 @@ It should only modify the values of Spacemacs settings."
                          doom-spacegrey
                          doom-one
                          spacemacs-dark)
-   ;; If non nil the cursor color matches the state color in GUI Emacs.
+   ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
+   ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
+   ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
+   ;; `vanilla' is default Emacs mode-line. `custom' is a user defined themes,
+   ;; refer to the DOCUMENTATION.org for more info on how to create your own
+   ;; spaceline theme. Value can be a symbol or list with additional properties.
+   ;; (default '(spacemacs :separator wave :separator-scale 1.5))
+   dotspacemacs-mode-line-theme 'doom
+
+   ;; If non-nil the cursor color matches the state color in GUI Emacs.
+   ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
    dotspacemacs-default-font '("JetBrains Mono"
@@ -388,8 +402,6 @@ It should only modify the values of Spacemacs settings."
    ;; the value to quoted `display-graphic-p'. (default t)
    dotspacemacs-mode-line-unicode-symbols t
 
-   dotspacemacs-mode-line-theme '(doom)
-
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -432,6 +444,17 @@ It should only modify the values of Spacemacs settings."
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
    dotspacemacs-highlight-delimiters 'all
+
+   ;; If non-nil, start an Emacs server if one is not already running.
+   ;; (default nil)
+   dotspacemacs-enable-server nil
+
+   ;; Set the emacs server socket location.
+   ;; If nil, uses whatever the Emacs default is, otherwise a directory path
+   ;; like \"~/.emacs.d/server\". It has no effect if
+   ;; `dotspacemacs-enable-server' is nil.
+   ;; (default nil)
+   dotspacemacs-server-socket-dir nil
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
@@ -479,6 +502,13 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-use-clean-aindent-mode t
 
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -486,7 +516,11 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -512,12 +546,11 @@ dump."
   )
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
   (setq user-full-name "Sebastian Schulze")
   (setq user-mail-address "github.com@bascht.com")
 
@@ -533,6 +566,8 @@ you should place your code here."
   (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
   (spacemacs/set-leader-keys "od" 'my-daily-review)
   (spacemacs/set-leader-keys "og" 'bascht/go-to-org-file)
+  (spacemacs/set-leader-keys "ojt" 'org-journal-new-entry)
+  (spacemacs/set-leader-keys "ojy" 'bascht/goto-yesterdays-journal)
   (spacemacs/set-leader-keys "glu" 'mu4e-view-go-to-url)
   (spacemacs/set-leader-keys "drr" 'rake)
   (spacemacs/set-leader-keys "drl" 'rake-rerun)
@@ -560,6 +595,9 @@ you should place your code here."
 
   ;; Don't litter. Use one file per VM.
   (setq recentf-save-file (format "%s.%s.%s" recentf-save-file system-name (if (boundp 'server-name) server-name "noserver")))
+
+  (setq org-superstar-special-todo-items t)
+  (setq inhibit-compacting-font-caches t)
 
   ;; Tramp speed up
   (setq remote-file-name-inhibit-cache nil)
