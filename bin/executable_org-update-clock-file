@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ORGDIR="/run/user/1000/org"
+
+# Make sure the directory exists
+mkdir -p "${ORGDIR}"
+
+# Trim the resulting quotes from emacs eval response
+em -e "(sway-org-clock-indicator)" | tr -d '"' > "${ORGDIR}/current-task"
