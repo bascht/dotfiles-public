@@ -9,6 +9,13 @@ Maid.rules do
     )
   end
 
+  rule 'File Hassio Backups' do
+    move(
+          dir('~/Downloads/Hass_io_*.tar'),
+      mkdir("~/Backup/HomeAssistant/")
+    )
+  end
+
   rule 'Safe the Ergodox Layouts' do
     move(
       dir('~/Downloads/ergodox_ez*.hex'),
