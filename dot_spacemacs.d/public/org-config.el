@@ -137,8 +137,6 @@
 (use-package org-super-agenda
   :config (org-super-agenda-mode))
 
-(org-link-beautify-mode 1)
-
 (setq org-ellipsis "  ")
 (setq org-pretty-entities t)
 
@@ -150,7 +148,7 @@
 
 
 (setq org-agenda-custom-commands
-      '(("l" "Open loops" 
+      '(("l" "Open loops"
          ((agenda ""))
          ((org-agenda-start-day "-1d")
           ;; (org-agenda-span 'week)
@@ -255,7 +253,7 @@
                       ("paper" . ?P)
                       ("next" . ?N)))
 
-                                        ; Daily Review
+; Daily Review
 (defun my-daily-review ()
   (interactive)
   (persp-switch "@Org")
