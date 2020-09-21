@@ -127,6 +127,11 @@ binaries = YAML.load <<EOB
   :url: https://github.com/arp242/uni/releases/download/v<%= version %>/uni-v<%= version %>-linux-amd64.gz
   :version: 1.0.0
   :version_match: "v<%= version %>"
+:rg:
+  :url: https://github.com/BurntSushi/ripgrep/releases/download/<%= version %>/ripgrep-<%= version %>-x86_64-unknown-linux-musl.tar.gz
+  :version: 12.1.1
+  :version_match: "<%= version %>"
+  :version_argument: "--version"
 EOB
 tmpdir = Dir.mktmpdir
 
