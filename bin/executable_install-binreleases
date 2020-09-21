@@ -7,6 +7,7 @@ require 'yaml'
 
 verbose = ARGV.include? "-v"
 
+bindir = Pathname.new(File.expand_path("~/bin"))
 binaries = YAML.load <<EOB
 ---
 :skaffold:
@@ -40,7 +41,7 @@ binaries = YAML.load <<EOB
   :url: https://github.com/gopasspw/gopass/releases/download/v<%= version %>/gopass-<%=
     version %>-linux-amd64.tar.gz
   :version: 1.10.1
-  :version_argument: version
+  :version_argument: --version
   :version_match: "^gopass <%= version %> "
 :greenclip:
   :url: https://github.com/erebe/greenclip/releases/download/<%= version %>/greenclip
@@ -136,7 +137,7 @@ EOB
 tmpdir = Dir.mktmpdir
 
 binaries.each do |binary, download|
-  target         = File.expand_path("~/bin/#{binary}")
+  target         = bindir.join(binary.to_s)
   version        = download[:version]
   download_url   = ERB.new(download[:url]).result(binding)
   version_match  = Regexp.new(ERB.new(download[:version_match]).result(binding))
@@ -178,7 +179,15 @@ binaries.each do |binary, download|
       extracted_executables = Dir.glob("**/**").select do |f| 
         `file #{f}`.match(/LSB executable|ELF 64-bit LSB shared object|ELF 64-bit LSB pie executable/)
       end
-      FileUtils.mv(File.realpath(extracted_executables.first), target)
+
+      if (extracted_executables.length > 1) && (extracted_executables.include? binary.to_s)
+        puts "Found #{extracted_executables.length} executables, extracting all of them: #{extracted_executables.join(',')}"
+        extracted_executables.each do |executable|
+          FileUtils.mv(File.realpath(executable), bindir)
+        end
+      else
+        FileUtils.mv(File.realpath(extracted_executables.first), target)
+      end
     end
     File.chmod(0755, target)
   end
