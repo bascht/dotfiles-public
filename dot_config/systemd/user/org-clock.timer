@@ -1,0 +1,11 @@
+[Unit]
+Description=Run org-clock timer
+Wants=emacs.service
+
+[Timer]
+OnActiveSec=30s
+OnUnitActiveSec=120m
+Unit=org-clock.service
+
+[Install]
+WantedBy=timers.target

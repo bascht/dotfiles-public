@@ -1,0 +1,6 @@
+[Unit]
+Description=Write latest org-clock to the status file
+
+[Service]
+Type=oneshot
+ExecStart=/home/bascht/bin/org-update-clock-file
