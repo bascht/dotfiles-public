@@ -2,14 +2,22 @@ require_relative File.expand_path "~/.maid/private_rules.rb"
 
 Maid.rules do
   NOW = DateTime.now.strftime("%Y-%m")
-  rule 'File away Taz' do
+  rule 'File away EPub / Newspapers' do
     move(
       dir('~/Downloads/taz_*{epub,txt,pdf}'),
       mkdir("~/Lager/eBooks/taz/")
     )
+    move(
+      dir('~/Downloads/*{epub,txt,pdf}'),
+      mkdir("~/Lager/eBooks/")
+    )
   end
 
-  rule 'File Hassio Backups' do
+  rule 'Backups' do
+    move(
+      dir('~/Downloads/Inoreader Subscriptions *.xml'),
+      mkdir("~/Backup/Inoreader/")
+    )
     move(
           dir('~/Downloads/Hass_io_*.tar'),
       mkdir("~/Backup/HomeAssistant/")
@@ -65,7 +73,7 @@ Maid.rules do
   end
 
   rule 'Delete extracted folders and really old shit' do
-    dir('~/Downloads/.*').each do |path|
+    dir('~/Downloads/*').each do |path|
       puts path
       trash(path) if 5.days.since?(modified_at(path)) && File.directory?(path)
       trash(path) if 2.weeks.since?(modified_at(path))
