@@ -13,7 +13,7 @@ separator_fg = "#434C5E"
 
 [[block]]
 block = "custom"
-command = 'cat /run/user/1000/org/current-task 2>/dev/null || echo "no task"'
+command = '/home/bascht/bin/org-get-current-clock-task'
 interval = 10
 on_click = "em -c -e '(org-clock-goto)'"
 
