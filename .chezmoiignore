@@ -1,4 +1,5 @@
 README.org
+Makefile
 .config/systemd/user/default.target.wants/emacs.service
 {{ if ne .chezmoi.hostname "kandalingo" }}
 .config/systemd/user/default.target.wants/mopidy.service
