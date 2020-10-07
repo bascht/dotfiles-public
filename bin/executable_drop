@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'open3'
-require 'uri'
 require 'pathname'
 require 'securerandom'
 require 'net/scp'
@@ -10,7 +9,7 @@ file = Pathname.new(ARGV[0])
 new_name = SecureRandom.hex(12) + File.extname(file)
 abort "Och komm." unless file.exist? and file.readable?
 
-url = URI.escape("https://drop.bascht.space/#{new_name}")
+url = "https://drop.bascht.space/#{new_name}"
 
 Net::SCP.start("drop.bascht.space", "bascht") do |scp|
   scp.upload(file.expand_path.to_s, "/home/bascht/drop/#{new_name}")
