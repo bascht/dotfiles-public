@@ -349,7 +349,7 @@ mode "run" {
   bindsym f exec screenshot-folder; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
-  bindsym c exec clipman pick --tool=rofi; mode "default"
+  bindsym c exec clipman pick --tool=rofi --histpath="~/.local/share/clipman-primary.json"; mode "default"
   bindsym o exec pavucontrol; mode "default"
 
   bindsym v exec alacritty --class 'vm' --command zsh -c 'vm'
