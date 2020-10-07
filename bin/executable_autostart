@@ -1,28 +1,29 @@
 #!/bin/bash
 
-swaymsg exec volumeicon
-swaymsg exec nm-applet
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY > /dev/null
+swaymsg exec -- /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets
+dbus-update-activation-environment --systemd --all
+
 swaymsg exec nextcloud
 swaymsg exec mako
 swaymsg exec systemctl restart --user mopidy.service
 swaymsg exec systemctl restart --user emacs.service
-# swaymsg exec -- wl-paste -t text --watch clipman store
-# swaymsg exec -- wl-paste -p -t text --watch clipman store --histpath="~/.local/share/clipman-primary.json"
+swaymsg exec -- wl-paste -t text --watch clipman store --histpath="~/.local/share/clipman-primary.json"
 
-killall redshift; swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000K"
+swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000K"
 
 swaymsg workspace "4: Docs"
 swaymsg exec "emacs ~/"
 sleep 0.5
 swaymsg workspace "2: Web"
 swaymsg exec "firefox"
-sleep 3
+sleep 2
 swaymsg workspace "5: Media"
 swaymsg exec alacritty -- -e "tmuxinator start music"
-sleep 0.5
+sleep 0.3
 swaymsg workspace "1: Code"
 swaymsg exec alacritty
-sleep 0.5
+sleep 0.3
 swaymsg workspace "3: Comms"
 swaymsg layout tabbed
 swaymsg exec start-comms
