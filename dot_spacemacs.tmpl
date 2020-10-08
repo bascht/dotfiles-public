@@ -55,7 +55,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      multiple-cursors
-     {{- if eq .chezmoi.hostname "kandalingo" }}
+     {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
      mu4e
      finance
      {{- else }}
@@ -71,7 +71,7 @@ This function should only modify configuration layer settings."
      sql
      {{ end }}
      selectric
-     (ruby :variables ruby-enable-enh-ruby-mode t) 
+     (ruby :variables ruby-enable-enh-ruby-mode t)
      html
      csv
      python
@@ -96,7 +96,7 @@ This function should only modify configuration layer settings."
                                       magit-todos
                                       beginend
                                       forge
-                                      {{- if eq .chezmoi.hostname "kandalingo" }}
+                                      {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
                                       hledger-mode
                                       org-super-agenda
                                       org-journal
@@ -580,7 +580,7 @@ before packages are loaded."
 
   (load-file "~/.spacemacs.d/private/forge-config.el")
 
-  {{- if eq .chezmoi.hostname "kandalingo" -}}
+  {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
   (with-eval-after-load 'org
         (progn
           (load-file "~/.spacemacs.d/private/mail-config.el")
