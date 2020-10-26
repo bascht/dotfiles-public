@@ -1,6 +1,6 @@
 ;;; packages.el --- Clojure Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -38,8 +38,8 @@
         popwin
         (sayid :toggle clojure-enable-sayid)
         smartparens
-        subword
-        ))
+        subword))
+
 
 (defun clojure/init-cider ()
   (use-package cider
@@ -81,8 +81,8 @@
                ("msj" . "jack-in")
                ("msq" . "quit/restart repl")
                ("mt" . "test")
-               ("mT" . "toggle")
-               )))
+               ("mT" . "toggle"))))
+
         (spacemacs|forall-clojure-modes m
           (mapc (lambda (x) (spacemacs/declare-prefix-for-mode
                               m (car x) (cdr x)))
@@ -108,6 +108,7 @@
             ;; evaluate in source code buffer
             "e;" 'cider-eval-defun-to-comment
             "e$" 'spacemacs/cider-eval-sexp-end-of-line
+            "e(" 'cider-eval-list-at-point
             "eb" 'cider-eval-buffer
             "ee" 'cider-eval-last-sexp
             "ef" 'cider-eval-defun-at-point
@@ -216,8 +217,8 @@
             "ps" 'cider-profile-var-summary
             "pS" 'cider-profile-summary
             "pt" 'cider-profile-toggle
-            "pv" 'cider-profile-var-profiled-p
-            )))
+            "pv" 'cider-profile-var-profiled-p)))
+
 
       ;; cider-repl-mode only
       (spacemacs/set-leader-keys-for-major-mode 'cider-repl-mode
@@ -479,8 +480,8 @@
           "dty" 'sayid-trace-all-ns-in-dir
           "dV" 'sayid-set-view
           "dw" 'sayid-get-workspace
-          "dx" 'sayid-reset-workspace
-          ))
+          "dx" 'sayid-reset-workspace))
+
 
       (evilified-state-evilify sayid-mode sayid-mode-map
         (kbd "H") 'sayid-buf-show-help
@@ -499,7 +500,17 @@
 
       (evilified-state-evilify sayid-traced-mode sayid-traced-mode-map
         (kbd "l") 'sayid-show-traced
-        (kbd "h") 'sayid-traced-buf-show-help))))
+        (kbd "h") 'sayid-traced-buf-show-help))
+    :config
+    (progn
+      ;; If sayid-version is null the .elc file
+      ;; is corrupted. Then force a reinstall and
+      ;; reload the feature.
+      (when (null sayid-version)
+        (package-reinstall 'sayid)
+        (unload-feature 'sayid)
+        (require 'sayid)
+        (setq cider-jack-in-lein-plugins (delete `("com.billpiel/sayid" nil) cider-jack-in-lein-plugins))))))
 
 (defun clojure/post-init-parinfer ()
   (add-hook 'clojure-mode-hook 'parinfer-mode))

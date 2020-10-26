@@ -1,6 +1,6 @@
 ;;; packages.el --- Helm Layer packages File
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -21,6 +21,7 @@
         (helm-ls-git :require git)
         helm-make
         helm-mode-manager
+        helm-org
         helm-projectile
         helm-swoop
         helm-themes
@@ -160,7 +161,7 @@
       (advice-add 'helm-grep-save-results-1 :after 'spacemacs//gne-init-helm-grep)
       ;; helm-locate uses es (from everything on windows which doesn't like fuzzy)
       (helm-locate-set-command)
-      (setq helm-locate-fuzzy-match (string-match "locate" helm-locate-command))
+      (setq helm-locate-fuzzy-match (and helm-use-fuzzy (string-match "locate" helm-locate-command)))
       (setq helm-boring-buffer-regexp-list
             (append helm-boring-buffer-regexp-list
                     spacemacs-useless-buffers-regexp))
@@ -320,6 +321,11 @@
       ;; "hm"    'helm-disable-minor-mode
       "h C-m" 'helm-enable-minor-mode)))
 
+(defun helm/init-helm-org ()
+  (use-package helm-org
+    :commands (helm-org-in-buffer-headings)
+    :defer (spacemacs/defer)))
+
 (defun helm/pre-init-helm-projectile ()
   ;; overwrite projectile settings
   (spacemacs|use-package-add-hook projectile
@@ -388,8 +394,15 @@
       (setq helm-swoop-split-with-multiple-windows t
             helm-swoop-split-direction 'split-window-vertically
             helm-swoop-speed-or-color t
-            helm-swoop-split-window-function 'helm-default-display-buffer
+            helm-swoop-split-window-function 'spacemacs/helm-swoop-split-window-function
             helm-swoop-pre-input-function (lambda () ""))
+
+      (defun spacemacs/helm-swoop-split-window-function (&rest args)
+        "Override to make helm settings (like `helm-split-window-default-side') work"
+        (let (;; current helm-swoop implemenatation prevents it from being used fullscreen
+               (helm-full-frame nil)
+               (pop-up-windows t))
+          (apply 'helm-default-display-buffer args)))
 
       (defun spacemacs/helm-swoop-region-or-symbol ()
         "Call `helm-swoop' with default input."

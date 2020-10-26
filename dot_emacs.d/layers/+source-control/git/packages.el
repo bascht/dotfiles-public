@@ -1,6 +1,6 @@
 ;;; packages.el --- Git Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -25,6 +25,7 @@
         (helm-git-grep :requires helm)
         (helm-gitignore :requires helm)
         magit
+        (magit-delta :toggle git-enable-magit-delta-plugin)
         magit-gitflow
         magit-section
         magit-svn
@@ -151,7 +152,7 @@
     (progn
       (push "magit: .*" spacemacs-useless-buffers-regexp)
       (push "magit-.*: .*"  spacemacs-useless-buffers-regexp)
-      (spacemacs|require 'magit)
+      (spacemacs|require-when-dumping 'magit)
       (setq magit-completing-read-function
             (if (configuration-layer/layer-used-p 'ivy)
                 'ivy-completing-read
@@ -233,6 +234,12 @@
       ;; whitespace
       (define-key magit-status-mode-map (kbd "C-S-w")
         'spacemacs/magit-toggle-whitespace)
+      ;; https://magit.vc/manual/magit/MacOS-Performance.html
+      ;; But modified according Tommi Komulainen's advice: "...going through
+      ;; shell raises an eyebrow, and in the odd edge case of not having git
+      ;; setting the executable to empty string(?) feels slightly wrong."
+      (when-let ((git (executable-find "git")))
+        (setq magit-git-executable git))
       ;; full screen magit-status
       (when git-magit-status-fullscreen
         (setq magit-display-buffer-function
@@ -251,10 +258,17 @@
       (evil-define-key 'normal magit-section-mode-map (kbd "M-8") 'winum-select-window-8)
       (evil-define-key 'normal magit-section-mode-map (kbd "M-9") 'winum-select-window-9))))
 
+(defun git/init-magit-delta ()
+  (use-package magit-delta
+    :defer t
+    :init (add-hook 'magit-mode-hook 'magit-delta-mode)))
+
 (defun git/init-magit-gitflow ()
   (use-package magit-gitflow
     :defer t
-    :init (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    :init (progn
+            (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+            (setq magit-gitflow-popup-key "%"))
     :config
     (progn
       (spacemacs|diminish magit-gitflow-mode "Flow")

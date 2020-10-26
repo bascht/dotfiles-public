@@ -1,6 +1,6 @@
 ;;; funcs.el --- Language Server Protocol Layer functions file for Spacemacs
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Fangrui Song <i@maskray.me>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -57,6 +57,7 @@
     "bd" #'lsp-describe-session
     "br" #'lsp-workspace-restart
     "bs" #'lsp-workspace-shutdown
+    "bv" #'lsp-version
     ;; refactor
     "rr" #'lsp-rename
     ;; toggles

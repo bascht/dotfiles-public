@@ -1,6 +1,6 @@
 ;;; packages.el --- Spacemacs Navigation Layer packages File
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -431,7 +431,7 @@
     (progn
       (setq winum-auto-assign-0-to-minibuffer nil
             winum-auto-setup-mode-line nil
-            winum-ignored-buffers '(" *which-key*"))
+            winum-ignored-buffers '(" *LV*" " *which-key*"))
       (spacemacs/set-leader-keys
         "`" 'winum-select-window-by-number
         "²" 'winum-select-window-by-number

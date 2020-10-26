@@ -21,6 +21,7 @@
   - [[#different-bullets][Different bullets]]
   - [[#project-support][Project support]]
   - [[#org-brain-support][Org-brain support]]
+  - [[#org-roam-support][Org-roam support]]
   - [[#mode-line-support][Mode line support]]
   - [[#sticky-header-support][Sticky header support]]
   - [[#epub-support][Epub support]]
@@ -57,6 +58,7 @@
     - [[#verb-mode-bindings][Verb-mode bindings]]
     - [[#verb-response-body-mode-bindings][Verb-response-body-mode bindings]]
     - [[#verb-response-headers-mode-bindings][Verb-response-headers-mode bindings]]
+  - [[#org-roam][Org-roam]]
 
 * Description
 This layer enables [[http://orgmode.org/][org mode]] for Spacemacs.
@@ -69,6 +71,7 @@ This layer enables [[http://orgmode.org/][org mode]] for Spacemacs.
 - Insertion of images via [[https://github.com/abo-abo/org-download][org-download]]
 - Project-specific TODOs via [[https://github.com/IvanMalison/org-projectile][org-projectile]]
 - Easy insert of URLs from clipboard with org format via [[https://github.com/rexim/org-cliplink][org-cliplink]]
+- Rich insert of code (into a source block with highlighting, and a link) from other buffers via [[https://github.com/unhammer/org-rich-yank][org-rich-yank]]
 
 * BibTeX
 For more extensive support of references through BibTeX files, have a look at
@@ -293,6 +296,17 @@ the following snippet.
 For Emacs 25 or later, support for [[https://kungsgeten.github.io/org-brain.html][org-brain]] is included. See the [[https://github.com/Kungsgeten/org-brain][org-brain
 package documentation]] for more information.
 
+** Org-roam support
+To install org-roam support set the variable =org-enable-roam-support= to =t=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dotspacemacs-configuration-layers '(
+    (org :variables
+         org-enable-roam-support t)))
+#+END_SRC
+
+More information about org-roam package (including manual) can be found at [[https://www.orgroam.com/][Org-roam]] website.
+
 ** Mode line support
 To temporarily enable mode line display of org clock, press ~SPC t m c~.
 
@@ -383,6 +397,7 @@ To install [[https://github.com/federicotdn/verb][Verb]], an HTTP client based o
 | ~SPC m T c~ | org-toggle-checkbox                           |
 | ~SPC m T e~ | org-toggle-pretty-entities                    |
 | ~SPC m T i~ | org-toggle-inline-images                      |
+| ~SPC m T n~ | org-num-mode                                  |
 | ~SPC m T l~ | org-toggle-link-display                       |
 | ~SPC m T t~ | org-show-todo-tree                            |
 | ~SPC m T T~ | org-todo                                      |
@@ -513,7 +528,7 @@ are also available.
 | ~SPC m s k~   | org-move-subtree-up             |
 | ~SPC m s j~   | org-move-subtree-down           |
 | ~SPC m s n~   | org-narrow-to-subtree           |
-| ~SPC m s N~   | widen narrowed subtree          |
+| ~SPC m s w~   | widen narrowed subtree          |
 | ~SPC m s r~   | org-refile                      |
 | ~SPC m s s~   | show sparse tree                |
 | ~SPC m s S~   | sort trees                      |
@@ -537,6 +552,7 @@ are also available.
 | ~SPC m i L~   | insert URL with its page title from clipboard |
 | ~SPC m i n~   | org-add-note                                  |
 | ~SPC m i p~   | org-set-property                              |
+| ~SPC m i r~   | org-rich-yank (paste code into a =src= block) |
 | ~SPC m i s~   | org-insert-subheading                         |
 | ~SPC m i t~   | org-set-tags                                  |
 
@@ -750,7 +766,7 @@ org-present must be activated explicitly by typing: ~SPC SPC org-present~
 
 | Key binding | Description                                |
 |-------------+--------------------------------------------|
-| ~SPC a o r~ | Search org files for keywords and headings |
+| ~SPC a o /~ | Search org files for keywords and headings |
 
 ** Org-projectile
 
@@ -834,23 +850,26 @@ are available.
 | ~r~         | Rename this, or another, entry        |
 
 ** Org-jira
+Key binding prefixes:
+- ~SPC a o J~ (everywhere)
+- ~SPC m m j~ (in an org-mode buffer)
 
-| Key binding     | Description                                      |
-|-----------------+--------------------------------------------------|
-| ~SPC a o J p g~ | Get projects list                                |
-| ~SPC a o J i b~ | Open the current issue in a WWW browser          |
-| ~SPC a o J i g~ | Get issues                                       |
-| ~SPC a o J i h~ | Get only head of issues                          |
-| ~SPC a o J i f~ | Get only head of issues from filter              |
-| ~SPC a o J i u~ | Update an issue at point                         |
-| ~SPC a o J i w~ | Progress an issue at point                       |
-| ~SPC a o J i r~ | Refresh an issue at point                        |
-| ~SPC a o J i c~ | Create an issue at point                         |
-| ~SPC a o J i y~ | Copy current issue key                           |
-| ~SPC a o J s c~ | Create a subtask                                 |
-| ~SPC a o J s g~ | Get subtasks                                     |
-| ~SPC a o J c u~ | Update the comment at point or add a new comment |
-| ~SPC a o J t j~ | Convert the TODO item at point to a Jira ticket  |
+| Key binding    | Description                                      |
+|----------------+--------------------------------------------------|
+| ~[prefix] p g~ | Get projects list                                |
+| ~[prefix] i b~ | Open the current issue in a WWW browser          |
+| ~[prefix] i g~ | Get issues                                       |
+| ~[prefix] i h~ | Get only head of issues                          |
+| ~[prefix] i f~ | Get only head of issues from filter              |
+| ~[prefix] i u~ | Update an issue at point                         |
+| ~[prefix] i w~ | Progress an issue at point                       |
+| ~[prefix] i r~ | Refresh an issue at point                        |
+| ~[prefix] i c~ | Create an issue at point                         |
+| ~[prefix] i y~ | Copy current issue key                           |
+| ~[prefix] s c~ | Create a subtask                                 |
+| ~[prefix] s g~ | Get subtasks                                     |
+| ~[prefix] c u~ | Update the comment at point or add a new comment |
+| ~[prefix] t j~ | Convert the TODO item at point to a Jira ticket  |
 
 ** Verb
 *** Verb-mode bindings
@@ -880,3 +899,20 @@ are available.
 | Key binding | Description                                         |
 |-------------+-----------------------------------------------------|
 | ~SPC m r q~ | Kill current response headers buffer and its window |
+
+** Org-roam
+Key binding prefixes:
+- ~SPC a o r~ (anywhere)
+- ~SPC m r~ (in an org-mode buffer)
+
+| Key binding      | Description                           |
+|------------------+---------------------------------------|
+| ~[prefix] r l~   | Toggle org-roam links visibility      |
+| ~[prefix] r f~   | Find file in org-roam                 |
+| ~[prefix] r i~   | Insert file into org-roam             |
+| ~[prefix] r I~   | Immediately insert file into org-roam |
+| ~[prefix] r g~   | Visualize org-roam graph              |
+| ~[prefix] r b~   | Switch org-roam buffer                |
+| ~[prefix] r d y~ | Open yesterday's daily note           |
+| ~[prefix] r d t~ | Open today's daily note               |
+| ~[prefix] r d T~ | Open tomorrow's daily note            |

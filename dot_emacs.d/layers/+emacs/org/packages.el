@@ -1,6 +1,6 @@
 ;;; packages.el --- Org Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -17,7 +17,6 @@
         evil-org
         evil-surround
         gnuplot
-        (helm-org :toggle (configuration-layer/layer-used-p 'helm))
         (helm-org-rifle :toggle (configuration-layer/layer-used-p 'helm))
         htmlize
         ;; ob, org and org-agenda are installed by `org-plus-contrib'
@@ -33,6 +32,7 @@
         org-pomodoro
         org-present
         org-cliplink
+        org-rich-yank
         (org-projectile :requires projectile)
         (ox-epub :toggle org-enable-epub-support)
         (ox-twbs :toggle org-enable-bootstrap-support)
@@ -46,6 +46,7 @@
         (org-trello :toggle org-enable-trello-support)
         (org-sticky-header :toggle org-enable-sticky-header)
         (verb :toggle org-enable-verb-support)
+        (org-roam :toggle org-enable-roam-support)
         ))
 
 (defun org/post-init-company ()
@@ -83,12 +84,7 @@
 (defun org/init-helm-org-rifle ()
   (use-package helm-org-rifle
     :defer t
-    :init (spacemacs/set-leader-keys "aor" 'helm-org-rifle)))
-
-(defun org/init-helm-org ()
-  (use-package helm-org
-    :commands (helm-org-in-buffer-headings)
-    :defer t))
+    :init (spacemacs/set-leader-keys "ao/" 'helm-org-rifle)))
 
 (defun org/init-htmlize ()
   (use-package htmlize
@@ -113,7 +109,7 @@
     :commands (orgtbl-mode)
     :init
     (progn
-      (spacemacs|require 'org)
+      (spacemacs|require-when-dumping 'org)
       (setq org-clock-persist-file (concat spacemacs-cache-directory
                                            "org-clock-save.el")
             org-id-locations-file (concat spacemacs-cache-directory
@@ -133,7 +129,7 @@
             org-imenu-depth 8)
 
       (with-eval-after-load 'org-agenda
-      (add-to-list 'org-modules 'org-habit))
+        (add-to-list 'org-modules 'org-habit))
 
       (with-eval-after-load 'org-indent
         (spacemacs|hide-lighter org-indent-mode))
@@ -236,6 +232,7 @@ Will work on both org-mode and any mode that accepts plain html."
         "Tc" 'org-toggle-checkbox
         "Te" 'org-toggle-pretty-entities
         "Ti" 'org-toggle-inline-images
+        "Tn" 'org-num-mode
         "Tl" 'org-toggle-link-display
         "Tt" 'org-show-todo-tree
         "TT" 'org-todo
@@ -264,7 +261,7 @@ Will work on both org-mode and any mode that accepts plain html."
         "sk" 'org-move-subtree-up
         "sl" 'org-demote-subtree
         "sn" 'org-narrow-to-subtree
-        "sN" 'widen
+        "sw" 'widen
         "sr" 'org-refile
         "ss" 'org-sparse-tree
         "sS" 'org-sort
@@ -360,10 +357,11 @@ Will work on both org-mode and any mode that accepts plain html."
       (spacemacs/declare-prefix "ao" "org")
       (spacemacs/declare-prefix "aof" "feeds")
       (spacemacs/declare-prefix "aoC" "clock")
+      ;; org-agenda
+      (when (configuration-layer/layer-used-p 'ivy)
+        (spacemacs/set-leader-keys "ao/" 'org-occur-in-agenda-files))
       (spacemacs/set-leader-keys
-        ;; org-agenda
         "ao#" 'org-agenda-list-stuck-projects
-        "ao/" 'org-occur-in-agenda-files
         "aoa" 'org-agenda-list
         "aoo" 'org-agenda
         "aoc" 'org-capture
@@ -648,7 +646,28 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "aoJsc" 'org-jira-create-subtask
         "aoJsg" 'org-jira-get-subtasks
         "aoJcu" 'org-jira-update-comment
-        "aoJtj" 'org-jira-todo-to-jira))))
+        "aoJtj" 'org-jira-todo-to-jira)
+      (spacemacs/declare-prefix-for-mode 'org-mode "mmj" "jira")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mmjp" "projects")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mmji" "issues")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mmjs" "subtasks")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mmjc" "comments")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mmjt" "todos")
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
+        "mjpg" 'org-jira-get-projects
+        "mjib" 'org-jira-browse-issue
+        "mjig" 'org-jira-get-issues
+        "mjih" 'org-jira-get-issues-headonly
+        "mjif" 'org-jira-get-issues-from-filter-headonly
+        "mjiu" 'org-jira-update-issue
+        "mjiw" 'org-jira-progress-issue
+        "mjir" 'org-jira-refresh-issue
+        "mjic" 'org-jira-create-issue
+        "mjiy" 'org-jira-copy-current-issue-key
+        "mjsc" 'org-jira-create-subtask
+        "mjsg" 'org-jira-get-subtasks
+        "mjcu" 'org-jira-update-comment
+        "mjtj" 'org-jira-todo-to-jira))))
 
 (defun org/init-org-mime ()
   (use-package org-mime
@@ -710,6 +729,16 @@ Headline^^            Visit entry^^               Filter^^                    Da
     :init
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "iL" 'org-cliplink)))
+
+(defun org/init-org-rich-yank ()
+  (use-package org-rich-yank
+    :ensure t
+    :demand t
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      ;; yank is a misnomer for this function which actually puts/pastes
+      ;; ir = "insert rich"
+      "ir" 'org-rich-yank)))
 
 (defun org/init-org-projectile ()
   (use-package org-projectile
@@ -812,6 +841,38 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "mtub" 'spacemacs/org-trello-push-buffer
         "mtuc" 'spacemacs/org-trello-push-card))))
 
+(defun org/init-org-roam ()
+  (use-package org-roam
+    :init
+    (progn
+      (spacemacs/declare-prefix "aor" "org-roam")
+      (spacemacs/declare-prefix "aord" "org-roam-dailies")
+      (spacemacs/set-leader-keys
+        "aordy" 'org-roam-dailies-yesterday
+        "aordt" 'org-roam-dailies-today
+        "aordT" 'org-roam-dailies-tomorrow
+        "aorf" 'org-roam-find-file
+        "aorg" 'org-roam-graph
+        "aori" 'org-roam-insert
+        "aorI" 'org-roam-insert-immediate
+        "aorl" 'org-roam)
+
+      (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mrd" "org-roam-dailies")
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
+        "rb" 'org-roam-switch-to-buffer
+        "rdy" 'org-roam-dailies-yesterday
+        "rdt" 'org-roam-dailies-today
+        "rdT" 'org-roam-dailies-tomorrow
+        "rf" 'org-roam-find-file
+        "rg" 'org-roam-graph
+        "ri" 'org-roam-insert
+        "rI" 'org-roam-insert-immediate
+        "rl" 'org-roam))
+    :config
+    (progn
+      (spacemacs|hide-lighter org-roam-mode))))
+
 (defun org/init-org-sticky-header ()
   (use-package org-sticky-header
     :defer t
@@ -822,17 +883,17 @@ Headline^^            Visit entry^^               Filter^^                    Da
   (use-package verb
     :defer t
     :init
-      (spacemacs/set-leader-keys-for-major-mode
-        'org-mode
-        "rf" #'verb-send-request-on-point
-        "rs" #'verb-send-request-on-point-other-window
-        "rr" #'verb-send-request-on-point-other-window-stay
-        "rm" #'verb-send-request-on-point-no-window
-        "rk" #'verb-kill-all-response-buffers
-        "re" #'verb-export-request-on-point
-        "ru" #'verb-export-request-on-point-curl
-        "rb" #'verb-export-request-on-point-verb
-        "rv" #'verb-set-var)
+    (spacemacs/set-leader-keys-for-major-mode
+      'org-mode
+      "rf" #'verb-send-request-on-point
+      "rs" #'verb-send-request-on-point-other-window
+      "rr" #'verb-send-request-on-point-other-window-stay
+      "rm" #'verb-send-request-on-point-no-window
+      "rk" #'verb-kill-all-response-buffers
+      "re" #'verb-export-request-on-point
+      "ru" #'verb-export-request-on-point-curl
+      "rb" #'verb-export-request-on-point-verb
+      "rv" #'verb-set-var)
     :config
     (progn
       (spacemacs/set-leader-keys-for-minor-mode

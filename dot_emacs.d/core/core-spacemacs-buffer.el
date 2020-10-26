@@ -1,6 +1,6 @@
 ;;; core-spacemacs-buffer.el --- Spacemacs Core File
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -382,7 +382,7 @@ ADDITIONAL-WIDGETS: a function for inserting a widget under the frame."
                                                                      80))))
       (save-restriction
         (narrow-to-region (point) (point))
-        (add-to-list 'spacemacs-buffer--note-widgets (widget-create 'text note))
+        (add-to-list 'spacemacs-buffer--note-widgets (widget-create 'text :format "%v" note))
         (let* ((width (spacemacs-buffer//get-buffer-width))
                (padding (max 0 (floor (/ (- spacemacs-buffer--window-width
                                             width) 2)))))

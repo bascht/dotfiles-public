@@ -1,6 +1,6 @@
 ;;; keybindings.el --- Spacemacs Defaults Layer key-bindings File
 ;;
-;; Copyright (c) 2012-2019 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -30,7 +30,6 @@
                                        ("aw"  "web-services")
                                        ("c"   "compile/comments")
                                        ("C"   "capture/colors")
-                                       ("d"   "documentation")
                                        ("e"   "errors")
                                        ("g"   "git/versions-control")
                                        ("h"   "help")
@@ -403,7 +402,8 @@
   "hdp" 'describe-package
   "hdP" 'configuration-layer/describe-package
   "hds" 'spacemacs/describe-system-info
-  "hdt" 'describe-theme
+  "hdt" 'describe-text-properties
+  "hdT" 'describe-theme
   "hdv" 'describe-variable
   "hI"  'spacemacs/report-issue
   "hn"  'view-emacs-news

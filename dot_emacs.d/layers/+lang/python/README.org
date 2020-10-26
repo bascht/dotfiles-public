@@ -15,6 +15,7 @@
   - [[#language-server-protocol][Language Server Protocol]]
     - [[#python-language-server][python-language-server]]
     - [[#microsoft-python-language-server][Microsoft python language server]]
+    - [[#microsoft-pyright-language-server][Microsoft pyright language server]]
 - [[#additional-tools][Additional tools]]
   - [[#syntax-checking][Syntax checking]]
   - [[#test-runner][Test runner]]
@@ -31,6 +32,7 @@
   - [[#pyvenv-pyenv-and-pipenv][Pyvenv, pyenv and pipenv]]
 - [[#management-of-python-versions-and-virtual-environments][Management of Python versions and virtual environments]]
   - [[#manage-virtual-environments-with-pyvenv][Manage virtual environments with pyvenv]]
+    - [[#automatic-activation-of-local-virtual-environment][Automatic activation of local virtual environment]]
   - [[#manage-multiple-python-versions-with-pyenv][Manage multiple Python versions with pyenv]]
     - [[#automatic-activation-of-local-pyenv-version][Automatic activation of local pyenv version]]
   - [[#manage-environments-and-packages-with-pipenv][Manage environments and packages with pipenv]]
@@ -50,7 +52,7 @@ This layer adds support for the Python language.
 ** Features:
 - Support for the following backends:
   - [[https://github.com/proofit404/anaconda-mode][anaconda]] (default),
-  - [[https://github.com/emacs-lsp/lsp-python][Language Server Protocol]] (experimental - 2 implementations),
+  - [[https://github.com/emacs-lsp/lsp-python-ms][Language Server Protocol]] (experimental - 2 implementations),
     - python-language-server
     - Microsoft python language server
 - Auto-completion
@@ -132,16 +134,23 @@ setting your =PYTHONPATH= as explained at
 ** Language Server Protocol
 The =lsp= backend can use either of the following language server implementations:
 
-| symbol  | description                              |
-|---------+------------------------------------------|
-| 'pyls   | python-language-server package (default) |
-| 'mspyls | Microsoft python language server         |
+| symbol   | description                              |
+|----------+------------------------------------------|
+| 'pyls    | python-language-server package (default) |
+| 'mspyls  | Microsoft python language server         |
+| 'pyright | Microsoft pyright language server        |
 
-=pyls= is used by default - to use the Microsoft server, set the =python-lsp-server=
-layer variable as follows:
+=pyls= is used by default - to use the Microsoft python language server, set the
+=python-lsp-server= layer variable as follows:
 
 #+BEGIN_SRC elisp
   (python :variables python-backend 'lsp python-lsp-server 'mspyls)
+#+END_SRC
+
+To setup the pyright language server instead, use:
+
+#+BEGIN_SRC elisp
+  (python :variables python-backend 'lsp python-lsp-server 'pyright)
 #+END_SRC
 
 *** python-language-server
@@ -192,6 +201,19 @@ To use the latest built version in a cloned git repo, use the ~python-lsp-git-ro
 
 N.B. If you're using Arch linux or a derivative distribution, you can install the =microsoft-python-language-server=
 package from the AUR.
+
+*** Microsoft pyright language server
+[[https://github.com/microsoft/pyright][Pyright]] is a new language server by Microsoft rewritten from scratch. Microsoft
+python language server is planned to be deprecated in favor of pyright. Pyright
+offers improved performance and better features compared to the old
+implementation. It can be installed via yarn or npm as follows:
+
+#+BEGIN_SRC sh
+  # via yarn
+  yarn global add pyright
+  # or via npm
+  npm install -g pyright
+#+END_SRC
 
 * Additional tools
 ** Syntax checking
@@ -343,6 +365,27 @@ by the [[https://github.com/jorgenschaefer/pyvenv][pyvenv]] package. It provides
 | ~SPC m V d~ | deactivate active virtual environment           |
 | ~SPC m V w~ | work on virtual environment in =WORKON_HOME=    |
 
+*** Automatic activation of local virtual environment
+By default Spacemacs uses the [[https://github.com/jorgenschaefer/pyvenv][pyvenv]] package to manage virtual environments.
+Additionally it uses =pyvenv-tracking-mode= to activate a buffer's local virtual
+environment on change of focus. Pyvenv determines which virtual environment to
+use from the value of the =pyvenv-workon= or the =pyvenv-activate=
+buffer-local-variable. Spacemacs scans the project directory for a pattern
+=.venv=. If the found =.venv= is a directory then it sets that directory as the
+local virtual environment path. If the =.venv= pattern is a file then it checks if
+its first line matches an existing path and if so, it sets it as the local
+virtual environment path. Finally it checks if it finds an existing directory
+with the name of the first line in the ~pyvenv-workon-home~ directory. By default
+Spacemacs scans for a virtual environment and sets the local =pyvenv-workon= or
+the =pyvenv-activate= variables on visiting a file, but switches virtual
+environment on every change of focus using the local variables. The buffer
+tracking behavior can be disabled by setting the value of the customizable
+variable =pyvenv-tracking-mode= to =nil=. The scanning behavior can be set via the
+variable =python-auto-set-local-pyvenv-virtualenv= to:
+- =on-visit= (default) set the virtualenv when you visit a python buffer,
+- =on-project-switch= set the virtualenv when you switch projects,
+- =nil= to disable.
+
 ** Manage multiple Python versions with pyenv
 If you need multiple Python versions (e.g. Python 2 and Python 3) then take a
 look at [[https://github.com/yyuu/pyenv][pyenv]]. It enables the installation and management of multiple
@@ -367,15 +410,6 @@ the pyenv version. The behavior can be set with the variable
 =python-auto-set-local-pyenv-version= to:
 - =on-visit= (default) set the version when you visit a python buffer,
 - =on-project-switch= set the version when you switch projects,
-- =nil= to disable.
-
-The same is also possible on pyvenv with a file called =.venv= that specifies
-either an absolute or relative path to a virtualenv directory. A relative path
-is checked relative to the location of =.venv=, then relative to
-=pyvenv-workon-home=. =.venv= can also be a virtualenv directory. The behavior
-can be set with the variable =python-auto-set-local-pyvenv-virtualenv= to:
-- =on-visit= (default) set the virtualenv when you visit a python buffer,
-- =on-project-switch= set the virtualenv when you switch projects,
 - =nil= to disable.
 
 ** Manage environments and packages with pipenv
@@ -405,17 +439,20 @@ search path by activating a virtual environment.
 
 Send code to inferior process commands:
 
-| Key binding | Description                                     |
-|-------------+-------------------------------------------------|
-| ~SPC m s b~ | send buffer and keep code buffer focused        |
-| ~SPC m s B~ | send buffer and switch to REPL in insert mode   |
-| ~SPC m s f~ | send function and keep code buffer focused      |
-| ~SPC m s F~ | send function and switch to REPL in insert mode |
-| ~SPC m s i~ | start inferior REPL process                     |
-| ~SPC m s r~ | send region and keep code buffer focused        |
-| ~SPC m s R~ | send region and switch to REPL in insert mode   |
-| ~CTRL+j~    | next item in REPL history                       |
-| ~CTRL+k~    | previous item in REPL history                   |
+| Key binding | Description                                      |
+|-------------+--------------------------------------------------|
+| ~SPC m s b~ | send buffer and keep code buffer focused         |
+| ~SPC m s B~ | send buffer and switch to REPL in insert mode    |
+| ~SPC m s e~ | send statement and keep code buffer focused      |
+| ~SPC m s E~ | send statement and switch to REPL in insert mode |
+| ~SPC m s f~ | send function and keep code buffer focused       |
+| ~SPC m s F~ | send function and switch to REPL in insert mode  |
+| ~SPC m s i~ | start inferior REPL process                      |
+| ~SPC m s l~ | send line and keep code buffer focused           |
+| ~SPC m s r~ | send region and keep code buffer focused         |
+| ~SPC m s R~ | send region and switch to REPL in insert mode    |
+| ~CTRL+j~    | next item in REPL history                        |
+| ~CTRL+k~    | previous item in REPL history                    |
 
 ** Running Python Script in shell
 To run a Python script like you would in the shell press ~SPC m c c~
@@ -500,6 +537,7 @@ Live coding is provided by the [[https://github.com/donkirkby/live-py-plugin][li
 | ~SPC m h d~              | look for documentation using =helm-pydoc=                                         |
 | ~SPC m h h~              | quick documentation using anaconda                                                |
 | ~SPC m h H~              | open documentation in =firefox= using [[https://github.com/tsgates/pylookup][pylookup]]                                    |
+| ~SPC m S d~              | insert doc-string skeleton using [[https://github.com/naiquevin/sphinx-doc.el][sphinx-doc]]                                       |
 | ~SPC m v a~              | activate a virtual environment in any directory                                   |
 | ~SPC m v d~              | deactivate active virtual environment                                             |
 | ~SPC m v s~              | set a pyenv environment with [[https://github.com/pyenv/pyenv][pyenv]]                                                |
