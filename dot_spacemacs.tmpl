@@ -56,7 +56,7 @@ This function should only modify configuration layer settings."
      version-control
      multiple-cursors
      {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
-     mu4e
+     (mu4e :variables mu4e-enable-async-operations nil)
      finance
      {{- else }}
      go
@@ -553,13 +553,13 @@ before packages are loaded."
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
-  (spacemacs/set-leader-keys "oa" 'my-org-agenda)
-  (spacemacs/set-leader-keys "om" 'bascht/mu4e-inbox)
-  (spacemacs/set-leader-keys "oo" 'helm-org-rifle-agenda-files)
-  (spacemacs/set-leader-keys "ok" 'org-clock-goto)
-  (spacemacs/set-leader-keys "or" 'org-refile-goto-last-stored)
-  (spacemacs/set-leader-keys "od" 'my-daily-review)
-  (spacemacs/set-leader-keys "og" 'bascht/go-to-org-file)
+  (spacemacs/set-leader-keys "oa"  'my-org-agenda)
+  (spacemacs/set-leader-keys "om"  'bascht/mu4e-inbox)
+  (spacemacs/set-leader-keys "oo"  'helm-org-rifle-agenda-files)
+  (spacemacs/set-leader-keys "ok"  'org-clock-goto)
+  (spacemacs/set-leader-keys "od"  'my-daily-review)
+  (spacemacs/set-leader-keys "og"  'bascht/go-to-org-file)
+  (spacemacs/set-leader-keys "orl" 'org-refile-goto-last-stored)
   (spacemacs/set-leader-keys "ojt" 'org-journal-new-entry)
   (spacemacs/set-leader-keys "ojy" 'bascht/goto-yesterdays-journal)
   (spacemacs/set-leader-keys "oca" 'bascht/alfatraining-clock-in)
