@@ -296,12 +296,12 @@ for_window [title="nm-tray"] floating enable
 for_window [app_id="org.gnome.Nautilus"] floating enable
 for_window [title="Firefox - Sharing Indicator"] floating enable
 
-assign [instance="^.*\.yakshed\.org$"] "3: Comms"
-assign [title=".*slack.*"] "3: Comms"
-assign [instance="web.whatsapp.com"] "3: Comms"
-assign [instance="inoreader.com"] "3: Comms"
-assign [instance="wire"] "3: Comms"
-assign [instance="signal"] "3: Comms"
+assign [instance="^.*\.yakshed\.org$"] "3 "
+assign [title=".*slack.*"] "3 "
+assign [instance="web.whatsapp.com"] "3 "
+assign [instance="inoreader.com"] "3 "
+assign [instance="wire"] "3 "
+assign [instance="signal"] "3 "
 
 #
 # Resizing containers:
