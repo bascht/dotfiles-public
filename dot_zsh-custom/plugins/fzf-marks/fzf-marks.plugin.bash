@@ -44,6 +44,10 @@ if [[ -z "${FZF_MARKS_COMMAND}" ]] ; then
     fi
 fi
 
+function setup_completion {
+    complete -W "$(sed 's/\(.*\) : .*$/"\1"/' < "$FZF_MARKS_FILE")" fzm
+}
+
 function mark {
     local mark_to_add
     mark_to_add="$* : $(pwd)"
@@ -55,6 +59,7 @@ function mark {
         echo "** The following mark has been added **"
     fi
     echo "${mark_to_add}" | _color_marks
+    setup_completion
 }
 
 function _handle_symlinks {
@@ -90,7 +95,7 @@ function fzm {
         --expect="${FZF_MARKS_DELETE:-ctrl-d}" \
         --multi \
         --bind=ctrl-y:accept,ctrl-t:toggle \
-        --query="$*" \
+        --query="\"$*\"" \
         --select-1 \
         --tac)
     if [[ -z "$lines" ]]; then
@@ -114,7 +119,7 @@ function jump {
         jumpline=$(_color_marks < "${FZF_MARKS_FILE}" | eval ${FZF_MARKS_COMMAND} --ansi --bind=ctrl-y:accept --query="$*" --select-1 --tac)
     fi
     if [[ -n ${jumpline} ]]; then
-        jumpdir=$(echo "${jumpline}" | sed 's/.*: \(.*\)$/\1/' | sed "s#~#${HOME}#")
+        jumpdir=$(echo "${jumpline}" | sed 's/.*: \(.*\)$/\1/' | sed "s#^~#${HOME}#")
         bookmarks=$(_handle_symlinks)
         cd "${jumpdir}" || return
         if ! [[ "${FZF_MARKS_KEEP_ORDER}" == 1 ]]; then
@@ -143,9 +148,12 @@ function dmark {
             || echo "** The following marks have been deleted **"
         echo "${marks_to_delete}" | _color_marks
     fi
+    setup_completion
 }
 
 bind "\"${FZF_MARKS_JUMP:-\C-g}\":\"fzm\\n\""
 if [ "${FZF_MARKS_DMARK}" ]; then
     bind "\"${FZF_MARKS_DMARK}\":\"dmark\\n\""
 fi
+
+setup_completion

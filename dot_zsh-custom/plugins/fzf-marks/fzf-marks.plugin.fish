@@ -1,6 +1,6 @@
 # MIT License
 
-# Copyright (c) 2019 Marcel Patzwahl
+# Copyright (c) 2019 Marcel Patzwahl, Urbain Vaes
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 command -v fzf > /dev/null 2>&1 or return
 
 if test -z "$FZF_MARKS_FILE"
-    set FZF_MARKS_FILE "$HOME/.fzf-marks"
+    set -g FZF_MARKS_FILE "$HOME/.fzf-marks"
 end
 
 if test ! -f "$FZF_MARKS_FILE"
@@ -35,13 +35,13 @@ if test -z "$FZF_MARKS_COMMAND"
     set -l minimum_version 16001
 
     if test $fzf_version -gt $minimum_version
-        set FZF_MARKS_COMMAND fzf --height 40% --reverse --header='ctrl-y:jump, ctrl-t:toggle, ctrl-d:delete'
+        set -g FZF_MARKS_COMMAND fzf --height 40% --reverse --header=\'ctrl-y:jump, ctrl-t:toggle, ctrl-d:delete\'
     else if test $FZF_TMUX -eq 1
         set -l tmux_height $FZF_TMUX_HEIGHT
         set -lq tmux_height[1]; or set tmux_height[1] 40
-        set FZF_MARKS_COMMAND "fzf-tmux -d$tmux_height"
+        set -g FZF_MARKS_COMMAND "fzf-tmux -d$tmux_height"
     else
-        set FZF_MARKS_COMMAND "fzf"
+        set -g FZF_MARKS_COMMAND "fzf"
     end
 end
 
@@ -90,7 +90,7 @@ function fzm
     set -l marks_del $FZF_MARKS_DELETE
     set -lq marks_del[1]; or set marks_del[1] "ctrl-d"
 
-    set lines (_color_marks < $FZF_MARKS_FILE | $FZF_MARKS_COMMAND \
+    set lines (_color_marks < $FZF_MARKS_FILE | eval $FZF_MARKS_COMMAND \
                --ansi \
                --expect="$marks_del" \
                --multi \
@@ -122,7 +122,7 @@ function jump
                 --tac)
     end
     if test -n $jumpline
-        set -l jumpdir (echo "$jumpline" | sed 's/.*: \(.*\)$/\1/' | sed "s#~#$HOME#")
+        set -l jumpdir (echo "$jumpline" | sed 's/.*: \(.*\)$/\1/' | sed "s#^~#$HOME#")
         set -l bookmarks (_handle_symlinks)
         cd $jumpdir
         commandline -f repaint

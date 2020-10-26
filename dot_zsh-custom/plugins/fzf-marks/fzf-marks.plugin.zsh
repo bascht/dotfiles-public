@@ -93,12 +93,13 @@ function _color_marks {
 }
 
 function fzm {
+    local lines key
     lines=$(_color_marks < "${FZF_MARKS_FILE}" | eval ${FZF_MARKS_COMMAND} \
         --ansi \
         --expect="${FZF_MARKS_DELETE:-ctrl-d}" \
         --multi \
         --bind=ctrl-y:accept,ctrl-t:toggle \
-        --query="$*" \
+        --query="\"$*\"" \
         --select-1 \
         --tac)
     if [[ -z "$lines" ]]; then
@@ -123,7 +124,7 @@ function jump {
         jumpline=$(_color_marks < "${FZF_MARKS_FILE}" | eval ${FZF_MARKS_COMMAND} --ansi --bind=ctrl-y:accept --query="$*" --select-1 --tac)
     fi
     if [[ -n ${jumpline} ]]; then
-        jumpdir=$(echo "${jumpline}" | sed 's/.*: \(.*\)$/\1/' | sed "s#~#${HOME}#")
+        jumpdir=$(echo "${jumpline}" | sed 's/.*: \(.*\)$/\1/' | sed "s#^~#${HOME}#")
         bookmarks=$(_handle_symlinks)
         cd "${jumpdir}" || return
         if ! [[ "${FZF_MARKS_KEEP_ORDER}" == 1 ]]; then
@@ -164,3 +165,14 @@ bindkey ${FZF_MARKS_JUMP:-'^g'} fzm
 if [ "${FZF_MARKS_DMARK}" ]; then
     bindkey ${FZF_MARKS_DMARK} dmark
 fi
+
+command -v compdef >/dev/null 2>&1 || return
+# Completion: for documentation, see e.g.
+# https://mads-hartmann.com/2017/08/06/writing-zsh-completion-scripts.html
+# https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#user-content-actions
+function _fzm {
+    _arguments -C \
+        "1: :(($(sed "s/\\(.*\\) : \\(.*\\)/'\1'\\\\:'\2'/" < ~/.fzf-marks)))" \
+}
+
+compdef _fzm fzm

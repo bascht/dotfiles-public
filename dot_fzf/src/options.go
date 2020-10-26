@@ -6,12 +6,13 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode"
 	"unicode/utf8"
 
 	"github.com/junegunn/fzf/src/algo"
 	"github.com/junegunn/fzf/src/tui"
-	"github.com/junegunn/fzf/src/util"
 
+	"github.com/mattn/go-runewidth"
 	"github.com/mattn/go-shellwords"
 )
 
@@ -43,6 +44,7 @@ const usage = `usage: fzf [options]
     --no-mouse            Disable mouse
     --bind=KEYBINDS       Custom key bindings. Refer to the man page.
     --cycle               Enable cyclic scroll
+    --keep-right          Keep the right end of the line visible on overflow
     --no-hscroll          Disable horizontal scroll
     --hscroll-off=COL     Number of screen columns to keep to the right of the
                           highlighted substring (default: 10)
@@ -55,10 +57,13 @@ const usage = `usage: fzf [options]
     --min-height=HEIGHT   Minimum height when --height is given in percent
                           (default: 10)
     --layout=LAYOUT       Choose layout: [default|reverse|reverse-list]
-    --border              Draw border above and below the finder
+    --border[=STYLE]      Draw border around the finder
+                          [rounded|sharp|horizontal] (default: rounded)
     --margin=MARGIN       Screen margin (TRBL / TB,RL / T,RL,B / T,R,B,L)
     --info=STYLE          Finder info style [default|inline|hidden]
     --prompt=STR          Input prompt (default: '> ')
+    --pointer=STR         Pointer to the current line (default: '>')
+    --marker=STR          Multi-select marker (default: '>')
     --header=STR          String to print as header
     --header-lines=N      The first N lines of the input are treated as header
 
@@ -75,7 +80,11 @@ const usage = `usage: fzf [options]
   Preview
     --preview=COMMAND     Command to preview highlighted line ({})
     --preview-window=OPT  Preview window layout (default: right:50%)
-                          [up|down|left|right][:SIZE[%]][:wrap][:hidden]
+                          [up|down|left|right][:SIZE[%]]
+                          [:[no]wrap][:[no]cycle][:[no]hidden]
+                          [:rounded|sharp|noborder]
+                          [:+SCROLL[-OFFSET]]
+                          [:default]
 
   Scripting
     -q, --query=STR       Start the finder with the given query
@@ -154,9 +163,11 @@ type previewOpts struct {
 	command  string
 	position windowPosition
 	size     sizeSpec
+	scroll   string
 	hidden   bool
 	wrap     bool
-	border   bool
+	cycle    bool
+	border   tui.BorderShape
 }
 
 // Options stores the values of command-line options
@@ -183,12 +194,15 @@ type Options struct {
 	MinHeight   int
 	Layout      layoutType
 	Cycle       bool
+	KeepRight   bool
 	Hscroll     bool
 	HscrollOff  int
 	FileWord    bool
 	InfoStyle   infoStyle
 	JumpLabels  string
 	Prompt      string
+	Pointer     string
+	Marker      string
 	Query       string
 	Select1     bool
 	Exit0       bool
@@ -206,11 +220,15 @@ type Options struct {
 	Header      []string
 	HeaderLines int
 	Margin      [4]sizeSpec
-	Bordered    bool
+	BorderShape tui.BorderShape
 	Unicode     bool
 	Tabstop     int
 	ClearOnExit bool
 	Version     bool
+}
+
+func defaultPreviewOpts(command string) previewOpts {
+	return previewOpts{command, posRight, sizeSpec{50, true}, "", false, false, false, tui.BorderRounded}
 }
 
 func defaultOptions() *Options {
@@ -236,12 +254,15 @@ func defaultOptions() *Options {
 		MinHeight:   10,
 		Layout:      layoutDefault,
 		Cycle:       false,
+		KeepRight:   false,
 		Hscroll:     true,
 		HscrollOff:  10,
 		FileWord:    false,
 		InfoStyle:   infoDefault,
 		JumpLabels:  defaultJumpLabels,
 		Prompt:      "> ",
+		Pointer:     ">",
+		Marker:      ">",
 		Query:       "",
 		Select1:     false,
 		Exit0:       false,
@@ -249,7 +270,7 @@ func defaultOptions() *Options {
 		ToggleSort:  false,
 		Expect:      make(map[int]string),
 		Keymap:      make(map[int][]action),
-		Preview:     previewOpts{"", posRight, sizeSpec{50, true}, false, false, true},
+		Preview:     defaultPreviewOpts(""),
 		PrintQuery:  false,
 		ReadZero:    false,
 		Printer:     func(str string) { fmt.Println(str) },
@@ -293,12 +314,12 @@ func nextString(args []string, i *int, message string) string {
 	return args[*i]
 }
 
-func optionalNextString(args []string, i *int) string {
-	if len(args) > *i+1 && !strings.HasPrefix(args[*i+1], "-") {
+func optionalNextString(args []string, i *int) (bool, string) {
+	if len(args) > *i+1 && !strings.HasPrefix(args[*i+1], "-") && !strings.HasPrefix(args[*i+1], "+") {
 		*i++
-		return args[*i]
+		return true, args[*i]
 	}
-	return ""
+	return false, ""
 }
 
 func atoi(str string) int {
@@ -392,6 +413,23 @@ func parseAlgo(str string) algo.Algo {
 	return algo.FuzzyMatchV2
 }
 
+func parseBorder(str string, optional bool) tui.BorderShape {
+	switch str {
+	case "rounded":
+		return tui.BorderRounded
+	case "sharp":
+		return tui.BorderSharp
+	case "horizontal":
+		return tui.BorderHorizontal
+	default:
+		if optional && str == "" {
+			return tui.BorderRounded
+		}
+		errorExit("invalid border style (expected: rounded|sharp|horizontal)")
+	}
+	return tui.BorderNone
+}
+
 func parseKeyChords(str string, message string) map[int]string {
 	if len(str) == 0 {
 		errorExit(message)
@@ -436,6 +474,8 @@ func parseKeyChords(str string, message string) map[int]string {
 			chord = tui.CtrlRightBracket
 		case "change":
 			chord = tui.Change
+		case "backward-eof":
+			chord = tui.BackwardEOF
 		case "alt-enter", "alt-return":
 			chord = tui.CtrlAltM
 		case "alt-space":
@@ -464,6 +504,8 @@ func parseKeyChords(str string, message string) map[int]string {
 			chord = tui.Home
 		case "end":
 			chord = tui.End
+		case "insert":
+			chord = tui.Insert
 		case "pgup", "page-up":
 			chord = tui.PgUp
 		case "pgdn", "page-down":
@@ -548,11 +590,8 @@ func parseTiebreak(str string) []criterion {
 }
 
 func dupeTheme(theme *tui.ColorTheme) *tui.ColorTheme {
-	if theme != nil {
-		dupe := *theme
-		return &dupe
-	}
-	return nil
+	dupe := *theme
+	return &dupe
 }
 
 func parseTheme(defaultTheme *tui.ColorTheme, str string) *tui.ColorTheme {
@@ -577,54 +616,76 @@ func parseTheme(defaultTheme *tui.ColorTheme, str string) *tui.ColorTheme {
 				continue
 			}
 
-			pair := strings.Split(str, ":")
-			if len(pair) != 2 {
+			components := strings.Split(str, ":")
+			if len(components) < 2 {
 				fail()
 			}
 
-			var ansi tui.Color
-			if rrggbb.MatchString(pair[1]) {
-				ansi = tui.HexToColor(pair[1])
-			} else {
-				ansi32, err := strconv.Atoi(pair[1])
-				if err != nil || ansi32 < -1 || ansi32 > 255 {
-					fail()
+			cattr := tui.NewColorAttr()
+			for _, component := range components[1:] {
+				switch component {
+				case "regular":
+					cattr.Attr = tui.AttrRegular
+				case "bold", "strong":
+					cattr.Attr |= tui.Bold
+				case "dim":
+					cattr.Attr |= tui.Dim
+				case "italic":
+					cattr.Attr |= tui.Italic
+				case "underline":
+					cattr.Attr |= tui.Underline
+				case "blink":
+					cattr.Attr |= tui.Blink
+				case "reverse":
+					cattr.Attr |= tui.Reverse
+				case "":
+				default:
+					if rrggbb.MatchString(component) {
+						cattr.Color = tui.HexToColor(component)
+					} else {
+						ansi32, err := strconv.Atoi(component)
+						if err != nil || ansi32 < -1 || ansi32 > 255 {
+							fail()
+						}
+						cattr.Color = tui.Color(ansi32)
+					}
 				}
-				ansi = tui.Color(ansi32)
 			}
-			switch pair[0] {
+			switch components[0] {
+			case "input":
+				theme.Input = cattr
 			case "fg":
-				theme.Fg = ansi
+				theme.Fg = cattr
 			case "bg":
-				theme.Bg = ansi
+				theme.Bg = cattr
 			case "preview-fg":
-				theme.PreviewFg = ansi
+				theme.PreviewFg = cattr
 			case "preview-bg":
-				theme.PreviewBg = ansi
+				theme.PreviewBg = cattr
 			case "fg+":
-				theme.Current = ansi
+				theme.Current = cattr
 			case "bg+":
-				theme.DarkBg = ansi
+				theme.DarkBg = cattr
 			case "gutter":
-				theme.Gutter = ansi
+				theme.Gutter = cattr
 			case "hl":
-				theme.Match = ansi
+				theme.Match = cattr
 			case "hl+":
-				theme.CurrentMatch = ansi
+				theme.CurrentMatch = cattr
 			case "border":
-				theme.Border = ansi
+				theme.Border = cattr
 			case "prompt":
-				theme.Prompt = ansi
+				theme.Prompt = cattr
 			case "spinner":
-				theme.Spinner = ansi
+				theme.Spinner = cattr
 			case "info":
-				theme.Info = ansi
+				theme.Info = cattr
 			case "pointer":
-				theme.Cursor = ansi
+				theme.Cursor = cattr
 			case "marker":
-				theme.Selected = ansi
+				theme.Selected = cattr
 			case "header":
-				theme.Header = ansi
+				theme.Header = cattr
 			default:
 				fail()
 			}
@@ -652,7 +713,7 @@ func init() {
 	// Backreferences are not supported.
 	// "~!@#$%^&*;/|".each_char.map { |c| Regexp.escape(c) }.map { |c| "#{c}[^#{c}]*#{c}" }.join('|')
 	executeRegexp = regexp.MustCompile(
-		`(?si)[:+](execute(?:-multi|-silent)?|reload):.+|[:+](execute(?:-multi|-silent)?|reload)(\([^)]*\)|\[[^\]]*\]|~[^~]*~|![^!]*!|@[^@]*@|\#[^\#]*\#|\$[^\$]*\$|%[^%]*%|\^[^\^]*\^|&[^&]*&|\*[^\*]*\*|;[^;]*;|/[^/]*/|\|[^\|]*\|)`)
+		`(?si)[:+](execute(?:-multi|-silent)?|reload|preview):.+|[:+](execute(?:-multi|-silent)?|reload|preview)(\([^)]*\)|\[[^\]]*\]|~[^~]*~|![^!]*!|@[^@]*@|\#[^\#]*\#|\$[^\$]*\$|%[^%]*%|\^[^\^]*\^|&[^&]*&|\*[^\*]*\*|;[^;]*;|/[^/]*/|\|[^\|]*\|)`)
 }
 
 func parseKeymap(keymap map[int][]action, str string) {
@@ -664,6 +725,8 @@ func parseKeymap(keymap map[int][]action, str string) {
 		prefix := symbol + "execute"
 		if strings.HasPrefix(src[1:], "reload") {
 			prefix = symbol + "reload"
+		} else if strings.HasPrefix(src[1:], "preview") {
+			prefix = symbol + "preview"
 		} else if src[len(prefix)] == '-' {
 			c := src[len(prefix)+1]
 			if c == 's' || c == 'S' {
@@ -724,12 +787,16 @@ func parseKeymap(keymap map[int][]action, str string) {
 				appendAction(actAcceptNonEmpty)
 			case "print-query":
 				appendAction(actPrintQuery)
+			case "refresh-preview":
+				appendAction(actRefreshPreview)
 			case "replace-query":
 				appendAction(actReplaceQuery)
 			case "backward-char":
 				appendAction(actBackwardChar)
 			case "backward-delete-char":
 				appendAction(actBackwardDeleteChar)
+			case "backward-delete-char/eof":
+				appendAction(actBackwardDeleteCharEOF)
 			case "backward-word":
 				appendAction(actBackwardWord)
 			case "clear-screen":
@@ -814,6 +881,10 @@ func parseKeymap(keymap map[int][]action, str string) {
 				appendAction(actPreviewPageUp)
 			case "preview-page-down":
 				appendAction(actPreviewPageDown)
+			case "preview-half-page-up":
+				appendAction(actPreviewHalfPageUp)
+			case "preview-half-page-down":
+				appendAction(actPreviewHalfPageDown)
 			default:
 				t := isExecuteAction(specLower)
 				if t == actIgnore {
@@ -827,6 +898,8 @@ func parseKeymap(keymap map[int][]action, str string) {
 					switch t {
 					case actReload:
 						offset = len("reload")
+					case actPreview:
+						offset = len("preview")
 					case actExecuteSilent:
 						offset = len("execute-silent")
 					case actExecuteMulti:
@@ -864,6 +937,8 @@ func isExecuteAction(str string) actionType {
 	switch prefix {
 	case "reload":
 		return actReload
+	case "preview":
+		return actPreview
 	case "execute":
 		return actExecute
 	case "execute-silent":
@@ -944,21 +1019,26 @@ func parseInfoStyle(str string) infoStyle {
 }
 
 func parsePreviewWindow(opts *previewOpts, input string) {
-	// Default
-	opts.position = posRight
-	opts.size = sizeSpec{50, true}
-	opts.hidden = false
-	opts.wrap = false
-
 	tokens := strings.Split(input, ":")
 	sizeRegex := regexp.MustCompile("^[0-9]+%?$")
+	offsetRegex := regexp.MustCompile("^\\+([0-9]+|{-?[0-9]+})(-[0-9]+|-/[1-9][0-9]*)?$")
 	for _, token := range tokens {
 		switch token {
 		case "":
+		case "default":
+			*opts = defaultPreviewOpts(opts.command)
 		case "hidden":
 			opts.hidden = true
+		case "nohidden":
+			opts.hidden = false
 		case "wrap":
 			opts.wrap = true
+		case "nowrap":
+			opts.wrap = false
+		case "cycle":
+			opts.cycle = true
+		case "nocycle":
+			opts.cycle = false
 		case "up", "top":
 			opts.position = posUp
 		case "down", "bottom":
@@ -967,24 +1047,20 @@ func parsePreviewWindow(opts *previewOpts, input string) {
 			opts.position = posLeft
 		case "right":
 			opts.position = posRight
-		case "border":
-			opts.border = true
+		case "rounded", "border":
+			opts.border = tui.BorderRounded
+		case "sharp":
+			opts.border = tui.BorderSharp
 		case "noborder":
-			opts.border = false
+			opts.border = tui.BorderNone
 		default:
 			if sizeRegex.MatchString(token) {
 				opts.size = parseSize(token, 99, "window size")
+			} else if offsetRegex.MatchString(token) {
+				opts.scroll = token[1:]
 			} else {
-				errorExit("invalid preview window layout: " + input)
+				errorExit("invalid preview window option: " + token)
 			}
-		}
-	}
-	if !opts.size.percent && opts.size.size > 0 {
-		// Adjust size for border
-		opts.size.size += 2
-		// And padding
-		if opts.position == posLeft || opts.position == posRight {
-			opts.size.size += 2
 		}
 	}
 }
@@ -1041,6 +1117,8 @@ func parseOptions(opts *Options, allArgs []string) {
 		}
 	}
 	validateJumpLabels := false
+	validatePointer := false
+	validateMarker := false
 	for i := 0; i < len(allArgs); i++ {
 		arg := allArgs[i]
 		switch arg {
@@ -1084,7 +1162,7 @@ func parseOptions(opts *Options, allArgs []string) {
 		case "--bind":
 			parseKeymap(opts.Keymap, nextString(allArgs, &i, "bind expression required"))
 		case "--color":
-			spec := optionalNextString(allArgs, &i)
+			_, spec := optionalNextString(allArgs, &i)
 			if len(spec) == 0 {
 				opts.Theme = tui.EmptyTheme()
 			} else {
@@ -1121,7 +1199,7 @@ func parseOptions(opts *Options, allArgs []string) {
 		case "--no-mouse":
 			opts.Mouse = false
 		case "+c", "--no-color":
-			opts.Theme = nil
+			opts.Theme = tui.NoColorTheme()
 		case "+2", "--no-256":
 			opts.Theme = tui.Default16
 		case "--black":
@@ -1143,6 +1221,10 @@ func parseOptions(opts *Options, allArgs []string) {
 			opts.Cycle = true
 		case "--no-cycle":
 			opts.Cycle = false
+		case "--keep-right":
+			opts.KeepRight = true
+		case "--no-keep-right":
+			opts.KeepRight = false
 		case "--hscroll":
 			opts.Hscroll = true
 		case "--no-hscroll":
@@ -1189,6 +1271,12 @@ func parseOptions(opts *Options, allArgs []string) {
 			opts.PrintQuery = false
 		case "--prompt":
 			opts.Prompt = nextString(allArgs, &i, "prompt string required")
+		case "--pointer":
+			opts.Pointer = nextString(allArgs, &i, "pointer sign string required")
+			validatePointer = true
+		case "--marker":
+			opts.Marker = nextString(allArgs, &i, "selected sign string required")
+			validateMarker = true
 		case "--sync":
 			opts.Sync = true
 		case "--no-sync":
@@ -1216,7 +1304,7 @@ func parseOptions(opts *Options, allArgs []string) {
 			opts.Preview.command = ""
 		case "--preview-window":
 			parsePreviewWindow(&opts.Preview,
-				nextString(allArgs, &i, "preview window layout required: [up|down|left|right][:SIZE[%]][:noborder][:wrap][:hidden]"))
+				nextString(allArgs, &i, "preview window layout required: [up|down|left|right][:SIZE[%]][:rounded|sharp|noborder][:wrap][:cycle][:hidden][:+SCROLL[-OFFSET]][:default]"))
 		case "--height":
 			opts.Height = parseHeight(nextString(allArgs, &i, "height required: HEIGHT[%]"))
 		case "--min-height":
@@ -1226,9 +1314,10 @@ func parseOptions(opts *Options, allArgs []string) {
 		case "--no-margin":
 			opts.Margin = defaultMargin()
 		case "--no-border":
-			opts.Bordered = false
+			opts.BorderShape = tui.BorderNone
 		case "--border":
-			opts.Bordered = true
+			hasArg, arg := optionalNextString(allArgs, &i)
+			opts.BorderShape = parseBorder(arg, !hasArg)
 		case "--no-unicode":
 			opts.Unicode = false
 		case "--unicode":
@@ -1253,8 +1342,16 @@ func parseOptions(opts *Options, allArgs []string) {
 				opts.Filter = &value
 			} else if match, value := optString(arg, "-d", "--delimiter="); match {
 				opts.Delimiter = delimiterRegexp(value)
+			} else if match, value := optString(arg, "--border="); match {
+				opts.BorderShape = parseBorder(value, false)
 			} else if match, value := optString(arg, "--prompt="); match {
 				opts.Prompt = value
+			} else if match, value := optString(arg, "--pointer="); match {
+				opts.Pointer = value
+				validatePointer = true
+			} else if match, value := optString(arg, "--marker="); match {
+				opts.Marker = value
+				validateMarker = true
 			} else if match, value := optString(arg, "-n", "--nth="); match {
 				opts.Nth = splitNth(value)
 			} else if match, value := optString(arg, "--with-nth="); match {
@@ -1303,6 +1400,7 @@ func parseOptions(opts *Options, allArgs []string) {
 				opts.HscrollOff = atoi(value)
 			} else if match, value := optString(arg, "--jump-labels="); match {
 				opts.JumpLabels = value
+				validateJumpLabels = true
 			} else {
 				errorExit("unknown option: " + arg)
 			}
@@ -1332,11 +1430,40 @@ func parseOptions(opts *Options, allArgs []string) {
 			}
 		}
 	}
+
+	if validatePointer {
+		if err := validateSign(opts.Pointer, "pointer"); err != nil {
+			errorExit(err.Error())
+		}
+	}
+
+	if validateMarker {
+		if err := validateSign(opts.Marker, "marker"); err != nil {
+			errorExit(err.Error())
+		}
+	}
+}
+
+func validateSign(sign string, signOptName string) error {
+	if sign == "" {
+		return fmt.Errorf("%v cannot be empty", signOptName)
+	}
+	widthSum := 0
+	for _, r := range sign {
+		if !unicode.IsGraphic(r) {
+			return fmt.Errorf("invalid character in %v", signOptName)
+		}
+		widthSum += runewidth.RuneWidth(r)
+		if widthSum > 2 {
+			return fmt.Errorf("%v display width should be up to 2", signOptName)
+		}
+	}
+	return nil
 }
 
 func postProcessOptions(opts *Options) {
-	if util.IsWindows() && opts.Height.size > 0 {
-		errorExit("--height option is currently not supported on Windows")
+	if !tui.IsLightRendererSupported() && opts.Height.size > 0 {
+		errorExit("--height option is currently not supported on this platform")
 	}
 	// Default actions for CTRL-N / CTRL-P when --history is set
 	if opts.History != nil {
@@ -1369,6 +1496,25 @@ func postProcessOptions(opts *Options) {
 				return
 			}
 		}
+	}
+
+	if opts.Bold {
+		theme := opts.Theme
+		boldify := func(c tui.ColorAttr) tui.ColorAttr {
+			dup := c
+			if !theme.Colored {
+				dup.Attr |= tui.Bold
+			} else if (c.Attr & tui.AttrRegular) == 0 {
+				dup.Attr |= tui.Bold
+			}
+			return dup
+		}
+		theme.Current = boldify(theme.Current)
+		theme.CurrentMatch = boldify(theme.CurrentMatch)
+		theme.Prompt = boldify(theme.Prompt)
+		theme.Input = boldify(theme.Input)
+		theme.Cursor = boldify(theme.Cursor)
+		theme.Spinner = boldify(theme.Spinner)
 	}
 }
 

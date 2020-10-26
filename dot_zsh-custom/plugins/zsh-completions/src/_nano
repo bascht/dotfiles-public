@@ -31,6 +31,7 @@ _arguments -s -C \
   {-c,--constantshow}'[Constantly show cursor position]'\
   {-d,--rebinddelete}'[Fix Backspace/Delete confusion problem]'\
   {-e,--emptyline}'[Keep the line below the title bar empty]'\
+  {-f,--rcfile=}'[Use only this file for configuring nano]:file:_files'\
   {-g,--showcursor}'[Show cursor in file browser & help text]'\
   '(- *)'{-h,--help}'[Show help text and exit]'\
   {-i,--autoindent}'[Automatically indent new lines]'\
@@ -44,6 +45,7 @@ _arguments -s -C \
   {-r+,--fill=}'[Set width for hard-wrap and justify]:init'\
   {-s+,--speller=}'[Enable alternate speller]:prog'\
   {-t,--tempfile}'[Auto save on exit, do not prompt]'\
+  {-u,--unix}'[Save a file by default in Unix format]'\
   {-w,--nowrap}'[Do not hard-wrap long lines default]'\
   {-x,--nohelp}'[Do not show the two help lines]'\
   {-y,--afterends}'[Make Ctrl+Right stop at word ends]'\

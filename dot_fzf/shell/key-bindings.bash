@@ -1,3 +1,16 @@
+#     ____      ____
+#    / __/___  / __/
+#   / /_/_  / / /_
+#  / __/ / /_/ __/
+# /_/   /___/_/ key-bindings.bash
+#
+# - $FZF_TMUX_OPTS
+# - $FZF_CTRL_T_COMMAND
+# - $FZF_CTRL_T_OPTS
+# - $FZF_CTRL_R_OPTS
+# - $FZF_ALT_C_COMMAND
+# - $FZF_ALT_C_OPTS
+
 # Key bindings
 # ------------
 __fzf_select__() {
@@ -5,7 +18,7 @@ __fzf_select__() {
     -o -type f -print \
     -o -type d -print \
     -o -type l -print 2> /dev/null | cut -b3-"}"
-  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@" | while read -r item; do
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read -r item; do
     printf '%q ' "$item"
   done
   echo
@@ -13,35 +26,15 @@ __fzf_select__() {
 
 if [[ $- =~ i ]]; then
 
-__fzf_use_tmux__() {
-  [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
-}
-
 __fzfcmd() {
-  __fzf_use_tmux__ &&
-    echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-}
-
-__fzf_select_tmux__() {
-  local height
-  height=${FZF_TMUX_HEIGHT:-40%}
-  if [[ $height =~ %$ ]]; then
-    height="-p ${height%\%}"
-  else
-    height="-l $height"
-  fi
-
-  tmux split-window $height "cd $(printf %q "$PWD"); FZF_DEFAULT_OPTS=$(printf %q "$FZF_DEFAULT_OPTS") PATH=$(printf %q "$PATH") FZF_CTRL_T_COMMAND=$(printf %q "$FZF_CTRL_T_COMMAND") FZF_CTRL_T_OPTS=$(printf %q "$FZF_CTRL_T_OPTS") bash -c 'source \"${BASH_SOURCE[0]}\"; RESULT=\"\$(__fzf_select__ --no-height)\"; tmux setb -b fzf \"\$RESULT\" \\; pasteb -b fzf -t $TMUX_PANE \\; deleteb -b fzf || tmux send-keys -t $TMUX_PANE \"\$RESULT\"'"
+  [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; } &&
+    echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
 }
 
 fzf-file-widget() {
-  if __fzf_use_tmux__; then
-    __fzf_select_tmux__
-  else
-    local selected="$(__fzf_select__)"
-    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
-  fi
+  local selected="$(__fzf_select__)"
+  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
 
 __fzf_cd__() {
@@ -51,69 +44,53 @@ __fzf_cd__() {
   dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m) && printf 'cd %q' "$dir"
 }
 
-__fzf_history__() (
-  local line
-  shopt -u nocaseglob nocasematch
-  line=$(
-    HISTTIMEFORMAT= builtin history |
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tac --sync -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) |
-    command grep '^ *[0-9]') &&
-    if [[ $- =~ H ]]; then
-      sed 's/^ *\([0-9]*\)\** .*/!\1/' <<< "$line"
-    else
-      sed 's/^ *\([0-9]*\)\** *//' <<< "$line"
-    fi
-)
+__fzf_history__() {
+  local output
+  output=$(
+    builtin fc -lnr -2147483648 |
+      last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
+  ) || return
+  READLINE_LINE=${output#*$'\t'}
+  if [ -z "$READLINE_POINT" ]; then
+    echo "$READLINE_LINE"
+  else
+    READLINE_POINT=0x7fffffff
+  fi
+}
 
 # Required to refresh the prompt after fzf
 bind -m emacs-standard '"\er": redraw-current-line'
-bind -m emacs-standard '"\e^": history-expand-line'
 
-# CTRL-T - Paste the selected file path into the command line
-if [ $BASH_VERSINFO -gt 3 ]; then
-  bind -m emacs-standard -x '"\C-t": "fzf-file-widget"'
-elif __fzf_use_tmux__; then
-  bind -m emacs-standard '"\C-t": " \C-u \C-a\C-k`__fzf_select_tmux__`\e\C-e\C-y\C-a\C-d\C-y\ey\C-h"'
+bind -m vi-command '"\C-z": emacs-editing-mode'
+bind -m vi-insert '"\C-z": emacs-editing-mode'
+bind -m emacs-standard '"\C-z": vi-editing-mode'
+
+if [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+  # CTRL-T - Paste the selected file path into the command line
+  bind -m emacs-standard '"\C-t": " \C-b\C-k \C-u`__fzf_select__`\e\C-e\er\C-a\C-y\C-h\C-e\e \C-y\ey\C-x\C-x\C-f"'
+  bind -m vi-command '"\C-t": "\C-z\C-t\C-z"'
+  bind -m vi-insert '"\C-t": "\C-z\C-t\C-z"'
+
+  # CTRL-R - Paste the selected command from history into the command line
+  bind -m emacs-standard '"\C-r": "\C-e \C-u\C-y\ey\C-u"$(__fzf_history__)"\e\C-e\er"'
+  bind -m vi-command '"\C-r": "\C-z\C-r\C-z"'
+  bind -m vi-insert '"\C-r": "\C-z\C-r\C-z"'
 else
-  bind -m emacs-standard '"\C-t": " \C-u \C-a\C-k`__fzf_select__`\e\C-e\C-y\C-a\C-y\ey\C-h\C-e\er \C-h"'
+  # CTRL-T - Paste the selected file path into the command line
+  bind -m emacs-standard -x '"\C-t": fzf-file-widget'
+  bind -m vi-command -x '"\C-t": fzf-file-widget'
+  bind -m vi-insert -x '"\C-t": fzf-file-widget'
+
+  # CTRL-R - Paste the selected command from history into the command line
+  bind -m emacs-standard -x '"\C-r": __fzf_history__'
+  bind -m vi-command -x '"\C-r": __fzf_history__'
+  bind -m vi-insert -x '"\C-r": __fzf_history__'
 fi
 
-# CTRL-R - Paste the selected command from history into the command line
-bind -m emacs-standard '"\C-r": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"'
-
 # ALT-C - cd into the selected directory
-bind -m emacs-standard '"\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"'
-
-# We'd usually use "\e" to enter vi-movement-mode so we can do our magic,
-# but this incurs a very noticeable delay of a half second or so,
-# because many other commands start with "\e".
-# Instead, we bind an unused key, "\C-x\C-a",
-# to also enter vi-movement-mode,
-# and then use that thereafter.
-# (We imagine that "\C-x\C-a" is relatively unlikely to be in use.)
-bind -m vi-insert '"\C-x\C-a": vi-movement-mode'
-
-bind -m vi-insert '"\C-x\C-e": shell-expand-line'
-bind -m vi-insert '"\C-x\C-r": redraw-current-line'
-bind -m vi-insert '"\C-x^": history-expand-line'
-
-# CTRL-T - Paste the selected file path into the command line
-# - FIXME: Selected items are attached to the end regardless of cursor position
-if [ $BASH_VERSINFO -gt 3 ]; then
-  bind -m vi-insert -x '"\C-t": "fzf-file-widget"'
-elif __fzf_use_tmux__; then
-  bind -m vi-insert '"\C-t": "\C-x\C-a$a \C-x\C-addi`__fzf_select_tmux__`\C-x\C-e\C-x\C-a0P$xa"'
-else
-  bind -m vi-insert '"\C-t": "\C-x\C-a$a \C-x\C-addi`__fzf_select__`\C-x\C-e\C-x\C-a0Px$a \C-x\C-r\C-x\C-axa "'
-fi
-bind -m vi-command '"\C-t": "i\C-t"'
-
-# CTRL-R - Paste the selected command from history into the command line
-bind -m vi-insert '"\C-r": "\C-x\C-addi`__fzf_history__`\C-x\C-e\C-x\C-r\C-x^\C-x\C-a$a"'
-bind -m vi-command '"\C-r": "i\C-r"'
-
-# ALT-C - cd into the selected directory
-bind -m vi-insert '"\ec": "\C-x\C-addi`__fzf_cd__`\C-x\C-e\C-x\C-r\C-m"'
-bind -m vi-command '"\ec": "ddi`__fzf_cd__`\C-x\C-e\C-x\C-r\C-m"'
+bind -m emacs-standard '"\ec": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
+bind -m vi-command '"\ec": "\C-z\ec\C-z"'
+bind -m vi-insert '"\ec": "\C-z\ec\C-z"'
 
 fi

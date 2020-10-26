@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ..
-.TH fzf 1 "Dec 2019" "fzf 0.20.0" "fzf - a command-line fuzzy finder"
+.TH fzf 1 "Oct 2020" "fzf 0.23.1" "fzf - a command-line fuzzy finder"
 
 .SH NAME
 fzf - a command-line fuzzy finder
@@ -130,6 +130,10 @@ the details.
 .B "--cycle"
 Enable cyclic scroll
 .TP
+.B "--keep-right"
+Keep the right end of the line visible when it's too long. Effective only when
+the query string is empty.
+.TP
 .B "--no-hscroll"
 Disable horizontal scroll
 .TP
@@ -178,8 +182,16 @@ Choose the layout (default: default)
 A synonym for \fB--layout=reverse\fB
 
 .TP
-.B "--border"
-Draw border above and below the finder
+.BI "--border" [=STYLE]
+Draw border around the finder
+
+.br
+.BR rounded "     Border with rounded corners (default)"
+.br
+.BR sharp "       Border with sharp corners"
+.br
+.BR horizontal "  Horizontal lines above and below the finder"
+.br
 
 .TP
 .B "--no-unicode"
@@ -231,6 +243,12 @@ A synonym for \fB--info=hidden\fB
 .BI "--prompt=" "STR"
 Input prompt (default: '> ')
 .TP
+.BI "--pointer=" "STR"
+Pointer to the current line (default: '>')
+.TP
+.BI "--marker=" "STR"
+Multi-select marker (default: '>')
+.TP
 .BI "--header=" "STR"
 The given string will be printed as the sticky header. The lines are displayed
 in the given order from top to bottom regardless of \fB--layout\fR option, and
@@ -249,11 +267,9 @@ Enable processing of ANSI color codes
 .BI "--tabstop=" SPACES
 Number of spaces for a tab character (default: 8)
 .TP
-.BI "--color=" "[BASE_SCHEME][,COLOR:ANSI]"
+.BI "--color=" "[BASE_SCHEME][,COLOR_NAME[:ANSI_COLOR][:ANSI_ATTRIBUTES]]..."
 Color configuration. The name of the base color scheme is followed by custom
-color mappings. Ansi color code of -1 denotes terminal default
-foreground/background color. You can also specify 24-bit color in \fB#rrggbb\fR
-format.
+color mappings.
 
 .RS
 .B BASE SCHEME:
@@ -264,7 +280,7 @@ format.
     \fB16      \fRColor scheme for 16-color terminal
     \fBbw      \fRNo colors (equivalent to \fB--no-color\fR)
 
-.B COLOR:
+.B COLOR NAMES:
     \fBfg         \fRText
     \fBbg         \fRBackground
     \fBpreview-fg \fRPreview window text
@@ -274,18 +290,33 @@ format.
     \fBbg+        \fRBackground (current line)
     \fBgutter     \fRGutter on the left (defaults to \fBbg+\fR)
     \fBhl+        \fRHighlighted substrings (current line)
-    \fBinfo       \fRInfo
-    \fBborder     \fRBorder of the preview window and horizontal separators (\fB--border\fR)
+    \fBinfo       \fRInfo line (match counters)
+    \fBborder     \fRBorder around the window (\fB--border\fR and \fB--preview\fR)
     \fBprompt     \fRPrompt
     \fBpointer    \fRPointer to the current line
     \fBmarker     \fRMulti-select marker
     \fBspinner    \fRStreaming input indicator
     \fBheader     \fRHeader
 
+.B ANSI COLORS:
+    \fB-1         \fRDefault terminal foreground/background color
+    \fB           \fR(or the original color of the text)
+    \fB0 ~ 15     \fR16 base colors
+    \fB16 ~ 255   \fRANSI 256 colors
+    \fB#rrggbb    \fR24-bit colors
+
+.B ANSI ATTRIBUTES: (Only applies to foreground colors)
+    \fBregular    \fRClears previously set attributes; should precede the other ones
+    \fBbold\fR
+    \fBunderline\fR
+    \fBreverse\fR
+    \fBdim\fR
+    \fBitalic\fR
+
 .B EXAMPLES:
 
      \fB# Seoul256 theme with 8-bit colors
-     # (https://github.com/junegunn/seoul256.vim) 
+     # (https://github.com/junegunn/seoul256.vim)
      fzf --color='bg:237,bg+:236,info:143,border:240,spinner:108' \\
          --color='hl:65,fg:252,header:65,fg+:252' \\
          --color='pointer:161,marker:168,prompt:110,hl+:108'
@@ -361,16 +392,21 @@ Note that you can escape a placeholder pattern by prepending a backslash.
 
 Preview window will be updated even when there is no match for the current
 query if any of the placeholder expressions evaluates to a non-empty string.
+
+Since 0.24.0, fzf can render partial preview content before the preview command
+completes. ANSI escape sequence for clearing the display (\fBCSI 2 J\fR) is
+supported, so you can use it to implement preview window that is constantly
+updating.
+
+e.g.
+      \fBfzf --preview 'for i in $(seq 100000); do
+        (( i % 200 == 0 )) && printf "\\033[2J"
+        echo "$i"
+        sleep 0.01
+      done'\fR
 .RE
 .TP
-.BI "--preview-window=" "[POSITION][:SIZE[%]][:noborder][:wrap][:hidden]"
-Determines the layout of the preview window. If the argument contains
-\fB:hidden\fR, the preview window will be hidden by default until
-\fBtoggle-preview\fR action is triggered. Long lines are truncated by default.
-Line wrap can be enabled with \fB:wrap\fR flag.
-
-If size is given as 0, preview window will not be visible, but fzf will still
-execute the command in the background.
+.BI "--preview-window=" "[POSITION][:SIZE[%]][:rounded|sharp|noborder][:[no]wrap][:[no]cycle][:[no]hidden][:+SCROLL[-OFFSET]][:default]"
 
 .RS
 .B POSITION: (default: right)
@@ -378,13 +414,48 @@ execute the command in the background.
     \fBdown
     \fBleft
     \fBright
-.RE
+
+\fRDetermines the layout of the preview window. If the argument contains
+\fB:hidden\fR, the preview window will be hidden by default until
+\fBtoggle-preview\fR action is triggered. Long lines are truncated by default.
+Line wrap can be enabled with \fB:wrap\fR flag. Cyclic scrolling is enabled
+with \fB:cycle\fR flag.
+
+If size is given as 0, preview window will not be visible, but fzf will still
+execute the command in the background.
+
+To change the style of the border of the preview window, specify one of
+\fBrounded\fR (border with rounded edges, default), \fBsharp\fR (border with
+sharp edges), or \fBnoborder\fR (no border).
+
+\fB+SCROLL[-OFFSET]\fR determines the initial scroll offset of the preview
+window. \fBSCROLL\fR can be either a numeric integer or a single-field index
+expression that refers to a numeric integer. The optional \fB-OFFSET\fR part is
+for adjusting the base offset so that you can see the text above it. It should
+be given as a numeric integer (\fB-INTEGER\fR), or as a denominator form
+(\fB-/INTEGER\fR) for specifying a fraction of the preview window height.
+
+\fBdefault\fR resets all options previously set to the default.
 
 .RS
 e.g.
-     \fBfzf --preview="head {}" --preview-window=up:30%
-     fzf --preview="file {}" --preview-window=down:1\fR
+     \fB# Non-default scroll window positions and sizes
+     fzf --preview="head {}" --preview-window=up:30%
+     fzf --preview="file {}" --preview-window=down:1
+
+     # Initial scroll offset is set to the line number of each line of
+     # git grep output *minus* 5 lines (-5)
+     git grep --line-number '' |
+       fzf --delimiter : --preview 'nl {1}' --preview-window +{2}-5
+
+     # Preview with bat, matching line in the middle of the window (-/2)
+     git grep --line-number '' |
+       fzf --delimiter : \\
+           --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \\
+           --preview-window +{2}-/2\fR
+
 .RE
+
 .SS Scripting
 .TP
 .BI "-q, --query=" "STR"
@@ -594,6 +665,8 @@ e.g.
 .br
 \fIend\fR
 .br
+\fIinsert\fR
+.br
 \fIpgup\fR        (\fIpage-up\fR)
 .br
 \fIpgdn\fR        (\fIpage-down\fR)
@@ -615,72 +688,87 @@ e.g.
 or any single character
 
 .SS AVAILABLE EVENTS:
-\fIchange\fR (triggered whenever the query string is changed)
-.br
+\fIchange\fR
+.RS
+Triggered whenever the query string is changed
 
-    e.g.
-         \fB# Moves cursor to the top (or bottom depending on --layout) whenever the query is changed
-         fzf --bind change:top\fR
+e.g.
+     \fB# Moves cursor to the top (or bottom depending on --layout) whenever the query is changed
+     fzf --bind change:top\fR
+.RE
+
+\fIbackward-eof\fR
+.RS
+Triggered when the query string is already empty and you try to delete it
+backward.
+
+e.g.
+     \fBfzf --bind backward-eof:abort\fR
+.RE
 
 .SS AVAILABLE ACTIONS:
 A key or an event can be bound to one or more of the following actions.
 
-  \fBACTION:               DEFAULT BINDINGS (NOTES):
-    \fBabort\fR                 \fIctrl-c  ctrl-g  ctrl-q  esc\fR
-    \fBaccept\fR                \fIenter   double-click\fR
-    \fBaccept-non-empty\fR      (same as \fBaccept\fR except that it prevents fzf from exiting without selection)
-    \fBbackward-char\fR         \fIctrl-b  left\fR
-    \fBbackward-delete-char\fR  \fIctrl-h  bspace\fR
-    \fBbackward-kill-word\fR    \fIalt-bs\fR
-    \fBbackward-word\fR         \fIalt-b   shift-left\fR
-    \fBbeginning-of-line\fR     \fIctrl-a  home\fR
-    \fBcancel\fR                (clear query string if not empty, abort fzf otherwise)
-    \fBclear-screen\fR          \fIctrl-l\fR
-    \fBclear-selection\fR       (clear multi-selection)
-    \fBclear-query\fR           (clear query string)
-    \fBdelete-char\fR           \fIdel\fR
-    \fBdelete-char/eof\fR       \fIctrl-d\fR
-    \fBdeselect-all\fR          (deselect all matches)
-    \fBdown\fR                  \fIctrl-j  ctrl-n  down\fR
-    \fBend-of-line\fR           \fIctrl-e  end\fR
-    \fBexecute(...)\fR          (see below for the details)
-    \fBexecute-silent(...)\fR   (see below for the details)
-    \fRexecute-multi(...)\fR    (deprecated in favor of \fB{+}\fR expression)
-    \fBforward-char\fR          \fIctrl-f  right\fR
-    \fBforward-word\fR          \fIalt-f   shift-right\fR
+  \fBACTION:                   DEFAULT BINDINGS (NOTES):
+    \fBabort\fR                     \fIctrl-c  ctrl-g  ctrl-q  esc\fR
+    \fBaccept\fR                    \fIenter   double-click\fR
+    \fBaccept-non-empty\fR          (same as \fBaccept\fR except that it prevents fzf from exiting without selection)
+    \fBbackward-char\fR             \fIctrl-b  left\fR
+    \fBbackward-delete-char\fR      \fIctrl-h  bspace\fR
+    \fBbackward-delete-char/eof\fR  (same as \fBbackward-delete-char\fR except aborts fzf if query is empty)
+    \fBbackward-kill-word\fR        \fIalt-bs\fR
+    \fBbackward-word\fR             \fIalt-b   shift-left\fR
+    \fBbeginning-of-line\fR         \fIctrl-a  home\fR
+    \fBcancel\fR                    (clear query string if not empty, abort fzf otherwise)
+    \fBclear-screen\fR              \fIctrl-l\fR
+    \fBclear-selection\fR           (clear multi-selection)
+    \fBclear-query\fR               (clear query string)
+    \fBdelete-char\fR               \fIdel\fR
+    \fBdelete-char/eof\fR           \fIctrl-d\fR (same as \fBdelete-char\fR except aborts fzf if query is empty)
+    \fBdeselect-all\fR              (deselect all matches)
+    \fBdown\fR                      \fIctrl-j  ctrl-n  down\fR
+    \fBend-of-line\fR               \fIctrl-e  end\fR
+    \fBexecute(...)\fR              (see below for the details)
+    \fBexecute-silent(...)\fR       (see below for the details)
+    \fBforward-char\fR              \fIctrl-f  right\fR
+    \fBforward-word\fR              \fIalt-f   shift-right\fR
     \fBignore\fR
-    \fBjump\fR                  (EasyMotion-like 2-keystroke movement)
-    \fBjump-accept\fR           (jump and accept)
+    \fBjump\fR                      (EasyMotion-like 2-keystroke movement)
+    \fBjump-accept\fR               (jump and accept)
     \fBkill-line\fR
-    \fBkill-word\fR             \fIalt-d\fR
-    \fBnext-history\fR          (\fIctrl-n\fR on \fB--history\fR)
-    \fBpage-down\fR             \fIpgdn\fR
-    \fBpage-up\fR               \fIpgup\fR
+    \fBkill-word\fR                 \fIalt-d\fR
+    \fBnext-history\fR              (\fIctrl-n\fR on \fB--history\fR)
+    \fBpage-down\fR                 \fIpgdn\fR
+    \fBpage-up\fR                   \fIpgup\fR
     \fBhalf-page-down\fR
     \fBhalf-page-up\fR
-    \fBpreview-down\fR          \fIshift-down\fR
-    \fBpreview-up\fR            \fIshift-up\fR
+    \fBpreview(...)\fR              (see below for the details)
+    \fBpreview-down\fR              \fIshift-down\fR
+    \fBpreview-up\fR                \fIshift-up\fR
     \fBpreview-page-down\fR
     \fBpreview-page-up\fR
-    \fBprevious-history\fR      (\fIctrl-p\fR on \fB--history\fR)
-    \fBprint-query\fR           (print query and exit)
-    \fBreload(...)\fR           (see below for the details)
-    \fBreplace-query\fR         (replace query string with the current selection)
-    \fBselect-all\fR            (select all matches)
-    \fBtoggle\fR                (\fIright-click\fR)
-    \fBtoggle-all\fR            (toggle all matches)
-    \fBtoggle+down\fR           \fIctrl-i  (tab)\fR
-    \fBtoggle-in\fR             (\fB--layout=reverse*\fR ? \fBtoggle+up\fR : \fBtoggle+down\fR)
-    \fBtoggle-out\fR            (\fB--layout=reverse*\fR ? \fBtoggle+down\fR : \fBtoggle+up\fR)
+    \fBpreview-half-page-down\fR
+    \fBpreview-half-page-up\fR
+    \fBprevious-history\fR          (\fIctrl-p\fR on \fB--history\fR)
+    \fBprint-query\fR               (print query and exit)
+    \fBrefresh-preview\fR
+    \fBreload(...)\fR               (see below for the details)
+    \fBreplace-query\fR             (replace query string with the current selection)
+    \fBselect-all\fR                (select all matches)
+    \fBtoggle\fR                    (\fIright-click\fR)
+    \fBtoggle-all\fR                (toggle all matches)
+    \fBtoggle+down\fR               \fIctrl-i  (tab)\fR
+    \fBtoggle-in\fR                 (\fB--layout=reverse*\fR ? \fBtoggle+up\fR : \fBtoggle+down\fR)
+    \fBtoggle-out\fR                (\fB--layout=reverse*\fR ? \fBtoggle+down\fR : \fBtoggle+up\fR)
     \fBtoggle-preview\fR
     \fBtoggle-preview-wrap\fR
     \fBtoggle-sort\fR
-    \fBtoggle+up\fR             \fIbtab    (shift-tab)\fR
-    \fBtop\fR                   (move to the top result)
-    \fBunix-line-discard\fR     \fIctrl-u\fR
-    \fBunix-word-rubout\fR      \fIctrl-w\fR
-    \fBup\fR                    \fIctrl-k  ctrl-p  up\fR
-    \fByank\fR                  \fIctrl-y\fR
+    \fBtoggle+up\fR                 \fIbtab    (shift-tab)\fR
+    \fBtop\fR                       (move to the top result)
+    \fBunix-line-discard\fR         \fIctrl-u\fR
+    \fBunix-word-rubout\fR          \fIctrl-w\fR
+    \fBup\fR                        \fIctrl-k  ctrl-p  up\fR
+    \fByank\fR                      \fIctrl-y\fR
 
 .SS ACTION COMPOSITION
 
@@ -749,6 +837,24 @@ e.g.
      FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'" \\
        fzf --bind "change:reload:$RG_PREFIX {q} || true" \\
            --ansi --phony --query "$INITIAL_QUERY"\fR
+
+.SS PREVIEW BINDING
+
+With \fBpreview(...)\fR action, you can specify multiple different preview
+commands in addition to the default preview command given by \fB--preview\fR
+option.
+
+e.g.
+
+     # Default preview command with an extra preview binding
+     fzf --preview 'file {}' --bind '?:preview:cat {}'
+
+     # A preview binding with no default preview command
+     # (Preview window is initially empty)
+     fzf --bind '?:preview:cat {}'
+
+     # Preview window hidden by default, it appears when you first hit '?'
+     fzf --bind '?:preview:cat {}' --preview-window hidden
 
 .SH AUTHOR
 Junegunn Choi (\fIjunegunn.c@gmail.com\fR)

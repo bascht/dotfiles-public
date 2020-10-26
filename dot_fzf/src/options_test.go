@@ -295,7 +295,7 @@ func TestColorSpec(t *testing.T) {
 	}
 
 	customized := parseTheme(theme, "fg:231,bg:232")
-	if customized.Fg != 231 || customized.Bg != 232 {
+	if customized.Fg.Color != 231 || customized.Bg.Color != 232 {
 		t.Errorf("color not customized")
 	}
 	if *tui.Dark256 == *customized {
@@ -310,18 +310,6 @@ func TestColorSpec(t *testing.T) {
 	customized = parseTheme(theme, "fg:231,dark,bg:232")
 	if customized.Fg != tui.Dark256.Fg || customized.Bg == tui.Dark256.Bg {
 		t.Errorf("color not customized")
-	}
-}
-
-func TestParseNilTheme(t *testing.T) {
-	var theme *tui.ColorTheme
-	newTheme := parseTheme(theme, "prompt:12")
-	if newTheme != nil {
-		t.Errorf("color is disabled. keep it that way.")
-	}
-	newTheme = parseTheme(theme, "prompt:12,dark,prompt:13")
-	if newTheme.Prompt != 13 {
-		t.Errorf("color should now be enabled and customized")
 	}
 }
 
@@ -387,23 +375,26 @@ func TestPreviewOpts(t *testing.T) {
 		opts.Preview.size.size == 50) {
 		t.Error()
 	}
-	opts = optsFor("--preview", "cat {}", "--preview-window=left:15:hidden:wrap")
+	opts = optsFor("--preview", "cat {}", "--preview-window=left:15:hidden:wrap:+{1}-/2")
 	if !(opts.Preview.command == "cat {}" &&
 		opts.Preview.hidden == true &&
 		opts.Preview.wrap == true &&
 		opts.Preview.position == posLeft &&
+		opts.Preview.scroll == "{1}-/2" &&
 		opts.Preview.size.percent == false &&
-		opts.Preview.size.size == 15+2+2) {
+		opts.Preview.size.size == 15) {
 		t.Error(opts.Preview)
 	}
-	opts = optsFor("--preview-window=up:15:wrap:hidden", "--preview-window=down")
+	opts = optsFor("--preview-window=up:15:wrap:hidden:+{1}-/2", "--preview-window=down", "--preview-window=cycle")
 	if !(opts.Preview.command == "" &&
-		opts.Preview.hidden == false &&
-		opts.Preview.wrap == false &&
+		opts.Preview.hidden == true &&
+		opts.Preview.wrap == true &&
+		opts.Preview.cycle == true &&
 		opts.Preview.position == posDown &&
-		opts.Preview.size.percent == true &&
-		opts.Preview.size.size == 50) {
-		t.Error(opts.Preview)
+		opts.Preview.scroll == "{1}-/2" &&
+		opts.Preview.size.percent == false &&
+		opts.Preview.size.size == 15) {
+		t.Error(opts.Preview.size.size)
 	}
 	opts = optsFor("--preview-window=up:15:wrap:hidden")
 	if !(opts.Preview.command == "" &&
@@ -411,7 +402,14 @@ func TestPreviewOpts(t *testing.T) {
 		opts.Preview.wrap == true &&
 		opts.Preview.position == posUp &&
 		opts.Preview.size.percent == false &&
-		opts.Preview.size.size == 15+2) {
+		opts.Preview.size.size == 15) {
+		t.Error(opts.Preview)
+	}
+	opts = optsFor("--preview=foo", "--preview-window=up", "--preview-window=default:70%")
+	if !(opts.Preview.command == "foo" &&
+		opts.Preview.position == posRight &&
+		opts.Preview.size.percent == true &&
+		opts.Preview.size.size == 70) {
 		t.Error(opts.Preview)
 	}
 }
@@ -420,5 +418,31 @@ func TestAdditiveExpect(t *testing.T) {
 	opts := optsFor("--expect=a", "--expect", "b", "--expect=c")
 	if len(opts.Expect) != 3 {
 		t.Error(opts.Expect)
+	}
+}
+
+func TestValidateSign(t *testing.T) {
+	testCases := []struct {
+		inputSign string
+		isValid   bool
+	}{
+		{"> ", true},
+		{"아", true},
+		{"😀", true},
+		{"", false},
+		{">>>", false},
+		{"\n", false},
+		{"\t", false},
+	}
+
+	for _, testCase := range testCases {
+		err := validateSign(testCase.inputSign, "")
+		if testCase.isValid && err != nil {
+			t.Errorf("Input sign `%s` caused error", testCase.inputSign)
+		}
+
+		if !testCase.isValid && err == nil {
+			t.Errorf("Input sign `%s` did not cause error", testCase.inputSign)
+		}
 	}
 }

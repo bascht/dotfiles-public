@@ -28,6 +28,7 @@ type Attr tcell.Style
 
 type TcellWindow struct {
 	color       bool
+	preview     bool
 	top         int
 	left        int
 	width       int
@@ -76,11 +77,13 @@ const (
 	Blink          = Attr(tcell.AttrBlink)
 	Reverse        = Attr(tcell.AttrReverse)
 	Underline      = Attr(tcell.AttrUnderline)
-	Italic         = Attr(tcell.AttrNone) // Not supported
+	Italic         = Attr(tcell.AttrItalic)
 )
 
 const (
-	AttrRegular Attr = 0
+	AttrUndefined = Attr(0)
+	AttrRegular   = Attr(1 << 7)
+	AttrClear     = Attr(1 << 8)
 )
 
 func (r *FullscreenRenderer) defaultTheme() *ColorTheme {
@@ -163,10 +166,6 @@ func (w *TcellWindow) X() int {
 
 func (w *TcellWindow) Y() int {
 	return w.lastY
-}
-
-func (r *FullscreenRenderer) DoesAutoWrap() bool {
-	return false
 }
 
 func (r *FullscreenRenderer) Clear() {
@@ -318,6 +317,8 @@ func (r *FullscreenRenderer) GetChar() Event {
 			}
 			return Event{Right, 0, nil}
 
+		case tcell.KeyInsert:
+			return Event{Insert, 0, nil}
 		case tcell.KeyHome:
 			return Event{Home, 0, nil}
 		case tcell.KeyDelete:
@@ -391,7 +392,7 @@ func (r *FullscreenRenderer) Pause(clear bool) {
 	}
 }
 
-func (r *FullscreenRenderer) Resume(clear bool) {
+func (r *FullscreenRenderer) Resume(clear bool, sigcont bool) {
 	if clear {
 		r.initScreen()
 	}
@@ -415,7 +416,8 @@ func (r *FullscreenRenderer) NewWindow(top int, left int, width int, height int,
 		normal = ColPreview
 	}
 	return &TcellWindow{
-		color:       r.theme != nil,
+		color:       r.theme.Colored,
+		preview:     preview,
 		top:         top,
 		left:        left,
 		width:       width,
@@ -460,27 +462,23 @@ func (w *TcellWindow) MoveAndClear(y int, x int) {
 }
 
 func (w *TcellWindow) Print(text string) {
-	w.printString(text, w.normal, 0)
+	w.printString(text, w.normal)
 }
 
-func (w *TcellWindow) printString(text string, pair ColorPair, a Attr) {
+func (w *TcellWindow) printString(text string, pair ColorPair) {
 	t := text
 	lx := 0
+	a := pair.Attr()
 
-	var style tcell.Style
-	if w.color {
-		style = pair.style().
+	style := pair.style()
+	if a&AttrClear == 0 {
+		style = style.
 			Reverse(a&Attr(tcell.AttrReverse) != 0).
-			Underline(a&Attr(tcell.AttrUnderline) != 0)
-	} else {
-		style = w.normal.style().
-			Reverse(a&Attr(tcell.AttrReverse) != 0 || pair == ColCurrent || pair == ColCurrentMatch).
-			Underline(a&Attr(tcell.AttrUnderline) != 0 || pair == ColMatch || pair == ColCurrentMatch)
+			Underline(a&Attr(tcell.AttrUnderline) != 0).
+			Italic(a&Attr(tcell.AttrItalic) != 0).
+			Blink(a&Attr(tcell.AttrBlink) != 0).
+			Dim(a&Attr(tcell.AttrDim) != 0)
 	}
-	style = style.
-		Blink(a&Attr(tcell.AttrBlink) != 0).
-		Bold(a&Attr(tcell.AttrBold) != 0).
-		Dim(a&Attr(tcell.AttrDim) != 0)
 
 	for {
 		if len(t) == 0 {
@@ -513,12 +511,13 @@ func (w *TcellWindow) printString(text string, pair ColorPair, a Attr) {
 	w.lastX += lx
 }
 
-func (w *TcellWindow) CPrint(pair ColorPair, attr Attr, text string) {
-	w.printString(text, pair, attr)
+func (w *TcellWindow) CPrint(pair ColorPair, text string) {
+	w.printString(text, pair)
 }
 
-func (w *TcellWindow) fillString(text string, pair ColorPair, a Attr) FillReturn {
+func (w *TcellWindow) fillString(text string, pair ColorPair) FillReturn {
 	lx := 0
+	a := pair.Attr()
 
 	var style tcell.Style
 	if w.color {
@@ -531,7 +530,8 @@ func (w *TcellWindow) fillString(text string, pair ColorPair, a Attr) FillReturn
 		Bold(a&Attr(tcell.AttrBold) != 0).
 		Dim(a&Attr(tcell.AttrDim) != 0).
 		Reverse(a&Attr(tcell.AttrReverse) != 0).
-		Underline(a&Attr(tcell.AttrUnderline) != 0)
+		Underline(a&Attr(tcell.AttrUnderline) != 0).
+		Italic(a&Attr(tcell.AttrItalic) != 0)
 
 	for _, r := range text {
 		if r == '\n' {
@@ -559,12 +559,17 @@ func (w *TcellWindow) fillString(text string, pair ColorPair, a Attr) FillReturn
 		}
 	}
 	w.lastX += lx
+	if w.lastX == w.width {
+		w.lastY++
+		w.lastX = 0
+		return FillNextLine
+	}
 
 	return FillContinue
 }
 
 func (w *TcellWindow) Fill(str string) FillReturn {
-	return w.fillString(str, w.normal, 0)
+	return w.fillString(str, w.normal)
 }
 
 func (w *TcellWindow) CFill(fg Color, bg Color, a Attr, str string) FillReturn {
@@ -574,7 +579,7 @@ func (w *TcellWindow) CFill(fg Color, bg Color, a Attr, str string) FillReturn {
 	if bg == colDefault {
 		bg = w.normal.Bg()
 	}
-	return w.fillString(str, NewColorPair(fg, bg), a)
+	return w.fillString(str, NewColorPair(fg, bg, a))
 }
 
 func (w *TcellWindow) drawBorder() {
@@ -589,7 +594,7 @@ func (w *TcellWindow) drawBorder() {
 
 	var style tcell.Style
 	if w.color {
-		if w.borderStyle.shape == BorderAround {
+		if w.preview {
 			style = ColPreviewBorder.style()
 		} else {
 			style = ColBorder.style()
@@ -603,7 +608,7 @@ func (w *TcellWindow) drawBorder() {
 		_screen.SetContent(x, bot-1, w.borderStyle.horizontal, nil, style)
 	}
 
-	if w.borderStyle.shape == BorderAround {
+	if w.borderStyle.shape != BorderHorizontal {
 		for y := top; y < bot; y++ {
 			_screen.SetContent(left, y, w.borderStyle.vertical, nil, style)
 			_screen.SetContent(right-1, y, w.borderStyle.vertical, nil, style)

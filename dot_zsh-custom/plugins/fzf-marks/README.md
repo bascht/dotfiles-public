@@ -30,6 +30,17 @@ echo "source $PWD/fzf-marks/fzf-marks.plugin.bash" >> ~/.bashrc
 # Source the plugin now so we don't have to restart bash to start using it
 source fzf-marks/fzf-marks.plugin.bash
 ```
+
+**Enabling completion**:
+
+In `bash`, completion should be available automatically.
+In `zsh`, completion needs to be enabled explicitly before sourcing the plugin.
+This is usually done automatically by plugin managers,
+but it can also be achieved manually with the following command in your `.zshrc`.
+```zsh
+autoload -Uz compinit && compinit
+```
+
 # Usage
 The script exposes two functions:
 
@@ -59,6 +70,16 @@ By default, the plugin binds the key `ctrl-g` to `fzm`.
 | `FZF_MARKS_KEEP_ORDER`  | 0                               | Set this to 1 to keep order of marks |
 
 See e.g. [here](http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html) for a description of ANSI color codes.
+
+# FAQ
+
+**Question**: *Is it possible to limit the fzf search to the mark label, i.e. to exclude the path from the search?*
+
+Yes, this is possible by passing the options `-n` (for the field number to use for the search) and `-d` (for the delimiter) to `fzf`.
+For example,
+```
+FZF_MARKS_COMMAND="fzf --height 40% --reverse -n 1 -d ' : '"
+```
 
 # License
 

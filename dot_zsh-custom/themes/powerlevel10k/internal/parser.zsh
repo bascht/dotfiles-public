@@ -53,6 +53,9 @@ typeset -grA __p9k_pb_precommand=(
   'stdbuf'    '-[^ioe]#[ioe]|--(input|output|error)'
   'sudo'      '-[^aghpuUCcrtT]#[aghpuUCcrtT]|--(close-from|group|host|prompt|role|type|other-user|command-timeout|user)'
   'ssh-agent' '-[^aEPt]#[aEPt]'
+  'tabbed'    '-[^gnprtTuU]#[gnprtTuU]'
+  'chronic'   ''
+  'ifne'      ''
 )
 
 typeset -grA __p9k_pb_redirect=(
@@ -140,7 +143,7 @@ function _p9k_parse_buffer() {
   local rcquotes
   [[ -o rcquotes ]] && rcquotes=rcquotes
 
-  eval $__p9k_intro
+  eval "$__p9k_intro"
   setopt no_nomatch $rcquotes
 
   typeset -ga P9K_COMMANDS=()
@@ -293,7 +296,7 @@ function _p9k_parse_buffer() {
         if [[ $token == $~var ]]; then
           n=${${token##[^[:IDENT:]]}%%[^[:IDENT:]]}
           [[ $token == *'"' ]] && v=("${(P)n}") || v=(${(P)n})
-          tokens[1,0]=(${(qq)v})
+          tokens[1,0]=(${(@qq)v})
           continue
         fi
       fi
