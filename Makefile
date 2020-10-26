@@ -56,6 +56,9 @@ git-setup-remotes:
 	git remote add dorhamm http://git.dorhamm.me/bascht/dotfiles-public.git || exit 0
 	git remote add github git@github.com:bascht/dotfiles-public.git || exit 0
 
+README.md:
+	pandoc README.org -o README.md
+
 push:
 	git push srht
 	git push space
