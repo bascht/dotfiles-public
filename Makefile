@@ -49,3 +49,15 @@ update-plug.vim:
 update-homeschick:
 	curl -s -L -o homeshick-master.tar.gz https://github.com/andsens/homeshick/archive/master.tar.gz
 	chezmoi import --strip-components 1 --destination ${HOME}/.homesick/repos/homeshick homeshick-master.tar.gz
+
+git-setup-remotes:
+	git remote add srht git@git.sr.ht:~bascht/dotfiles-public || exit 0
+	git remote add space https://git.bascht.space/bascht/dotfiles.git || exit 0
+	git remote add dorhamm http://git.dorhamm.me/bascht/dotfiles-public.git || exit 0
+	git remote add github git@github.com:bascht/dotfiles-public.git || exit 0
+
+push:
+	git push srht
+	git push space
+	git push dorhamm
+	git push github
