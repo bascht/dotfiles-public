@@ -9,5 +9,5 @@ source = Pathname.new(ARGV.join(" "))
 target = File.join(source.dirname, (Time.now.strftime("%Y-%m-%d-") + source.basename.to_s + ".7z"))
 
 system "7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on '#{target}' '#{source}'"
-abort "Sorry, something went wrong" unless $?.eql? 0
+abort "Sorry, something went wrong" unless $?.success?
 FileUtils.rm_rf source
