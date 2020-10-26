@@ -176,7 +176,7 @@ binaries.each do |binary, download|
         puts "Did not find any archive I could extract"
       end
 
-      extracted_executables = Dir.glob("**/**").select do |f| 
+      extracted_executables = Dir.glob("**/**").select do |f|
         `file #{f}`.match(/LSB executable|ELF 64-bit LSB shared object|ELF 64-bit LSB pie executable/)
       end
 
