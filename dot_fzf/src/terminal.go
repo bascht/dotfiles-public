@@ -119,6 +119,7 @@ type Terminal struct {
 	ansi         bool
 	tabstop      int
 	margin       [4]sizeSpec
+	padding      [4]sizeSpec
 	strong       tui.Attr
 	unicode      bool
 	borderShape  tui.BorderShape
@@ -472,6 +473,7 @@ func NewTerminal(opts *Options, eventBox *util.EventBox) *Terminal {
 		printQuery:  opts.PrintQuery,
 		history:     opts.History,
 		margin:      opts.Margin,
+		padding:     opts.Padding,
 		unicode:     opts.Unicode,
 		borderShape: opts.BorderShape,
 		cleanExit:   opts.ClearOnExit,
@@ -526,7 +528,6 @@ func (t *Terminal) parsePrompt(prompt string) (func(), int) {
 		blankState := ansiOffset{[2]int32{int32(loc[0]), int32(loc[1])}, ansiState{-1, -1, tui.AttrClear}}
 		if item.colors != nil {
 			lastColor := (*item.colors)[len(*item.colors)-1]
-			fmt.Println(lastColor.offset[1], int32(loc[1]))
 			if lastColor.offset[1] < int32(loc[1]) {
 				blankState.offset[0] = lastColor.offset[1]
 				colors := append(*item.colors, blankState)
@@ -653,7 +654,7 @@ func (t *Terminal) displayWidth(runes []rune) int {
 }
 
 const (
-	minWidth  = 16
+	minWidth  = 4
 	minHeight = 4
 
 	maxDisplayWidthCalc = 1024
@@ -670,34 +671,64 @@ func calculateSize(base int, size sizeSpec, occupied int, minSize int, pad int) 
 func (t *Terminal) resizeWindows() {
 	screenWidth := t.tui.MaxX()
 	screenHeight := t.tui.MaxY()
-	marginInt := [4]int{}
 	t.prevLines = make([]itemLine, screenHeight)
-	for idx, sizeSpec := range t.margin {
-		if sizeSpec.percent {
+
+	marginInt := [4]int{}  // TRBL
+	paddingInt := [4]int{} // TRBL
+	sizeSpecToInt := func(index int, spec sizeSpec) int {
+		if spec.percent {
 			var max float64
-			if idx%2 == 0 {
+			if index%2 == 0 {
 				max = float64(screenHeight)
 			} else {
 				max = float64(screenWidth)
 			}
-			marginInt[idx] = int(max * sizeSpec.size * 0.01)
-		} else {
-			marginInt[idx] = int(sizeSpec.size)
+			return int(max * spec.size * 0.01)
 		}
+		return int(spec.size)
+	}
+	for idx, sizeSpec := range t.padding {
+		paddingInt[idx] = sizeSpecToInt(idx, sizeSpec)
+	}
+
+	extraMargin := [4]int{} // TRBL
+	for idx, sizeSpec := range t.margin {
 		switch t.borderShape {
 		case tui.BorderHorizontal:
-			marginInt[idx] += 1 - idx%2
+			extraMargin[idx] += 1 - idx%2
+		case tui.BorderVertical:
+			extraMargin[idx] += 2 * (idx % 2)
+		case tui.BorderTop:
+			if idx == 0 {
+				extraMargin[idx]++
+			}
+		case tui.BorderRight:
+			if idx == 1 {
+				extraMargin[idx] += 2
+			}
+		case tui.BorderBottom:
+			if idx == 2 {
+				extraMargin[idx]++
+			}
+		case tui.BorderLeft:
+			if idx == 3 {
+				extraMargin[idx] += 2
+			}
 		case tui.BorderRounded, tui.BorderSharp:
-			marginInt[idx] += 1 + idx%2
+			extraMargin[idx] += 1 + idx%2
 		}
+		marginInt[idx] = sizeSpecToInt(idx, sizeSpec) + extraMargin[idx]
 	}
+
 	adjust := func(idx1 int, idx2 int, max int, min int) {
 		if max >= min {
-			margin := marginInt[idx1] + marginInt[idx2]
+			margin := marginInt[idx1] + marginInt[idx2] + paddingInt[idx1] + paddingInt[idx2]
 			if max-margin < min {
 				desired := max - min
-				marginInt[idx1] = desired * marginInt[idx1] / margin
-				marginInt[idx2] = desired * marginInt[idx2] / margin
+				paddingInt[idx1] = desired * paddingInt[idx1] / margin
+				paddingInt[idx2] = desired * paddingInt[idx2] / margin
+				marginInt[idx1] = util.Max(extraMargin[idx1], desired*marginInt[idx1]/margin)
+				marginInt[idx2] = util.Max(extraMargin[idx2], desired*marginInt[idx2]/margin)
 			}
 		}
 	}
@@ -735,19 +766,41 @@ func (t *Terminal) resizeWindows() {
 	switch t.borderShape {
 	case tui.BorderHorizontal:
 		t.border = t.tui.NewWindow(
-			marginInt[0]-1,
-			marginInt[3],
-			width,
-			height+2,
+			marginInt[0]-1, marginInt[3], width, height+2,
 			false, tui.MakeBorderStyle(tui.BorderHorizontal, t.unicode))
+	case tui.BorderVertical:
+		t.border = t.tui.NewWindow(
+			marginInt[0], marginInt[3]-2, width+4, height,
+			false, tui.MakeBorderStyle(tui.BorderVertical, t.unicode))
+	case tui.BorderTop:
+		t.border = t.tui.NewWindow(
+			marginInt[0]-1, marginInt[3], width, height+1,
+			false, tui.MakeBorderStyle(tui.BorderTop, t.unicode))
+	case tui.BorderBottom:
+		t.border = t.tui.NewWindow(
+			marginInt[0], marginInt[3], width, height+1,
+			false, tui.MakeBorderStyle(tui.BorderBottom, t.unicode))
+	case tui.BorderLeft:
+		t.border = t.tui.NewWindow(
+			marginInt[0], marginInt[3]-2, width+2, height,
+			false, tui.MakeBorderStyle(tui.BorderLeft, t.unicode))
+	case tui.BorderRight:
+		t.border = t.tui.NewWindow(
+			marginInt[0], marginInt[3], width+2, height,
+			false, tui.MakeBorderStyle(tui.BorderRight, t.unicode))
 	case tui.BorderRounded, tui.BorderSharp:
 		t.border = t.tui.NewWindow(
-			marginInt[0]-1,
-			marginInt[3]-2,
-			width+4,
-			height+2,
+			marginInt[0]-1, marginInt[3]-2, width+4, height+2,
 			false, tui.MakeBorderStyle(t.borderShape, t.unicode))
 	}
+
+	// Add padding
+	for idx, val := range paddingInt {
+		marginInt[idx] += val
+	}
+	width = screenWidth - marginInt[1] - marginInt[3]
+	height = screenHeight - marginInt[0] - marginInt[2]
+
 	noBorder := tui.MakeBorderStyle(tui.BorderNone, t.unicode)
 	if previewVisible {
 		createPreviewWindow := func(y int, x int, w int, h int) {
@@ -769,17 +822,19 @@ func (t *Terminal) resizeWindows() {
 			t.pwindow = t.tui.NewWindow(y, x, pwidth, pheight, true, noBorder)
 		}
 		verticalPad := 2
+		minPreviewHeight := 3
 		if t.preview.border == tui.BorderNone {
 			verticalPad = 0
+			minPreviewHeight = 1
 		}
 		switch t.preview.position {
 		case posUp:
-			pheight := calculateSize(height, t.preview.size, minHeight, 3, verticalPad)
+			pheight := calculateSize(height, t.preview.size, minHeight, minPreviewHeight, verticalPad)
 			t.window = t.tui.NewWindow(
 				marginInt[0]+pheight, marginInt[3], width, height-pheight, false, noBorder)
 			createPreviewWindow(marginInt[0], marginInt[3], width, pheight)
 		case posDown:
-			pheight := calculateSize(height, t.preview.size, minHeight, 3, verticalPad)
+			pheight := calculateSize(height, t.preview.size, minHeight, minPreviewHeight, verticalPad)
 			t.window = t.tui.NewWindow(
 				marginInt[0], marginInt[3], width, height-pheight, false, noBorder)
 			createPreviewWindow(marginInt[0]+height-pheight, marginInt[3], width, pheight)
@@ -1222,6 +1277,7 @@ func (t *Terminal) renderPreviewText(unchanged bool) {
 	}
 	var ansi *ansiState
 	for _, line := range t.previewer.lines {
+		line = strings.TrimSuffix(line, "\n")
 		if lineNo >= height || t.pwindow.Y() == height-1 && t.pwindow.X() > 0 {
 			t.previewed.filled = true
 			break
@@ -1252,6 +1308,7 @@ func (t *Terminal) renderPreviewText(unchanged bool) {
 			if unchanged && lineNo == 0 {
 				break
 			}
+			t.pwindow.Fill("\n")
 		}
 		lineNo++
 	}
@@ -1823,13 +1880,9 @@ func (t *Terminal) Loop() {
 					reader := bufio.NewReader(out)
 					eofChan := make(chan bool)
 					finishChan := make(chan bool, 1)
-					reapChan := make(chan bool)
 					err := cmd.Start()
-					reaps := 0
-					if err != nil {
-						t.reqBox.Set(reqPreviewDisplay, previewResult{version, []string{err.Error()}, 0, ""})
-					} else {
-						reaps = 2
+					if err == nil {
+						reapChan := make(chan bool)
 						lineChan := make(chan eachLine)
 						// Goroutine 1 reads process output
 						go func() {
@@ -1842,6 +1895,7 @@ func (t *Terminal) Loop() {
 							}
 							eofChan <- true
 						}()
+
 						// Goroutine 2 periodically requests rendering
 						go func(version int64) {
 							lines := []string{}
@@ -1883,42 +1937,47 @@ func (t *Terminal) Loop() {
 							ticker.Stop()
 							reapChan <- true
 						}(version)
-					}
-					// Goroutine 3 is responsible for cancelling running preview command
-					go func(version int64) {
-						timer := time.NewTimer(previewDelayed)
-					Loop:
-						for {
-							select {
-							case <-timer.C:
-								t.reqBox.Set(reqPreviewDelayed, version)
-							case code := <-t.killChan:
-								if code != exitCancel {
-									util.KillCommand(cmd)
-									os.Exit(code)
-								} else {
-									timer := time.NewTimer(previewCancelWait)
-									select {
-									case <-timer.C:
+
+						// Goroutine 3 is responsible for cancelling running preview command
+						go func(version int64) {
+							timer := time.NewTimer(previewDelayed)
+						Loop:
+							for {
+								select {
+								case <-timer.C:
+									t.reqBox.Set(reqPreviewDelayed, version)
+								case code := <-t.killChan:
+									if code != exitCancel {
 										util.KillCommand(cmd)
-									case <-finishChan:
+										os.Exit(code)
+									} else {
+										timer := time.NewTimer(previewCancelWait)
+										select {
+										case <-timer.C:
+											util.KillCommand(cmd)
+										case <-finishChan:
+										}
+										timer.Stop()
 									}
-									timer.Stop()
+									break Loop
+								case <-finishChan:
+									break Loop
 								}
-								break Loop
-							case <-finishChan:
-								break Loop
 							}
-						}
-						timer.Stop()
-						reapChan <- true
-					}(version)
-					<-eofChan
-					cmd.Wait() // NOTE: We should not call Wait before EOF
-					finishChan <- true
-					for i := 0; i < reaps; i++ {
+							timer.Stop()
+							reapChan <- true
+						}(version)
+
+						<-eofChan          // Goroutine 1 finished
+						cmd.Wait()         // NOTE: We should not call Wait before EOF
+						finishChan <- true // Tell Goroutine 3 to stop
+						<-reapChan         // Goroutine 2 and 3 finished
 						<-reapChan
+					} else {
+						// Failed to start the command. Report the error immediately.
+						t.reqBox.Set(reqPreviewDisplay, previewResult{version, []string{err.Error()}, 0, ""})
 					}
+
 					cleanTemporaryFiles()
 				} else {
 					t.reqBox.Set(reqPreviewDisplay, previewResult{version, nil, 0, ""})

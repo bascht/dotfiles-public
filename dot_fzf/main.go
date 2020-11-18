@@ -5,9 +5,10 @@ import (
 	"github.com/junegunn/fzf/src/protector"
 )
 
-var revision string
+var version string = "0.24"
+var revision string = "devel"
 
 func main() {
 	protector.Protect()
-	fzf.Run(fzf.ParseOptions(), revision)
+	fzf.Run(fzf.ParseOptions(), version, revision)
 }

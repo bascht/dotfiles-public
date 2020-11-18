@@ -259,6 +259,11 @@ const (
 	BorderRounded
 	BorderSharp
 	BorderHorizontal
+	BorderVertical
+	BorderTop
+	BorderBottom
+	BorderLeft
+	BorderRight
 )
 
 type BorderStyle struct {
@@ -549,6 +554,9 @@ func initTheme(theme *ColorTheme, baseTheme *ColorTheme, forceBlack bool) {
 
 func initPalette(theme *ColorTheme) {
 	pair := func(fg, bg ColorAttr) ColorPair {
+		if fg.Color == colDefault && (fg.Attr&Reverse) > 0 {
+			bg.Color = colDefault
+		}
 		return ColorPair{fg.Color, bg.Color, fg.Attr}
 	}
 	blank := theme.Fg

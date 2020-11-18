@@ -1,6 +1,22 @@
 CHANGELOG
 =========
 
+0.24.3
+------
+- Added `--padding` option
+  ```sh
+  fzf --margin 5% --padding 5% --border --preview 'cat {}' \
+      --color bg:#222222,preview-bg:#333333
+  ```
+
+0.24.2
+------
+- Bug fixes and improvements
+
+0.24.1
+------
+- Fixed broken `--color=[bw|no]` option
+
 0.24.0
 ------
 - Real-time rendering of preview window
@@ -23,9 +39,29 @@ CHANGELOG
     # * Italic style may not be supported by some terminals
     rg --line-number --no-heading --color=always "" |
       fzf --ansi --prompt "Rg: " \
-          --color fg+:italic,hl:underline:-1,hl+:underline:reverse:-1 \
+          --color fg+:italic,hl:underline:-1,hl+:italic:underline:reverse:-1 \
           --color pointer:reverse,prompt:reverse,input:159 \
           --pointer '  '
+    ```
+- More `--border` options
+  - `vertical`, `top`, `bottom`, `left`, `right`
+  - Updated Vim plugin to use these new `--border` options
+    ```vim
+    " Floating popup window in the center of the screen
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+    " Popup with 100% width
+    let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.5, 'border': 'horizontal' } }
+
+    " Popup with 100% height
+    let g:fzf_layout = { 'window': { 'width': 0.5, 'height': 1.0, 'border': 'vertical' } }
+
+    " Similar to 'down' layout, but it uses a popup window and doesn't affect the window layout
+    let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.5, 'yoffset': 1.0, 'border': 'top' } }
+
+    " Opens on the right;
+    "   'highlight' option is still supported but it will only take the foreground color of the group
+    let g:fzf_layout = { 'window': { 'width': 0.5, 'height': 1.0, 'xoffset': 1.0, 'border': 'left', 'highlight': 'Comment' } }
     ```
 - To indicate if `--multi` mode is enabled, fzf will print the number of
   selected items even when no item is selected
@@ -37,6 +73,7 @@ CHANGELOG
   seq 100 | fzf --multi 5
     # 100/100 (0/5)
   ```
+- Since 0.24.0, release binaries will be uploaded to https://github.com/junegunn/fzf/releases
 
 0.23.1
 ------

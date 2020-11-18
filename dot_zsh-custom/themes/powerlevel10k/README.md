@@ -348,7 +348,7 @@ Powerlevel10k.
 
 ```zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 ```
 
 Users in mainland China can use the official mirror on gitee.com for faster download.<br>
@@ -356,7 +356,7 @@ Users in mainland China can use the official mirror on gitee.com for faster down
 
 ```zsh
 git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 ```
 
 This is the simplest kind of installation and it works even if you are using a plugin manager. Just
@@ -421,14 +421,14 @@ supported by Powerlevel10k.
 
 ```zsh
 brew install romkatv/powerlevel10k/powerlevel10k
-echo 'source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+echo 'source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 ```
 
 ### Arch Linux
 
 ```zsh
 yay -S --noconfirm zsh-theme-powerlevel10k-git
-echo 'source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+echo 'source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 ```
 
 [zsh-theme-powerlevel10k-git](https://aur.archlinux.org/packages/zsh-theme-powerlevel10k-git/)
@@ -564,7 +564,7 @@ applications on your system. Configure your terminal to use this font:
 - **Guake**: Right Click on an open terminal and open *Preferences*. Under *Appearance* 
   tab, uncheck *Use the system fixed width font* (if not already) and select `MesloLGS NF Regular`. 
   Exit the Preferences dialog by clicking *Close*.  
-- **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and and the following section
+- **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and add the following section
   to it:
   ```yaml
   font:
@@ -694,10 +694,14 @@ The command to update Powerlevel10k depends on how it was installed.
    ```
 3. Copy `~/powerlevel10k` from the machine connected to the Internet to the one without Internet
    access.
-4. Append the following lines to the bottom of `~/.zshrc` on the machine without Internet access:
+4. Add `source ~/powerlevel10k/powerlevel10k.zsh-theme` to `~/.zshrc` on the machine without
+   Internet access:
    ```zsh
-   source ~/powerlevel10k/powerlevel10k.zsh-theme
-   unset ZSH_THEME
+   echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+   ```
+5. If `~/.zshrc` on the machine without Internet access sets `ZSH_THEME`, remove that line.
+   ```zsh
+   sed -i.bak '/^ZSH_THEME=/d' ~/.zshrc
    ```
 
 To update, remove `~/powerlevel10k` on both machines and repeat steps 1-3.
@@ -725,15 +729,17 @@ Powerlevel10k defines prompt and nothing else. It sets [prompt-related options](
   https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/prompt-highlight.png)
 
 Everything within the highlighted areas on the screenshot is produced by Powerlevel10k.
-Powerlevel10k has no control over the terminal content or color outside these areas.
+Powerlevel10k has no control over the terminal content or colors outside these areas.
 
 Powerlevel10k does not affect:
 
-- Terminal window title.
+- Terminal window/tab title.
 - Colors used by `ls`.
-- Content and style of command completions.
+- The behavior of `git` command.
+- The content and style of <kbd>Tab</kbd> completions.
 - Command line colors (syntax highlighting, autosuggestions, etc.).
 - Key bindings.
+- Aliases.
 - Prompt parameters other than `PS1` and `RPS1`.
 - Zsh options other than those [related to prompt](
     http://zsh.sourceforge.net/Doc/Release/Options.html#Prompting).
@@ -1513,7 +1519,7 @@ theme (so that you end up with no theme) and then installing Powerlevel10k manua
 
 ```zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 ```
 
 This method of installation won't make anything slower or otherwise sub-par.

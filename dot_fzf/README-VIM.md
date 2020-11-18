@@ -298,9 +298,8 @@ following options are allowed:
 - Optional:
     - `yoffset` [float default 0.5 range [0 ~ 1]]
     - `xoffset` [float default 0.5 range [0 ~ 1]]
-    - `highlight` [string default `'Comment'`]: Highlight group for border
     - `border` [string default `rounded`]: Border style
-        - `rounded` / `sharp` / `horizontal` / `vertical` / `top` / `bottom` / `left` / `right`
+        - `rounded` / `sharp` / `horizontal` / `vertical` / `top` / `bottom` / `left` / `right` / `no[ne]`
 
 `fzf#wrap`
 ----------

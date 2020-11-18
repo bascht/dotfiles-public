@@ -46,9 +46,20 @@ __fzf_comprun() {
   fi
 }
 
-__fzf_orig_completion_filter() {
-  sed 's/^\(.*-F\) *\([^ ]*\).* \([^ ]*\)$/export _fzf_orig_completion_\3="\1 %s \3 #\2"; [[ "\1" = *" -o nospace "* ]] \&\& [[ ! "$__fzf_nospace_commands" = *" \3 "* ]] \&\& __fzf_nospace_commands="$__fzf_nospace_commands \3 ";/' |
-  awk -F= '{OFS = FS} {gsub(/[^A-Za-z0-9_= ;]/, "_", $1);}1'
+__fzf_orig_completion() {
+  local l comp f cmd
+  while read -r l; do
+    if [[ "$l" =~ ^(.*\ -F)\ *([^ ]*).*\ ([^ ]*)$ ]]; then
+      comp="${BASH_REMATCH[1]}"
+      f="${BASH_REMATCH[2]}"
+      cmd="${BASH_REMATCH[3]}"
+      [[ "$f" = _fzf_* ]] && continue
+      printf -v "_fzf_orig_completion_${cmd//[^A-Za-z0-9_]/_}" "%s" "${comp} %s ${cmd} #${f}"
+      if [[ "$l" = *" -o nospace "* ]] && [[ ! "$__fzf_nospace_commands" = *" $cmd "* ]]; then
+        __fzf_nospace_commands="$__fzf_nospace_commands $cmd "
+      fi
+    fi
+  done
 }
 
 _fzf_opts_completion() {
@@ -137,7 +148,7 @@ _fzf_handle_dynamic_completion() {
     ret=$?
     # _completion_loader may not have updated completion for the command
     if [ "$(complete -p "$orig_cmd" 2> /dev/null)" != "$orig_complete" ]; then
-      eval "$(complete | command grep " -F.* $orig_cmd$" | __fzf_orig_completion_filter)"
+      __fzf_orig_completion < <(complete -p "$orig_cmd" 2> /dev/null)
       if [[ "$__fzf_nospace_commands" = *" $orig_cmd "* ]]; then
         eval "${orig_complete/ -F / -o nospace -F }"
       else
@@ -306,9 +317,7 @@ a_cmds="
   svn tar unzip zip"
 
 # Preserve existing completion
-eval "$(complete |
-  sed -E '/-F/!d; / _fzf/d; '"/ ($(echo $d_cmds $a_cmds | sed 's/ /|/g; s/+/\\+/g'))$/"'!d' |
-  __fzf_orig_completion_filter)"
+__fzf_orig_completion < <(complete -p $d_cmds $a_cmds 2> /dev/null)
 
 if type _completion_loader > /dev/null 2>&1; then
   _fzf_completion_loader=1
@@ -353,7 +362,7 @@ _fzf_setup_completion() {
     return 1
   fi
   shift
-  eval "$(complete -p "$@" 2> /dev/null | grep -v "$fn" | __fzf_orig_completion_filter)"
+  __fzf_orig_completion < <(complete -p "$@" 2> /dev/null)
   for cmd in "$@"; do
     case "$kind" in
       dir)   __fzf_defc "$cmd" "$fn" "-o nospace -o dirnames" ;;
