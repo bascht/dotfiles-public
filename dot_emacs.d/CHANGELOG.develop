@@ -521,6 +521,12 @@ Other:
     terminal mode, but no longer in GUI mode. (emacs18)
 *** Core changes
 - Improvements:
+  - Provide keybindings for using narrow with an indirect buffer for when you
+    want narrowing multiple times in the same base buffer:
+    - ~SPC n F~ for narrow to function
+    - ~SPC n P~ for narrow to page
+    - ~SPC n R~ for narrow to region
+    (thanks to Keith Pinson and duianto)
   - Make =describe-text-properties= available in the help -> describe menu via
     ~SPC h d t~ (thanks to Keith Pinson)
   - Bind ~SPC c n~ to ~:cn~ / ~next-error~ and ~SPC c N~ to ~:cN~ / ~previous-error~
@@ -750,6 +756,10 @@ Other:
     (thanks to Vladimir Kochnev and Eivind Fonn)
   - Added =password-generator= package to =spacemacs-editing= layer
     (thanks to Sylvain Benner)
+  - Added =persistent-scratch= package to =spacemacs-editing= layer
+    (thanks to Ray Wang)
+  - Added =unkillable-scratch= package to =spacemacs-editing= layer
+    (thanks to Ray Wang)
   - Added =symon= package to =spacemacs-modeline= layer
     (thanks to Eugene Yaremenko)
   - Added =evil-goggles= to the =spacemacs-evil= layer
@@ -1956,6 +1966,7 @@ Other:
     (thanks to Sylvain Benner)
   - Remove package =github-browse-file= which has been replaced by
    =browse-at-remote= in =version-control= layer
+  - Added package =grip=mode= (thanks to Daniel Nicolai)
 - Key bindings:
   - Added ~g r~ evilified binding to gist-list-mode
     (thanks to Jean-Sebastien A. Beaudry)
@@ -1965,6 +1976,8 @@ Other:
   - Forge-post buffer (thanks to Miciah Masters and yuhan0):
     - ~SPC m c~ or ~SPC m ,~ submit post
     - ~SPC m k~ or ~SPC m k~ cancel post
+  - md/org buffer (thanks to Daniel Nicolai)
+    - ~SPC g h p~ (toggle) grip-mode
 - Replace =evilified-state-evilify= by =evilified-state-evilify-map=
   (thanks to Sylvain Benner)
 - Disabled status, issues, and PRs by default (thanks to Miciah Masters)
@@ -2889,6 +2902,9 @@ files (thanks to Daniel Nicolai)
 - Enabled =org-habit= module
   (thanks to Mariusz Klochowicz)
 - Fixed evil paste in a =org-src-mode= table (thanks to duianto)
+- Implemented automatic activation of evil insert state after
+  =org-insert-drawer=, =org-insert-heading=, =org-insert-item= and
+  =org-insert-structure-template= commands (thanks to Andriy Kmit')
 **** Osx
 - Key bindings:
   - Added key bindings to use ~command-1..9~ for selecting window
@@ -2920,10 +2936,11 @@ files (thanks to Daniel Nicolai)
 - Added declaration for the ~SPC P~ prefix (thanks to Codruț Constantin Gușoi)
 **** Pdf
 - Fixed ~'~ =pdf-view-jump-to-register= (thanks to duianto)
--Key bindings:
+- Key bindings:
   - Added to pdf-view mode and transient state
     - ~[~ history-backward (previous view)
     - ~]~ history-forward (next view)
+    - ~?~ toggle transient sate documentation hint (shown by default)
 **** Perl5
 - Fixed =spacemacs/perltidy-format-buffer= and
   =spacemacs/perltidy-format-function= to move the point and window to their
@@ -3066,6 +3083,8 @@ files (thanks to Daniel Nicolai)
 - Fixed conflict with =golden-ratio= (thanks to Thomas de Beauchêne)
 - Load =helm= before =ranger= (thanks to duianto)
 - Add instruction to use ranger by default (thanks to Daniel Nicolai)
+- Added ='ranger= as an option to the variable: =ranger-enter-with-minus=
+  (thanks to duianto)
 **** Rcirc
 - New variable =rcirc-enable-late-fix= to enable or disable the included
   =rcirc-late-fix= package (disabled by default).

@@ -1,7 +1,7 @@
-#+TITLE: Configuration layers
+#+TITLE: Spacemacs layers list
 
 * Table of Contents                     :TOC_5_gh:noexport:
-- [[#this-file-is-auto-generated][THIS FILE IS AUTO GENERATED]]
+- [[#description][Description]]
 - [[#chats][Chats]]
   - [[#erc][ERC]]
   - [[#jabber][Jabber]]
@@ -255,9 +255,13 @@
   - [[#twitter][Twitter]]
   - [[#wakatime][Wakatime]]
 
-* THIS FILE IS AUTO GENERATED
-Don't edit it directly.
-See [[https://github.com/syl20bnr/spacemacs/blob/develop/CONTRIBUTING.org#readmeorg-tags]["README.org tags" section of CONTRIBUTING.org for the instructions]].
+* Description
+
+THIS FILE IS AUTO-GENERATED!
+Don't edit it directly. See [[https://github.com/syl20bnr/spacemacs/blob/develop/CONTRIBUTING.org#readmeorg-tags]["README.org tags" section of CONTRIBUTING.org for the instructions]].
+
+This is an overview of Spacemacs configuration layers. For information about
+configuration layer development see [[https://develop.spacemacs.org/doc/LAYERS.html][Configuration layers development]].
 
 * Chats
 ** ERC
@@ -847,6 +851,8 @@ Features:
 - Support for converting definitions to certain styles via =string-inflection=.
 - Support for generating UUIDs via =uuidgen=.
 - Support for conversion between Emacs regexps and PCRE regexps.
+- Support for persistent scratch via =persistent-scratch=.
+- Support for unkillable scratch via =unkillable-scratch=.
 
 ** Spacemacs-editing-visual
 [[file:+spacemacs/spacemacs-editing-visual/README.org][+spacemacs/spacemacs-editing-visual/README.org]]
@@ -1281,7 +1287,8 @@ This layer adds support for LaTeX files with [[https://savannah.gnu.org/projects
 
 Features:
 - Auto-build with [[https://github.com/tom-tan/auctex-latexmk/][auctex-latexmk]]
-- Auto-completion with [[https://github.com/alexeyr/company-auctex][company-auctex]]
+- Syntax highlighting
+- Auto-completion
 - Tags navigation on ~%~ with [[https://github.com/redguardtoo/evil-matchit][evil-matchit]]
 - Labels, references, citations and index entries management with [[http://www.gnu.org/software/emacs/manual/html_node/reftex/index.html][RefTeX]]
 
@@ -1838,13 +1845,14 @@ Features:
 This layer provides support for the Crystal language.
 
 Features:
-- =crystal tool format= on file save
-- integration [[https://play.crystal-lang.org][play.crystal-lang.org]] using [[https://github.com/veelenga/play-crystal.el][play-crystal.el]]
-- Linting with flycheck
-- test runner (=crystal spec=)
+- Format on save
+- Integration of [[https://play.crystal-lang.org][play.crystal-lang.org]] using [[https://github.com/veelenga/play-crystal.el][play-crystal.el]]
+- Syntax checking
+- Auto completion
+- Test execution (=crystal spec=)
 - =crystal tool= integration
 - Interactive REPL ([[https://github.com/brantou/inf-crystal.el][inf-crystal.el]] and [[https://github.com/crystal-community/icr][icr]])
-- static code analysis using [[https://github.com/veelenga/ameba.el][ameba]]
+- Static code analysis using [[https://github.com/veelenga/ameba.el][ameba]]
 
 **** D language
 [[file:+lang/d/README.org][+lang/d/README.org]]
@@ -1895,12 +1903,28 @@ Features:
 **** Erlang
 [[file:+lang/erlang/README.org][+lang/erlang/README.org]]
 
-This layer adds very basic support for Erlang to Spacemacs.
+This layer adds support for [[https://erlang.org/][Erlang]].
+
+Enabling [[https://github.com/emacs-lsp/lsp-mode][Lsp-mode]] brings IDE like
+features following =Language Server Protocol=, through [[https://erlang-ls.github.io/][erlang_ls]]
 
 Features:
 - Syntax highlighting
 - Syntax checking via =Flycheck= integration
 - Auto-completion via =Company= integration
+- Code Completion
+- Go To Definition
+- Go To Implementation for OTP Behaviours
+- Signature Suggestions
+- Compiler Diagnostics
+- [[https://erlang.org/doc/man/dialyzer.html][Dialyzer]] Diagnostics
+- [[https://github.com/inaka/elvis][Elvis]] Diagnostics
+- [[http://erlang.org/doc/apps/edoc/chapter.html][Edoc]]
+- Navigation for Included Files
+- Find/Peek References
+- Outline
+- Workspace Symbols
+- Code Folding
 
 **** F#
 [[file:+lang/fsharp/README.org][+lang/fsharp/README.org]]
@@ -1908,11 +1932,10 @@ Features:
 This layer adds support for F# language using [[https://github.com/fsharp/fsharpbinding][fsharpbinding]] and [[https://github.com/fsharp/fsharpbinding][fsharp-mode]].
 
 Features:
+- Auto-completion
+- Syntax-checking
 - Syntax highlighting
-- Code completion (through Eglot)
-- Flycheck integration
 - REPL
-- Compile/Run/Interpreter and info tooltip shortcuts
 
 **** Factor Layer
 [[file:+lang/factor/README.org][+lang/factor/README.org]]
@@ -2052,6 +2075,7 @@ Features:
 - auto-completion with company mode via [[https://github.com/ocaml/merlin][merlin]]
 - syntax-checking via [[https://github.com/flycheck/flycheck-ocaml][flycheck-ocaml]] (or alternatively [[https://github.com/ocaml/merlin][merlin]])
 - =dune= file syntax highlighting and template insertion via [[https://github.com/ocaml/dune/][dune-mode]]
+- Automatic formatting via [[https://github.com/ocaml-ppx/ocamlformat][ocamlformat]]
 
 **** Pact
 [[file:+lang/pact/README.org][+lang/pact/README.org]]

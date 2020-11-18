@@ -290,6 +290,7 @@ Will work on both org-mode and any mode that accepts plain html."
         "tn" 'org-table-create
         "tN" 'org-table-create-with-table.el
         "tr" 'org-table-recalculate
+        "tR" 'org-table-recalculate-buffer-tables
         "ts" 'org-table-sort-lines
         "ttf" 'org-table-toggle-formula-debugger
         "tto" 'org-table-toggle-coordinate-overlays
@@ -391,6 +392,13 @@ Will work on both org-mode and any mode that accepts plain html."
       (define-key global-map "\C-cc" 'org-capture))
     :config
     (progn
+      ;; Activate evil insert state after these commands.
+      (dolist (fn '(org-insert-drawer
+                    org-insert-heading
+                    org-insert-item
+                    org-insert-structure-template))
+        (advice-add fn :after #'spacemacs//org-maybe-activate-evil-insert))
+
       ;; We add this key mapping because an Emacs user can change
       ;; `dotspacemacs-major-mode-emacs-leader-key' to `C-c' and the key binding
       ;; C-c ' is shadowed by `spacemacs/default-pop-shell', effectively making
@@ -847,6 +855,7 @@ Headline^^            Visit entry^^               Filter^^                    Da
     (progn
       (spacemacs/declare-prefix "aor" "org-roam")
       (spacemacs/declare-prefix "aord" "org-roam-dailies")
+      (spacemacs/declare-prefix "aort" "org-roam-tags")
       (spacemacs/set-leader-keys
         "aordy" 'org-roam-dailies-yesterday
         "aordt" 'org-roam-dailies-today
@@ -855,10 +864,13 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "aorg" 'org-roam-graph
         "aori" 'org-roam-insert
         "aorI" 'org-roam-insert-immediate
-        "aorl" 'org-roam)
+        "aorl" 'org-roam
+        "aorta" 'org-roam-tag-add
+        "aortd" 'org-roam-tag-delete)
 
       (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
       (spacemacs/declare-prefix-for-mode 'org-mode "mrd" "org-roam-dailies")
+      (spacemacs/declare-prefix-for-mode 'org-mode "mrt" "org-roam-tags")
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "rb" 'org-roam-switch-to-buffer
         "rdy" 'org-roam-dailies-yesterday
@@ -868,7 +880,9 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "rg" 'org-roam-graph
         "ri" 'org-roam-insert
         "rI" 'org-roam-insert-immediate
-        "rl" 'org-roam))
+        "rl" 'org-roam
+        "rta" 'org-roam-tag-add
+        "rtd" 'org-roam-tag-delete))
     :config
     (progn
       (spacemacs|hide-lighter org-roam-mode))))
