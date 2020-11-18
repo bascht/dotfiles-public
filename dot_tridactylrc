@@ -1,5 +1,14 @@
 " Mostly 'inspired' by @bovine3dom's tridactylrc
 
+" Keep GitLab et al from binding quickfind to /
+bind / fillcmdline find
+bind ? fillcmdline find -?
+bind n findnext 1
+bind N findnext -1
+bind ,<Space> nohlsearch
+
+bind co tabonly
+
 " Comment toggler for Reddit and Hacker News
 bind ;c hint -c [class*="expand"],[class="togg"]
 
