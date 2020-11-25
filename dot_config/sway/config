@@ -327,7 +327,10 @@ mode "resize" {
   bindsym Escape mode "default"
 }
 
-mode "run" {
+set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
+set $mode_run "Run: (d) launcher (b)ookmarks (r)ofi (p)ass (s)wytch (w) firefox (a)lfaview"
+
+mode $mode_run {
   # start your launcher
   bindsym d exec $menu; mode "default";
   bindsym $mod+d exec $menu; mode "default";
@@ -340,6 +343,8 @@ mode "run" {
 
   bindsym s exec swytch; mode "default"
   bindsym tab exec swytch; mode "default"
+
+  bindsym a mode $mode_alfaview
 
   bindsym w exec firefox; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
@@ -358,8 +363,17 @@ mode "run" {
   bindsym Escape mode "default"
 }
 
-bindsym $mod+d mode "run"
-bindsym $mod+shift+d mode "run"
+mode $mode_alfaview {
+  bindsym r exec "alfaview"; mode "default";
+  bindsym s exec "alfaview-screenshare start"; mode "default";
+  bindsym k exec "alfaview-screenshare stop"; mode "default";
+  # return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+bindsym $mod+d mode $mode_run
+bindsym $mod+shift+d mode $mode_run
 bindsym $mod+r mode "resize"
 
 font pango:JetBrains Mono 10
