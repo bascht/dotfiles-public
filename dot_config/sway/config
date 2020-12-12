@@ -365,7 +365,7 @@ mode $mode_run {
 
 mode $mode_alfaview {
   bindsym r exec "alfaview"; mode "default";
-  bindsym s exec "alfaview-screenshare start"; mode "default";
+  bindsym s exec "alfaview-screenshare"; mode "default";
   bindsym k exec "alfaview-screenshare stop"; mode "default";
   # return to default mode
   bindsym Return mode "default"
