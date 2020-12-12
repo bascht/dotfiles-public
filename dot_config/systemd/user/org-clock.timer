@@ -4,7 +4,7 @@ Wants=emacs.service
 
 [Timer]
 OnActiveSec=30s
-OnUnitActiveSec=120m
+OnUnitActiveSec=120s
 Unit=org-clock.service
 
 [Install]
