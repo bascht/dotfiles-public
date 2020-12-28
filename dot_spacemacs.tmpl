@@ -42,6 +42,7 @@ This function should only modify configuration layer settings."
      ;; better-defaults
      javascript
      systemd
+     outshine
      (helm :variables hybrid-style-enable-hjkl-bindings t)
      auto-completion
      better-defaults
@@ -55,9 +56,30 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      multiple-cursors
-     {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
+     {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott") }}
      (mu4e :variables mu4e-enable-async-operations nil)
      finance
+     {{- else if (eq .chezmoi.hostname "apfelstrudel")}}
+     (mu4e :variables mu4e-enable-async-operations nil)
+     go
+     github
+     nginx
+     docker
+     rust
+     restclient
+     terraform
+     javascript
+     sql
+     json
+     plantuml
+     graphql
+     protobuf
+     pdf
+     elfeed
+     fasd
+     kubernetes
+     pass
+     saltstack
      {{- else }}
      go
      github
@@ -109,6 +131,13 @@ This function should only modify configuration layer settings."
                                       org-super-agenda
                                       org-journal
                                       org-trello
+                                      {{- else if (eq .chezmoi.hostname "apfelstrudel") }}
+                                      hledger-mode
+                                      org-super-agenda
+                                      org-journal
+                                      flycheck-yamllint
+                                      flymake-shellcheck
+                                      salt-mode
                                       {{- else }}
                                       flycheck-yamllint
                                       flymake-shellcheck
@@ -599,7 +628,7 @@ before packages are loaded."
 
   (load-file "~/.spacemacs.d/private/forge-config.el")
 
-  {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
+  {{- if or (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott") (eq .chezmoi.hostname "apfelstrudel")}}
   (with-eval-after-load 'org
         (progn
           (load-file "~/.spacemacs.d/private/mail-config.el")
