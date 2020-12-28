@@ -1,7 +1,7 @@
 [user]
 	name = Sebastian Schulze
-	email = github.com@{{ .chezmoi.username }}.com
-	signingkey = github.com@{{ .chezmoi.username }}.com
+	email = {{ .git.email }}
+	signingkey = {{ .git.signingkey }}
 
 [core]
 	excludesfile = ~/.gitignore
