@@ -56,7 +56,9 @@ interval = 10
 
 [[block]]
 block = "backlight"
+{{- if or (eq .chezmoi.hostname "kandalingo") }}
 device = "intel_backlight"
+{{ end }}
 
 [[block]]
 block = "battery"
