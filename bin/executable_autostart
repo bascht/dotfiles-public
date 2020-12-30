@@ -6,11 +6,11 @@ dbus-update-activation-environment --systemd --all
 
 swaymsg exec nextcloud
 swaymsg exec mako
-swaymsg exec systemctl restart --user mopidy.service
-swaymsg exec systemctl restart --user emacs.service
+swaymsg exec -- systemctl restart --user mopidy.service
+swaymsg exec -- systemctl restart --user emacs.service
 swaymsg exec -- wl-paste -t text --watch clipman store --histpath="~/.local/share/clipman-primary.json"
 
-swaymsg exec "redshift -m wayland -l 48.15:11.64 -t 6500K:3000K"
+swaymsg exec -- gammastep -m wayland -l 48.15:11.64 -t 6500K:3000K
 
 swaymsg workspace "4 ﳆ"
 swaymsg exec "emacs ~/"
