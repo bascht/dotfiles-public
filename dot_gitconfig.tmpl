@@ -87,7 +87,7 @@
     smtpserveroption = -a
     smtpserveroption = bascht
 
-{{ if (index . "git") -}}
+{{ if (index . "git.instead") -}}
 {{ range .git.instead -}}
 [url "{{.url}}"]
 insteadOf = {{.https}}
