@@ -303,10 +303,11 @@
   (persp-switch "@Org")
   (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
   (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
-  (org-end-of-subtree)
-  (org-insert-heading)
-  (org-insert-time-stamp (org-read-date nil t "+0d"))
-  (org-clock-in)
+  (goto-char (org-find-exact-headline-in-buffer (format-time-string "%Y-%m")))
+  (search-forward "Total")
+  (previous-line 1)
+  (org-table-insert-row)
+  (org-insert-time-stamp (org-read-date nil t "+0d") t)
   (save-buffer))
 
 (setq org-agenda-category-icon-alist
