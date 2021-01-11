@@ -12,19 +12,19 @@ swaymsg exec -- wl-paste -t text --watch clipman store --histpath="~/.local/shar
 
 swaymsg exec -- gammastep -m wayland -l 48.15:11.64 -t 6500K:3000K
 
-swaymsg workspace "4 ﳆ"
+swaymsg workspace "4 "
 swaymsg exec "emacs ~/"
 sleep 0.5
-swaymsg workspace "2 "
+swaymsg workspace "2 "
 swaymsg exec "firefox"
 sleep 2
-swaymsg workspace "5 ﰝ"
+swaymsg workspace "5 "
 swaymsg exec alacritty -- -e "tmuxinator start music"
 sleep 0.3
 swaymsg workspace "1 "
 swaymsg exec alacritty
 sleep 0.3
-swaymsg workspace "3 "
+swaymsg workspace "3 "
 swaymsg layout tabbed
 swaymsg exec start-comms
 
