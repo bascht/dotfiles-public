@@ -4,12 +4,21 @@ icons = "awesome"
 name = "plain"
 
 [theme.overrides]
+{{- if (eq .chezmoi.hostname "apfelstrudel") }}
 idle_bg = "#2E3440"
 good_bg = "#2E3440"
 warning_bg = "#81A1C1"
 critical_bg = "#88C0D0"
 separator_bg = "#2E3440"
 separator_fg = "#434C5E"
+{{- else }}
+idle_bg = "#181818"
+good_bg = "#181818"
+warning_bg = "#81A1C1"
+critical_bg = "#88C0D0"
+separator_bg = "#181818"
+separator_fg = "#434C5E"
+{{- end }}
 
 [[block]]
 block = "custom"

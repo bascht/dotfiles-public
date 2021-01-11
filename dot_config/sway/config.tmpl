@@ -8,6 +8,7 @@
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
+{{- if (eq .chezmoi.hostname "apfelstrudel") }}
 set $base00 #2E3440
 set $base01 #3B4252
 set $base02 #434C5E
@@ -24,7 +25,24 @@ set $base0C #D08770
 set $base0D #EBCB8B
 set $base0E #A3BE8C
 set $base0F #B48EAD
-
+{{- else }}
+set $base00 #181818
+set $base01 #282828
+set $base02 #383838
+set $base03 #585858
+set $base04 #b8b8b8
+set $base05 #d8d8d8
+set $base06 #e8e8e8
+set $base07 #f8f8f8
+set $base08 #ab4642
+set $base09 #dc9656
+set $base0A #f7ca88
+set $base0B #a1b56c
+set $base0C #86c1b9
+set $base0D #7cafc2
+set $base0E #ba8baf
+set $base0F #a16946
+{{- end }}
 
 # Home row direction keys, like vim
 set $left h
@@ -222,26 +240,26 @@ bindsym $mod+Shift+Right move right
 # Workspaces:
 #
 # switch to workspace
-workspace '1 ' output $display_lg
-workspace '2 ' output $display_lg
-workspace '3 ' output $display_dell
-workspace '5 ﰝ' output $display_dell
-bindsym $mod+1 workspace 1 
-bindsym $mod+2 workspace 2 
-bindsym $mod+3 workspace 3 
-bindsym $mod+4 workspace 4 ﳆ
-bindsym $mod+5 workspace 5 ﰝ
+workspace '1 ' output $display_lg
+workspace '2 ' output $display_lg
+workspace '3 ' output $display_dell
+workspace '5 ' output $display_dell
+bindsym $mod+1 workspace 1 
+bindsym $mod+2 workspace 2 
+bindsym $mod+3 workspace 3 
+bindsym $mod+4 workspace 4 
+bindsym $mod+5 workspace 5 
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1 
-bindsym $mod+Shift+2 move container to workspace 2 
-bindsym $mod+Shift+3 move container to workspace 3 
-bindsym $mod+Shift+4 move container to workspace 4 ﳆ
-bindsym $mod+Shift+5 move container to workspace 5 ﰝ
+bindsym $mod+Shift+1 move container to workspace 1 
+bindsym $mod+Shift+2 move container to workspace 2 
+bindsym $mod+Shift+3 move container to workspace 3 
+bindsym $mod+Shift+4 move container to workspace 4 
+bindsym $mod+Shift+5 move container to workspace 5 
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
@@ -306,12 +324,12 @@ for_window [title="nm-tray"] floating enable
 for_window [app_id="org.gnome.Nautilus"] floating enable
 for_window [title="Firefox - Sharing Indicator"] floating enable
 
-assign [instance="^.*\.yakshed\.org$"] "3 "
-assign [title=".*slack.*"] "3 "
-assign [instance="web.whatsapp.com"] "3 "
-assign [instance="inoreader.com"] "3 "
-assign [instance="wire"] "3 "
-assign [instance="signal"] "3 "
+assign [instance="^.*\.yakshed\.org$"] "3 "
+assign [title=".*slack.*"] "3 "
+assign [instance="web.whatsapp.com"] "3 "
+assign [instance="inoreader.com"] "3 "
+assign [instance="wire"] "3 "
+assign [instance="signal"] "3 "
 
 #
 # Resizing containers:
