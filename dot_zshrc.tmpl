@@ -38,7 +38,7 @@ export DISABLE_AUTO_UPDATE="true"
 source $ZSH/oh-my-zsh.sh
 source $ZSH_CUSTOM/plugins/fzf-marks/fzf-marks.plugin.zsh
 
-{{- if eq .chezmoi.hostname "apfelstrudel" }}
+{{- if or (eq .chezmoi.hostname "pierogi") (eq .chezmoi.hostname "apfelstrudel") }}
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 gpg-connect-agent updatestartuptty /bye &> /dev/null
