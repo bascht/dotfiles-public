@@ -19,4 +19,5 @@ dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XA
 eval $(ssh-agent -s) &> /dev/null
 export SSH_AUTH_SOCK
 
-exec sway 1>&1 > /dev/null #~/sway-$(date +%Y-%m-%d-%H%M%S).log
+# exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
+exec sway 1>&1 > /dev/null
