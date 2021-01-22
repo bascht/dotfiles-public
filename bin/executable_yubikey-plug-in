@@ -1,0 +1,17 @@
+#!/bin/bash
+
+SWAYSOCK=$(ls /run/user/1000/sway-ipc.1000.*.sock)
+export SWAYSOCK
+
+swaymsg exec -- 'notify-send -t 2000 -u low "Yubikey plugged in, reloading pcsd. User: ${USER}"'
+
+RETRIES=0
+while ! HOLDER=$(gpg --card-status|grep Login | cut -d ":" -f 2 | tr -d " "); do
+  sudo /bin/systemctl restart pcscd.service
+  sleep 3
+  if (( RETRIES > 3 )); then
+      exit 1;
+  fi;
+  $RETRIES++;
+done
+swaymsg exec -- "notify-send -t 2000 -u low \"Successfully poked pcscd, found Yubikey for ${HOLDER}\""
