@@ -21,7 +21,7 @@ sleep 2
 swaymsg workspace "5 "
 swaymsg exec alacritty -- -e "tmuxinator start music"
 sleep 0.3
-swaymsg workspace "1 "
+swaymsg workspace "1 "
 swaymsg exec alacritty
 sleep 0.3
 swaymsg workspace "3 "
