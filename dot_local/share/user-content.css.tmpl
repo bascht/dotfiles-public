@@ -1,0 +1,51 @@
+@-moz-document {{range .git.forges }}domain({{.}}) {{ end }}{
+	body,
+	div.message-in,
+	div.message-out,
+	td.comment-body,
+	.ql-editor {
+		font-family: "JetBrains Mono" !important;
+	}
+
+	.pipeline-graph .build .build-content {
+	    border-radius: 0.35rem !important;
+    }
+
+	.gl-label { 
+	    border-radius: 0.35rem !important;
+	}
+
+	.c-timestamp__label {
+		font-size: 0.8em;
+	}
+
+	.fa {
+		font: "normal normal normal 14px/1 FontAwesome";
+	}
+}
+
+@-moz-document {{range .git.forges }}domain({{.}}) {{ end }} {
+	.gl-label-text-light {
+		border-radius: 0.35rem
+	}
+
+	.pipeline-graph .build {
+		width: auto;
+	}
+
+	.pipeline-graph .gl-text-truncate {
+		overflow: visible;
+	}
+
+	.pipeline-graph .build .build-content {
+		border-radius: 10px;
+	}
+
+	.pipeline-graph li.build[id*="production"] .ci-job-component .menu-item {
+		box-shadow: 0px 0px 5px #f00606;
+	}
+
+	.pipeline-graph li.build[id*="staging"] .ci-job-component .menu-item {
+		box-shadow: 0px 0px 5px #f09a06;
+	}
+}
