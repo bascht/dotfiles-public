@@ -29,6 +29,7 @@
 (setq org-archive-location "%s_archive::")
 (setq org-deadline-warning-days 5)
 (setq org-scheduled-delay-days 0)
+(setq org-hide-emphasis-markers t)
                                         ;(setq org-duration-format (quote (("h" . t) (special . 2))))
 (setq org-confirm-elisp-link-function nil)
 (setq org-icalendar-alarm-time 120)
@@ -58,6 +59,22 @@
          "* %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n" :jump-to-captured t :clock-in t)
         ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
          "* %?\nEntered on %U\n  %i\n  %a")))
+(let* (
+       (headline-font      `(:font "FantasqueSansMono NF"))
+       (base-font-color     (face-foreground 'default nil 'default))
+       (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+
+  (custom-theme-set-faces
+   'user
+   `(org-level-8 ((t (,@headline ,@headline-font))))
+   `(org-level-7 ((t (,@headline ,@headline-font))))
+   `(org-level-6 ((t (,@headline ,@headline-font))))
+   `(org-level-5 ((t (,@headline ,@headline-font))))
+   `(org-level-4 ((t (,@headline ,@headline-font))))
+   `(org-level-3 ((t (,@headline ,@headline-font :height 1.1))))
+   `(org-level-2 ((t (,@headline ,@headline-font :height 1.2))))
+   `(org-level-1 ((t (,@headline ,@headline-font :height 1.3 :background "white smoke"))))
+   `(org-document-title ((t (,@headline ,@headline-font :height 1.5 :underline nil))))))
 
 (setq org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
 (setq org-refile-use-outline-path 'file)
