@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SWAYSOCK=$(ls /run/user/1000/sway-ipc.1000.*.sock)
+SWAYSOCK=$(ls /run/user/1000/sway-ipc.1000.$(pidof sway).sock)
 export SWAYSOCK
 
 swaymsg exec -- 'notify-send -t 2000 -u low "Yubikey plugged in, reloading pcsd. User: ${USER}"'
