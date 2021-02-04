@@ -327,6 +327,14 @@
   (org-insert-time-stamp (org-read-date nil t "+0d") t)
   (save-buffer))
 
+(defun bascht/alfatraining-hours-a-day (date)
+  (cond
+   ((string-match " Thu" date) "8:00")
+   ((string-match " Wed" date) "4:00")
+   ((string-match " Mon" date) "0:00")
+   ((string-match " Tue" date) "8:00")
+   (t "0:00")))
+
 (setq org-agenda-category-icon-alist
       '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
         ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
