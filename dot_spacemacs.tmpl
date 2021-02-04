@@ -56,9 +56,20 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      multiple-cursors
+
+     {{ if (index . "ledger") -}}
+     (finance :variables
+              ledger-accounts-file "{{ .ledger.ledger_accounts_file }}"
+              ledger-binary-path "/usr/bin/hledger"
+              ledger-init-file-name "{{ .ledger.ledger_init_file_name }}"
+              ledger-mode-should-check-version nil
+              ledger-report-links-in-register nil
+              ledger-report-auto-width nil
+              ledger-report-use-native-highlighting nil
+              )
+     {{ end }}
      {{- if or (eq .chezmoi.hostname "pierogi") (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott") }}
      (mu4e :variables mu4e-enable-async-operations nil)
-     finance
      {{- else if (eq .chezmoi.hostname "apfelstrudel")}}
      (mu4e :variables mu4e-enable-async-operations nil)
      go
@@ -126,13 +137,12 @@ This function should only modify configuration layer settings."
                                       magit-todos
                                       beginend
                                       forge
+                                      toml-mode
                                       {{- if or (eq .chezmoi.hostname "pierogi") (eq .chezmoi.hostname "kandalingo") (eq .chezmoi.hostname "himbeerkompott")}}
-                                      hledger-mode
                                       org-super-agenda
                                       org-journal
                                       org-trello
                                       {{- else if (eq .chezmoi.hostname "apfelstrudel") }}
-                                      hledger-mode
                                       org-super-agenda
                                       org-journal
                                       flycheck-yamllint
@@ -681,6 +691,7 @@ before packages are loaded."
 
   ; Default to markdown-mode for generic text files (and Tridactyl)
   (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
 
   ;(spaceline-toggle-minor-modes-off)
   (add-hook 'yaml-mode-hook
@@ -700,7 +711,6 @@ before packages are loaded."
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (setq delete-selection-mode nil)
-  (setq hledger-currency-string "EUR")
   (setq writeroom-width 100)
   (setq ruby-insert-encoding-magic-comment nil)
   (setq git-gutter-fr+-side (quote left-fringe))
