@@ -75,7 +75,7 @@ binaries = YAML.load <<EOB
   :version_argument: "version --short"
   :version_match: v<%= version %>
 :fzf:
-  :url: https://github.com/junegunn/fzf-bin/releases/download/<%= version %>/fzf-<%= version %>-linux_amd64.tgz
+  :url: https://github.com/junegunn/fzf/releases/download/<%= version %>/fzf-<%= version %>-linux_amd64.tar.gz
   :version: 0.25.0
   :version_argument: "--version"
   :version_match: "<%= version %>.*"
