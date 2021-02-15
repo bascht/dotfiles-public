@@ -1,0 +1,69 @@
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+(setq user-full-name "{{ .me.name }}"
+      user-mail-address "{{ .me.email }}"
+      doom-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 14)
+      doom-theme 'doom-one-light
+      org-directory "~/Documents/Zettelkasten/"
+      display-line-numbers-type nil
+      delete-selection-mode nil
+      writeroom-width 100
+      ruby-insert-encoding-magic-comment nil
+      git-gutter-fr+-side (quote left-fringe)
+      helm-org-rifle-show-path t
+      )
+
+(map! :leader
+      (:prefix-map ("l" . "org-stuff")
+       :desc "My Agenda" "a" #'bascht/org-agenda
+       :desc "My Inbox" "i" #'bascht/mu4e-inbox
+       :desc "Cycle all agenda files" "o"  #'helm-org-rifle-agenda-files
+       :desc "Go to current clock" "k"  #'org-clock-goto
+       :desc "Start my daily review" "d"  #'bascht/daily-review
+       :desc "Jump to org file" "g"  #'bascht/go-to-org-file
+       :desc "Clock in Alfatraing" "ca" #'bascht/alfatraining-clock-in
+       :desc "Clock in most recent item" "cr" #'org-mru-clock-in
+       :desc "" "td" (lambda () (interactive) (load-theme 'doom-one nil t))
+       :desc "" "tl" (lambda () (interactive) (load-theme 'doom-one-light nil t))
+       )
+      :desc "" "oc" #'org-capture
+      :desc "" "rl" #'org-refile-goto-last-stored
+      :desc "" "jt" #'org-journal-new-entry
+      :desc "" "jy" #'bascht/goto-yesterdays-journal
+      :desc "" "glu" #'mu4e-view-go-to-url
+      :desc "" "drr" #'rake
+      :desc "" "drl" #'rake-rerun
+      )
+
+(add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (indent-guide-mode 1)
+            (auto-fill-mode -1)
+            (flyspell-mode -1)
+            (flyspell-prog-mode)
+            (flycheck-mode 1)
+            (flycheck-yamllint-setup)
+            (flycheck-select-checker 'yaml-yamllint)
+            ))
+
+(add-hook 'git-commit-mode-hook (lambda ()
+                                  (end-of-line)
+                                  (evil-insert-state)))
+
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+
+(after! forge
+  (add-to-list 'forge-alist '({{- range .git.forges }}"{{.}}" {{ end }}forge-gitlab-repository)))
+
+(setq org-link-abbrev-alist
+      '({{- range .bookmarks -}}
+            ("{{ .name }}" . "{{ .url }}")
+            {{ end -}}
+            ))
+
+(load! "mail.el")
+(load! "org.el")
