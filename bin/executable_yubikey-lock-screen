@@ -1,7 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-SWAYSOCK=$(ls /run/user/1000/sway-ipc.1000.*.sock)
-export SWAYSOCK
+ENV["SWAYSOCK"]="/run/user/1000/sway-ipc.1000.#{`pidof sway`.strip}.sock"
 
-swaymsg exec blur-lock
-swaymsg exec -- 'notify-send -t 2000 -u low "Yubikey unplugged, locking screen"'
+def replugged
+    system "lsusb -d 1050:0407"
+end
+
+def swaymsg(message, timeout=1000)
+    system "swaymsg exec -- 'notify-send -t #{timeout} -u low \"#{message}\"'"
+end
+
+require "pry"
+5.times do |t|
+    sleep 1
+    if replugged
+        swaymsg "Yubikey re-plugged, cancelling screen lock."
+        exit 0
+    end
+end
+
+system "swaymsg exec blur-lock"
