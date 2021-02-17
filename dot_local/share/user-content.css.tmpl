@@ -3,7 +3,7 @@
 	  font-family: "JetBrains Mono" !important;
   }
 }
-@-moz-document {{range .git.forges }}domain({{.}}) {{ end }}{
+@-moz-document {{range .git.forges }}domain({{.}}), {{ end }}{
 	body,
 	div.message-in,
 	div.message-out,
@@ -29,7 +29,7 @@
 	}
 }
 
-@-moz-document {{range .git.forges }}domain({{.}}) {{ end }} {
+@-moz-document {{range .git.forges }}domain({{.}}), {{ end }} {
 	.gl-label-text-light {
 		border-radius: 0.35rem
 	}
