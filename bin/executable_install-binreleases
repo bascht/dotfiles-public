@@ -109,8 +109,8 @@ binaries = YAML.load <<EOB
   :version_match: "<%= version %>"
   :version_argument: "--version"
 :shellcheck:
-  :url: https://storage.googleapis.com/shellcheck/shellcheck-v<%= version %>.linux.x86_64.tar.xz
-  :version: 0.7.0
+  :url: https://github.com/koalaman/shellcheck/releases/download/v<%= version %>/shellcheck-v<%= version %>.darwin.x86_64.tar.xz
+  :version: 0.7.1
   :version_match: "version: <%= version %>"
   :version_argument: "--version"
 :wally-cli:
