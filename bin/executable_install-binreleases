@@ -146,6 +146,11 @@ binaries = YAML.load <<EOB
   :version: 8.2.1
   :version_match: "<%= version %>"
   :version_argument: "--version"
+:exa:
+  :url: https://github.com/ogham/exa/releases/download/v<%= version %>/exa-linux-x86_64-<%= version %>.zip
+  :version: 0.9.0
+  :version_match: "<%= version %>"
+  :version_argument: "--version"
 EOB
 tmpdir = Dir.mktmpdir
 
