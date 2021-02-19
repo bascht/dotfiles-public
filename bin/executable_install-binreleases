@@ -151,6 +151,11 @@ binaries = YAML.load <<EOB
   :version: 0.9.0
   :version_match: "<%= version %>"
   :version_argument: "--version"
+:mutagen:
+  :url: https://github.com/mutagen-io/mutagen/releases/download/v<%= version %>/mutagen_linux_amd64_v<%= version %>.tar.gz
+  :version: 0.11.8
+  :version_match: "<%= version %>"
+  :version_argument: "version"
 EOB
 tmpdir = Dir.mktmpdir
 
@@ -195,7 +200,7 @@ binaries.each do |binary, download|
       end
 
       extracted_executables = Dir.glob("**/**").select do |f|
-        `file #{f}`.match(/LSB executable|ELF 64-bit LSB shared object|ELF 64-bit LSB pie executable/)
+        `file #{f}`.match(/LSB executable|ELF 64-bit LSB shared object|ELF 64-bit LSB pie executable|mutagen-agents.tar.gz/)
       end
 
       if (extracted_executables.length > 1) && (extracted_executables.include? binary.to_s)
