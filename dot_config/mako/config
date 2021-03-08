@@ -4,12 +4,13 @@ max-visible=1
 border-color=#1f1a10
 background-color=#2e3440
 border-size=1
-border-radius=6
+border-radius=3
 group-by=category
-padding=5
+padding=9
+font=Fantasque Sans Mono
 
 icons=1
 max-icon-size=64
-icon-path=/usr/share/icons/Adwaita
+icon-path=/home/bascht/.nix-profile/share/icons/Adwaita
 markup=1
 actions=1

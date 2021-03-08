@@ -7,8 +7,10 @@ alias tabuniq jsb browser.tabs.query({}).then(tabs => browser.tabs.remove(tabs.f
 set tabopencontaineraware true
 
 bind V js tri.native.run(`mpv --ontop --keepaspect-window --profile=protocol.http '${document.location.href}'`)
+set newtab about:blank
 
 " Keep GitLab et al from binding quickfind to /
+unbind <C-f>
 bind / fillcmdline find
 bind ? fillcmdline find -?
 bind n findnext 1

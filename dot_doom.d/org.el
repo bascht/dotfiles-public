@@ -84,7 +84,7 @@
           ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
            "* %?\nEntered on %U\n  %i\n  %a")))
   (let* (
-         (headline-font      `(:font "FantasqueSansMono NF"))
+         (headline-font      `(:font "Fantasque Sans Mono"))
          (base-font-color     (face-foreground 'default nil 'default))
          (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
 
