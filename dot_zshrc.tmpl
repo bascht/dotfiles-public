@@ -37,6 +37,7 @@ export DISABLE_AUTO_UPDATE="true"
 
 source $ZSH/oh-my-zsh.sh
 source $ZSH_CUSTOM/plugins/fzf-marks/fzf-marks.plugin.zsh
+source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 
 {{- if or (eq .chezmoi.hostname "pierogi") (eq .chezmoi.hostname "apfelstrudel") }}
 export GPG_TTY="$(tty)"

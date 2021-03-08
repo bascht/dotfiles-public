@@ -199,7 +199,6 @@
 
   services.nextcloud-client.enable = true;
   services.emacs.enable = true;
-  services.emacs.socketActivation.enable = true;
   programs.emacs.enable = true;
 
   # This value determines the Home Manager release that your

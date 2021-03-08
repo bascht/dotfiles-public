@@ -62,7 +62,7 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Pictures/Wallpapers/snowy-trees.png fill
+output * bg ~/Pictures/Wallpapers/mountains-pale.jpg fill
 output $display_dell transform 270 pos 0 0
 output $display_lg mode 3440x1440@49.987000Hz pos 1200 290
 output $display_coworking pos 2560 0
@@ -107,7 +107,6 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 
 input "1133:45074:MX_Master_Mouse" {
     natural_scroll enabled
-    accel_profile flat
 }
 
 input "1739:0:Synaptics_TM3381-002" {
@@ -134,6 +133,7 @@ input "1390:269:ELECOM_TrackBall_Mouse_HUGE_TrackBall" {
     natural_scroll enabled
     scroll_button 279
     scroll_method on_button_down
+    accel_profile adaptive
 }
 
 input "65261:4871:ErgoDox_EZ_ErgoDox_EZ" {
@@ -163,18 +163,18 @@ bindsym $mod+shift+s sticky toggle
 #
 # Mine
 
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 1%+
-bindsym $mod+Prior exec amixer -D pulse sset Master 1%+
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 1%-
-bindsym $mod+Next exec amixer -D pulse sset Master 1%-
-bindsym XF86AudioMute exec amixer -D pulse set Master toggle
+bindsym XF86AudioRaiseVolume exec pactl -- set-sink-volume @DEFAULT_SINK@ +1%
+bindsym $mod+Prior exec pactl -- set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec pactl -- set-sink-volume @DEFAULT_SINK@ -1%
+bindsym $mod+Next exec  pactl -- set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc prev
-bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl prev
+bindsym XF86AudioPlay exec playerctl play-pause
 
 bindsym Print exec screenshot
 bindsym shift+Print exec screenshot -s
@@ -377,8 +377,7 @@ mode $mode_run {
   bindsym w exec firefox; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
-  bindsym e exec em -c; mode "default"
-  bindsym $mod+e exec emacs; mode "default"
+  bindsym e exec alacritty --class emacs -e '/home/bascht/bin/em'; mode "default"
   bindsym f exec screenshot-folder; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
