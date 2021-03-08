@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SHOT=$(screenshot -s)
 pngquant 64 --skip-if-larger --strip --ext=.png --force $SHOT

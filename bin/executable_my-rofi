@@ -1,4 +1,4 @@
 #!/bin/sh
 
 SHOW=${1:-combi}
-exec rofi -m -4 -combi-modi run,bookmarks,org -sorting-method fzf -show ${SHOW} -modi combi,run,calc,bookmarks:~/Code/rofi-marks/rofi-marks,org:~/bin/rofi-org,ssh -matching fuzzy -width 40% -format s -tokenize -location 0
+exec rofi -m -4 -combi-modi run,bookmarks -sorting-method fzf -show ${SHOW} -modi combi,run,bookmarks:~/Code/rofi-marks/rofi-marks,ssh -matching fuzzy -width 40% -format s -tokenize -location 0

@@ -7,7 +7,6 @@
 # journal files and using KDialog for querying.
 
 require 'pathname'
-require 'pry'
 
 unless File.open(__FILE__).flock(File::LOCK_EX|File::LOCK_NB)
   abort("An instance of Worklogger is already running. Aborting.")

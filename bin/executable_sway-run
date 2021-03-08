@@ -1,23 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-source ~/.zprofile
-source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
+# first import environment variables from the login manager
+systemctl --user import-environment
+# then start the service
+#exec systemctl --user start sway.service
+export SWAYSOCK
 
-export XKB_DEFAULT_LAYOUT=de
-export XKB_DEFAULT_OPTIONS=caps:escape
-export QT_SCALE_FACTOR=1
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORM=wayland
-export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-export TERM=alacritty
-export _JAVA_AWT_WM_NONREPARENTING=1
-export GNOME_KEYRING_CONTROL=/run/user/1000/keyring
-export WLR_DRM_NO_MODIFIERS=1
-
-. /etc/X11/xinit/xinitrc-common &> /dev/null
-dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &> /dev/null
-eval $(ssh-agent -s) &> /dev/null
-export SSH_AUTH_SOCK
-
-# exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
-exec sway 1>&1 > /dev/null
+exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
+#exec sway 1>&1 > /dev/null

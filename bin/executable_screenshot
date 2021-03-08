@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 FOLDER="/home/bascht/Pictures/Screenshots/$(date +'%Y-%m')"
 mkdir -p ${FOLDER}
 
