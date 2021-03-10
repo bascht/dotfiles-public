@@ -1,4 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-SHOW=${1:-combi}
-exec rofi -m -4 -combi-modi run,bookmarks -sorting-method fzf -show ${SHOW} -modi combi,run,bookmarks:~/Code/rofi-marks/rofi-marks,ssh -matching fuzzy -width 40% -format s -tokenize -location 0
+export FZF_DEFAULT_OPTS='
+  --border
+  --height="100%"
+  --layout=reverse
+  --color=fg:#4d4d4c,hl:#d7005f
+  --color=fg+:#4d4d4c,bg+:#e8e8e8,hl+:#d7005f
+  --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f
+  --color=marker:#4271ae,spinner:#4271ae,header:#4271ae
+'
+if [[ -z "$1" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt='  '${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-run
+elif [[ "$1" == "bookmarks" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt=' '${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-bookmarks
+else
+  exec alacritty --class launcher --config-file ~/.config/alacritty/alacritty-launcher.yml -d 80 40 -e ~/bin/launcher-run
+fi;
+
+exec alacritty --class launcher --config-file ~/.config/alacritty/alacritty-launcher.yml -d 80 20 -e "$COMMAND"
