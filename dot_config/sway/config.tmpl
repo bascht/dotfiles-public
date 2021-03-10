@@ -197,7 +197,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+q kill
 
 
-for_window [app_id="^launcher$"] floating enable, border pixel 4, resize set width 25 ppt height 100 ppt, move position center
+for_window [app_id="^launcher$"] floating enable, border none, move position center
 for_window [app_id="^wofi$"] floating enable, border none
 
 # Drag floating windows by holding down $mod and left mouse button.
@@ -464,12 +464,4 @@ bar {
   }
 }
 
-include /etc/sway/config.d/*
-
-# Currently inactive – see https://github.com/swaywm/sway/issues/4649
-#exec wl-paste -t text --watch clipman store
-
-# See https://github.com/swaywm/sway/wiki#after-unplugging-an-external-display-some-applications-appear-too-large-on-my-hidpi-screen
-exec xrdb -load ~/.Xresources
 exec autostart
- 
