@@ -11,6 +11,9 @@
       pkgs.adementary-theme
       pkgs.alacritty
       pkgs.appimage-run
+	  pkgs.ant-theme
+	  pkgs.ant-dracula-theme
+	  pkgs.canta-theme
       pkgs.aspell
       pkgs.aspellDicts.de
       pkgs.aspellDicts.de
@@ -133,6 +136,7 @@
       pkgs.silver-searcher
       pkgs.slurp
       pkgs.sway
+      pkgs.starship
       pkgs.swayidle
       pkgs.swaylock
       pkgs.tdns-cli
@@ -141,7 +145,9 @@
       pkgs.weather-icons
       pkgs.wf-recorder
       pkgs.wl-clipboard
-      pkgs.wl-clipboard
+      pkgs.python38Packages.youtube-dl
+      pkgs.python38Packages.pip
+      pkgs.python38Packages.setuptools
       pkgs.wofi
       pkgs.wol
       pkgs.xfce.thunar
@@ -157,7 +163,7 @@
 
  systemd.user.services.mako = {
        Unit = {
-             description = "Mako notifications";
+             Description = "Mako notifications";
              After = "graphical-session-pre.target";
              PartOf = "graphical-session.target";
        };
@@ -167,23 +173,23 @@
              RestartSec = 5;
        };
        Install = {
-             wantedBy = [ "graphical-session.target" ];
+             WantedBy = [ "graphical-session.target" ];
        };
  };
 
  systemd.user.services.clipboard-manager = {
        Unit = {
-             description = "Clipboard manager";
+             Description = "Clipboard manager";
              After = "graphical-session-pre.target";
              PartOf = "graphical-session.target";
        };
        Service = {
-             ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch clipman store --histpath=~/.local/share/clipman-primary.json";
+             ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch clipman store --max-items=200 --histpath=~/.local/share/clipman-primary.json";
              Restart = "on-failure";
              RestartSec = 5;
        };
        Install = {
-             wantedBy = [ "graphical-session.target" ];
+             WantedBy = [ "graphical-session.target" ];
        };
  };
 
