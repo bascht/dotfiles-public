@@ -8,12 +8,18 @@
   home.homeDirectory = "/home/bascht";
 
   home.packages = [
+      pkgs.gimp
+      pkgs.poppler_utils
+      pkgs.python38Packages.pdftotext
+      pkgs.w3m
+      pkgs.xfce.tumbler
+      pkgs.ffmpegthumbnailer
+      #pkgs.qt5ct
+      pkgs.adwaita-qt
       pkgs.adementary-theme
       pkgs.alacritty
       pkgs.appimage-run
-	  pkgs.ant-theme
-	  pkgs.ant-dracula-theme
-	  pkgs.canta-theme
+      pkgs.neovim
       pkgs.aspell
       pkgs.aspellDicts.de
       pkgs.aspellDicts.de
@@ -21,6 +27,8 @@
       pkgs.aspellDicts.en-computers
       pkgs.bat
       pkgs.bemenu
+      pkgs.obs-studio
+      pkgs.obs-v4l2sink
       pkgs.bibata-cursors
       pkgs.binutils
       pkgs.borgbackup
