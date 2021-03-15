@@ -15,6 +15,7 @@
       pkgs.xfce.tumbler
       pkgs.ffmpegthumbnailer
       #pkgs.qt5ct
+      pkgs.tridactyl-native
       pkgs.adwaita-qt
       pkgs.adementary-theme
       pkgs.alacritty
