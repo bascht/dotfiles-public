@@ -31,6 +31,7 @@
         org-clock-sound t
         org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM"
         org-confirm-babel-evaluate nil
+        org-duration-format 'h:mm
         org-link-elisp-confirm-function nil
         org-deadline-warning-days 5
         org-default-notes-file "~/Documents/Zettelkasten/refile.org"
