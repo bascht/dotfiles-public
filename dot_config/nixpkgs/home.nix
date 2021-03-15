@@ -149,6 +149,7 @@
       pkgs.swaylock
       pkgs.tdns-cli
       pkgs.tmux
+      pkgs.tmuxinator
       pkgs.upower
       pkgs.weather-icons
       pkgs.wf-recorder
