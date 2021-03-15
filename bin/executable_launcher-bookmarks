@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+MARK=$(~/Code/rofi-marks/rofi-marks|fzf)
+~/Code/rofi-marks/rofi-marks $MARK
