@@ -8,6 +8,8 @@
   home.homeDirectory = "/home/bascht";
 
   home.packages = [
+      pkgs.gitAndTools.tig
+      pkgs.file
       pkgs.gimp
       pkgs.wally-cli
       pkgs.poppler_utils
@@ -104,7 +106,6 @@
       pkgs.libnotify
       pkgs.libqalculate
       pkgs.libtool
-      pkgs.libvterm
       pkgs.libvterm
       pkgs.lsof
       pkgs.lxappearance
