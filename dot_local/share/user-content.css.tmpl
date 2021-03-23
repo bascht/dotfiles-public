@@ -30,6 +30,11 @@
 }
 
 @-moz-document {{range .git.forges }}domain({{.}}),{{ end }}domain(github.com) {
+    .dropdown-menu li[data-milestone-id="Ops Team Backlog"] {
+      color: red;
+      font-weight: bold !important;
+    }
+
     .gl-label-text-light {
         border-radius: 0.35rem
     }
