@@ -8,6 +8,10 @@
   home.homeDirectory = "/home/bascht";
 
   home.packages = [
+      pkgs.libreoffice
+      pkgs.aws
+      pkgs.vscode-with-extensions
+      pkgs.kristall
       pkgs.gitAndTools.tig
       pkgs.file
       pkgs.gimp
