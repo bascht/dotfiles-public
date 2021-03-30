@@ -5,6 +5,7 @@
     [
       <nixos-hardware/lenovo/thinkpad/t14s/amd>
       /etc/nixos/hardware-configuration.nix
+      /etc/nixos/machine.nix
     ];
 
   nixpkgs.config.allowUnfree = true;
