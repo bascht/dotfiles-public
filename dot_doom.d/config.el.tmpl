@@ -105,6 +105,11 @@
 (after! forge
   (add-to-list 'forge-alist '({{- range .git.forges }}"{{.}}" {{ end }}forge-gitlab-repository)))
 
+(defun bascht/file-string (file)
+  "Read the contents of a file and return as a string."
+  (with-current-buffer (find-file-noselect file)
+    (buffer-string)))
+
 (setq org-link-abbrev-alist
       '({{- range .bookmarks -}}
             ("{{ .name }}" . "{{ .url }}")
