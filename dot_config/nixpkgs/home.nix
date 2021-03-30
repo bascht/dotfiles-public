@@ -232,10 +232,13 @@
         };
   };
 
-
   services.nextcloud-client.enable = true;
   services.emacs.enable = true;
-  programs.emacs.enable = true;
+  programs.emacs = {
+    enable = true;
+    extraPackages = epkgs: [ epkgs.emacs-libvterm ];
+  };
+
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
