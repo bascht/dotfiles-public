@@ -1,5 +1,5 @@
 
-{ config, pkgs, systemd, services, ... }:
+{ config, lib, pkgs, systemd, inputs, services, ... }:
 
 {
   programs.home-manager.enable = true;
@@ -9,6 +9,7 @@
 
   home.packages = [
       pkgs.gimp
+      pkgs.wally-cli
       pkgs.poppler_utils
       pkgs.python38Packages.pdftotext
       pkgs.w3m
@@ -58,6 +59,7 @@
       pkgs.gnome3.adwaita-icon-theme
       pkgs.gnome3.defaultIconTheme
       pkgs.gnome3.defaultIconTheme
+      pkgs.gnome3.file-roller
       pkgs.gnome3.gcr
       pkgs.gnome3.gnome-keyring
       pkgs.gnome3.gnome-themes-standard
@@ -66,11 +68,17 @@
       pkgs.gnome3.seahorse
       pkgs.gnome3.zenity
       pkgs.gnumake
+      pkgs.libreoffice
+      pkgs.hledger-web
+      pkgs.hledger
       pkgs.gnupg
       pkgs.gnupg-pkcs11-scd
+      pkgs.go
       pkgs.gopass
       pkgs.gore
       pkgs.gotests
+      pkgs.gomodifytags
+      #pkgs.goimports
       pkgs.grim
       pkgs.gsettings-desktop-schemas
       pkgs.gst_all_1.gst-plugins-bad
@@ -113,11 +121,13 @@
       pkgs.mopidy-spotify
       pkgs.mpc_cli
       pkgs.mpv
+      pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
       pkgs.mu
       pkgs.ncmpcpp
       pkgs.ncspot
+      pkgs.nixfmt
       pkgs.nextcloud-client
       pkgs.patchelf
       pkgs.pavucontrol
@@ -148,6 +158,7 @@
       pkgs.starship
       pkgs.swayidle
       pkgs.swaylock
+      pkgs.wayvnc
       pkgs.tdns-cli
       pkgs.tmux
       pkgs.tmuxinator
@@ -212,6 +223,7 @@
               night = 3000;
         };
   };
+
 
   services.nextcloud-client.enable = true;
   services.emacs.enable = true;
