@@ -42,6 +42,11 @@ binaries = YAML.load <<EOB
   :version: 1.12.1
   :version_argument: --version
   :version_match: "^gopass <%= version %>"
+:git-credential-gopass:
+  :url: https://github.com/gopasspw/git-credential-gopass/releases/download/v<%= version %>/git-credential-gopass-<%= version %>-linux-amd64.tar.gz
+  :version: 1.12.0
+  :version_argument: --version
+  :version_match: "^git-credential-gopass <%= version %>"
 :greenclip:
   :url: https://github.com/erebe/greenclip/releases/download/<%= version %>/greenclip
   :version: '3.1'
