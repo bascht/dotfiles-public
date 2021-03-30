@@ -8,6 +8,9 @@
   home.homeDirectory = "/home/bascht";
 
   home.packages = [
+      pkgs.unzip
+      pkgs.crun
+      pkgs.go
       pkgs.libreoffice
       pkgs.aws
       pkgs.vscode-with-extensions
