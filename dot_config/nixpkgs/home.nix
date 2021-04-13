@@ -7,6 +7,12 @@
   home.username = "bascht";
   home.homeDirectory = "/home/bascht";
 
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+  ];
+
   home.packages = [
       pkgs.unzip
       pkgs.crun
@@ -235,9 +241,9 @@
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
+    package = pkgs.emacsGcc;
     extraPackages = epkgs: [ epkgs.vterm ];
   };
-
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
