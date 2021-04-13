@@ -5,7 +5,7 @@ systemctl --user import-environment
 
 ln -sf /run/user/1000/sway-ipc.1000.$(pidof sway).sock $SWAYSOCK
 
-swaymsg exec -- systemctl restart --user nextcloud.service
+swaymsg exec -- systemctl restart --user nextcloud-client.service
 swaymsg exec -- systemctl restart --user mako.service
 swaymsg exec -- systemctl restart --user mopidy.service
 swaymsg exec -- systemctl restart --user emacs.service
