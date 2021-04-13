@@ -248,7 +248,7 @@ colors:
   name: Tomorrow (light)
   author: Chris Kempson
   primary:
-    background: "#ffffff"
+    background: "#fafafa"
     foreground: "#373b41"
   cursor:
     text: "#ffffff"
