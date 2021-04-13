@@ -74,7 +74,7 @@
         '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
            "* TODO %?\n  %i")
           ("m" "MailTodo" entry (file "~/Documents/Zettelkasten/Todo.org")
-           "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n%a\n")
+          "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
           ("p" "Print" entry (file+headline "~/Documents/Zettelkasten/Personal.org" "Drucken")
            "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
           ("c" "CustomerIssue" entry (file "~/Documents/Zettelkasten/Todo.org")
