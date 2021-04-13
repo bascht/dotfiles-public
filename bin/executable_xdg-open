@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+lower=${1,,}
+
+echo $lower
+
+case "${lower%%:*}" in
+	*.slack.*)
+		exec qutebrowser-comms "$1"
+		;;
+	http|https)
+		exec firefox "$1"
+		;;
+	*.pdf)
+		exec zathura "$1"
+		;;
+	*.gif)
+		exec mpv --loop=inf "$1"
+		;;
+	*.jpg|*.png)
+		exec feh "$1"
+		;;
+	mailto)
+		exec emacs -nw "$1"
+		;;
+	*)
+		zenity --warning --text "Don't know how to open $@" >&2
+		;;
+esac
+

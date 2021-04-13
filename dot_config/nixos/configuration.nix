@@ -32,7 +32,6 @@
   networking.useDHCP = false;
   networking.networkmanager.enable = true;
   networking.useNetworkd = true;
-  networking.hostName = "apfelstrudel";
   networking.firewall.allowedTCPPorts = [ 22 ];
 
   systemd.services.NetworkManager-wait-online.enable = false;
