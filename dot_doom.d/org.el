@@ -66,6 +66,7 @@
         org-show-notification-handler "notify-send"
         org-startup-folded t
         org-tag-faces (quote (("next" . "red") ("waiting" . "blue")))
+        counsel-org-goto-all-outline-path-prefix 'file-name-nondirectory
         )
 
   (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
