@@ -16,7 +16,6 @@
       pkgs.vscode-with-extensions
       pkgs.kristall
       pkgs.gitAndTools.tig
-      pkgs.file
       pkgs.gimp
       pkgs.wally-cli
       pkgs.poppler_utils
@@ -236,7 +235,7 @@
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
-    extraPackages = epkgs: [ epkgs.emacs-libvterm ];
+    extraPackages = epkgs: [ epkgs.vterm ];
   };
 
 
