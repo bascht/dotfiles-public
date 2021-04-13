@@ -3,6 +3,13 @@
       font-family: "JetBrains Mono" !important;
   }
 }
+
+@-moz-document domain(68.news) {
+  body {
+      font-family: "JetBrains Mono" !important;
+  }
+}
+
 @-moz-document {{range .git.forges }}domain({{.}}), {{ end }}domain(github.com) {
     body,
     div.message-in,
