@@ -99,7 +99,7 @@ binaries = YAML.load <<EOB
 :hugo:
   :url: https://github.com/gohugoio/hugo/releases/download/v<%= version %>/hugo_<%=
     version %>_Linux-64bit.tar.gz
-  :version: 0.73.0
+  :version: 0.82.0
   :version_argument: version
   :version_match: Hugo Static Site Generator v<%= version %>
 :pandoc:
