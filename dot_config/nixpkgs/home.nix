@@ -1,6 +1,9 @@
 
 { config, lib, pkgs, systemd, inputs, services, ... }:
+let
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 
+in
 {
   programs.home-manager.enable = true;
 
@@ -14,6 +17,7 @@
   ];
 
   home.packages = [
+      unstable.borgmatic
       pkgs.k9s
       pkgs.openssl
       pkgs.unzip
