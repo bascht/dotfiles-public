@@ -14,6 +14,8 @@
   ];
 
   home.packages = [
+      pkgs.k9s
+      pkgs.openssl
       pkgs.unzip
       pkgs.crun
       pkgs.go

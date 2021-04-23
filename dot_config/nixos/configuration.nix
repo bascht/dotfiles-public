@@ -117,11 +117,14 @@
     };
   };
 
+  nix.trustedUsers = [ "root" "bascht" ];
+
   environment.systemPackages = with pkgs; [
     wget
     curl
     vim
     git
+    cachix
     linuxPackages.v4l2loopback
     wireguard
     wireguard-tools
