@@ -48,7 +48,9 @@ bind yy clipboard yankshort
 " Stupid workaround to let hint -; be used with composite which steals semi-colons
 command hint_focus hint -;
 
-set editorcmd em -c
+#set editorcmd em -c
+set editorcmd alacritty --title tridactyl_editor --command emacsclient --create-frame --tty %f
+bind --mode=normal gi composite focusinput -l | editor
 
 " Sane hinting mode
 set hintfiltermode vimperator-reflow
