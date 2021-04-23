@@ -8,6 +8,9 @@ case "${lower%%:*}" in
 	*.slack.*)
 		exec qutebrowser-comms "$1"
 		;;
+	file)
+		exec nautilus "$1"
+		;;
 	http|https)
 		exec firefox "$1"
 		;;
