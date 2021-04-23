@@ -45,7 +45,7 @@
   users.defaultUserShell = pkgs.zsh;
   users.extraUsers.bascht = {
     isNormalUser = true;
-    extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" ];
+    extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" "plugdev" ];
   };
 
   security.doas.enable = true;
@@ -97,6 +97,9 @@
   services.upower.enable = true;
 
   sound.enable = true;
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+  hardware.ledger.enable = true;
 
   hardware.pulseaudio.enable = true;
   hardware.enableAllFirmware = true;
@@ -129,6 +132,7 @@
     wireguard
     wireguard-tools
     openvpn
+    ledger-udev-rules
   ];
 
   virtualisation = {
