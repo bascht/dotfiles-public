@@ -48,6 +48,7 @@
        grammar           ; tasing grammar mistake every you make
 
        :tools
+       (lsp +peek)
        docker
        editorconfig      ; let someone else argue about tabs vs spaces
        (eval +overlay)     ; run code, run (also, repls)
@@ -73,7 +74,7 @@
        (org +present)    ; organize your plain life in plain text
        (ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        sh                ; she sells {ba,z,fi}sh shells on the C xor
-       yaml              ; JSON, but readable
+       (yaml +lsp)       ; JSON, but readable
 
        :email
        (mu4e)
