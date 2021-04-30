@@ -45,7 +45,7 @@
   users.defaultUserShell = pkgs.zsh;
   users.extraUsers.bascht = {
     isNormalUser = true;
-    extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" "plugdev" ];
+    extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" "plugdev" "docker" ];
   };
 
   security.doas.enable = true;
@@ -136,9 +136,10 @@
   ];
 
   virtualisation = {
+    docker.enable = true;
     podman = {
       enable = true;
-      dockerCompat = true;
+      dockerCompat = false;
     };
   };
 }
