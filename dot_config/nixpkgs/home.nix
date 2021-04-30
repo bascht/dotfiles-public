@@ -18,6 +18,7 @@ in
 
   home.packages = [
       unstable.borgmatic
+      pkgs.yaml-language-server
       pkgs.k9s
       pkgs.openssl
       pkgs.unzip
@@ -25,7 +26,6 @@ in
       pkgs.go
       pkgs.libreoffice
       pkgs.aws
-      pkgs.vscode-with-extensions
       pkgs.kristall
       pkgs.gitAndTools.tig
       pkgs.gimp
@@ -35,7 +35,6 @@ in
       pkgs.w3m
       pkgs.xfce.tumbler
       pkgs.ffmpegthumbnailer
-      #pkgs.qt5ct
       pkgs.tridactyl-native
       pkgs.adwaita-qt
       pkgs.adementary-theme
@@ -98,7 +97,6 @@ in
       pkgs.gore
       pkgs.gotests
       pkgs.gomodifytags
-      #pkgs.goimports
       pkgs.grim
       pkgs.gsettings-desktop-schemas
       pkgs.gst_all_1.gst-plugins-bad
@@ -130,14 +128,6 @@ in
       pkgs.lxappearance
       pkgs.mako # notification daemon
       pkgs.material-design-icons
-      #pkgs.mc
-      pkgs.mopidy
-      pkgs.mopidy-iris
-      pkgs.mopidy-local
-      pkgs.mopidy-mpd
-      pkgs.mopidy-mpris
-      pkgs.mopidy-somafm
-      pkgs.mopidy-spotify
       pkgs.mpc_cli
       pkgs.mpv
       pkgs.ffmpeg-full
@@ -201,6 +191,20 @@ in
       pkgs.spotify-tui
   ];
 
+ programs.vscode = {
+     enable = true;
+     package = pkgs.vscode;
+     extensions = with pkgs.vscode-extensions; [
+       vscodevim.vim
+       redhat.vscode-yaml
+       bbenoist.Nix
+     ];
+     userSettings = {
+         "workbench.colorTheme" = "Visual Studio Light";
+         "terminal.integrated.fontFamily" = "JetBrains Mono";
+         "editor.renderControlCharacters" = true;
+     };
+ };
  systemd.user.services.mako = {
        Unit = {
              Description = "Mako notifications";
