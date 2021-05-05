@@ -72,7 +72,11 @@
        :desc "Clock in most recent item" "cr" #'org-mru-clock-in
        :desc "" "td" (lambda () (interactive) (load-theme 'doom-one nil t))
        :desc "" "tl" (lambda () (interactive) (load-theme 'doom-one-light nil t))
+       :desc "Run table formatter" "tf" #'org-table-calc-current-TBLFM
        )
+      (:prefix "c"
+       :desc "Toggle comment"         "l" #'evilnc-comment-or-uncomment-lines
+       :desc "Copy and comment lines" "y" #'evilnc-copy-and-comment-lines)
       :desc "" "oc" #'org-capture
       :desc "" "rl" #'org-refile-goto-last-stored
       :desc "" "jt" #'org-journal-new-entry
