@@ -1,17 +1,31 @@
 @-moz-document url-prefix("about:reader") {
-  body {
-      font-family: "JetBrains Mono" !important;
-  }
+    body {
+        font-family: "JetBrains Mono" !important;
+    }
 }
 
 @-moz-document domain(68.news) {
-  body {
-      font-family: "JetBrains Mono" !important;
-  }
+    body {
+        font-family: "JetBrains Mono" !important;
+    }
 }
 
 @-moz-document {{range .git.forges }}domain({{.}}), {{ end }}domain(github.com) {
+    div.js-pipeline-graph .gl-text-truncate {
+        overflow: unset !important;
+        text-overflow: none !important;
+        white-space: normal !important;
+        font-size: 0.6em;
+    }
+
+    div.sidebar-container .gl-text-truncate {
+        overflow: unset !important;
+        text-overflow: unset !important;
+        white-space: normal !important;
+    }
+
     body,
+
     div.message-in,
     div.message-out,
     td.comment-body,
@@ -19,8 +33,23 @@
         font-family: "JetBrains Mono" !important;
     }
 
-    .pipeline-graph .build .build-content {
+    .js-pipeline-graph .build-content {
         border-radius: 0.35rem !important;
+    }
+
+    .js-pipeline-graph .gl-pipeline-job-width {
+        width: 230px !important;
+    }
+    .js-pipeline-graph .ci-job-component {
+        width: 240px !important;
+    }
+
+    .js-pipeline-graph .ci-job-name-component {
+        width: 240px !important;
+    }
+
+    .js-pipeline-graph .gl-ci-action-icon-container {
+        border-radius: 15% !important;
     }
 
     .gl-label {
@@ -37,14 +66,25 @@
 }
 
 @-moz-document {{range .git.forges }}domain({{.}}),{{ end }}domain(github.com) {
-    .dropdown-menu li[data-milestone-id="Ops Team Backlog"] {
-      color: green;
-      font-weight: bold !important;
+    .ci-status-icon-success-with-warnings svg {
+        fill: crimson !important;
     }
 
-    .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover, 
+    .dropdown-menu li[data-milestone-id^="Ops Team Sprint"] {
+        background-color: blanchedalmond !important;
+        font-weight: bold !important;
+    }
+    .dropdown-menu li[data-milestone-id="Ops Team Backlog"] {
+        background-color: palegoldenrod !important;
+        font-weight: bold !important;
+    }
+    .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover,
+    .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover * {
+        background-color: blanchedalmond !important;
+    }
+    .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover,
     .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover * {
-      background-color: green !important;
+        background-color: palegoldenrod !important;
     }
 
     .gl-label-text-light {
