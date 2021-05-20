@@ -17,7 +17,6 @@
         white-space: normal !important;
         font-size: 0.6em;
     }
-
     div.sidebar-container .gl-text-truncate {
         overflow: unset !important;
         text-overflow: unset !important;
@@ -25,7 +24,6 @@
     }
 
     body,
-
     div.message-in,
     div.message-out,
     td.comment-body,
@@ -37,9 +35,10 @@
         border-radius: 0.35rem !important;
     }
 
-    .js-pipeline-graph .gl-pipeline-job-width {
+    .js-pipeline-graph .gl.js-pipeline-job-width {
         width: 230px !important;
     }
+    /*
     .js-pipeline-graph .ci-job-component {
         width: 240px !important;
     }
@@ -47,9 +46,19 @@
     .js-pipeline-graph .ci-job-name-component {
         width: 240px !important;
     }
+    */
+
+    .js-pipeline-graph div[data-testid="stage-column"] {
+	    padding-left: 0.5rem;
+	    padding-right:0.5rem;
+    }
 
     .js-pipeline-graph .gl-ci-action-icon-container {
-        border-radius: 15% !important;
+      border-radius: 15% !important;
+    }
+
+    .js-pipeline-graph .ci-job-component .js-pipeline-graph-job-link {
+      border-radius: 8px !important;
     }
 
     .gl-label {
@@ -66,48 +75,50 @@
 }
 
 @-moz-document {{range .git.forges }}domain({{.}}),{{ end }}domain(github.com) {
+
+    .ci-status-icon-failed-with-warnings svg,
     .ci-status-icon-success-with-warnings svg {
         fill: crimson !important;
     }
 
     .dropdown-menu li[data-milestone-id^="Ops Team Sprint"] {
-        background-color: blanchedalmond !important;
-        font-weight: bold !important;
+      background-color: blanchedalmond !important;
+      font-weight: bold !important;
     }
     .dropdown-menu li[data-milestone-id="Ops Team Backlog"] {
-        background-color: palegoldenrod !important;
-        font-weight: bold !important;
+      background-color: palegoldenrod !important;
+      font-weight: bold !important;
     }
     .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover,
     .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover * {
-        background-color: blanchedalmond !important;
+      background-color: blanchedalmond !important;
     }
     .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover,
     .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover * {
-        background-color: palegoldenrod !important;
+      background-color: palegoldenrod !important;
     }
 
     .gl-label-text-light {
         border-radius: 0.35rem
     }
 
-    .pipeline-graph .build {
+    .js-pipeline-graph .build {
         width: auto;
     }
 
-    .pipeline-graph .gl-text-truncate {
+    .js-pipeline-graph .gl-text-truncate {
         overflow: visible;
     }
 
-    .pipeline-graph .build .build-content {
+    .js-pipeline-graph .build .build-content {
         border-radius: 10px;
     }
 
-    .pipeline-graph li.build[id*="production"] .ci-job-component .menu-item {
+    .js-pipeline-graph div.ci-job-component[id*="production"] .menu-item {
         box-shadow: 0px 0px 5px #f00606;
     }
 
-    .pipeline-graph li.build[id*="staging"] .ci-job-component .menu-item {
+    .js-pipeline-graph div.ci-job-component[id*="staging"] .menu-item {
         box-shadow: 0px 0px 5px #f09a06;
     }
 }
