@@ -20,7 +20,7 @@ case "${lower%%:*}" in
 	*.gif)
 		exec mpv --loop=inf "$1"
 		;;
-	*.jpg|*.png)
+	*.jpeg|*.jpg|*.png)
 		exec feh "$1"
 		;;
 	mailto)
