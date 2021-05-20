@@ -18,6 +18,13 @@ in
 
   home.packages = [
       unstable.borgmatic
+      pkgs.toilet
+      pkgs.ydotool
+      pkgs.somafm-cli
+      pkgs.tree
+      pkgs.imv
+      pkgs.cloc
+      pkgs.httpie
       pkgs.yaml-language-server
       pkgs.k9s
       pkgs.openssl
