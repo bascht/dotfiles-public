@@ -292,7 +292,6 @@
     (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
     (goto-char (org-find-exact-headline-in-buffer (format-time-string "%Y-%m")))
     (search-forward "Total")
-    (forward-line -1)
     (org-table-insert-row)
     (org-insert-time-stamp (org-read-date nil t "+0d 09:30") t)
     (execute-kbd-macro (read-kbd-macro "<tab>"))
