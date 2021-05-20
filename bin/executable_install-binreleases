@@ -65,7 +65,7 @@ binaries = YAML.load <<EOB
 :terraform:
   :url: https://releases.hashicorp.com/terraform/<%= version %>/terraform_<%= version
     %>_linux_amd64.zip
-  :version: 0.12.24
+  :version: 0.15.1
   :version_argument: version
   :version_match: "^Terraform v<%= version %>"
 :vagrant:
