@@ -155,6 +155,13 @@ in
       pkgs.pwgen
       pkgs.gammastep
       pkgs.mc
+      pkgs.mopidy
+      pkgs.mopidy-iris
+      pkgs.mopidy-local
+      pkgs.mopidy-mpd
+      pkgs.mopidy-mpris
+      pkgs.mopidy-somafm
+      pkgs.mopidy-spotify
       pkgs.rpm
       pkgs.qalculate-gtk
       pkgs.ripgrep
