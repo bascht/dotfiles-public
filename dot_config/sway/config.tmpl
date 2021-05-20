@@ -362,7 +362,7 @@ mode "resize" {
 }
 
 set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
-set $mode_run "Run: (d) launcher (b)ookmarks (r)ofi (p)ass (s)wytch (w) firefox (a)lfaview"
+set $mode_run "Run: (d) launcher (b)ookmarks (c)lipboard (r)ofi (p)ass (s)wytch (w)firefox (a)lfaview"
 
 mode $mode_run {
   # start your launcher
@@ -387,7 +387,8 @@ mode $mode_run {
   bindsym f exec screenshot-folder; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
-  bindsym c exec clipman pick --tool=rofi --histpath="~/.local/share/clipman-primary.json"; mode "default"
+  bindsym c exec $menu clipboard; mode "default"
+
   bindsym o exec pavucontrol; mode "default"
 
   bindsym v exec alacritty --class 'vm' --command zsh -c 'vm'
