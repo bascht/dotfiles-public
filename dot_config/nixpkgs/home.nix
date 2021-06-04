@@ -18,6 +18,7 @@ in
 
   home.packages = [
       unstable.borgmatic
+      pkgs.docker-compose
       pkgs.toilet
       pkgs.ydotool
       pkgs.somafm-cli
@@ -27,7 +28,6 @@ in
       pkgs.httpie
       pkgs.yaml-language-server
       pkgs.k9s
-      pkgs.openssl
       pkgs.unzip
       pkgs.crun
       pkgs.go
@@ -35,6 +35,7 @@ in
       pkgs.aws
       pkgs.kristall
       pkgs.gitAndTools.tig
+      pkgs.gitAndTools.lab
       pkgs.gimp
       pkgs.wally-cli
       pkgs.poppler_utils
@@ -118,7 +119,7 @@ in
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.en_GB-large
-      pkgs.i3status-rust
+      unstable.i3status-rust
       pkgs.imagemagick
       pkgs.ispell
       pkgs.isync

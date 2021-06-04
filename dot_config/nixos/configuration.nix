@@ -132,6 +132,7 @@
     wireguard
     wireguard-tools
     openvpn
+    openssl
     ledger-udev-rules
   ];
 
