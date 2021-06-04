@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-MARK=$(~/Code/rofi-marks/rofi-marks|fzf)
+MARK=$(~/Code/rofi-marks/rofi-marks|fzf --preview="ROFI_PREVIEW=1 ~/Code/rofi-marks/rofi-marks {1}" --preview-window="down:1")
 ~/Code/rofi-marks/rofi-marks $MARK
