@@ -75,6 +75,9 @@ alias cm="chezmoi"
 alias ls="exa --icons"
 alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 alias kn="kubens"
+alias alfaview-logfile="ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1"
+alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
+alias tn="tmux new-session -s \$(basename \$PWD)"
 
 # Global Aliases
 alias -g B="|bat"
@@ -143,13 +146,6 @@ function fzf-vm () {
 }
 zle -N fzf-vm
 bindkey '\ev' fzf-vm
-
-function fzf-ta () {
-    tmux attach $(tmux ls -F "#{session_name}" | fzf)
-}
-
-zle -N fzf-ta
-bindkey '\et' fzf-ta
 
 # rg on Asteroids
 rga-fzf() {
