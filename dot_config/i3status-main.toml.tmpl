@@ -44,13 +44,13 @@ format = "{1m}"
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{Mupi}%"
-format_swap = "{SUpi}%"
+format_mem = "{mem_used_percents}"
+format_swap = "{swap_used_percents}"
 
 [[block]]
 block = "networkmanager"
 on_click = "alacritty -e nmtui"
-#interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+", "tun0", "virbr\\-[0-9]{12}"]
+interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+", "tun0", "virbr\\-[0-9]{12}"]
 #interface_name_include = []
 device_format = "{icon}{ap}"
 
@@ -60,7 +60,6 @@ text = ""
 command_state = "alfaview-screenshare status"
 command_on = "alfaview-screenshare start"
 command_off = "alfaview-screenshare stop"
-icon_on = "video_camera"
 interval = 10
 
 [[block]]
@@ -76,12 +75,12 @@ format = "{percentage}% {time}"
 
 [[block]]
 block = "time"
-interval = 60
-format = "(u %R)"
+interval = 10
+format = "(u%R)"
 timezone = "UTC"
 
 [[block]]
 block = "time"
-interval = 60
+interval = 10
 format = "%a %d.%m. %R"
 timezone = "Europe/Berlin"
