@@ -6,4 +6,4 @@ ORGDIR="/run/user/1000/org"
 mkdir -p "${ORGDIR}"
 
 # Trim the resulting quotes from emacs eval response
-em -e "(bascht/sway-org-clock-indicator)" | tr -d '"' > "${ORGDIR}/current-task"
+emacsclient -n -e "(bascht/sway-org-clock-indicator)" | tr -d '"' > "${ORGDIR}/current-task"
