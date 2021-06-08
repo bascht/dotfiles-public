@@ -42,10 +42,6 @@ mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
 
-  url:
-    launcher: firefox
-    modifiers: Control
-
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
