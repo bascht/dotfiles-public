@@ -8,6 +8,7 @@
       /etc/nixos/machine.nix
     ];
 
+  nix.autoOptimiseStore = true;
   nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = true;
