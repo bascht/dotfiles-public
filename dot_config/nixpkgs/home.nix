@@ -12,12 +12,13 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/90d2409.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/4e1869f.tar.gz;
     }))
   ];
 
   home.packages = [
-      unstable.borgmatic
+      pkgs.borgmatic
+      pkgs.weechat
       pkgs.docker-compose
       pkgs.toilet
       pkgs.ydotool
@@ -119,7 +120,7 @@ in
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.en_GB-large
-      unstable.i3status-rust
+      pkgs.i3status-rust
       pkgs.imagemagick
       pkgs.ispell
       pkgs.isync
@@ -266,7 +267,7 @@ in
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsGcc;
+    package = pkgs.emacsPgtkGcc;
     extraPackages = epkgs: [ epkgs.vterm ];
   };
 
