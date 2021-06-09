@@ -3,6 +3,7 @@
 lower=${1,,}
 
 echo $lower
+echo "${lower%%:*}"
 
 case "${lower%%:*}" in
 	*.slack.*)
@@ -10,6 +11,10 @@ case "${lower%%:*}" in
 		;;
 	file)
 		exec nautilus "$1"
+		;;
+	ssh)
+		host=$(echo $1 | cut -d "/" -f 3)
+		exec alacritty -e ssh "$host"
 		;;
 	 *.html|http|https)
 		exec firefox "$1"
