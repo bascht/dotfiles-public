@@ -263,6 +263,7 @@ in
         };
   };
 
+  services.gnome-keyring.enable = true;
   services.nextcloud-client.enable = true;
   services.emacs.enable = true;
   programs.emacs = {
