@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
 export FZF_DEFAULT_OPTS='
-  --border
   --height="100%"
   --layout=reverse
-  --color=fg:#4d4d4c,hl:#d7005f
-  --color=fg+:#4d4d4c,bg+:#e8e8e8,hl+:#d7005f
-  --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f
-  --color=marker:#4271ae,spinner:#4271ae,header:#4271ae
+  --margin=0
+  --padding=0
+  --color=bg+:#343d46,bg:#2b303b,spinner:#96b5b4,hl:#8fa1b3 --color=fg:#a7adba,header:#8fa1b3,info:#ebcb8b,pointer:#96b5b4 --color=marker:#96b5b4,fg+:#dfe1e8,prompt:#ebcb8b,hl+:#8fa1b3
 '
 if [[ -z "$1" ]]
 then
