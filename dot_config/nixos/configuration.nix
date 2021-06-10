@@ -111,7 +111,7 @@
 
   fonts = {
     enableDefaultFonts = true;
-    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira fira-mono fira-code fantasque-sans-mono medio terminus_font ];
+    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira fira-mono fira-code fantasque-sans-mono medio terminus_font ibm-plex ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = [ "Font Awesome 5 Free" "Noto Color Emoji" ];

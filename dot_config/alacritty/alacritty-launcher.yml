@@ -3,17 +3,9 @@ import:
 
 font:
   normal:
-    family: Fantasque Sans Mono
-  size: 15.0
-  fallback_size: 20.0
-
-
-  offset:
-    x: 0
-    y: 0
-  glyph_offset:
-    x: 0
-    y: 0
+    family: IBM Plex Mono
+  size: 14.0
+  #  fallback_size: 20.0
 
 background_opacity: 0.7
 
