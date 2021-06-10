@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-exec clipman --histpath=~/.local/share/clipman-primary.json pick --print0 --tool=CUSTOM --tool-args="fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0"
+exec clipman --histpath=~/.local/share/clipman-primary.json pick --print0 --tool=CUSTOM --tool-args="fzf"
