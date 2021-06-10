@@ -19,8 +19,12 @@ then
   COMMAND=~/bin/launcher-bookmarks
 elif [[ "$1" == "clipboard" ]]
 then
-  FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up' --cycle --read0 ${FZF_DEFAULT_OPTS}"
-  COMMAND=launcher-clipboard
+  FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up'  --read0  ${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-clipboard
+elif [[ "$1" == "gopass" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up'  --read0  ${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-gopass
 else
   exec alacritty --class launcher --config-file ~/.config/alacritty/alacritty-launcher.yml --option "window.dimensions={lines: 40, columns: 80}" -e ~/bin/launcher-run
 fi;
