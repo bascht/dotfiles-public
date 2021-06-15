@@ -11,6 +11,7 @@
         org-agenda-hide-tags-regexp "presents"
         org-agenda-include-diary t
         org-agenda-ndays 1
+        org-agenda-start-day nil
         org-agenda-show-inherited-tags (quote always)
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-deadline-is-shown t
@@ -132,8 +133,6 @@
   (use-package org-super-agenda
     :config (org-super-agenda-mode))
 
-
-
   (setq org-agenda-custom-commands
         '(("l" "Open loops"
            ((agenda ""))
@@ -171,28 +170,15 @@
                        '((:name none  ; Disable super group header
                           :children todo)
                          (:discard (:anything t))))))))
-          ("c" "Mega Agenda" agenda
+          ("a" "Mega Agenda" agenda
            (org-super-agenda-mode)
            ((org-super-agenda-groups
              '(
-               (:name "Important"
-                :priority "A")
-               (:name "Next Items"
-                :tag ("NEXT" "outbox"))
-               (:name "Immersive + Deep"
-                :tag ("@immersive" "@deep"))
-               (:name "Process + Shallow"
-                :time-grid t
-                :tag ("@process" "@shallow"))
-               (:name "Customer Projects"
-                :file-path "Customer"
-                )
-               (:name "Quick Picks"
-                :effort< "0:30"
-                )
-               (:priority<= "B"
-                :scheduled future
-                :order 1)))
+               (:name "Critical Now" :priority "A")
+               (:name "Opportunity Now" :priority "B")
+               (:name "Over the horizon" :priority "C")
+               )
+             )
             )
            ("d" "Sort during Daily" agenda
             (org-super-agenda-mode)
