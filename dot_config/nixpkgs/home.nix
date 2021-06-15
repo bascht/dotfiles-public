@@ -7,6 +7,21 @@ in
 {
   programs.home-manager.enable = true;
 
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+    enableExtraSocket = true;
+    extraConfig = ''
+      allow-emacs-pinentry
+      debug-level expert
+      keep-display
+      extra-socket /run/user/1000/gnupg/S.gpg-agent.extra
+      no-grab
+      allow-preset-passphrase
+    '';
+  };
+
   home.username = "bascht";
   home.homeDirectory = "/home/bascht";
 
@@ -221,6 +236,7 @@ in
          "editor.renderControlCharacters" = true;
      };
  };
+
  systemd.user.services.mako = {
        Unit = {
              Description = "Mako notifications";
@@ -263,6 +279,7 @@ in
         };
   };
 
+  services.mbsync.enable = true;
   services.gnome-keyring.enable = true;
   services.nextcloud-client.enable = true;
   services.emacs.enable = true;
