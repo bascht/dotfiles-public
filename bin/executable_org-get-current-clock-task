@@ -1,3 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
+FILE="/run/user/1000/org/current-task"
+message=$(cat ${FILE} 2>/dev/null)
+exit_code=0
+message=""
 
-cat /run/user/1000/org/current-task 2>/dev/null || echo "no task"
+if [ ! -f $FILE ]; then
+	message="No file found";
+	exit_code=1;
+fi;
+
+if grep chilling $FILE; then
+	exit_code=1
+fi
+
+echo $message
+exit $exit_code
