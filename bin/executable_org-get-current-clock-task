@@ -2,7 +2,6 @@
 FILE="/run/user/1000/org/current-task"
 message=$(cat ${FILE} 2>/dev/null)
 exit_code=0
-message=""
 
 if [ ! -f $FILE ]; then
 	message="No file found";
