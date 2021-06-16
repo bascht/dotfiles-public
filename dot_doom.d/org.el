@@ -87,7 +87,7 @@
           ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
            "* %?\nEntered on %U\n  %i\n  %a")))
   (let* (
-         (headline-font      `(:font "JetBrains Mono"))
+         (headline-font      `(:font "IBM Plex Mono"))
          (base-font-color     (face-foreground 'default nil 'default))
          (headline           `(:inherit default :foreground ,base-font-color)))
 
@@ -100,7 +100,7 @@
      `(org-level-4 ((t (,@headline ,@headline-font))))
      `(org-level-3 ((t (,@headline ,@headline-font :height 1.1))))
      `(org-level-2 ((t (,@headline ,@headline-font :height 1.2))))
-     `(org-level-1 ((t (,@headline ,@headline-font :height 1.3 :background "white smoke"))))
+     `(org-level-1 ((t (,@headline ,:font "IBM Plex Sans" :height 1.3  ))))
      `(org-document-title ((t (,@headline ,@headline-font :height 1.5 :underline nil))))))
 
   ;; Resume clocking task when emacs is restarted
