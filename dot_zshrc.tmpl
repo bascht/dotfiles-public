@@ -77,7 +77,7 @@ alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 alias kn="kubens"
 alias alfaview-logfile="ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1"
 alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
-alias tn="tmux new-session -s \$(basename \$PWD)"
+alias tn="tmux attach -t \$(basename \$PWD) || tmux new-session -s \$(basename \$PWD) -d 'em -nw .' \; new-window"
 
 # Global Aliases
 alias -g B="|bat"
