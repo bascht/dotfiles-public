@@ -32,6 +32,7 @@ in
   ];
 
   home.packages = [
+      unstable.pkgs.logseq
       pkgs.borgmatic
       pkgs.weechat
       pkgs.docker-compose
