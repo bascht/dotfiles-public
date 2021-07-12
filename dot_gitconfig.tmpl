@@ -84,6 +84,9 @@
     smtpserveroption = -a
     smtpserveroption = bascht
 
+[rerere]
+    enabled = true
+
 {{ if (index .git "instead") -}}
 {{ range .git.instead -}}
 [url "{{.url}}"]
