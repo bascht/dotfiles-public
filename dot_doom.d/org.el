@@ -36,12 +36,13 @@
         org-link-elisp-confirm-function nil
         org-deadline-warning-days 5
         org-default-notes-file "~/Documents/Zettelkasten/refile.org"
-        org-ellipsis "  "
-        org-habit-completed-glyph ?🗸
+        org-ellipsis " ➼"
         org-habit-following-days 3
         org-habit-graph-column 60
         org-habit-show-habits-only-for-today nil
         org-habit-today-glyph ?‖
+        org-habit-completed-glyph ?✰
+        org-habit-show-all-today t
         org-hide-emphasis-markers t
         org-icalendar-alarm-time 120
         org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics"
@@ -86,20 +87,13 @@
            "* %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n" :jump-to-captured t :clock-in t)
           ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
            "* %?\nEntered on %U\n  %i\n  %a")))
-  (let* ((headline-font      `(:font "IBM Plex Mono"))
-         (base-font-color     (face-foreground 'default nil 'default))
-         (headline           `(:inherit default :foreground ,base-font-color)))
-    (custom-theme-set-faces
-     'user
-     `(org-level-8 ((t (,@headline ,@headline-font))))
-     `(org-level-7 ((t (,@headline ,@headline-font))))
-     `(org-level-6 ((t (,@headline ,@headline-font))))
-     `(org-level-5 ((t (,@headline ,@headline-font))))
-     `(org-level-4 ((t (,@headline ,@headline-font))))
-     `(org-level-3 ((t (,@headline ,@headline-font :height 1.1))))
-     `(org-level-2 ((t (,@headline ,@headline-font :height 1.2))))
-     `(org-level-1 ((t (,@headline ,:font "IBM Plex Sans" :height 1.3  ))))
-     `(org-document-title ((t (,@headline ,@headline-font :height 1.5 :underline nil))))))
+
+  (custom-theme-set-faces
+   'user
+   `(org-level-3        ((t (:height 1.1 :weight light))))
+   `(org-level-2        ((t (:height 1.2 :weight light))))
+   `(org-level-1        ((t (:height 1.3 :weight normal))))
+   `(org-document-title ((t (:height 1.5 :underline nil)))))
 
   ;; Resume clocking task when emacs is restarted
   (org-clock-persistence-insinuate)
@@ -115,11 +109,12 @@
                 org-checklist
                 org-mouse)))
 
+
   (use-package! org-super-agenda
-    :after evil-org
-    :config
-    (org-super-agenda-mode)
-    (setq org-super-agenda-header-map evil-org-agenda-mode-map))
+    :hook (org-agenda-mode . org-super-agenda-mode))
+
+  (after! (org-agenda org-super-agenda)
+    (setq! org-super-agenda-header-map (make-sparse-keymap)))
 
   (setq org-agenda-custom-commands
         '(("l" "Open loops"
