@@ -130,8 +130,11 @@
 
 
 
-  (use-package org-super-agenda
-    :config (org-super-agenda-mode))
+  (use-package! org-super-agenda
+    :after evil-org
+    :config
+    (org-super-agenda-mode)
+    (setq org-super-agenda-header-map evil-org-agenda-mode-map))
 
   (setq org-agenda-custom-commands
         '(("l" "Open loops"
