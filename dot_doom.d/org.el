@@ -86,11 +86,9 @@
            "* %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n" :jump-to-captured t :clock-in t)
           ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
            "* %?\nEntered on %U\n  %i\n  %a")))
-  (let* (
-         (headline-font      `(:font "IBM Plex Mono"))
+  (let* ((headline-font      `(:font "IBM Plex Mono"))
          (base-font-color     (face-foreground 'default nil 'default))
          (headline           `(:inherit default :foreground ,base-font-color)))
-
     (custom-theme-set-faces
      'user
      `(org-level-8 ((t (,@headline ,@headline-font))))
@@ -113,22 +111,9 @@
           "......" "───────────────")))
 
   (setq org-modules
-        (quote
-         (org-bbdb
-          org-bibtex
-          org-docview
-          org-gnus
-          org-habit
-          org-info
-          org-irc
-          org-mhe
-          org-habit
-          org-checklist
-          org-rmail
-          org-mouse
-          org-w3m)))
-
-
+        (quote (org-habit
+                org-checklist
+                org-mouse)))
 
   (use-package! org-super-agenda
     :after evil-org
