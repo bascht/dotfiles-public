@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-gnome-keyring-daemon -r -d
 systemctl --user import-environment
+dbus-update-activation-environment --systemd --all
 
-ln -sf /run/user/1000/sway-ipc.1000.$(pidof sway).sock $SWAYSOCK
+ln -sf "/run/user/$(id -u)/sway-ipc.$(id -u).$(pidof sway).sock" $SWAYSOCK
 
+swaymsg exec -- systemctl restart --user gnome-keyring.service
 swaymsg exec -- systemctl restart --user nextcloud-client.service
 swaymsg exec -- systemctl restart --user mako.service
 swaymsg exec -- systemctl restart --user mopidy.service
