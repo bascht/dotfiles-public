@@ -59,4 +59,15 @@ set hintnames numeric
 " Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
 set hintdelay 100
 
+" A few binds for mpv
+
+
+
+bind <Space>i composite hint -Jpipe img src | shellescape | !s xdg-open
+bind <Space>o composite hint -Jpipe a href | shellescape | !s xdg-open
+bind <Space>m composite hint -Jpipe a href | shellescape | !s mpv --really-quiet
+bind <Space>w composite hint -Jpipe img src | shellescape | !s xdg-open
+bind <Space>v composite hint -Jpipe a href | shellescape | !s xdg-open
+bind <Space>c composite hint -Jpipe href | shellescape | !s tri xdg-open
+
 " vim: set filetype=tridactyl
