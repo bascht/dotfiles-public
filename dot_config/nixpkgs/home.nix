@@ -33,6 +33,7 @@ in
 
   home.packages = [
       unstable.pkgs.logseq
+      pkgs.dragon-drop
       pkgs.borgmatic
       pkgs.weechat
       pkgs.docker-compose
