@@ -28,6 +28,9 @@ case "${lower%%:*}" in
 	*.jpeg|*.jpg|*.png)
 		exec feh "$1"
 		;;
+	atom)
+		exec atom "$1"
+		;;
 	mailto)
 		exec emacs -nw "$1"
 		;;
