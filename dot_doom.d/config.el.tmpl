@@ -113,6 +113,12 @@
 (after! forge
   (add-to-list 'forge-alist '({{- range .git.forges }}"{{.}}" {{ end }}forge-gitlab-repository)))
 
+(after! magit
+    (magit-wip-mode)
+    (magit-todos-mode)
+    (setq magit-log-arguments '("--graph" "--decorate" "--color")
+                    magit-delete-by-moving-to-trash nil
+                              git-commit-summary-max-length 80))
 (defun bascht/file-string (file)
   "Read the contents of a file and return as a string."
   (with-current-buffer (find-file-noselect file)
