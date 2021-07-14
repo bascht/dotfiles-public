@@ -87,6 +87,9 @@
 [rerere]
     enabled = true
 
+[init]
+    defaultBranch = main
+
 {{ if (index .git "instead") -}}
 {{ range .git.instead -}}
 [url "{{.url}}"]
