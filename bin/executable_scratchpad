@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -eo pipefail
+set -xv
+
+TMUX_SESSION="Scratch"
+
+if tmux list-sessions | grep "$TMUX_SESSION"; then
+  TMUX_CMD="tmux a -t ${TMUX_SESSION}"
+else
+  TMUX_CMD="tmux new-session -s ${TMUX_SESSION}"
+fi
+
+echo $TMUX_CMD
+if ! swaymsg -t get_tree | grep "terminal_scratchpad"; then
+	swaymsg exec -- foot --app-id terminal_scratchpad ${TMUX_CMD}
+fi;
+
+exec swaymsg [app_id="terminal_scratchpad"] scratchpad show
