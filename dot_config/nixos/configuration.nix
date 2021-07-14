@@ -98,6 +98,7 @@
   services.upower.enable = true;
 
   sound.enable = true;
+  hardware.keyboard.zsa.enable = true;
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;
   hardware.ledger.enable = true;
@@ -109,12 +110,14 @@
     driSupport = true;
   };
 
+  nixpkgs.config.joypixels.acceptLicense = true;
+
   fonts = {
     enableDefaultFonts = true;
-    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira fira-mono fira-code fantasque-sans-mono medio terminus_font ibm-plex roboto roboto-mono ];
+    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira fira-mono fira-code fantasque-sans-mono medio terminus_font ibm-plex roboto roboto-mono joypixels ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
-      emoji = [ "Font Awesome 5 Free" "Noto Color Emoji" ];
+      emoji = [ "Joypixels" ];
       monospace = [ "JetBrains Mono" ];
       serif = [ "Fira Sans" ];
       sansSerif = [ "Fira Sans" ];

@@ -33,6 +33,7 @@ in
 
   home.packages = [
       unstable.pkgs.logseq
+      unstable.pkgs.obsidian
       unstable.pkgs.foot
       pkgs.dragon-drop
       pkgs.borgmatic
@@ -263,7 +264,7 @@ in
              PartOf = "graphical-session.target";
        };
        Service = {
-             ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch clipman store --max-items=200 --histpath=~/.local/share/clipman-primary.json";
+             ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch clipman store --no-persist --max-items=200 --histpath=~/.local/share/clipman-primary.json";
              Restart = "on-failure";
              RestartSec = 5;
        };
