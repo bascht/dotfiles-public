@@ -4,7 +4,7 @@
       user-mail-address "{{ .me.email }}"
       doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-variable-pitch-font (font-spec :family "Fira Sans" :size 14)
-      doom-theme 'modus-operandi
+      doom-theme 'tsdh-light
       org-directory "~/Documents/Zettelkasten/"
       display-line-numbers-type nil
       delete-selection-mode nil
@@ -125,7 +125,7 @@
             ))
 
 (custom-set-faces
- '(mu4e-header-highlight-face ((t (:inherit modus-themes-hl-line :background "lemon chiffon")))))
+ '(mu4e-header-highlight-face ((t (:background "lemon chiffon")))))
 
 (load! "mail.el")
 (load! "org.el")
