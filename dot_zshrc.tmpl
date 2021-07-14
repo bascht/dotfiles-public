@@ -174,6 +174,12 @@ autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 bindkey "^[m" copy-earlier-word
 
+# TODO: Revisit later once foot has an option to ignore shift / control
+# or I decide to actually use those mappings
+# https://codeberg.org/dnkl/foot/issues/628 is ignored
+bindkey "\e[27;2;13~" accept-line  # shift+return
+bindkey "\e[27;5;13~" accept-line  # ctrl+return
+
 if [ -f ~/Code/architecture/bin/ia ]; then
   source <(~/Code/architecture/bin/ia completion)
 fi;
