@@ -17,11 +17,11 @@ then
   COMMAND=~/bin/launcher-bookmarks
 elif [[ "$1" == "clipboard" ]]
 then
-  FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up'  --read0  ${FZF_DEFAULT_OPTS}"
+  FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-clipboard
 elif [[ "$1" == "gopass" ]]
 then
-  FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up'  --read0  ${FZF_DEFAULT_OPTS}"
+  FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-gopass
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run

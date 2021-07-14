@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 
-set -x
+set -o errexit
+
+# Select a password from the gopass store,copy it to current primary clipboard,
+# send the current terminal window to the scratch space & clear the clipboard
+# afterwards.
+
+
 QUERY=$1
 SWAYSOCK=/run/user/$UID/sway-ipc.$UID.$(pidof sway).sock
 export SWAYSOCK
 
 if [ -z "$QUERY" ]; then
-    QUERY=''
-  fi
+  QUERY=''
+fi
 
 input=$(gopass list -f | fzf -q "$QUERY")
-printf '%s' "$(gopass show -o "$input")" | wl-copy
 
-swaymsg exec -- notify-send "gopass" "Copied ${input} to clipboard." -t 2000
+swaymsg move scratchpad
+gopass show -o "$input" | wl-copy
+
+notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
 sleep 5
 wl-copy --clear
-swaymsg exec -- notify-send "gopass" "Cleared clipboard" -t 1000
+notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
