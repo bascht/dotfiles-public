@@ -33,6 +33,7 @@ in
 
   home.packages = [
       unstable.pkgs.logseq
+      unstable.pkgs.foot
       pkgs.dragon-drop
       pkgs.borgmatic
       pkgs.weechat

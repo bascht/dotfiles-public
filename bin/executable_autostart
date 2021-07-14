@@ -19,10 +19,10 @@ swaymsg workspace "2 "
 swaymsg exec "firefox"
 sleep 2
 swaymsg workspace "5 "
-swaymsg exec alacritty -- -e "tmuxinator start music"
+swaymsg exec foot -- -e "tmuxinator start music"
 sleep 0.3
 swaymsg workspace "1 "
-swaymsg exec alacritty
+swaymsg exec foot
 sleep 0.3
 swaymsg workspace "3 "
 swaymsg layout tabbed

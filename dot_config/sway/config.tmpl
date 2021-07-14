@@ -51,7 +51,7 @@ set $up k
 set $right l
 
 # Your preferred terminal emulator
-set $term alacritty
+set $term foot
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu "my-rofi"
@@ -317,7 +317,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+t scratchpad toggle
 
 for_window [title=".*"] title_format %title (class=%class app_id=%app_id instance=%instance shell=%shell)
-for_window [title="terminal_scratchpad"] move scratchpad, fullscreen disable, border pixel 4, move position center
+for_window [app_id="terminal_scratchpad"] move scratchpad, fullscreen disable, border pixel 4, move position center
 
 bindsym $mod+u exec scratchpad
 
@@ -391,7 +391,7 @@ mode $mode_run {
 
   bindsym o exec pavucontrol; mode "default"
 
-  bindsym v exec alacritty --class 'vm' --command zsh -c 'vm'
+  bindsym v exec foot --id 'vm' zsh -c 'vm'
   # return to default mode
   bindsym Return mode "default"
   bindsym Escape mode "default"

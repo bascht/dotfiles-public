@@ -24,7 +24,7 @@ then
   FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up'  --read0  ${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-gopass
 else
-  exec alacritty --class launcher --config-file ~/.config/alacritty/alacritty-launcher.yml --option "window.dimensions={lines: 40, columns: 80}" -e ~/bin/launcher-run
+  exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;
 
-exec alacritty --class launcher --config-file ~/.config/alacritty/alacritty-launcher.yml --option "window.dimensions={lines: 40, columns: 80}"  -e "$COMMAND"
+exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini "$COMMAND"

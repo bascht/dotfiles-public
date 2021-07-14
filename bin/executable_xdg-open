@@ -14,7 +14,7 @@ case "${lower%%:*}" in
 		;;
 	ssh)
 		host=$(echo $1 | cut -d "/" -f 3)
-		exec alacritty -e ssh "$host"
+		exec foot ssh "$host"
 		;;
 	 *.html|http|https)
 		exec firefox "$1"

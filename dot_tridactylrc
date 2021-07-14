@@ -49,7 +49,7 @@ bind yy clipboard yankshort
 command hint_focus hint -;
 
 #set editorcmd em -c
-set editorcmd alacritty --title tridactyl_editor --command emacsclient --create-frame --tty %f
+set editorcmd foot --id tridactyl_editor emacsclient --create-frame --tty %f
 bind --mode=normal gi composite focusinput -l | editor
 
 " Sane hinting mode
