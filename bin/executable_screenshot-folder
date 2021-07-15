@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec alacritty --class 'files' --command ranger "/home/bascht/Pictures/Screenshots/$(date +'%Y-%m')"
