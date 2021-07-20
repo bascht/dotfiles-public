@@ -1,5 +1,5 @@
 
-call plug#begin()
+call plug#begin('~/.vim/plugged')
 
 " Bundles
 " Actual plugins
@@ -30,7 +30,7 @@ Plug 'wannesm/wmgraphviz.vim'
 Plug 'sotte/presenting.vim'
 Plug 'ziglang/zig.vim'
 Plug 'junegunn/fzf.vim'
-Plug 'dracula/vim', { 'name': 'dracula' }
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 " github.com/junegunn/fzf.vim
 nmap ;b :Buffers<CR>
