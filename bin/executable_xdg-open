@@ -35,7 +35,8 @@ case "${lower%%:*}" in
 		exec emacs -nw "$1"
 		;;
 	*)
-		zenity --warning --text "Don't know how to open $@" >&2
+		notify-send "${0}" "Don't know how to open ${@}" -t 500 >&2
+		exec foot --app-id 'files' ranger $@
 		;;
 esac
 
