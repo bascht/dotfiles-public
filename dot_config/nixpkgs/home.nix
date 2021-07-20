@@ -35,6 +35,8 @@ in
       unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.pkgs.foot
+      pkgs.dict
+      pkgs.wordnet
       pkgs.dragon-drop
       pkgs.borgmatic
       pkgs.weechat
@@ -43,11 +45,13 @@ in
       pkgs.ydotool
       pkgs.somafm-cli
       pkgs.tree
+      pkgs.scrot
       pkgs.imv
       pkgs.cloc
       pkgs.httpie
       pkgs.yaml-language-server
       pkgs.k9s
+      pkgs.multimarkdown
       pkgs.unzip
       pkgs.crun
       pkgs.go
@@ -61,6 +65,10 @@ in
       pkgs.poppler_utils
       pkgs.python38Packages.pdftotext
       pkgs.w3m
+      pkgs.ruby
+      pkgs.rubyPackages.net-scp
+      pkgs.rubyPackages.net-ssh
+      pkgs.rubyPackages.pry
       pkgs.xfce.tumbler
       pkgs.ffmpegthumbnailer
       pkgs.tridactyl-native
@@ -69,11 +77,8 @@ in
       pkgs.alacritty
       pkgs.appimage-run
       pkgs.neovim
-      pkgs.aspell
-      pkgs.aspellDicts.de
-      pkgs.aspellDicts.de
-      pkgs.aspellDicts.en
-      pkgs.aspellDicts.en-computers
+      pkgs.enchant
+      (unstable.pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
       pkgs.bat
       pkgs.bemenu
       pkgs.obs-studio
@@ -191,10 +196,6 @@ in
       pkgs.rofi
       pkgs.rofi-calc
       pkgs.rpm
-      pkgs.ruby
-      pkgs.rubyPackages.net-scp
-      pkgs.rubyPackages.net-ssh
-      pkgs.rubyPackages.pry
       pkgs.signal-desktop
       pkgs.silver-searcher
       pkgs.slurp
