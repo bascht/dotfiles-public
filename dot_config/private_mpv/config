@@ -1,0 +1,14 @@
+[default]
+osd-font="JetBrains Mono"
+osd-font-size="15"
+no-audio-display
+mute=no
+alang=de,deu,en,eng
+slang=en,eng,de,deu
+screenshot-format=png
+gpu-context=wayland
+audio-channels=2
+ytdl-raw-options=yes-playlist=
+osd-msg3=${time-pos}(${=time-pos})/${duration} (${percent-pos}%)
+screenshot-high-bit-depth=no
+hwdec=auto-safe
