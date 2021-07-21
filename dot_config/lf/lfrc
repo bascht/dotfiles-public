@@ -1,0 +1,21 @@
+set drawbox true
+set icons true
+set mouse true
+map f $vi $(fzf)
+set previewer ~/bin/preview
+set cleaner /home/bascht/Downloads/lfimg/cleaner
+
+cmd fasd_dir ${{
+   res="$(fasd -dl | grep -iv cache | fzf 2>/dev/tty | sed 's/\\/\\\\/g;s/"/\\"/g')"
+   if [ -d "$res" ]; then
+      cmd="cd"
+   else
+      cmd="select"
+   fi
+ lf -remote "send $id $cmd \"$res\""
+ }}
+
+map go :fasd_dir
+cmd dragon &dragon $fx
+map D :dragon
+
