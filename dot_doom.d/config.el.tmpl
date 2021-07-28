@@ -99,19 +99,17 @@
 
 (add-hook 'yaml-mode-hook
           (lambda ()
-            (indent-guide-mode 1)
             (auto-fill-mode -1)
-            (flyspell-mode -1)
-            (flyspell-prog-mode)
-            (flycheck-mode 1)
+            (ispell-change-dictionary "en_GB")
+            (spell-fu-mode)
             (flycheck-yamllint-setup)
             (flycheck-select-checker 'yaml-yamllint)
             ))
 
 (add-hook 'git-commit-mode-hook (lambda ()
+                                  (end-of-line)
                                   (ispell-change-dictionary "en_GB")
                                   (spell-fu-mode)
-                                  (end-of-line)
                                   (evil-insert-state)))
 
 (add-hook 'org-capture-mode-hook (lambda ()
