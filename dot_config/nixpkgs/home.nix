@@ -35,6 +35,7 @@ in
       unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.pkgs.foot
+      pkgs.liboping
       pkgs.tmux-cssh
       pkgs.dict
       pkgs.wordnet
