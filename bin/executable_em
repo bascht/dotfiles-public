@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 PARENT_COMMAND=$(ps -o comm= $PPID)
 TTY=""
+export TERM=xterm-24bit
 
 if [ "${PARENT_COMMAND}" == $(basename $SHELL) ]; then
 	exec emacsclient --create-frame --tty "$@"
