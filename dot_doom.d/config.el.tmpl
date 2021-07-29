@@ -10,6 +10,8 @@
       delete-selection-mode nil
       writeroom-width 100
       ispell-dictionary "en_GB"
+      ispell-aspell-data-dir "/home/bascht/.nix-profile/lib/aspell"
+      ispell-aspell-dict-dir ispell-aspell-data-dir
       ruby-insert-encoding-magic-comment nil
       git-gutter-fr+-side (quote left-fringe)
       helm-org-rifle-show-path t
@@ -90,9 +92,27 @@
       :desc "" "drr" #'rake
       :desc "" "drl" #'rake-rerun
       )
+
+; Define quick helper switches to switch between languages while
+; keeping distinct personal dictionaries for both of them
+(defun bascht/switch-spellcheck (lang)
+  (interactive)
+  (message lang)
+  (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
+  (ispell-change-dictionary lang) lang)
+
+(defun bascht/switch-spellcheck-to-english ()
+  (interactive)
+  (bascht/switch-spellcheck "en_GB")
+  (spell-fu-mode))
+
+(defun bascht/switch-spellcheck-to-german ()
+  (interactive)
+  (bascht/switch-spellcheck "de_DE")
+  (spell-fu-mode))
+
 ; Disable spell-fu-mode globally
 (remove-hook 'text-mode-hook #'spell-fu-mode)
-(add-hook 'markdown-mode-hook #'spell-fu-mode)
 
 (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
@@ -100,26 +120,20 @@
 (add-hook 'yaml-mode-hook
           (lambda ()
             (auto-fill-mode -1)
-            (ispell-change-dictionary "en_GB")
-            (spell-fu-mode)
-            (flycheck-yamllint-setup)
             (flycheck-select-checker 'yaml-yamllint)
             ))
 
 (add-hook 'git-commit-mode-hook (lambda ()
                                   (end-of-line)
-                                  (ispell-change-dictionary "en_GB")
-                                  (spell-fu-mode)
+                                  (bascht/switch-spellcheck "en_GB")
                                   (evil-insert-state)))
 
 (add-hook 'org-capture-mode-hook (lambda ()
-                                  (ispell-change-dictionary "de_DE")
-                                  (spell-fu-mode)
+                                  (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state)))
 
 (add-hook 'mu4e-compose-pre-hook (lambda ()
-                                  (ispell-change-dictionary "de_DE")
-                                  (spell-fu-mode)
+                                  (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state)))
 (after! forge
   (add-to-list 'forge-alist '({{- range .git.forges }}"{{.}}" {{ end }}forge-gitlab-repository)))

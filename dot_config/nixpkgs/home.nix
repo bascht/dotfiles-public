@@ -146,6 +146,7 @@ in
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.en_GB-large
+      pkgs.hunspellDicts.en_US
       pkgs.i3status-rust
       pkgs.imagemagick
       pkgs.ispell
