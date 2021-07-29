@@ -16,6 +16,6 @@ cmd fasd_dir ${{
  }}
 
 map go :fasd_dir
-cmd dragon &dragon $fx
+cmd dragon &dragon --and-exit $fx
 map D :dragon
 
