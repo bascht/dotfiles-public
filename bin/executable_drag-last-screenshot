@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+dragon --and-exit $(last-screenshot)

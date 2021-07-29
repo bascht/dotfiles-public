@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec foot --app-id 'files' lf $(screenshot-folder)
