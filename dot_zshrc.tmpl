@@ -90,7 +90,6 @@ kpb() { kpe ${1:-$(basename $PWD)} bash }
 kgc() { k get pod $(kfp) -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n' }
 kgl() { kubectl logs -f $(kfp ${1:-$(basename $PWD)}) $(kgc|fzf) }
 
-timestamp() { date +%Y-%m-%d-%H%M%S }
 letterup() {
 	if [[ ! -a $1 ]]; then
 	    take $1;
