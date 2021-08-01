@@ -45,6 +45,7 @@ in
       pkgs.docker-compose
       pkgs.toilet
       pkgs.ydotool
+      pkgs.viu
       pkgs.somafm-cli
       pkgs.tree
       pkgs.scrot
