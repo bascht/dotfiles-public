@@ -96,6 +96,7 @@
   services.pcscd.enable = true;
   services.openssh.enable = true;
   services.upower.enable = true;
+  services.fwupd.enable = true;
 
   sound.enable = true;
   hardware.keyboard.zsa.enable = true;
