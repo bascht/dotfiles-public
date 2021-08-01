@@ -93,12 +93,16 @@ kgl() { kubectl logs -f $(kfp ${1:-$(basename $PWD)}) $(kgc|fzf) }
 letterup() {
 	if [[ ! -a $1 ]]; then
 	    take $1;
-	    cp -a ~/Documents/Personal/Brief-Vorlage/2017-LaTeX/* .;
+	    cp ~/Documents/Personal/Brief-Vorlage/2021-LaTeX-Reworked/template.tex brief.tex;
 	else
 	    cd $1;
 	fi;
 	  tmuxinator start letter;
 }
+letterbuild() {
+  podman run -e VERBOSE=false -i --rm letter < $(*.tex) > $(basename *tex .tex)
+}
+
 
 # Pretty up FZF
 export FZF_DEFAULT_OPTS='
