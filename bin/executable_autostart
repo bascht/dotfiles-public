@@ -3,7 +3,7 @@
 systemctl --user import-environment
 dbus-update-activation-environment --systemd --all
 
-ln -sf "/run/user/$(id -u)/sway-ipc.$(id -u).$(pidof sway).sock" $SWAYSOCK
+ln -sf "/run/user/$(id -u)/sway-ipc.$(id -u).$(pidof sway).sock" "/run/user/$(id -u)/sway-ipc.sock"
 
 swaymsg exec -- systemctl restart --user gnome-keyring.service
 swaymsg exec -- systemctl restart --user nextcloud-client.service
