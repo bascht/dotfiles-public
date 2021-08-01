@@ -270,10 +270,9 @@
 
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
-     ((string-match " Thu" date) "8:00")
-     ((string-match " Wed" date) "4:00")
-     ((string-match " Mon" date) "0:00")
      ((string-match " Tue" date) "8:00")
+     ((string-match " Wed" date) "8:00")
+     ((string-match " Thu" date) "8:00")
      (t "0:00")))
 
   (setq org-agenda-category-icon-alist
