@@ -22,7 +22,7 @@ case "${lower%%:*}" in
 	*.pdf)
 		exec zathura "$1"
 		;;
-	*.gif)
+	*.gif|*.mp4)
 		exec mpv --loop=inf "$1"
 		;;
 	*.jpeg|*.jpg|*.png)
