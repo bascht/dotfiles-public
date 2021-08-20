@@ -244,6 +244,7 @@ in
          "workbench.colorTheme" = "Visual Studio Light";
          "terminal.integrated.fontFamily" = "JetBrains Mono";
          "editor.renderControlCharacters" = true;
+         "yaml.format.printWidth" = 250;
      };
  };
 
