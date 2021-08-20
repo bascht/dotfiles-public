@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 declare name
-name=$(basename $PWD)
+name=$(basename $(realpath $(pwd)/../))/$(basename $PWD)
 
 if tmux has-session -t "${name}" 2> /dev/null; then
   tmux a -t "${name}"
