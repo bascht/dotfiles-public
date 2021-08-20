@@ -58,8 +58,9 @@ in
       pkgs.unzip
       pkgs.crun
       pkgs.go
+      pkgs.gopls
       pkgs.libreoffice
-      pkgs.aws
+      pkgs.awscli2
       pkgs.kristall
       pkgs.gitAndTools.tig
       pkgs.gitAndTools.lab
