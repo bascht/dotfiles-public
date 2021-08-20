@@ -14,4 +14,4 @@ fi
 
 scp "${file}" "drop.bascht.space:/home/bascht/drop/${new_name}"
 wl-copy "${url}"
-notify-send -t 1000 "Uploaded successfully" "<a href=\'${url}\'>drop.bascht.space</a>"
+notify-send -t 1000 "Uploaded successfully" "<a href=\'${url}\'>drop.bascht.space</a>" --icon="${file}"
