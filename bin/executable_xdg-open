@@ -26,7 +26,7 @@ case "${lower%%:*}" in
 		exec mpv --loop=inf "$1"
 		;;
 	*.jpeg|*.jpg|*.png)
-		exec feh "$1"
+		exec imv "$1"
 		;;
 	atom)
 		exec atom "$1"
