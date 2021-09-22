@@ -35,7 +35,7 @@ case "${lower%%:*}" in
 		exec em "$1"
 		;;
 	*)
-		notify-send "${0}" "Don't know how to open ${@}" -t 500 >&2
+		notify-send "${0}" "Don't know how to open ${@}" -t 2500 >&2
 		exec foot --app-id 'files' ranger $@
 		;;
 esac
