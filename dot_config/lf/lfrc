@@ -19,4 +19,4 @@ map go :fasd_dir
 map gr :reload
 cmd dragon &dragon --and-exit $fx
 map D :dragon
-
+map I $imv $fx &
