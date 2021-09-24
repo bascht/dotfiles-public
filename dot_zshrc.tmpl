@@ -140,13 +140,17 @@ zle -N fzf-ssh
 bindkey '\es' fzf-ssh
 
 # Tmux Quick Keys
-bindkey -s '\eetn' 'tn^M'
-bindkey -s '\eeta' "ta^M"
+bindkey -s '\egtn' 'tn^M'
+bindkey -s '\egta' "ta^M"
 
 # Git Quick Keys
-bindkey -s '\eegf' "gf^M"
-bindkey -s '\eegp' "git push^M"
-bindkey -s '\eegs' "git status^M"
+bindkey -s '\eggf' "gf^M"
+bindkey -s '\eggp' "git push^M"
+bindkey -s '\eggs' "git status^M"
+
+# Yaml Engineering
+bindkey -s '\egba' "baml^M"
+bindkey -s '\egoba' "obaml^M"
 
 function fzf-vm () {
     local selected_vm=$(grep "Host " ~/.ssh/config | grep -oP "vm-(\w+)" | sort -u | cut -b 4- | fzf --reverse --height=20 --query "$LBUFFER")
