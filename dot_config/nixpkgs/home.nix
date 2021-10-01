@@ -35,6 +35,14 @@ in
       # unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.pkgs.foot
+      pkgs.inotify-tools
+      pkgs.graphviz
+      pkgs.liboping
+      pkgs.pandoc
+      pkgs.ghostscript
+      pkgs.ansi2html
+      pkgs.minikube
+      pkgs.kind
       pkgs.liboping
       pkgs.tmux-cssh
       pkgs.dict
@@ -246,6 +254,11 @@ in
          "editor.fontFamily" = "JetBrains Mono";
          "editor.renderControlCharacters" = true;
          "yaml.format.printWidth" = 250;
+         "spellright.language" = [
+           "de_DE"
+           "en_GB"
+           "en_US"
+         ];
      };
  };
 
