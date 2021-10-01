@@ -32,7 +32,7 @@ in
   ];
 
   home.packages = [
-      unstable.pkgs.logseq
+      # unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.pkgs.foot
       pkgs.liboping
@@ -243,6 +243,7 @@ in
      userSettings = {
          "workbench.colorTheme" = "Visual Studio Light";
          "terminal.integrated.fontFamily" = "JetBrains Mono";
+         "editor.fontFamily" = "JetBrains Mono";
          "editor.renderControlCharacters" = true;
          "yaml.format.printWidth" = 250;
      };
