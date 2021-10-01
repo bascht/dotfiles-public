@@ -19,7 +19,7 @@ case "${lower%%:*}" in
 	 *.html|http|https)
 		exec firefox "$1"
 		;;
-	*.pdf)
+	 *.ps|*.eps|*.pdf)
 		exec zathura "$1"
 		;;
 	*.gif|*.mp4)
@@ -31,7 +31,7 @@ case "${lower%%:*}" in
 	atom)
 		exec atom "$1"
 		;;
-	*.md|mailto)
+	*.tex|*.md|mailto)
 		exec em "$1"
 		;;
 	*)
