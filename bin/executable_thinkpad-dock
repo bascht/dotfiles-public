@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Watch for the Keyboard instead of the Thinkpad dock since this keeps us from tripping
+# into weird race conditions as the docks usb hub takes a few seconds to settle.
+if [[ "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shine Keyboard"' ]]; then
+  echo "Skipping superfluous events for ${NAME}" >> /tmp/thinkpad.log
+  exit 0
+fi;
+
+SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
+DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+export SWAYSOCK
+export DBUS_SESSION_BUS_ADDRESS
+
+TITLE="Docking Station: ${ACTION} ${NAME}"
+/home/bascht/.nix-profile/bin/notify-send -t 3000 "$TITLE"
+
+sleep 0.5
+
+if [[ "$ACTION" == "add" ]]; then
+  nmcli connection up "dorhamm-docking"
+  nmcli connection down "dorhamm-wifi"
+  swaymsg output eDP-1 disable
+else
+  nmcli connection up "dorhamm-wifi"
+  nmcli connection down "dorhamm-docking" 
+  swaymsg output eDP-1 enable
+fi;
