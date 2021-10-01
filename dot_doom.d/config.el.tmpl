@@ -137,7 +137,10 @@
                                   (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state)))
 (after! forge
-  (add-to-list 'forge-alist '({{- range .git.forges }}"{{.}}" {{ end }}forge-gitlab-repository)))
+  (add-to-list 'forge-alist
+               {{- range .magit.forges }}
+               '("{{ .host }}" "{{ .api }}" "{{ .host }}" {{ .type }})
+               {{- end }}))
 
 (after! magit
     (magit-wip-mode)
