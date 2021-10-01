@@ -126,7 +126,7 @@
 
   fonts = {
     enableDefaultFonts = true;
-    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira fira-mono fira-code fantasque-sans-mono medio terminus_font ibm-plex roboto roboto-mono joypixels ];
+    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira mononoki fira-mono fira-code fantasque-sans-mono medio terminus_font ibm-plex roboto roboto-mono joypixels ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = [ "Joypixels" ];
