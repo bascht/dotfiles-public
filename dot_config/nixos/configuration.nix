@@ -60,6 +60,12 @@
     { domain = "@users"; item = "nofile"; type = "soft"; value = "4096"; }
   ];
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   console = {
     packages = [ pkgs.terminus_font ];
     font = "${pkgs.terminus_font}/share/consolefonts/ter-v12n.psf.gz";
