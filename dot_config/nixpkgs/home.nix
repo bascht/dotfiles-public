@@ -14,7 +14,6 @@ in
     enableExtraSocket = true;
     extraConfig = ''
       allow-emacs-pinentry
-      debug-level expert
       keep-display
       extra-socket /run/user/1000/gnupg/S.gpg-agent.extra
       no-grab
