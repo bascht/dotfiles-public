@@ -20,7 +20,9 @@ sleep 0.5
 if [[ "$ACTION" == "add" ]]; then
   nmcli connection up "dorhamm-docking"
   nmcli connection down "dorhamm-wifi"
-  swaymsg output eDP-1 disable
+  if grep closed /proc/acpi/button/lid/LID/state; then
+    swaymsg output eDP-1 disable
+  fi
 else
   nmcli connection up "dorhamm-wifi"
   nmcli connection down "dorhamm-docking" 
