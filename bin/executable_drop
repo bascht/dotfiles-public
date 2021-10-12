@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+set -e -o pipefail
 
 file="${1}"
 filename=$(basename -- "$file")
 extension="${filename##*.}"
 new_name="$(openssl rand -hex 12).${extension}"
 url="https://drop.bascht.space/${new_name}"
+SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+export SSH_AUTH_SOCK
 
 if [[ ! -f "${file}" ]]; then
   echo "File ${file} not readable. Aborting."
@@ -13,5 +16,9 @@ if [[ ! -f "${file}" ]]; then
 fi
 
 scp "${file}" "drop.bascht.space:/home/bascht/drop/${new_name}"
+if [[ $? != 0 ]]; then
+  echo "Could not upload file. Aborting"
+  exit 1;
+fi;
 wl-copy "${url}"
 notify-send -t 1000 "Uploaded successfully" "<a href=\'${url}\'>drop.bascht.space</a>" --icon="${file}"
