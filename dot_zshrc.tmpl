@@ -75,7 +75,8 @@ alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 alias kn="kubens"
 alias alfaview-logfile="/usr/bin/env ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1"
 alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
-alias gf="git fetch -a && git rebase && git --no-pager today-all"
+alias gf="git fetch -a && git rebase && git --no-pager today-all && echo -n '\n'"
+alias gbb="BRANCH=\$(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin ${BRANCH} && git checkout ${BRANCH}"
 
 # Global Aliases
 alias -g B="|bat"
@@ -147,10 +148,15 @@ bindkey -s '\egta' "ta^M"
 bindkey -s '\eggf' "gf^M"
 bindkey -s '\eggp' "git push^M"
 bindkey -s '\eggs' "git status^M"
+bindkey -s '\egbb' "gbb^M"
 
 # Yaml Engineering
 bindkey -s '\egba' "baml^M"
 bindkey -s '\egoba' "obaml^M"
+
+# Kubeshizzle
+bindkey -s '\egkx' "kubectx^M"
+bindkey -s '\egkn' "kubens^M"
 
 function fzf-vm () {
     local selected_vm=$(grep "Host " ~/.ssh/config | grep -oP "vm-(\w+)" | sort -u | cut -b 4- | fzf --reverse --height=20 --query "$LBUFFER")
