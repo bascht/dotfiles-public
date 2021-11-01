@@ -18,5 +18,7 @@ cmd fasd_dir ${{
 map go :fasd_dir
 map gr :reload
 cmd dragon &dragon --and-exit $fx
+cmd drop &drop $fx
+map O :drop
 map D :dragon
 map I $imv $fx &
