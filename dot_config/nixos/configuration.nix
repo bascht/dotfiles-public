@@ -50,11 +50,32 @@
   };
 
   security.doas.enable = true;
-  security.doas.extraConfig = "permit nopass bascht as root cmd /run/current-system/sw/bin/openvpn";
+
   security.doas.extraRules = [{
-    users = [ "bascht" ];
-    keepEnv = true;
-    persist = true;
+      users = [ "bascht" ];
+      keepEnv = true;
+      persist = true;
+    }{
+      users = [ "bascht" ];
+      keepEnv = true;
+      noPass = true;
+      cmd = "/run/current-system/sw/bin/openvpn";
+    }{
+    }{
+      users = [ "bascht" ];
+      keepEnv = true;
+      noPass = true;
+      cmd = "/run/current-system/sw/bin/cryptsetup";
+    }{
+      users = [ "bascht" ];
+      noPass = true;
+      cmd = "/run/current-system/sw/bin/cryptsetup";
+      args = ["luksOpen" "/dev/disk/by-partlabel/Gulasch" "Gulasch"];
+    }{
+      users = [ "bascht" ];
+      noPass = true;
+      cmd = "/run/wrappers/bin/mount";
+      args = ["/dev/mapper/Gulasch" "/mnt/Gulasch"];
   }];
   security.pam.loginLimits = [
     { domain = "@users"; item = "nofile"; type = "soft"; value = "4096"; }
