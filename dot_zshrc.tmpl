@@ -76,7 +76,7 @@ alias kn="kubens"
 alias alfaview-logfile="/usr/bin/env ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1"
 alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
 alias gf="git fetch -a && git rebase && git --no-pager today-all && echo -n '\n'"
-alias gbb="BRANCH=\$(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin ${BRANCH} && git checkout ${BRANCH}"
+alias gbb="BRANCH=\$(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin \${BRANCH} && git checkout \${BRANCH}"
 
 # Global Aliases
 alias -g B="|bat"
