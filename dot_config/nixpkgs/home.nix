@@ -34,6 +34,7 @@ in
       # unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.pkgs.foot
+      pkgs.sqlite
       pkgs.inotify-tools
       pkgs.graphviz
       pkgs.liboping
@@ -178,7 +179,7 @@ in
       pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
-      pkgs.mu
+      unstable.mu
       pkgs.ncmpcpp
       pkgs.ncspot
       pkgs.nixfmt
