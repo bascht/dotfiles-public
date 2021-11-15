@@ -1,41 +1,49 @@
 #!/usr/bin/env bash
 
-lower=${1,,}
+set -eo pipefail
 
-echo $lower
-echo "${lower%%:*}"
+argument=$1
+url_regex='^(https?|mailto|ftp|file):/?/?.*'
 
-case "${lower%%:*}" in
+if [[ $argument =~ $url_regex ]]; then
+	match=$argument
+else
+	match=$(file -b --mime-type $*)
+fi;
+
+echo "Searching for ${match} in handlers"
+
+case "${match}" in
 	*.slack.*)
 		exec qutebrowser-comms "$1"
 		;;
-	file)
+	file://*)
 		exec nautilus "$1"
 		;;
-	ssh)
+	ssh:*)
 		host=$(echo $1 | cut -d "/" -f 3)
 		exec foot ssh "$host"
 		;;
-	 *.html|http|https)
+	text/html|http://*|https://*)
 		exec firefox "$1"
 		;;
-	 *.ps|*.eps|*.pdf)
+	application/x-postscript|image/x-eps|application/pdf)
 		exec zathura "$1"
 		;;
-	*.gif|*.mp4)
+	image/gif|video/*)
 		exec mpv --loop=inf "$1"
 		;;
-	*.jpeg|*.jpg|*.png)
+	image/*)
 		exec imv "$1"
 		;;
-	atom)
+	atom://*)
 		exec atom "$1"
 		;;
-	*.tex|*.md|mailto)
+	text/x-tex|text/plain|mailto://*)
 		exec em "$1"
 		;;
 	*)
-		notify-send "${0}" "Don't know how to open ${@}" -t 2500 >&2
+		notify-send "${0}" "Don't know how to open ${@} of type ${match}" -t 2500 >&2
 		exec foot --app-id 'files' ranger $@
 		;;
 esac
