@@ -20,6 +20,10 @@
     options v4l2loopback devices=2 video_nr=8,9 card_label="Wayland 8,Wayland 9" exclusive_caps=1
   '';
 
+  boot.kernel.sysctl = {
+      "fs.inotify.max_user_watches" = "1310720";
+      "fs.inotify.max_user_instances" = "8192";
+  };
   boot.loader.grub = {
     enable = true;
     version = 2;
@@ -78,7 +82,7 @@
       args = ["/dev/mapper/Gulasch" "/mnt/Gulasch"];
   }];
   security.pam.loginLimits = [
-    { domain = "@users"; item = "nofile"; type = "soft"; value = "4096"; }
+    { domain = "@users"; item = "nofile"; type = "soft"; value = "8192"; }
   ];
 
   nix.gc = {
