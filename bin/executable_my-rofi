@@ -23,6 +23,10 @@ elif [[ "$1" == "gopass" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-gopass
+elif [[ "$1" == "snippets" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt='📋'${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-snippets
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;

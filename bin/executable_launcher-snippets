@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+SNIPPET_DIR=~/.local/snippets
+
+if [[ "$1" == "--preview" ]]; then
+    bat --theme="OneHalfDark" --style=numbers,changes --color always "$SNIPPET_DIR/$2"
+    exit 0
+fi;
+
+SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n"| fzf --preview-window="bottom" --preview="$0 --preview {}")
+cat "${SNIPPET_DIR}/${SNIPPET}" | wl-copy

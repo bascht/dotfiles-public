@@ -368,7 +368,7 @@ mode "resize" {
 }
 
 set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
-set $mode_run "Run: (d) launcher (b)ookmarks (c)lipboard (r)ofi (p)ass (s)wytch (w)firefox (a)lfaview"
+set $mode_run "Run: (d) launcher (b)ookmarks (c)lipboard (r)ofi (p)ass (s)snippets (w)firefox (a)lfaview"
 
 mode $mode_run {
   # start your launcher
@@ -381,7 +381,7 @@ mode $mode_run {
   bindsym r exec rofi -show run; mode "default";
   bindsym p exec $menu gopass; mode "default";
 
-  bindsym s exec swytch; mode "default"
+  bindsym s exec $menu snippets; mode "default"
   bindsym tab exec swytch; mode "default"
 
   bindsym a mode $mode_alfaview
