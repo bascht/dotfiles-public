@@ -67,20 +67,22 @@
       (:prefix-map ("l" . "org-stuff")
        :desc "My Agenda" "a" #'bascht/org-agenda
        :desc "My Inbox" "i" #'bascht/mu4e-inbox
-       :desc "Cycle all agenda files" "o"  #'helm-org-rifle-agenda-files
+       :desc "Cycle all agenda files" "o"  #'counsel-org-agenda-headlines
        :desc "Go to current clock" "k"  #'org-clock-goto
        :desc "Start my daily review" "d"  #'bascht/daily-review
        :desc "Jump to org file" "g"  #'bascht/go-to-org-file
-       :desc "Clock in Alfatraing" "ca" #'bascht/alfatraining-clock-in
-       :desc "Clock in most recent item" "cr" #'org-mru-clock-in
        :desc "" "td" (lambda () (interactive) (load-theme 'doom-one nil t))
        :desc "" "tl" (lambda () (interactive) (load-theme 'doom-one-light nil t))
        :desc "Run table formatter" "tf" #'org-table-calc-current-TBLFM
        )
       (:prefix "m"
-       :desc "Insert Todo heading"    "l" #'evilnc-comment-or-uncomment-lines
+       :desc "Insert link"            "il" #'org-insert-link
        :desc "Capture"                "m" #'org-capture
-       :desc "Copy and comment lines" "y" #'evilnc-copy-and-comment-lines)
+      (:prefix "c"
+       :desc "Clock in Alfatraing"    "a" #'bascht/alfatraining-clock-in
+       :desc "Clock in most recent item" "r" #'org-mru-clock-in
+       :desc "Copy and comment lines" "y" #'evilnc-copy-and-comment-lines))
+
       :desc "" "oc" #'org-capture
       (:prefix "c"
        :desc "Toggle comment"         "l" #'evilnc-comment-or-uncomment-lines
