@@ -8,7 +8,7 @@ url_regex='^(https?|mailto|ftp|file):/?/?.*'
 if [[ $argument =~ $url_regex ]]; then
 	match=$argument
 else
-	match=$(file -b --mime-type $*)
+	match=$(file -b --mime-type "${*}")
 fi;
 
 echo "Searching for ${match} in handlers"
