@@ -5,8 +5,12 @@ export FZF_DEFAULT_OPTS='
   --layout=reverse
   --margin=0
   --padding=0
-  --color=bg+:#343d46,bg:#2b303b,spinner:#96b5b4,hl:#8fa1b3 --color=fg:#a7adba,header:#8fa1b3,info:#ebcb8b,pointer:#96b5b4 --color=marker:#96b5b4,fg+:#dfe1e8,prompt:#ebcb8b,hl+:#8fa1b3
+  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
+  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
+  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6
+  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
 '
+
 if [[ -z "$1" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='  '${FZF_DEFAULT_OPTS}"
