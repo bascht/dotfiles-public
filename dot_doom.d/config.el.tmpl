@@ -139,6 +139,10 @@
 (add-hook 'mu4e-compose-pre-hook (lambda ()
                                   (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state)))
+(after! markdown
+  (setq markdown-enable-wiki-links t
+        markdown-link-space-sub-char " "))
+
 (after! forge
   (add-to-list 'forge-alist
                {{- range .magit.forges }}
