@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 PORT=${1:-5555}
 chromium-browser "--proxy-server=socks5://localhost:${PORT}"
