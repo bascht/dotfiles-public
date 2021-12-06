@@ -115,6 +115,14 @@
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
 
+(defun bascht/mu4e-change-from-to-catchall (msg)
+  "Set the From address based on the To address of the original message."
+    (when msg
+      (setq user-mail-address
+            (cond
+             ((mu4e-message-contact-field-matches msg :to "bascht.com") (cdr-safe (car-safe (mu4e-message-field msg :to))))
+             (t user-mail-address)))))
+
 ; Disable spell-fu-mode globally
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
@@ -137,6 +145,7 @@
                                   (evil-insert-state)))
 
 (add-hook 'mu4e-compose-pre-hook (lambda ()
+                                  (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
                                   (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state)))
 (after! markdown
