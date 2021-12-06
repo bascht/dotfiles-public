@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+if [ ! -b /dev/disk/by-partlabel/Gulasch ]; then
+    echo "Disk not found or not settled yet"
+    exit 1;
+fi
+
+if [ ! -b /dev/mapper/Gulasch ]; then
+    if ! foot -- doas /run/current-system/sw/bin/cryptsetup luksOpen /dev/disk/by-partlabel/Gulasch Gulasch; then
+        echo "Could not mount disk"
+        exit 1;
+    fi
+fi;
+
+if ! mountpoint /mnt/Gulasch; then
+    doas /run/wrappers/bin/mount /dev/mapper/Gulasch /mnt/Gulasch
+fi
+
+borgmatic -v 1  -c ~/Backup/pierogi.yaml list
+
+zenity --question --modal --icon-name drive-removable-media --title "backup" --width=150 --text="<b>Disk attached</b>\nStart backup?"
+
+systemctl start --user borgmatic
