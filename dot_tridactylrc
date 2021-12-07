@@ -1,72 +1,44 @@
-" Mostly 'inspired' by @bovine3dom's tridactylrc
-sanitise tridactyllocal tridactylsync
-
-alias tabsort jsb browser.tabs.query({}).then(tabs => tabs.sort((t1, t2) => t1.url.localeCompare(t2.url)).forEach((tab, index) => browser.tabs.move(tab.id, {index})))
-alias tabuniq jsb browser.tabs.query({}).then(tabs => browser.tabs.remove(tabs.filter((tab, index) => tabs.slice(index + 1).find(t => t.url == tab.url)).map(tab => tab.id)))
-
+" General Settings
 set tabopencontaineraware true
-
-bind V js tri.native.run(`mpv --ontop --keepaspect-window --profile=protocol.http '${document.location.href}'`)
 set newtab about:blank
+set editorcmd emacsclient --create-frame %f
+set hintfiltermode vimperator-reflow
+set hintnames numeric
+set hintdelay 100
+set configversion 2.0
 
-" Keep GitLab et al from binding quickfind to /
+" Binds
+bind V js tri.native.run(`mpv --ontop --keepaspect-window --profile=protocol.http '${document.location.href}'`)
 unbind <C-f>
 bind / fillcmdline find
 bind ? fillcmdline find -?
 bind n findnext 1
 bind N findnext -1
 bind ,<Space> nohlsearch
-
 bind co tabonly
-
-" Comment toggler for Reddit and Hacker News
 bind ;c hint -c [class*="expand"],[class="togg"]
-
-" Git{Hub,Lab} git clone via SSH yank
 bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
-
-" Only hint search results on Google and DDG
-bindurl www.google.com f hint -Jc .rc > .r > a
-bindurl www.google.com F hint -Jbc .rc>.r>a
-
-bindurl ^https://duckduckgo.com f hint -Jc [class=result__a]
-bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
-
-" Allow Ctrl-a to select all in the commandline
-unbind --mode=ex <C-a>
-
-" Allow Ctrl-c to copy in the commandline
-unbind --mode=ex <C-c>
-
-" Handy multiwindow/multitasking binds
 bind gd tabdetach
 bind gD composite tabduplicate | tabdetach
-
-" Make yy use canonical / short links on the 5 websites that support them
 bind yy clipboard yankshort
-
-" Stupid workaround to let hint -; be used with composite which steals semi-colons
-command hint_focus hint -;
-
-set editorcmd emacsclient --create-frame %f
-bind --mode=normal gi composite focusinput -l | editor
-
-" Sane hinting mode
-set hintfiltermode vimperator-reflow
-set hintnames numeric
-
-" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
-set hintdelay 100
-
-" A few binds for mpv
-
-
-
+bind gi composite focusinput -l | editor
 bind <Space>i composite hint -Jpipe img src | shellescape | !s xdg-open
 bind <Space>o composite hint -Jpipe a href | shellescape | !s xdg-open
 bind <Space>m composite hint -Jpipe a href | shellescape | !s mpv --really-quiet
 bind <Space>w composite hint -Jpipe img src | shellescape | !s xdg-open
 bind <Space>v composite hint -Jpipe a href | shellescape | !s xdg-open
 bind <Space>c composite hint -Jpipe href | shellescape | !s tri xdg-open
+bindurl www.google.com f hint -Jc .rc > .r > a
+bindurl www.google.com F hint -Jbc .rc>.r>a
+bindurl ^https://duckduckgo.com f hint -Jc [class=result__a]
+bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
+unbind --mode=ex <C-a>
+unbind --mode=ex <C-c>
 
+" Aliases
+alias tabsort jsb browser.tabs.query({}).then(tabs => tabs.sort((t1, t2) => t1.url.localeCompare(t2.url)).forEach((tab, index) => browser.tabs.move(tab.id, {index})))
+alias tabuniq jsb browser.tabs.query({}).then(tabs => browser.tabs.remove(tabs.filter((tab, index) => tabs.slice(index + 1).find(t => t.url == tab.url)).map(tab => tab.id)))
+alias hint_focus hint -;
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl
