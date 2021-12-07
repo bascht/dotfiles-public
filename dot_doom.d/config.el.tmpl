@@ -148,8 +148,26 @@
                                   (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
                                   (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state)))
-(after! markdown
+
+(defun bascht/markdown-do ()
+  "Keep markdown-do from straight away going into gfm-mode and adding checkboxes"
+  (interactive)
+  (cond
+   ((thing-at-point-looking-at markdown-regex-wiki-link)
+    (markdown-follow-wiki-link-at-point))
+   (t
+    (markdown-do))))
+
+(map!
+   :after markdown-mode
+   :map evil-markdown-mode-map
+   :n [return] #'bascht/markdown-do)
+
+(after! markdown-mode
   (setq markdown-enable-wiki-links t
+        markdown-wiki-link-search-subdirectories t
+        markdown-wiki-link-fontify-missing t
+        markdown-wiki-link-search-parent-directories t
         markdown-link-space-sub-char " "))
 
 (after! forge
