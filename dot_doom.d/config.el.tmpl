@@ -82,7 +82,9 @@
        :desc "Clock in Alfatraing"    "a" #'bascht/alfatraining-clock-in
        :desc "Clock in most recent item" "r" #'org-mru-clock-in
        :desc "Copy and comment lines" "y" #'evilnc-copy-and-comment-lines))
-
+      (:prefix "o"
+       :desc "Treemacs"            "t" #'+treemacs/toggle
+       :desc "Capture"             "p" #'+vterm/toggle)
       :desc "" "oc" #'org-capture
       (:prefix "c"
        :desc "Toggle comment"         "l" #'evilnc-comment-or-uncomment-lines
