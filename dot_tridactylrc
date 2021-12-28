@@ -3,7 +3,8 @@ set tabopencontaineraware true
 set newtab about:blank
 set editorcmd emacsclient --create-frame %f
 set hintfiltermode vimperator-reflow
-set hintnames numeric
+set hintnames short
+set hintchars "asdfgqweryxcv"
 set hintdelay 100
 set configversion 2.0
 
