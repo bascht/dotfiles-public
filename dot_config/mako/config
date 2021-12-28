@@ -7,7 +7,7 @@ border-size=1
 border-radius=3
 group-by=category
 padding=9
-font=Fantasque Sans Mono
+font=IBM Plex Mono
 
 icons=1
 max-icon-size=64
