@@ -63,7 +63,7 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 ### Output configuration
 output * bg ~/Pictures/Wallpapers/christmas-gingerbread.jpg fill
 
-output $display_lg mode 3440x1440@49.987000Hz pos 1210 450
+output $display_lg mode 3440x1440@49.987000Hz pos 1205 450
 output $display_dell transform 90 pos 0 0
 output $display_coworking pos 2560 0
 
@@ -363,9 +363,13 @@ mode "resize" {
 }
 
 set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
-set $mode_run "Run: (d) launcher (b)ookmarks (c)lipboard (r)ofi (p)ass (s)snippets (w)firefox (a)lfaview"
+set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)lipboard (r)ofi (p)ass (s)snippets (w)firefox (a)lfaview"
+set $mode_file "Files: (h)ome (s)creenshots (d)rop-last"
 
 mode $mode_run {
+  bindsym a mode $mode_alfaview
+  bindsym f mode $mode_file;
+
   # start your launcher
   bindsym d exec $menu; mode "default";
   bindsym $mod+d exec $menu; mode "default";
@@ -379,13 +383,10 @@ mode $mode_run {
   bindsym s exec $menu snippets; mode "default"
   bindsym tab exec swytch; mode "default"
 
-  bindsym a mode $mode_alfaview
-
   bindsym w exec firefox; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
   bindsym e exec em; mode "default"
-  bindsym f exec browse-screenshot-folder; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
   bindsym c exec $menu clipboard; mode "default"
@@ -402,6 +403,15 @@ mode $mode_alfaview {
   bindsym r exec "alfaview"; mode "default";
   bindsym s exec "alfaview-screenshare"; mode "default";
   bindsym k exec "alfaview-screenshare stop"; mode "default";
+  # return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+mode $mode_file {
+  bindsym h exec browse-folder; mode "default"
+  bindsym s exec browse-screenshot-folder; mode "default"
+  bindsym d exec drag-last-screenshot; mode "default"
   # return to default mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
