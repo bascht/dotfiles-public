@@ -65,38 +65,38 @@
 
 (map! :leader
       (:prefix-map ("l" . "org-stuff")
-       :desc "My Agenda" "a" #'bascht/org-agenda
-       :desc "My Inbox" "i" #'bascht/mu4e-inbox
-       :desc "Cycle all agenda files" "o"  #'counsel-org-agenda-headlines
-       :desc "Go to current clock" "k"  #'org-clock-goto
-       :desc "Start my daily review" "d"  #'bascht/daily-review
-       :desc "Jump to org file" "g"  #'bascht/go-to-org-file
+       :desc "My Agenda"                 "a" #'bascht/org-agenda
+       :desc "My Inbox"                  "i" #'bascht/mu4e-inbox
+       :desc "Cycle all agenda files"    "o" #'counsel-org-agenda-headlines
+       :desc "Go to current clock"       "k" #'org-clock-goto
+       :desc "Start my daily review"     "d" #'bascht/daily-review
+       :desc "Jump to org file"          "g"  #'bascht/go-to-org-file
        :desc "" "td" (lambda () (interactive) (load-theme 'doom-one nil t))
        :desc "" "tl" (lambda () (interactive) (load-theme 'doom-one-light nil t))
-       :desc "Run table formatter" "tf" #'org-table-calc-current-TBLFM
+       :desc "Run table formatter"       "tf" #'org-table-calc-current-TBLFM
        )
       (:prefix "m"
-       :desc "Insert link"            "il" #'org-insert-link
-       :desc "Capture"                "m" #'org-capture
+       :desc "Insert link"               "il" #'org-insert-link
+       :desc "Capture"                   "m" #'org-capture
       (:prefix "c"
-       :desc "Clock in Alfatraing"    "a" #'bascht/alfatraining-clock-in
+       :desc "Clock in alfatraining"     "a" #'bascht/alfatraining-clock-in
        :desc "Clock in most recent item" "r" #'org-mru-clock-in
-       :desc "Copy and comment lines" "y" #'evilnc-copy-and-comment-lines))
+       :desc "Copy and comment lines"    "y" #'evilnc-copy-and-comment-lines))
       (:prefix "o"
-       :desc "Treemacs"            "t" #'+treemacs/toggle
-       :desc "Capture"             "p" #'+vterm/toggle)
+       :desc "Treemacs"                  "t" #'+treemacs/toggle
+       :desc "Capture"                   "p" #'+vterm/toggle)
       :desc "" "oc" #'org-capture
       (:prefix "c"
-       :desc "Toggle comment"         "l" #'evilnc-comment-or-uncomment-lines
-       :desc "Copy and comment lines" "y" #'evilnc-copy-and-comment-lines)
-      :desc "" "oc" #'org-capture
-      :desc "" "oo" #'counsel-org-agenda-headlines
-      :desc "" "rl" #'org-refile-goto-last-stored
-      :desc "" "jt" #'org-journal-new-entry
-      :desc "" "jy" #'bascht/goto-yesterdays-journal
-      :desc "" "glu" #'mu4e-view-go-to-url
-      :desc "" "drr" #'rake
-      :desc "" "drl" #'rake-rerun
+       :desc "Toggle comment"            "l" #'evilnc-comment-or-uncomment-lines
+       :desc "Copy and comment lines"    "y" #'evilnc-copy-and-comment-lines)
+      :desc ""                           "oc" #'org-capture
+      :desc ""                           "oo" #'counsel-org-agenda-headlines
+      :desc ""                           "rl" #'org-refile-goto-last-stored
+      :desc ""                           "jt" #'org-journal-new-entry
+      :desc ""                           "jy" #'bascht/goto-yesterdays-journal
+      :desc ""                           "glu" #'mu4e-view-go-to-url
+      :desc ""                           "drr" #'rake
+      :desc ""                           "drl" #'rake-rerun
       )
 
 ; Define quick helper switches to switch between languages while
