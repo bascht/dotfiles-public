@@ -1,22 +1,11 @@
-@-moz-document url-prefix("about:reader") {
-    body {
-        font-family: "JetBrains Mono" !important;
-    }
+a.result__a, div.result__extras, div.result__snippet, /* DuckDuckGo */
+body.env-production.page-responsive, body.env-production.page-responsive *, /* GitHub */
+body.gl-platform-linux, body.gl-platform-linux * /* GitLab */
+{
+    font-family: "JetBrains Mono" !important;
 }
 
-@-moz-document domain(68k.news) {
-    body {
-        width: 60%;
-    }
-}
-
-@-moz-document domain(68k.news), domain(unfeeder.com) {
-    body {
-        font-family: "JetBrains Mono" !important;
-    }
-}
-
-@-moz-document {{range .git.forges }}domain({{.}}), {{ end }}domain(github.com) {
+body.gl-platform-linux, body.env-production.page-responsive {
     div.js-pipeline-graph .gl-text-truncate {
         overflow: unset !important;
         text-overflow: none !important;
@@ -43,11 +32,11 @@
     }
 
     .board-card {
-    	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1) !important;
     }
 
     .board-card.is-active {
-    	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1)  ;
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1)  ;
     }
 
     code.job-log {
@@ -72,8 +61,8 @@
     */
 
     .js-pipeline-graph div[data-testid="stage-column"] {
-	    padding-left: 0.5rem;
-	    padding-right:0.5rem;
+        padding-left: 0.5rem;
+        padding-right:0.5rem;
     }
 
     .js-pipeline-graph .gl-ci-action-icon-container {
@@ -95,9 +84,6 @@
     .fa {
         font: "normal normal normal 14px/1 FontAwesome";
     }
-}
-
-@-moz-document {{range .git.forges }}domain({{.}}),{{ end }}domain(github.com) {
 
     .ci-status-icon-failed-with-warnings svg,
     .ci-status-icon-success-with-warnings svg {
