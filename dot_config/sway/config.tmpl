@@ -363,7 +363,7 @@ mode "resize" {
 }
 
 set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
-set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)lipboard (r)ofi (p)ass (s)snippets (w)firefox (a)lfaview"
+set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)lipboard (r)ofi (p)ass (s)snippets (w)eb (a)lfaview"
 set $mode_file "Files: (h)ome (s)creenshots (d)rop-last"
 
 mode $mode_run {
@@ -383,7 +383,7 @@ mode $mode_run {
   bindsym s exec $menu snippets; mode "default"
   bindsym tab exec swytch; mode "default"
 
-  bindsym w exec firefox; mode "default";
+  bindsym w exec browser; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
   bindsym e exec em; mode "default"

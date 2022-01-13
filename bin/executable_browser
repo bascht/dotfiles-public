@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+BROWSER=qutebrowser
+
+if ! pgrep $BROWSER > /dev/null; then
+	echo "Opening a new instance of ${BROWSER}"
+	$BROWSER &
+fi
+
+$BROWSER --target tab-silent --target tab-silent $*

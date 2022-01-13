@@ -25,7 +25,7 @@ case "${match}" in
 		exec foot ssh "$host"
 		;;
 	text/html|http://*|https://*)
-		exec firefox "$1"
+		exec browser "$1"
 		;;
 	application/x-postscript|image/x-eps|application/pdf)
 		exec zathura "$1"

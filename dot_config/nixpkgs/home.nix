@@ -34,6 +34,7 @@ in
       # unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.pkgs.foot
+      unstable.pkgs.qutebrowser
       pkgs.sqlite
       pkgs.inotify-tools
       pkgs.graphviz
