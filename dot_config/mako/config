@@ -1,10 +1,10 @@
 anchor=bottom-center
-width=600
-max-visible=1
+width=900
+max-visible=2
 border-color=#1f1a10
 background-color=#2e3440
 border-size=1
-border-radius=3
+border-radius=5
 group-by=category
 padding=9
 font=IBM Plex Mono
