@@ -27,6 +27,13 @@ c.hints.chars = "qwertasdfyxcv"
 c.hints.min_chars = 1
 
 config.bind(',grl', 'greasemonkey-reload')
+config.bind(',ut', 'hint links spawn -u untrack-url -O {hint-url}')
+config.bind(',uT', 'spawn -u untrack-url -p {clipboard}')
+
+config.bind(',vu', 'spawn umpv {url}')
+config.bind(',vf', 'hint links spawn umpv {hint-url}')
+config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')
+
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
