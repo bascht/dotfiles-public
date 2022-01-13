@@ -39,6 +39,7 @@ in
       pkgs.inotify-tools
       pkgs.graphviz
       pkgs.liboping
+      pkgs.libqrencode
       pkgs.pandoc
       pkgs.ghostscript
       pkgs.ansi2html
