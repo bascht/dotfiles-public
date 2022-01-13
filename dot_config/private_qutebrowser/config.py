@@ -27,8 +27,9 @@ c.hints.chars = "qwertasdfyxcv"
 c.hints.min_chars = 1
 
 config.bind(',grl', 'greasemonkey-reload')
-config.bind(',ut', 'hint links spawn -u untrack-url -O {hint-url}')
-config.bind(',uT', 'spawn -u untrack-url -p {clipboard}')
+config.bind(',uu', 'spawn -u untrack-url -O {url}')
+config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
+config.bind(',up', 'spawn -u untrack-url -p {clipboard}')
 
 config.bind(',vu', 'spawn umpv {url}')
 config.bind(',vf', 'hint links spawn umpv {hint-url}')
