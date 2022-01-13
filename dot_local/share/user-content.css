@@ -1,6 +1,7 @@
 a.result__a, div.result__extras, div.result__snippet, /* DuckDuckGo */
 body.env-production.page-responsive, body.env-production.page-responsive *, /* GitHub */
-body.gl-platform-linux, body.gl-platform-linux * /* GitLab */
+body.gl-platform-linux, body.gl-platform-linux *, /* GitLab */
+body.mono-as-fuck /* Slay all other other serif devils. */
 {
     font-family: "JetBrains Mono" !important;
 }
