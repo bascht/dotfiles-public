@@ -31,6 +31,15 @@ config.bind(',uu', 'spawn -u untrack-url -O {url}')
 config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
 config.bind(',up', 'spawn -u untrack-url -p {clipboard}')
 
+config.bind(',oc', 'spawn --userscript org-capture')
+
+config.bind(',r', 'spawn --userscript readability')
+
+config.bind(',dropr', 'spawn drop /home/bascht/.local/share/qutebrowser/userscripts/readability.html')
+
+config.bind(',gtd', 'quickmark-load todo')
+config.bind(',gca', 'quickmark-load calendar')
+
 config.bind(',vu', 'spawn umpv {url}')
 config.bind(',vf', 'hint links spawn umpv {hint-url}')
 config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')

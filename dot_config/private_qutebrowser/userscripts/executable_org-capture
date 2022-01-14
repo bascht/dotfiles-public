@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Send Qutebrowser bookmarks to my Todo file
+# Just append and make them due today, so they're in my way before the evening.
+
+DUE=$(date +"<%Y-%M-%d %a>")
+DOMAIN=$(echo "${QUTE_URL}" | awk -F/ '{print $3}')
+
+echo -e -n "\n* TODO Bookmark auf ${DOMAIN}: [[${QUTE_URL}][${QUTE_TITLE}]]\nSCHEDULED: ${DUE}" >> ~/Documents/Zettelkasten/Todo.org
