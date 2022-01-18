@@ -2,13 +2,14 @@
 
 set -eo pipefail
 
-argument=$1
-url_regex='^(https?|mailto|ftp|file):/?/?.*'
+# Strip file:// protocol as file -b will handle this
+argument=$(echo $1 | sed "s|file://||")
+url_regex='^(https?|mailto|ftp):/?/?.*'
 
 if [[ $argument =~ $url_regex ]]; then
 	match=$argument
 else
-	match=$(file -b --mime-type "${*}")
+	match=$(file -b --mime-type "${argument}")
 fi;
 
 echo "Searching for ${match} in handlers"
@@ -17,8 +18,8 @@ case "${match}" in
 	*.slack.*)
 		exec qutebrowser-comms "$1"
 		;;
-	file://*)
-		exec nautilus "$1"
+	inode/directory)
+		exec browse-folder "$1"
 		;;
 	ssh:*)
 		host=$(echo $1 | cut -d "/" -f 3)
