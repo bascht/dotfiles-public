@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Qutebrowser "send-url" userscript
+#
+# This script replicates the "Send tab to device" feature of Firefox in a more
+# comfortable way: I don't need to manually pick the device which I want to send
+# the URL to. If I don't select anything, it will just pick the "other" computer.
+# Sending urls to my phone works simply via Pushover which was already configured.
+#
+# See, ma? No Mozilla sync necessary.
+
+set -eo pipefail
+
+source ~/.config/environment.d/10-bascht.conf
+export SSH_AUTH_SOCK
+
+TARGET_HOST="${1:-pierogi}"
+
+# TARGET_HOST="pierogi"
+if [[  $(hostname) == "${TARGET_HOST}" ]]; then
+TARGET_HOST="apfelstrudel"
+fi
+
+notify-send "Sending Tab '${QUTE_TITLE}' to ${TARGET_HOST}" "${QUTE_URL}"
+
+if [[ "${TARGET_HOST}" == "baschtfon" ]]; then
+curl -s \
+  --form-string "token=$(gopass show tools/pushover-api baschtfon)" \
+  --form-string "user=$(gopass show tools/pushover-api user)" \
+  --form-string "message=${QUTE_TITLE}" \
+  --form-string "url=${QUTE_URL}" \
+  https://api.pushover.net/1/messages.json
+else
+  exec waypipe ssh "${TARGET_HOST}" browser "${QUTE_URL}"
+fi;

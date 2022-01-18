@@ -43,6 +43,8 @@ config.bind(',gca', 'quickmark-load calendar')
 config.bind(',vu', 'spawn umpv {url}')
 config.bind(',vf', 'hint links spawn umpv {hint-url}')
 config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')
+config.bind(',su', 'spawn -u send-url')
+config.bind(',sp', 'spawn -u send-url baschtfon')
 
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
