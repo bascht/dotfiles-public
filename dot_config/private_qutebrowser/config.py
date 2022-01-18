@@ -1,6 +1,8 @@
 config.load_autoconfig(False)
 c.content.user_stylesheets = ['/home/bascht/.local/share/user-content.css']
 c.fonts.default_family = "JetBrains Mono"
+c.fonts.web.family.sans_serif = "IBM Plex Sans"
+c.fonts.web.family.fixed = "JetBrains Mono"
 
 c.editor.command = ["emacsclient", "--create-frame", "{file}"]
 c.fonts.tabs.selected = '10pt default_family'
