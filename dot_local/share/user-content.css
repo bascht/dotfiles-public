@@ -131,4 +131,10 @@ body.gl-platform-linux, body.env-production.page-responsive {
     .js-pipeline-graph div.ci-job-component[id*="staging"] .menu-item {
         box-shadow: 0px 0px 5px #f09a06;
     }
+
+    li.timeline-entry {
+        font-size: 0.8em !important;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
