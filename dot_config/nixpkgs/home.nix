@@ -77,6 +77,7 @@ in
       pkgs.gimp
       pkgs.wally-cli
       pkgs.poppler_utils
+      pkgs.python3Minimal
       pkgs.python38Packages.pdftotext
       pkgs.w3m
       pkgs.ruby
