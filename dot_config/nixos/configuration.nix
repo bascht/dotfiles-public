@@ -73,6 +73,11 @@
     }{
       users = [ "bascht" ];
       noPass = true;
+      cmd = "/run/current-system/sw/bin/systemctl";
+      args = ["suspend"];
+    }{
+      users = [ "bascht" ];
+      noPass = true;
       cmd = "/run/current-system/sw/bin/cryptsetup";
       args = ["luksOpen" "/dev/disk/by-partlabel/Gulasch" "Gulasch"];
     }{
