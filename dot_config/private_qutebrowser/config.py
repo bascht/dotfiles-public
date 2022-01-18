@@ -25,7 +25,7 @@ c.content.blocking.method = "adblock"
 c.content.notifications.enabled = False
 
 c.hints.border = "1px solid #CCCCCC"
-c.hints.chars = "qwertasdfyxcv"
+c.hints.chars = "jkluiom,."
 c.hints.min_chars = 1
 
 config.bind(',grl', 'greasemonkey-reload')
