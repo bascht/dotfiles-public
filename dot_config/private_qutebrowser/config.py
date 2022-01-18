@@ -50,3 +50,8 @@ config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-tar
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --otp-only')
+
+# per Domain settings
+with config.pattern('*://windy.com') as p:
+    p.content.webgl = True
+
