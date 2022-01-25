@@ -31,6 +31,10 @@ case "${match}" in
 	application/x-postscript|image/x-eps|application/pdf)
 		exec zathura "$1"
 		;;
+	text/calendar)
+		echo $1 | wl-copy
+		exec notify-send -i x-office-calendar "Calendar Event" "Copied path ${@} to clipboard" >&2
+		;;
 	image/gif|video/*)
 		exec mpv --loop=inf "$1"
 		;;
