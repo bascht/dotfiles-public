@@ -40,6 +40,9 @@ case "${match}" in
 	atom://*)
 		exec atom "$1"
 		;;
+	application/vnd.openxmlformats-officedocument*)
+		exec libreoffice "$1"
+		;;
 	text/x-tex|text/plain|mailto://*)
 		exec em "$1"
 		;;
