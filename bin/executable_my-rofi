@@ -11,6 +11,8 @@ export FZF_DEFAULT_OPTS='
   --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
 '
 
+FOOT_OPTIONS=''
+
 if [[ -z "$1" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='  '${FZF_DEFAULT_OPTS}"
@@ -19,6 +21,7 @@ elif [[ "$1" == "bookmarks" ]]
 then
   FZF_DEFAULT_OPTS="--prompt=' '${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-bookmarks
+  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
 elif [[ "$1" == "clipboard" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
@@ -31,8 +34,13 @@ elif [[ "$1" == "snippets" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='📋'${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-snippets
+elif [[ "$1" == "qutebrowser" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt='🌐'${FZF_DEFAULT_OPTS}"
+  FOOT_OPTIONS="-W 250x40 ${FOOT_OPTIONS}"
+  COMMAND=~/bin/launcher-qutebrowser
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;
 
-exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini "$COMMAND"
+exec foot --app-id launcher ${FOOT_OPTIONS} --config ~/.config/foot/foot-launcher.ini "$COMMAND"
