@@ -1,0 +1,6 @@
+#!/run/current-system/sw/bin/env nix-shell
+#!nix-shell -i bash -p python38Packages.managesieve
+
+SIEVE_PASSWORD=$(gopass show communication/hosted.mailcow.de/mail@bascht.com)
+export SIEVE_PASSWORD
+sieveshell  --authname mail@bascht.com --use-tls hosted.mailcow.de 
