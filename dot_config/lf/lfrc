@@ -4,6 +4,8 @@ set mouse true
 map f $vi $(fzf)
 set previewer ~/bin/preview
 set cleaner /home/bascht/Downloads/lfimg/cleaner
+cmd select-all :unselect; invert
+
 
 cmd fasd_dir ${{
    res="$(fasd -dl | grep -iv cache | fzf 2>/dev/tty | sed 's/\\/\\\\/g;s/"/\\"/g')"
