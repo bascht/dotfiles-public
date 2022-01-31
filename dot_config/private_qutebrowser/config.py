@@ -58,4 +58,6 @@ config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-
 # per Domain settings
 with config.pattern('*://windy.com') as p:
     p.content.webgl = True
+with config.pattern('*://experience.arcgis.com') as p:
+    p.content.webgl = True
 
