@@ -48,6 +48,8 @@ config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')
 config.bind(',su', 'spawn -u send-url')
 config.bind(',sp', 'spawn -u send-url baschtfon')
 
+config.bind(',b', 'open https://read.bascht.space/bookmarklet?url={url}')
+
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
