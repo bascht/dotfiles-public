@@ -6,5 +6,5 @@ name=$(basename $(realpath $(pwd)/../))/$(basename $PWD)
 if tmux has-session -t "${name}" 2> /dev/null; then
   tmux a -t "${name}"
 else
-  tmux new-session -A -s "${name}" -d 'emacs -nw .' \; new-window \; select-window -t 0 \; attach \;
+  tmux new-session -A -s "${name}" -d 'em -nw .' \; new-window \; select-window -t 0 \; attach \;
 fi;
