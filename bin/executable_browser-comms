@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec qutebrowser -C ~/.config/qutebrowser/config-comms.py -B ~/.local/share/qutebrowser-comms/ $*
