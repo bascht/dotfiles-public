@@ -35,6 +35,7 @@ in
       unstable.pkgs.obsidian
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
+      pkgs.gnuplot
       pkgs.sqlite
       pkgs.inotify-tools
       pkgs.graphviz
