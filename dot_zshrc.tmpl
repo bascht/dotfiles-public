@@ -78,6 +78,7 @@ alias alfaview-logfile="/usr/bin/env ls -d -- ~/.local/share/alfaview-staging/lo
 alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
 alias gf="git fetch -a && git rebase && git --no-pager today-all && echo -n '\n'"
 alias gbb="BRANCH=\$(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin \${BRANCH} && git checkout \${BRANCH}"
+alias tdir="take \$(mktemp -d --suffix=\".\$(basename \${PWD})\")"
 
 # Global Aliases
 alias -g B="|bat"
