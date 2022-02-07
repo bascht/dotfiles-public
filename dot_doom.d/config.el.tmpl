@@ -76,8 +76,12 @@
        :desc "Run table formatter"       "tf" #'org-table-calc-current-TBLFM
        )
       (:prefix "m"
-       :desc "Insert link"               "il" #'org-insert-link
        :desc "Capture"                   "m" #'org-capture
+       (:prefix "i"
+       :desc "Insert link"               "l" #'org-insert-link
+       :desc "Insert structure template" "s" #'org-insert-structure-template)
+       (:prefix "g"
+        :desc "Open Knowledgebase"       "k" (lambda () (interactive) (find-file "~/Documents/Zettelkasten/KnowledgeBase.org")))
       (:prefix "c"
        :desc "Clock in alfatraining"     "a" #'bascht/alfatraining-clock-in
        :desc "Clock in most recent item" "r" #'org-mru-clock-in
