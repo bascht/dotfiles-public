@@ -60,7 +60,7 @@ in
       pkgs.somafm-cli
       pkgs.tree
       pkgs.scrot
-      pkgs.imv
+      unstable.pkgs.imv
       pkgs.cloc
       pkgs.httpie
       pkgs.yaml-language-server
@@ -105,7 +105,7 @@ in
       pkgs.brightnessctl
       pkgs.capitaine-cursors
       pkgs.chezmoi
-      pkgs.chromium
+      unstable.pkgs.chromium
       pkgs.clipman
       pkgs.cmake
       pkgs.dmenu
@@ -216,10 +216,10 @@ in
       pkgs.signal-desktop
       pkgs.silver-searcher
       pkgs.slurp
-      pkgs.sway
+      unstable.sway
       pkgs.starship
-      pkgs.swayidle
-      pkgs.swaylock
+      unstable.swayidle
+      unstable.swaylock
       pkgs.wayvnc
       pkgs.tdns-cli
       pkgs.tmux
