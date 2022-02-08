@@ -26,7 +26,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/15ecda8.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/b954618.tar.gz;
     }))
   ];
 
@@ -98,8 +98,6 @@ in
       pkgs.bat
       pkgs.bemenu
       pkgs.obs-studio
-      pkgs.obs-v4l2sink
-      pkgs.bibata-cursors
       pkgs.binutils
       pkgs.borgbackup
       pkgs.brightnessctl
@@ -213,7 +211,7 @@ in
       pkgs.rofi
       pkgs.rofi-calc
       pkgs.rpm
-      pkgs.signal-desktop
+      unstable.pkgs.signal-desktop
       pkgs.silver-searcher
       pkgs.slurp
       unstable.sway
@@ -236,7 +234,7 @@ in
       pkgs.xfce.thunar
       pkgs.xfce.thunar
       pkgs.xfce.thunar-volman
-      pkgs.xwayland
+      unstable.pkgs.xwayland
       pkgs.yubikey-manager
       pkgs.yubikey-personalization
       pkgs.zathura
@@ -250,7 +248,7 @@ in
      extensions = with pkgs.vscode-extensions; [
        vscodevim.vim
        redhat.vscode-yaml
-       bbenoist.Nix
+       #bbenoist.Nix
      ];
      userSettings = {
          "workbench.colorTheme" = "Visual Studio Light";
