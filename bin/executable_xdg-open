@@ -19,7 +19,7 @@ case "${match}" in
 		exec qutebrowser-comms "$1"
 		;;
 	inode/directory)
-		exec browse-folder "$1"
+		exec browse-folder "${argument}"
 		;;
 	ssh:*)
 		host=$(echo $1 | cut -d "/" -f 3)
