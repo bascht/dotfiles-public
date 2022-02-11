@@ -4,7 +4,7 @@ set -eo pipefail
 
 # Strip file:// protocol as file -b will handle this
 argument=$(echo $1 | sed "s|file://||")
-url_regex='^(https?|mailto|ftp):/?/?.*'
+url_regex='^(https?|alfaview|mailto|ftp):/?/?.*'
 
 if [[ $argument =~ $url_regex ]]; then
 	match=$argument
@@ -20,6 +20,9 @@ case "${match}" in
 		;;
 	inode/directory)
 		exec browse-folder "${argument}"
+		;;
+	alfaview:*)
+		exec alfaview "${argument}"
 		;;
 	ssh:*)
 		host=$(echo $1 | cut -d "/" -f 3)
