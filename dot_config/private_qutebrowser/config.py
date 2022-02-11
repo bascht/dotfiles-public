@@ -23,6 +23,7 @@ c.content.geolocation = False
 c.content.blocking.enabled = True
 c.content.blocking.method = "adblock"
 c.content.notifications.enabled = False
+c.content.webrtc_ip_handling_policy = "default-public-interface-only"
 
 c.hints.border = "1px solid #CCCCCC"
 c.hints.chars = "jkluiom,."
