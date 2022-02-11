@@ -32,7 +32,7 @@ in
 
   home.packages = [
       # unstable.pkgs.logseq
-      unstable.pkgs.obsidian
+      # unstable.pkgs.obsidian
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
       pkgs.gnuplot
@@ -214,10 +214,10 @@ in
       unstable.pkgs.signal-desktop
       pkgs.silver-searcher
       pkgs.slurp
-      unstable.sway
+      pkgs.sway
       pkgs.starship
-      unstable.swayidle
-      unstable.swaylock
+      pkgs.swayidle
+      pkgs.swaylock
       pkgs.wayvnc
       pkgs.tdns-cli
       pkgs.tmux
@@ -234,7 +234,7 @@ in
       pkgs.xfce.thunar
       pkgs.xfce.thunar
       pkgs.xfce.thunar-volman
-      unstable.pkgs.xwayland
+      pkgs.xwayland
       pkgs.yubikey-manager
       pkgs.yubikey-personalization
       pkgs.zathura
