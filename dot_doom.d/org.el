@@ -283,6 +283,30 @@
     (counsel-org-goto)
     (org-reveal)
     (org-show-subtree))
+
+  (defun bascht/wzzk-find ()
+    (interactive)
+    (projectile-find-file-in-directory bascht/wzzk))
+
+  (defun bascht/wzzk-find-today ()
+    (interactive)
+    (let ((journal-today (expand-file-name (format-time-string "journals/%Y-%m-%d.md") bascht/wzzk)))
+      (print journal-today)
+      (unless (file-exists-p journal-today)
+        (message (concat "No journal for today, creating " (concat journal-today "on the fly.")))
+        (copy-file (expand-file-name "journals/_template.md" bascht/wzzk) journal-today))
+      (find-file journal-today))
+    (beginning-of-buffer)
+    (replace-string "<% tp.file.creation_date() %>" (format-time-string "%Y-%m-%d %H:%m"))
+    (replace-string "DailyNote <% tp.file.title.split('-')[0] %>" (format-time-string "DailyNote %Y"))
+    (end-of-buffer))
+
+  (defun bascht/wzzk-find-yesterday ()
+    (interactive)
+    (find-file (expand-file-name
+                (format-time-string "%Y-%m-%d.md"
+                                    (time-subtract (current-time) (days-to-time 1))) "~/WirZwei/Zettelkasten/journals")))
+
   (setq org-agenda-category-icon-alist
         '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
           ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
