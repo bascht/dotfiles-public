@@ -67,21 +67,22 @@
 
 (map! :leader
       (:prefix-map ("l" . "bascht/personal")
-       :desc "Start my daily review"     "d" #'bascht/daily-review
-       :desc "Run table formatter"       "tf" #'org-table-calc-current-TBLFM
+       :desc "Start my daily review"  "d" #'bascht/daily-review
+       :desc "Run table formatter"    "tf" #'org-table-calc-current-TBLFM
 
        (:prefix-map ("c" . "clocks")
-        :desc "Clock in alfatraining"     "a" #'bascht/alfatraining-clock-in))
+        :desc "Clock in alfatraining" "a" #'bascht/alfatraining-clock-in))
 
-      (:prefix-map ("nw" . "WirZwei Zettelkasten")
-       :desc "Open todays wzzk"         "t" #'bascht/wzzk-find-today
-       :desc "Open yesterdays wzzk"     "y" #'bascht/wzzk-find-yesterday
-       :desc "Find file in wzzk"        "f" #'bascht/wzzk-find)
+      (:prefix-map ("nw" . "WirZwei")
+       :desc "Open todays wzzk"       "t" #'bascht/wzzk-find-today
+       :desc "Open yesterdays wzzk"   "y" #'bascht/wzzk-find-yesterday
+       :desc "Find file in wzzk"      "f" #'bascht/wzzk-find)
 
-      :desc "Open yesterdays yournal"   "njy" #'bascht/goto-yesterdays-journal
-      :desc "Find in Knowledgebase"     "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org"))
-      :desc "Treemacs alternative"      "ot" #'+treemacs/toggle
-      :desc "Vterm alternative"         "op" #'+vterm/toggle)
+      :desc "Open yesterdays journal" "njy" #'bascht/goto-yesterdays-journal
+      :desc "Find in Alfaview"        "nga" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/CustomerAlfaview.org"))
+      :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org"))
+      :desc "Treemacs alternative"    "ot" #'+treemacs/toggle
+      :desc "Vterm alternative"       "op" #'+vterm/toggle)
 
 (map! :after org
       :map org-mode-map
