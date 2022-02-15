@@ -94,6 +94,16 @@
    :map evil-markdown-mode-map
    :n [return] #'bascht/markdown-do)
 
+(map!
+   :after mu4e
+   :map mu4e-view-mode-map :vn
+   "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
+
+(map!
+   :after mu4e
+   :map mu4e-headers-mode-map :vn
+   "T" (lambda () (interactive) (mu4e-headers-mark-thread nil '(refile))))
+
 ; Define quick helper switches to switch between languages while
 ; keeping distinct personal dictionaries for both of them
 (defun bascht/switch-spellcheck (lang)
