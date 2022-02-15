@@ -173,9 +173,8 @@
 
 (after! markdown-mode
   (setq markdown-enable-wiki-links t
-        markdown-wiki-link-search-subdirectories t
+        markdown-wiki-link-search-type '(sub-directories parent-directories)
         markdown-wiki-link-fontify-missing t
-        markdown-wiki-link-search-parent-directories t
         markdown-link-space-sub-char " "))
 
 (after! forge
