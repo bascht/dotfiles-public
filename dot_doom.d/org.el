@@ -277,6 +277,12 @@
      ((string-match " Thu" date) "8:00")
      (t "0:00")))
 
+  (defun bascht/org-file-show-headings (org-file)
+    (interactive)
+    (find-file (expand-file-name org-file))
+    (counsel-org-goto)
+    (org-reveal)
+    (org-show-subtree))
   (setq org-agenda-category-icon-alist
         '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
           ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
