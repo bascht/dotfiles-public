@@ -265,6 +265,7 @@
     (org-table-insert-row)
     (org-insert-time-stamp (org-read-date nil t "+0d 09:30") t)
     (execute-kbd-macro (read-kbd-macro "<tab>"))
+    (org-insert-time-stamp (org-read-date nil t "+0d 17:30") t)
     (execute-kbd-macro (read-kbd-macro "<backtab>f:"))
     (org-clock-in)
     (save-buffer))
