@@ -9,4 +9,4 @@ if ! pgrep $BROWSER > /dev/null; then
 	$BROWSER &
 fi
 
-$BROWSER --target tab-silent --target tab-silent $*
+swaymsg exec $BROWSER -- --target tab-silent --target tab-silent $*
