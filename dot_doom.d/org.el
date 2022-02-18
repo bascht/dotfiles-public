@@ -264,9 +264,9 @@
     (search-forward "Total")
     (org-table-insert-row)
     (let ((start-time-stamp
-           (if (time-less-p (org-read-date nil t "+0d 09:30") (current-time))
-             (org-read-date nil t "+0d 09:30")
-             (current-time))))
+           (if (time-less-p (org-read-date nil t "+0d 07:30") (current-time))
+               (current-time)
+             (org-read-date nil t "+0d 09:30"))))
       (org-insert-time-stamp start-time-stamp t))
     (execute-kbd-macro (read-kbd-macro "<tab>"))
     (org-insert-time-stamp (org-read-date nil t "+0d 17:30") t)
