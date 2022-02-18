@@ -78,6 +78,7 @@
        :desc "Open yesterdays wzzk"   "y" #'bascht/wzzk-find-yesterday
        :desc "Find file in wzzk"      "f" #'bascht/wzzk-find)
 
+      :desc "Archive subtree"         "msa" #'org-archive-subtree
       :desc "Open yesterdays journal" "njy" #'bascht/goto-yesterdays-journal
       :desc "Find in Alfaview"        "nga" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/CustomerAlfaview.org"))
       :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org"))
