@@ -59,8 +59,11 @@ config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --otp-only')
 
 # per Domain settings
-with config.pattern('*://windy.com') as p:
-    p.content.webgl = True
-with config.pattern('*://experience.arcgis.com') as p:
-    p.content.webgl = True
 
+## WebGL
+for domain in ['www.windy.com', "experience.arcgis.com"]:
+    config.set('content.webgl', True, domain)
+
+## JS Clipboard Access
+for domain in ['wordle.uber.space', 'https://www.nytimes.com/games/wordle/index.html']:
+    config.set('content.javascript.can_access_clipboard', True, domain)
