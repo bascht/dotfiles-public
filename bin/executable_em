@@ -4,7 +4,7 @@ TTY=""
 export TERM=xterm-24bit
 
 if [ "${PARENT_COMMAND}" == $(basename $SHELL) ]; then
-	exec emacsclient --create-frame --tty "$@"
+	exec emacsclient -s comacs --create-frame --tty "$@"
 else
 	exec emacsclient --create-frame "$@"
 fi;
