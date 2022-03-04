@@ -33,6 +33,7 @@ in
   home.packages = [
       # unstable.pkgs.logseq
       # unstable.pkgs.obsidian
+      unstable.pkgs.darktable
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
       pkgs.gnuplot
@@ -94,6 +95,7 @@ in
       pkgs.appimage-run
       pkgs.neovim
       pkgs.enchant
+      pkgs.entr
       (unstable.pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
       pkgs.bat
       pkgs.bemenu
