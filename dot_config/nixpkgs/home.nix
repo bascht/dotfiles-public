@@ -262,6 +262,22 @@ in
      };
  };
 
+ systemd.user.services.comacs = {
+       Unit = {
+             Description = "Emacs Coding daemon";
+	     X-RestartIfChanged = "false";
+       };
+       Service = {
+             ExecStart = "${pkgs.emacsPgtkGcc}/bin/emacs --fg-daemon=comacs";
+             Restart = "on-failure";
+             SuccessExitStatus = 15;
+             Type = "notify";
+       };
+       Install = {
+             WantedBy = [ "default.target" ];
+       };
+ };
+
  systemd.user.services.mako = {
        Unit = {
              Description = "Mako notifications";
