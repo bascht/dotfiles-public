@@ -3,8 +3,10 @@ c.content.user_stylesheets = ['/home/bascht/.local/share/user-content.css']
 c.fonts.default_family = "JetBrains Mono"
 c.fonts.web.family.sans_serif = "IBM Plex Sans"
 c.fonts.web.family.fixed = "JetBrains Mono"
-
-c.editor.command = ["emacsclient", "--create-frame", "{file}"]
+c.url.default_page = "about:blank"
+c.url.start_pages = "about:blank"
+c.spellcheck.languages = ["de-DE", "en-GB"]
+c.editor.command = ["emacsclient", "--socket-name=default", "--create-frame", "{file}"]
 c.fonts.tabs.selected = '10pt default_family'
 c.fonts.tabs.unselected = '10pt default_family'
 c.tabs.padding = {"bottom": 2, "left": 5, "right": 5, "top": 2}
