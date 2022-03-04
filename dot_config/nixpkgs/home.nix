@@ -45,7 +45,6 @@ in
       pkgs.pandoc
       pkgs.ghostscript
       pkgs.ansi2html
-      pkgs.minikube
       pkgs.kind
       pkgs.liboping
       pkgs.tmux-cssh
@@ -88,7 +87,6 @@ in
       pkgs.rubyPackages.pry
       pkgs.xfce.tumbler
       pkgs.ffmpegthumbnailer
-      pkgs.tridactyl-native
       pkgs.adwaita-qt
       pkgs.adementary-theme
       pkgs.alacritty
@@ -130,7 +128,6 @@ in
       pkgs.gnome3.file-roller
       pkgs.gnome3.gcr
       pkgs.gnome3.gnome-keyring
-      pkgs.gnome3.gnome-themes-standard
       pkgs.gnome3.gnome-themes-standard
       pkgs.gnome3.libgnome-keyring
       pkgs.gnome3.seahorse
@@ -174,7 +171,6 @@ in
       pkgs.libtool
       pkgs.libvterm
       pkgs.lsof
-      pkgs.lxappearance
       pkgs.lxappearance
       pkgs.mako # notification daemon
       pkgs.material-design-icons
