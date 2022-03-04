@@ -2,7 +2,8 @@
 
 # Watch for the Keyboard instead of the Thinkpad dock since this keeps us from tripping
 # into weird race conditions as the docks usb hub takes a few seconds to settle.
-if [[ "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shine Keyboard"' ]]; then
+if [[ "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shine Keyboard"' ]] &&
+   [[ "${NAME}" != '"ZSA Technology Labs Planck EZ Glow Keyboard"' ]]; then
   echo "Skipping superfluous events for ${NAME}" >> /tmp/thinkpad.log
   exit 0
 fi;
