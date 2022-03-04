@@ -117,6 +117,7 @@ in
       pkgs.fzf
       pkgs.gammastep
       pkgs.gcc
+      pkgs.glab
       pkgs.glib
       pkgs.gnome-icon-theme
       pkgs.gnome-themes-extra
