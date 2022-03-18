@@ -63,7 +63,7 @@ config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-
 # per Domain settings
 
 ## WebGL
-for domain in ['www.windy.com', "experience.arcgis.com"]:
+for domain in ['www.windy.com', "experience.arcgis.com", "www.figma.com"]:
     config.set('content.webgl', True, domain)
 
 ## JS Clipboard Access
