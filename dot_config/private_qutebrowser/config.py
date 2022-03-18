@@ -67,5 +67,5 @@ for domain in ['www.windy.com', "experience.arcgis.com", "www.figma.com"]:
     config.set('content.webgl', True, domain)
 
 ## JS Clipboard Access
-for domain in ['wordle.uber.space', 'https://www.nytimes.com/games/wordle/index.html']:
+for domain in ['wordle.at', 'https://www.nytimes.com/games/wordle/index.html']:
     config.set('content.javascript.can_access_clipboard', True, domain)
