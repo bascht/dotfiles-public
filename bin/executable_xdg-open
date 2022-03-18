@@ -50,8 +50,8 @@ case "${match}" in
 	application/vnd.openxmlformats-officedocument*)
 		exec libreoffice "$1"
 		;;
-	text/x-tex|text/plain|mailto://*)
-		exec em "$1"
+	text/x-tex|application/json|text/plain|mailto://*)
+		exec em "$argument"
 		;;
 	*)
 		notify-send "${0}" "Don't know how to open ${@} of type ${match}" -t 2500 >&2
