@@ -139,6 +139,9 @@ fi;
 zle -N fzf-ssh
 bindkey '\es' fzf-ssh
 
+# Editors
+bindkey -s '\ege' "em -nw .^M"
+
 # Tmux Quick Keys
 bindkey -s '\egtn' 'tn^M'
 bindkey -s '\egta' "ta^M"
