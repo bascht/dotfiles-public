@@ -3,7 +3,7 @@ PARENT_COMMAND=$(ps -o comm= $PPID)
 TTY=""
 export TERM=xterm-24bit
 
-if [ "${PARENT_COMMAND}" == $(basename $SHELL) ]; then
+if [ "${PARENT_COMMAND}" == $(basename $SHELL) ] || [ "${PARENT_COMMAND}" == "tmux: server"]; then
 	exec emacsclient -s comacs --create-frame --tty "$@"
 else
 	exec emacsclient --create-frame "$@"
