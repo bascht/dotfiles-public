@@ -3,8 +3,12 @@
 declare name
 name=$(basename $(realpath $(pwd)/../))/$(basename $PWD)
 
-if tmux has-session -t "${name}" 2> /dev/null; then
-  tmux a -t "${name}"
-else
-  tmux new-session -A -s "${name}" -d 'em -nw .' \; new-window \; select-window -t 0 \; attach \;
+if ! tmux has-session -t "${name}" 2> /dev/null; then
+  tmux new-session -A -s "${name}" -d
+  tmux new-window -t "${name}"
+  tmux send-keys -t "${name}" 'ls --tree' C-m
+  tmux select-window -t "${name}" -t 0
+  tmux send-keys -t "${name}" 'em .' C-m
 fi;
+
+tmux attach -t "${name}"
