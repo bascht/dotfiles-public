@@ -241,6 +241,41 @@ in
       pkgs.spotify-tui
   ];
 
+ programs.fish.package = unstable.pkgs.fish;
+ programs.fish.enable = true;
+ programs.fish.shellInit = ''
+   set -U fish_greeting
+   fzf_configure_bindings
+ '';
+   programs.fish.plugins = [
+   {
+    name = "z";
+    src = pkgs.fetchFromGitHub {
+      owner = "jethrokuan";
+      repo = "z";
+      rev = "45a9ff6d0932b0e9835cbeb60b9794ba706eef10";
+      sha256 = "1kjyl4gx26q8175wcizvsm0jwhppd00rixdcr1p7gifw6s308sd5";
+    };
+  }
+   {
+    name = "fzf.fish";
+    src = pkgs.fetchFromGitHub {
+      owner = "PatrickF1";
+      repo = "fzf.fish";
+      rev = "17fcc74029bbd88445712752a5a71bc64aa3994c";
+      sha256 = "12fyg3ycj3fqqms9b5ncnyyjs0gl54yc5qcbp5yp4p5fy5vwy6jr";
+    };
+  }
+   {
+    name = "autopair.fish";
+    src = pkgs.fetchFromGitHub {
+      owner = "jorgebucaran";
+      repo = "autopair.fish";
+      rev = "1222311994a0730e53d8e922a759eeda815fcb62";
+      sha256 = "0lxfy17r087q1lhaz5rivnklb74ky448llniagkz8fy393d8k9cp";
+    };
+  }
+  ];
  programs.vscode = {
      enable = true;
      package = pkgs.vscode;
