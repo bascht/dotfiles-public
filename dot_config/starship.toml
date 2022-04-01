@@ -1,0 +1,102 @@
+# Inserts a blank line between shell prompts
+add_newline = false
+#add_linebreak = true
+
+format = """
+$all\
+$fill\
+$time\
+$line_break\
+$character"""
+
+aws.disabled = true
+battery.disabled = true
+cmake.disabled = true
+cobol.disabled = true
+conda.disabled = true
+crystal.disabled = true
+dart.disabled = true
+deno.disabled = true
+docker_context.disabled = true
+dotnet.disabled = true
+elixir.disabled = true
+elm.disabled = true
+env_var.disabled = true
+erlang.disabled = true
+gcloud.disabled = true
+helm.disabled = true
+hg_branch.disabled = true
+hostname.disabled = true
+java.disabled = true
+jobs.disabled = true
+julia.disabled = true
+kotlin.disabled = true
+lua.disabled = true
+memory_usage.disabled = true
+nim.disabled = true
+nodejs.disabled = true
+ocaml.disabled = true
+openstack.disabled = true
+perl.disabled = true
+php.disabled = true
+pulumi.disabled = true
+purescript.disabled = true
+python.disabled = true
+red.disabled = true
+rlang.disabled = true
+ruby.disabled = true
+scala.disabled = true
+shell.disabled = true
+shlvl.disabled = true
+singularity.disabled = true
+swift.disabled = true
+#time.disabled = false
+vcsh.disabled = true
+vlang.disabled = true
+zig.disabled = true
+
+[fill]
+symbol = " "
+
+
+[time]
+disabled = false
+style = "bold bright-black"
+format = "[$time]($style)"
+
+[package]
+disabled = true
+
+[rust]
+disabled = true
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+truncation_symbol = "…/"
+style = "bold green"
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[x](bold red)"
+
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+
+[vagrant]
+disabled = true
+
+[kubernetes]
+format = '[⎈ ($cluster in )$context \($namespace\)](dimmed green)'
+disabled = false
+
+[kubernetes.context_aliases]
+"dev.local.cluster.k8s" = "dev"
+"cluster-syseleven-.*(?P<var_cluster>[\\w-]+)" = "s11-$var_cluster"
+"cluster-hcloud-.*(?P<var_cluster>[\\w-]+)" = "hcl-$var_cluster"
+"gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
+
+
