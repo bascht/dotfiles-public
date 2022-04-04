@@ -27,9 +27,3 @@ sleep 0.3
 swaymsg workspace "3 "
 swaymsg layout tabbed
 swaymsg exec start-comms
-
-swayidle \
-    timeout 300 'blur-lock' \
-    timeout 600 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' \
-    before-sleep 'blur-lock' &
