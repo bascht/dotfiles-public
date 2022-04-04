@@ -30,6 +30,33 @@ in
     }))
   ];
 
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/bin" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/.emacs.d/bin" ];
+  home.sessionVariables = {
+    LC_TIME="en_GB.UTF-8";
+    IBUS_SOCK="$XDG_RUNTIME_DIR/ibus.socket";
+    XDG_CURRENT_DESKTOP="sway";
+    XDG_SESSION_TYPE="wayland";
+    MOZ_ENABLE_WAYLAND=1;
+    MOZ_USE_XINPUT2=1;
+    EDITOR="vim";
+    XKB_DEFAULT_LAYOUT="de";
+    XKB_DEFAULT_OPTIONS="caps:escape";
+    QT_SCALE_FACTOR=1;
+    QT_AUTO_SCREEN_SCALE_FACTOR=1;
+    QT_WAYLAND_DISABLE_WINDOWDECORATION=1;
+    _JAVA_AWT_WM_NONREPARENTING=1;
+    GNOME_KEYRING_CONTROL="/run/user/1000/keyring";
+    VAGRANT_DEFAULT_PROVIDER="libvirt";
+    VAGRANT_DOTFILE_PATH=".vagrant-\${HOSTNAME}";
+    QT_QPA_PLATFORMTHEME="qt5ct";
+    SWAYSOCK="/run/user/1000/sway-ipc.sock";
+    SDL_VIDEODRIVER="wayland";
+    QT_QPA_PLATFORM="wayland-egl";
+    #SSH_AUTH_SOCK="/run/user/1000/gnupg/S.gpg-agent.ssh";
+    LF_ICONS="tw=:st=:ow=:dt=:di=:fi=:ln=:or=:ex=:*.c=:*.cc=:*.clj=:*.coffee=:*.cpp=:*.css=:*.go=:*.h=:*.hh=:*.hpp=:*.html=:*.js=:*.json=:*.md=:*.php=:*.py=:*.rb=:*.rs=:*.ts=:*.vim=:*.cmd=:*.ps1=:*.sh=:*.bash=:*.zsh=:*.fish=:*.tar=:*.tgz=:*.arc=:*.arj=:*.taz=:*.lha=:*.lz4=:*.lzh=:*.lzma=:*.tlz=:*.txz=:*.tzo=:*.t7z=:*.zip=:*.z=:*.dz=:*.gz=:*.lrz=:*.lz=:*.lzo=:*.xz=:*.zst=:*.tzst=:*.bz2=:*.bz=:*.tbz=:*.tbz2=:*.tz=:*.deb=:*.rpm=:*.jar=:*.war=:*.ear=:*.sar=:*.rar=:*.alz=:*.ace=:*.zoo=:*.cpio=:*.7z=:*.rz=:*.cab=:*.wim=:*.swm=:*.dwm=:*.esd=:*.jpg=:*.jpeg=:*.mjpg=:*.mjpeg=:*.gif=:*.bmp=:*.pbm=:*.pgm=:*.ppm=:*.tga=:*.xbm=:*.xpm=:*.tif=:*.tiff=:*.png=:*.svg=:*.svgz=:*.mng=:*.pcx=:*.mov=:*.mpg=:*.mpeg=:*.m2v=:*.mkv=:*.webm=:*.ogm=:*.mp4=:*.m4v=:*.mp4v=:*.vob=:*.qt=:*.nuv=:*.wmv=:*.asf=:*.rm=:*.rmvb=:*.flc=:*.avi=:*.fli=:*.flv=:*.gl=:*.dl=:*.xcf=:*.xwd=:*.yuv=:*.cgm=:*.emf=:*.ogv=:*.ogx=:*.aac=:*.au=:*.flac=:*.m4a=:*.mid=:*.midi=:*.mka=:*.mp3=:*.mpc=:*.ogg=:*.ra=:*.wav=:*.oga=:*.opus=:*.spx=:*.xspf=:*.pdf=:*.nix=:";
+    FZF_DEFAULT_OPTS=" --prompt=' ' --border --height='40%' --layout=reverse --color=bg+:#f0f0f1,bg:#fafafa,spinner:#0184bc,hl:#4078f2 --color=fg:#696c77,header:#4078f2,info:#c18401,pointer:#0184bc --color=marker:#0184bc,fg+:#202227,prompt:#c18401,hl+:#4078f2";
+  };
+
   home.packages = [
       # unstable.pkgs.logseq
       # unstable.pkgs.obsidian
