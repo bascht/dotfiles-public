@@ -3,14 +3,8 @@
 systemctl --user import-environment
 dbus-update-activation-environment --systemd --all
 
-ln -sf "/run/user/$(id -u)/sway-ipc.$(id -u).$(pidof sway).sock" "/run/user/$(id -u)/sway-ipc.sock"
-
-swaymsg exec -- systemctl restart --user gnome-keyring.service
-swaymsg exec -- systemctl restart --user mako.service
-swaymsg exec -- systemctl restart --user mopidy.service
-swaymsg exec -- systemctl restart --user emacs.service
-swaymsg exec -- systemctl restart --user clipboard-manager.service
-swaymsg exec -- systemctl restart --user nextcloud-client.service
+# swaymsg exec -- systemctl restart --user gnome-keyring.service
+# swaymsg exec -- systemctl restart --user nextcloud-client.service
 
 swaymsg workspace "4 "
 swaymsg exec emacs
@@ -19,7 +13,7 @@ swaymsg workspace "2 "
 swaymsg exec browser
 sleep 2
 swaymsg workspace "5 "
-swaymsg exec foot -- zsh -c "somafm listen \$(somafm list|cut -d '|' -f 1|fzf)"
+swaymsg exec foot -- bash -c "~/bin/somafm-picker"
 sleep 0.3
 swaymsg workspace "1 "
 swaymsg exec foot
