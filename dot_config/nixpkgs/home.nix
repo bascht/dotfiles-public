@@ -63,6 +63,7 @@ in
       unstable.pkgs.darktable
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
+      pkgs.age
       pkgs.gnuplot
       pkgs.sqlite
       pkgs.inotify-tools
