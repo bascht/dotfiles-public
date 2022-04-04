@@ -243,6 +243,11 @@ in
 
  programs.fish.package = unstable.pkgs.fish;
  programs.fish.enable = true;
+ programs.fish.loginShellInit = ''
+   if [ (/run/current-system/sw/bin/tty) = "/dev/tty1" ]
+     exec sway-run
+   end
+ '';
  programs.fish.shellInit = ''
    set -U fish_greeting
    fzf_configure_bindings
