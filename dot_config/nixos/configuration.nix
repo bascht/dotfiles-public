@@ -46,10 +46,12 @@
   programs.zsh.enable = true;
   programs.sway.enable = true;
   programs.light.enable = true;
+  programs.fish.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
   users.extraUsers.bascht = {
     isNormalUser = true;
+    shell = pkgs.fish;
     extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" "plugdev" "docker" ];
   };
 

@@ -62,7 +62,7 @@ symbol = " "
 [time]
 disabled = false
 style = "bold bright-black"
-format = "[$time]($style)"
+format = "[  $time ]($style)"
 
 [package]
 disabled = true

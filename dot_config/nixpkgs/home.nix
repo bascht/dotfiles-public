@@ -246,6 +246,7 @@ in
  programs.fish.shellInit = ''
    set -U fish_greeting
    fzf_configure_bindings
+   starship init fish | source
  '';
    programs.fish.plugins = [
    {
