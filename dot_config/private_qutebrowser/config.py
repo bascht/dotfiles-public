@@ -33,6 +33,11 @@ c.hints.border = "1px solid #CCCCCC"
 c.hints.chars = "jkluiom,."
 c.hints.min_chars = 1
 
+
+config.unbind("<ctrl+tab>")
+config.bind("<ctrl+tab>", "tab-next")
+config.bind("<ctrl+shift+tab>", "tab-prev")
+
 config.bind(',grl', 'greasemonkey-reload')
 config.bind(',uu', 'spawn -u untrack-url -o {url}')
 config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
