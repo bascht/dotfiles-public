@@ -63,6 +63,7 @@ in
       unstable.pkgs.darktable
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
+      pkgs.socat
       pkgs.age
       pkgs.gnuplot
       pkgs.sqlite
@@ -344,7 +345,7 @@ in
              Type = "notify";
        };
        Install = {
-             WantedBy = [ "default.target" ];
+             WantedBy = [ "graphical-session.target" ];
        };
  };
 
@@ -397,7 +398,7 @@ in
              RestartSec = 5;
        };
        Install = {
-             WantedBy = [ "graphical-session.target" ];
+             WantedBy = [ "graphical-session-pre.target" ];
        };
  };
 
