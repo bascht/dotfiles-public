@@ -74,7 +74,8 @@ disabled = true
 truncation_length = 3
 truncate_to_repo = false
 truncation_symbol = "…/"
-style = "bold green"
+style = "32"
+home_symbol = "~  "
 
 [character]
 success_symbol = "[➜](bold green)"
