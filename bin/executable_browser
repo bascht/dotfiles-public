@@ -3,6 +3,7 @@
 set -eo pipefail
 
 BROWSER=qutebrowser
+SWAYSOCK="/run/user/1000/sway-ipc.sock"
 
 if ! pgrep $BROWSER > /dev/null; then
 	echo "Opening a new instance of ${BROWSER}"
