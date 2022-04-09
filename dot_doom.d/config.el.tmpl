@@ -88,7 +88,17 @@
 (map! :after org
       :map org-mode-map
       :localleader
-      :desc "Insert structure template" "i" #'org-insert-structure-template) ; I *never* use org-toggle-item)
+
+      (:prefix-map ("i" . "Insert")
+       :desc "Link/Image"           "l" 'org-insert-link
+       :desc "Item"                 "o" 'org-toggle-item
+       :desc "Citation"             "c" 'org-ref-helm-insert-cite-link
+       :desc "Footnote"             "f" 'org-footnote-action
+       :desc "Table"                "t" 'org-table-create-or-convert-from-region
+       :desc "Clipboard"            "c" 'org-download-clipboard
+       :desc "Structure template"   "s" #'org-insert-structure-template
+       :desc "Heading (respecting)" "h" #'org-insert-heading-respect-content
+       :desc "TODO heading"         "t" #'org-insert-heading-respect-content))
 
 (map!
    :after markdown-mode
