@@ -11,3 +11,17 @@ bind \egkp "kgp; commandline -f repaint"
 bind \egoy "commandline -i -- '-o yaml'"
 bind \egba "commandline -i '| bat -l yaml'"
 bind \egoba "commandline -i -- '-o yaml | bat -l yaml'"
+
+# FZF SSH
+
+bind \es fzf-ssh
+
+# Tmux quick access
+bind \egta "ta; commandline -f repaint"
+bind \egtn "tn; commandline -f repaint"
+
+# Git quick access
+bind \eggf gf
+bind \eggbb gbb
+bind \eggp git push
+bind \eggs "git status"
