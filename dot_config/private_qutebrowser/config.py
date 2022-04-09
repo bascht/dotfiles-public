@@ -30,7 +30,7 @@ c.content.notifications.enabled = False
 c.content.webrtc_ip_handling_policy = "default-public-interface-only"
 
 c.hints.border = "1px solid #CCCCCC"
-c.hints.chars = "jkluiom,."
+c.hints.chars = "jklöuiopm"
 c.hints.min_chars = 1
 
 
