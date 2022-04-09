@@ -412,7 +412,8 @@ mode $mode_alfaview {
 mode $mode_file {
   bindsym h exec browse-folder; mode "default"
   bindsym s exec browse-screenshot-folder; mode "default"
-  bindsym d exec drag-last-screenshot; mode "default"
+  bindsym l exec drag-last-screenshot; mode "default"
+  bindsym d exec $menu documents; mode "default"
   # return to default mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
