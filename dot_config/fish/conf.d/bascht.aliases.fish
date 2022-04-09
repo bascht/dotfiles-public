@@ -1,3 +1,7 @@
+if not status is-interactive
+	exit
+end
+
 alias va="vagrant"
 alias bi="bundle install"
 alias be="bundle exec"
@@ -46,7 +50,7 @@ function k_app
         echo $argv
     else
         echo (basename (pwd))
-end
+    end
 end
 
 function kfp
@@ -58,7 +62,7 @@ function kpods
         kubectl get pod --no-headers=true -o custom-columns=:metadata.name
     else
         kubectl get pod -l app=(k_app $argv) --no-headers=true -o custom-columns=:metadata.name
-end
+    end
 end
 
 # function kpe
