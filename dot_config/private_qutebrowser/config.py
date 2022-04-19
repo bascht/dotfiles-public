@@ -6,7 +6,7 @@ c.fonts.web.family.fixed = "JetBrains Mono"
 c.url.default_page = "about:blank"
 c.url.start_pages = "about:blank"
 c.spellcheck.languages = ["de-DE", "en-GB"]
-c.editor.command = ["emacsclient", "--socket-name=default", "--create-frame", "{file}"]
+c.editor.command = ["emacsclient", "--socket-name=server", "--create-frame", "{file}"]
 c.fonts.tabs.selected = '10pt default_family'
 c.fonts.tabs.unselected = '10pt default_family'
 c.tabs.padding = {"bottom": 2, "left": 5, "right": 5, "top": 2}
