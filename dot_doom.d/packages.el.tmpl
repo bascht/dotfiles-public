@@ -8,6 +8,8 @@
 (package! org-alert)
 (package! humanoid-themes)
 (package! csv-mode)
+(unpin! org-roam)
+(package! org-roam-ui)
 
 {{- range .doom.extra_packages }}
 (package! {{ . }})

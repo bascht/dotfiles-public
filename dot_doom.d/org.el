@@ -1,7 +1,7 @@
 ;;; org.el -*- lexical-binding: t; -*-
 
-(after! org
-
+(use-package! org
+  :init
   (setq org-directory "~/Documents/Zettelkasten"
         calendar-week-start-day 1
         org-agenda-columns-add-appointments-to-effort-sum t
@@ -324,4 +324,29 @@
   (add-hook 'org-clock-in-hook 'save-buffer)
   (add-hook 'org-clock-out-hook 'save-buffer)
 
-  )
+)
+(use-package! org-roam
+  :init
+  (setq org-roam-directory (file-truename "~/WirZwei/ZettelkastenOrg")
+        org-roam-completion-everywhere t
+        org-roam-capture-templates
+         '(("d" "default" plain
+            "%?"
+            :if-new (file+head "${title}.org" "#+title: ${title}\n")
+            :unnarrowed t))
+        org-id-link-to-org-use-id 'create-if-interactive)
+  :config
+  (org-roam-db-autosync-mode +1)
+  (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode))
+
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :init
+  :after org
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
