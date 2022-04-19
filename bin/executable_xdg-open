@@ -47,7 +47,7 @@ case "${match}" in
 		exec imv "$1"
 		;;
 	atom://*)
-		exec atom "$1"
+		exec nix-shell -p atom --command "$1"
 		;;
 	application/vnd.openxmlformats-officedocument*)
 		exec libreoffice "$1"
