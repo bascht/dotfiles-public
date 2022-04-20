@@ -1,7 +1,6 @@
 ;;; org.el -*- lexical-binding: t; -*-
 
-(use-package! org
-  :init
+(after! org
   (setq org-directory "~/Documents/Zettelkasten"
         calendar-week-start-day 1
         org-agenda-columns-add-appointments-to-effort-sum t
@@ -322,9 +321,8 @@
                                         ; Save file on every state change
   (add-hook 'org-trigger-hook 'save-buffer)
   (add-hook 'org-clock-in-hook 'save-buffer)
-  (add-hook 'org-clock-out-hook 'save-buffer)
+  (add-hook 'org-clock-out-hook 'save-buffer))
 
-)
 (use-package! org-roam
   :init
   (setq org-roam-directory (file-truename "~/WirZwei/ZettelkastenOrg")
