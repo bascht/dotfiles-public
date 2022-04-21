@@ -144,6 +144,20 @@
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
 
+; Directly create a matching workspace for the project (when launched with `bin/tn')
+(defun bascht/switch-to-or-load-workspace (name directory)
+  ; Delete the temporary workspace #1234 created by (create-frame)
+  (+workspace-delete (+workspace-current-name))
+
+  (if (+workspace-exists-p name)
+      (progn
+        (+workspace-switch name))
+    (progn
+      (+workspace-new name)
+      (+workspace-switch name)
+      (find-file directory)
+      (magit-status-setup-buffer))))
+
 (defun bascht/mu4e-change-from-to-catchall (msg)
   "Set the From address based on the To address of the original message."
     (when msg
