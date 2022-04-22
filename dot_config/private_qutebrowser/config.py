@@ -9,9 +9,10 @@ c.spellcheck.languages = ["de-DE", "en-GB"]
 c.editor.command = ["emacsclient", "--socket-name=server", "--create-frame", "{file}"]
 c.fonts.tabs.selected = '10pt default_family'
 c.fonts.tabs.unselected = '10pt default_family'
-c.tabs.padding = {"bottom": 2, "left": 5, "right": 5, "top": 2}
+c.tabs.padding = {"bottom": 3, "left": 5, "right": 5, "top": 3}
 c.scrolling.smooth = True
 c.tabs.title.format = "{audio}{index} {current_title}({host})"
+c.tabs.favicon.scale = 0.8
 
 c.new_instance_open_target = "tab-bg"
 c.input.insert_mode.auto_load = True
