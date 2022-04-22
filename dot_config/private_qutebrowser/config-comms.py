@@ -1,5 +1,4 @@
 config.source("config.py")
-c.statusbar.show = "in-mode"
 c.tabs.show = "multiple"
 c.tabs.tabs_are_windows = True
 c.fonts.web.family.sans_serif = "IBM Plex Sans"
