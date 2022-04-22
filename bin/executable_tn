@@ -6,9 +6,11 @@ name=$(basename $(realpath $(pwd)/../))/$(basename $PWD)
 if ! tmux has-session -t "${name}" 2> /dev/null; then
   tmux new-session -A -s "${name}" -d
   tmux new-window -t "${name}"
-  tmux send-keys -t "${name}" 'ls --tree' C-m
   tmux select-window -t "${name}" -t 0
-  tmux send-keys -t "${name}" 'em .' C-m
+  tmux send-keys -t "${name}" "em -e '(bascht/switch-to-or-load-workspace \"${name}\" \"${PWD}\")'" C-m
+  tmux select-window -t "${name}" -t 1
+  tmux send-keys -t "${name}" 'gf; exa --long --header --git --no-user --no-permissions --no-time --no-filesize --icons --recurse --tree --level 2' C-m
+  tmux select-window -t "${name}" -t 0
 fi;
 
 tmux attach -t "${name}"
