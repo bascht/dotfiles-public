@@ -63,6 +63,7 @@ in
       unstable.pkgs.darktable
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
+      pkgs.any-nix-shell
       pkgs.socat
       pkgs.age
       pkgs.gnuplot
@@ -270,6 +271,9 @@ in
       pkgs.spotify-tui
   ];
 
+ programs.direnv.enable = true;
+ programs.direnv.nix-direnv.enable = true;
+ programs.direnv.enableFishIntegration = true;
  programs.fish.package = unstable.pkgs.fish;
  programs.fish.enable = true;
  programs.fish.loginShellInit = ''
@@ -281,6 +285,7 @@ in
    set -U fish_greeting
    fzf_configure_bindings
    starship init fish | source
+   any-nix-shell fish --info-right | source
  '';
    programs.fish.plugins = [
    {
