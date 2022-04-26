@@ -8,8 +8,6 @@ set -o errexit
 
 
 QUERY=$1
-SWAYSOCK=/run/user/$UID/sway-ipc.$UID.$(pidof sway).sock
-export SWAYSOCK
 
 if [ -z "$QUERY" ]; then
   QUERY=''
