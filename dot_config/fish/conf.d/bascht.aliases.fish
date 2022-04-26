@@ -83,6 +83,17 @@ end
 function kgc
     k get pod (kfp) -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
 end
+
 function kgl
     kubectl logs -f (kfp (k_app)) (kgc|fzf)
+end
+
+function fzf-vm
+   set selected_vm (grep "Host " ~/.ssh/config | grep -oP "vm-(\w+)" | sort -u | cut -b 4- | fzf --reverse --height=20 --query "$LBUFFER")
+   vm $selected_vm
+end
+
+function fzf-ssh
+ set selected_host (grep "Host " ~/.ssh/config | grep -vP "vm-(\w+)" | sort -u | cut -b 4- | fzf --reverse --height=20 --query "$LBUFFER")
+ echo $selected_host
 end
