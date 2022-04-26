@@ -158,7 +158,25 @@
 
   fonts = {
     enableDefaultFonts = true;
-    fonts = with pkgs; [ font-awesome twitter-color-emoji jetbrains-mono fira mononoki fira-mono fira-code fantasque-sans-mono medio terminus_font ibm-plex roboto roboto-mono joypixels (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" ]; }) ];
+    fonts = with pkgs; [
+      font-awesome
+      twitter-color-emoji
+      jetbrains-mono
+      fira
+      mononoki
+      fira-mono
+      fira-code
+      fantasque-sans-mono
+      medio
+      terminus_font
+      ibm-plex
+      iosevka
+      roboto
+      roboto-mono
+      joypixels
+      (iosevka-bin.override { variant = "aile"; })
+      (iosevka-bin.override { variant = "etoile"; })
+      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka" ]; }) ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = [ "Joypixels" ];
