@@ -1,3 +1,6 @@
+# Old bash habits die hard
+bind \xe edit_command_buffer
+
 # Jumper
 bind \a "cd (z -l | sort -rn | cut -c 12- | fzf --query=(commandline --current-token) --no-sort --exact); commandline -f repaint"
 
@@ -15,6 +18,7 @@ bind \egoba "commandline -i -- '-o yaml | bat -l yaml'"
 # FZF SSH
 
 bind \es fzf-ssh
+bind \ev fzf-vm
 
 # Tmux quick access
 bind \egta "ta; commandline -f repaint"
