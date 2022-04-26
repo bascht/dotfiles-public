@@ -12,7 +12,8 @@ c.fonts.tabs.unselected = '10pt default_family'
 c.tabs.padding = {"bottom": 3, "left": 5, "right": 5, "top": 3}
 c.scrolling.smooth = True
 c.tabs.title.format = "{audio}{index} {current_title}({host})"
-c.tabs.favicon.scale = 0.8
+c.tabs.favicons.scale = 0.8
+c.tabs.indicator.width = 2
 
 c.new_instance_open_target = "tab-bg"
 c.input.insert_mode.auto_load = True
@@ -335,7 +336,7 @@ c.colors.tabs.odd.bg = base00
 c.colors.tabs.even.fg = base05
 
 # Background color of unselected even tabs.
-c.colors.tabs.even.bg = base00
+c.colors.tabs.even.bg = "#2C1E20"
 
 # Background color of pinned unselected even tabs.
 c.colors.tabs.pinned.even.bg = base0B
@@ -376,3 +377,10 @@ c.colors.tabs.selected.even.bg = base02
 # Background color for webpages if unset (or empty to use the theme's
 # color).
 #c.colors.webpage.bg = base00
+
+c.colors.completion.category.fg = base06
+c.colors.completion.category.bg = base01
+c.colors.completion.category.border.bottom = base02
+
+c.colors.completion.even.bg = "#203040"
+c.colors.completion.odd.bg = base01
