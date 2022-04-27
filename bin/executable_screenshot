@@ -3,5 +3,5 @@ FOLDER="/home/bascht/Pictures/Screenshots/$(date +'%Y-%m')"
 mkdir -p ${FOLDER}
 
 NAME="${FOLDER}/Screenshot-$(date +%Y-%m-%d-%H%M%S).png"
-grim -g "$(slurp)" "$NAME";
+grim -g "$(slurp-window)" "$NAME";
 echo $NAME
