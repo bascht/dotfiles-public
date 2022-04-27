@@ -157,7 +157,7 @@
   nixpkgs.config.joypixels.acceptLicense = true;
 
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultFonts = false;
     fonts = with pkgs; [
       font-awesome
       twitter-color-emoji
@@ -179,10 +179,10 @@
       (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka" ]; }) ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
-      emoji = [ "Joypixels" ];
-      monospace = [ "JetBrains Mono" ];
-      serif = [ "Fira Sans" ];
-      sansSerif = [ "Fira Sans" ];
+      emoji = lib.mkBefore [ "Joypixels" "Noto Color Emoji" ];
+      monospace = lib.mkBefore [ "IBM Plex Mono" "JetBrains Mono" ];
+      serif = lib.mkBefore [ "Iosevka Etoile" ];
+      sansSerif = lib.mkBefore [ "Iosevka Aile" ];
     };
   };
 
