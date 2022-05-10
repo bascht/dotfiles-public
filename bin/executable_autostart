@@ -2,6 +2,8 @@
 
 systemctl --user import-environment
 dbus-update-activation-environment --systemd --all
+systemctl --user start graphical-session-pre.target
+systemctl --user start graphical-session.target
 
 # swaymsg exec -- systemctl restart --user gnome-keyring.service
 # swaymsg exec -- systemctl restart --user nextcloud-client.service
