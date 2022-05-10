@@ -5,7 +5,7 @@ border-radius=4
 group-by=category
 padding=10
 font=Iosevka Aile 12
-max-icon-size=96
+max-icon-size=48
 icon-path=/home/bascht/.nix-profile/share/icons/Adwaita
 
 background-color=#1d1f21
@@ -14,7 +14,7 @@ border-color=#81a2be
 
 [urgency=low]
 background-color=#1d1f21
-text-color=#f0c674
+text-color=#9b9b9b
 border-color=#81a2be
 
 [urgency=high]
