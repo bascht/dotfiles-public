@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require "uri"
+
+begin
+  abort "Please supply a valid URL to this script." if ARGV.empty?
+  uri = URI.parse(ARGV.first.strip)
+
+  abort "Not a valid forge URI" unless uri.host.start_with? "git."
+
+  uri_match = uri.path.match(%r{/(?<group>[a-z/]+?)/-/(?<type>[\w]+)/(?<issue>[\d]+)})
+
+  abort "Could not find anything to match in #{uri}" if uri_match.nil?
+
+  short_code = case uri_match[:type]
+  when "merge_requests"
+    "!"
+  when "issues"
+    "#"
+  end
+
+  out = [uri_match[:group], uri_match[:issue]].join(short_code)
+
+  binding.pry
+  `notify-send #{ARGV.inspect}`
+  $stdout.puts out
+rescue URI::InvalidURIError => e
+  $stderr.puts "The supplied URI could not be parsed: #{e.message}"
+end

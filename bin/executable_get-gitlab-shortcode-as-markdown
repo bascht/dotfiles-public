@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+url = ARGV.first.strip
+shortcode=`get-gitlab-shortcode #{url}`.strip
+markdown = "[#{shortcode}](#{url})"
+puts markdown
+`wl-copy #{markdown}`
