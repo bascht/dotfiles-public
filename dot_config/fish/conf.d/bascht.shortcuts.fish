@@ -26,6 +26,7 @@ bind \egtn "tn; commandline -f repaint"
 
 # Git quick access
 bind \eggf gf
+bind \egcm gcm
 bind \eggbb gbb
 bind \eggp git push
 bind \eggs "git status"
