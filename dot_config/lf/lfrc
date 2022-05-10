@@ -8,7 +8,7 @@ cmd select-all :unselect; invert
 
 
 cmd fasd_dir ${{
-   res="$(fasd -dl | grep -iv cache | fzf 2>/dev/tty | sed 's/\\/\\\\/g;s/"/\\"/g')"
+   res="$(cat ~/.local/share/z/data | cut -d "|" -f 1 | uniq | grep -iv cache | fzf 2>/dev/tty | sed 's/\\/\\\\/g;s/"/\\"/g')"
    if [ -d "$res" ]; then
       cmd="cd"
    else
