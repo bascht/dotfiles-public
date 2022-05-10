@@ -6,6 +6,10 @@ body.mono-as-fuck /* Slay all other other serif devils. */
 {
     font-family: "JetBrains Mono" !important;
 }
+body.channel-view *
+{
+    font-family: "Iosevka Aile" !important;
+}
 
 body.qute-readability * {
     font-family: "IBM Plex Serif" !important;
