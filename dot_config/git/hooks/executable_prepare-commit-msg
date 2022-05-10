@@ -15,13 +15,18 @@ unless commit_msg.lines.first.strip.empty?
   exit 0
 end
 
-branch_match = commit_msg.match(%r{# On branch (?<ticket>[A-Z]{1,10}-\d+)})
+jira_match = commit_msg.match(%r{# On branch (?<ticket>[A-Z]{1,10}-\d+)})
+gitlab_match = commit_msg.match(%r{# On branch (?<ticket>\d+)-.*+})
 
-if branch_match.nil? or branch_match["ticket"].nil?
+if jira_match && branch_match["ticket"]
+  ticket = jira_match["ticket"]
+  new_commit = "#{ticket}: \n" + commit_msg
+elsif gitlab_match && gitlab_match["ticket"]
+  ticket = gitlab_match["ticket"]
+  new_commit = "\n# Refs: ##{ticket}\n" + commit_msg
+else
   $stderr.puts "Could not extract a ticket from the commit message"
   exit
 end
 
-ticket = branch_match["ticket"]
-new_commit = "#{ticket}: \n" + commit_msg
 File.write(commit_file, new_commit, mode: "w")
