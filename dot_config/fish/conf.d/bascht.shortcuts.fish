@@ -30,3 +30,6 @@ bind \egcm gcm
 bind \eggbb gbb
 bind \eggp git push
 bind \eggs "git status"
+
+# SSH Quick Jump
+bind \egss "z saltstack; commandline -f repaint; commandline -i -- './ssh -e '"
