@@ -4,5 +4,5 @@ FIND_FOLDER=${1:-~/Documents}
 FOLDER=$(find "${FIND_FOLDER}" -maxdepth 4 -type d |fzf --preview="exa --tree --icons --level 2 {1}" --preview-window="right")
 
 if [ ! -z "${FOLDER}" ]; then
-	browse-folder "${FOLDER}"&
+  lf "${FOLDER}"
 fi
