@@ -9,5 +9,6 @@ if [[ "$1" == "--preview" ]]; then
 fi;
 
 SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n"| fzf --preview-window="bottom" --preview="$0 --preview {}")
-cat "${SNIPPET_DIR}/${SNIPPET}" | wl-copy --primary
-notify-send "Copied ${SNIPPET}"
+CONTENT=$(cat "${SNIPPET_DIR}/${SNIPPET}")
+swaymsg exec wl-copy "${CONTENT}"
+notify-send "Copied ${SNIPPET_DIR}/${SNIPPET}" "${CONTENT}"
