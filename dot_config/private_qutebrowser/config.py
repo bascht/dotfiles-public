@@ -60,12 +60,17 @@ config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')
 config.bind(',su', 'spawn -u send-url')
 config.bind(',sp', 'spawn -u send-url baschtfon')
 
+config.bind(',aw', 'set content.webgl true')
+config.bind(',ac', 'set content.javascript.can_access_clipboard true')
+
 config.bind(',b', 'open https://read.bascht.space/bookmarklet?url={url}')
 
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --otp-only')
+
+config.bind('ygs', 'spawn "get-gitlab-shortcode {url} | wl-copy"')
 
 # per Domain settings
 
