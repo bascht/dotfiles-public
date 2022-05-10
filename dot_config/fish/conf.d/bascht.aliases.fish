@@ -27,7 +27,6 @@ alias termbin="nc termbin.com 9999"
 alias gp="gopass"
 alias hl="hledger"
 alias cm="chezmoi"
-alias cm-add-changed-file="cm add (cm diff|grep ^install|cut -d ' ' -f 5|fzf)"
 alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
 alias ls="exa --icons"
 alias kn="kubens"
@@ -97,4 +96,16 @@ end
 function fzf-ssh
  set selected_host (grep "Host " ~/.ssh/config | grep -vP "vm-(\w+)" | sort -u | cut -b 4- | fzf --reverse --height=20 --query "$LBUFFER")
  echo $selected_host
+end
+
+function cm-add-changed-file
+    for chezmoi_file in (chezmoi status) do
+      set file (string split -f 2 "M " $chezmoi_file)
+      chezmoi --no-pager diff ~/$file
+      set a (echo -e "yes\nno" | fzf --height=3)
+      if string match $a "yes"
+          chezmoi add "~/$file"
+      end
+      clear
+  end
 end
