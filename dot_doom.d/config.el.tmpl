@@ -1,5 +1,10 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; Determine if we're in comacs as early as possible
+;; even if 'server-name is not set yet
+(defun bascht/is-comacs()
+  (string= (getenv "EMACS_SERVER_NAME") "comacs"))
+
 (setq user-full-name "{{ .me.name }}"
       user-mail-address "{{ .me.email }}"
       doom-font (font-spec :family "JetBrains Mono" :size 14)
