@@ -10,14 +10,14 @@ icon-path=/home/bascht/.nix-profile/share/icons/Adwaita
 
 background-color=#1d1f21
 text-color=#c5c8c6
-border-color=#81a2be
+border-color=#969896
 
 [urgency=low]
 background-color=#1d1f21
 text-color=#9b9b9b
-border-color=#81a2be
+border-color=#373b41
 
 [urgency=high]
-background-color=#1d1f21
-text-color=#cc6666
-border-color=#81a2be
+background-color=#cc6666
+text-color=#1d1f21
+border-color=#de935f
