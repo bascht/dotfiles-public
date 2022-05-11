@@ -37,6 +37,11 @@ alias gcm="git checkout (git branch --format='%(refname:short)' | grep -E '^main
 alias gbb="set BRANCH=(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin {$BRANCH} && git checkout {$BRANCH}"
 alias tdir="take (mktemp -d --suffix=.(basename (pwd)))"
 
+# Abbreviations
+
+abbr bosl "base64 -d | openssl x509 -noout -text -in -"
+abbr baml "-o yaml | bat -l yaml"
+
 # Create & enter folder (borrowed from zsh's take)
 function take
     mkdir -p $argv
