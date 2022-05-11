@@ -97,7 +97,6 @@ in
       pkgs.k9s
       pkgs.multimarkdown
       pkgs.unzip
-      pkgs.crun
       pkgs.go
       pkgs.gopls
       pkgs.libreoffice
@@ -221,7 +220,6 @@ in
       pkgs.pinentry-gtk2
       pkgs.playerctl
       pkgs.pngquant
-      pkgs.podman
       pkgs.pwgen
       pkgs.gammastep
       pkgs.mc
