@@ -9,7 +9,7 @@
       user-mail-address "{{ .me.email }}"
       doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-variable-pitch-font (font-spec :family "Fira Sans" :size 14)
-      doom-theme 'humanoid-light
+      doom-theme (if (bascht/is-comacs) 'doom-one-light 'humanoid-light)
       org-directory "~/Documents/Zettelkasten/"
       bascht/wzzk "~/WirZwei/Zettelkasten"
       bascht/wzzk-journals "~/WirZwei/Zettelkasten/journals"
@@ -239,5 +239,6 @@
  '(mu4e-header-highlight-face ((t (:background "lemon chiffon")))))
 
 (load! "mail.el")
-(load! "org.el")
+(if (not (bascht/is-comacs))
+    (load! "org.el"))
 (load! "forge.el")
