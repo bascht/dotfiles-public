@@ -26,7 +26,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/759b1eb18a5b4afd9b286305032ba73b5bbc8103.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/e6ec42b61a1a151d1f7adec951138597448007e6.tar.gz;
     }))
   ];
 
@@ -422,7 +422,7 @@ in
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkGcc;
+    package = pkgs.emacsPgtkNativeComp;
     extraPackages = epkgs: [ epkgs.vterm ];
   };
 
