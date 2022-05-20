@@ -21,6 +21,9 @@
         org-agenda-tags-column -105
         org-agenda-time-leading-zero t
         org-agenda-with-colors t
+        org-agenda-dim-blocked-tasks nil
+        org-agenda-inhibit-startup t
+        org-agenda-use-tag-inheritance nil
         org-alert-notification-title "OrgMode"
         org-archive-location "%s_archive::"
         org-clock-in-resume t
