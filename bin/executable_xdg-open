@@ -49,7 +49,7 @@ case "${match}" in
 	atom://*)
 		exec nix-shell -p atom --command "$1"
 		;;
-	application/vnd.openxmlformats-officedocument*)
+	application/vnd.openxmlformats-officedocument*|application/vnd.oasis.opendocument*)
 		exec libreoffice "$1"
 		;;
 	text/x-tex|application/json|text/plain|mailto://*)
