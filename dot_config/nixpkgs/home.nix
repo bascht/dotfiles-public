@@ -258,6 +258,7 @@ in
       pkgs.python38Packages.setuptools
       pkgs.wofi
       pkgs.wol
+      pkgs.wtype
       pkgs.xfce.thunar
       pkgs.xfce.thunar
       pkgs.xfce.thunar-volman
