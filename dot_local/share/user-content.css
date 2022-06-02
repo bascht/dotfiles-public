@@ -1,66 +1,80 @@
-a.result__a, div.result__extras, div.result__snippet, /* DuckDuckGo */
-body.env-production.page-responsive, body.env-production.page-responsive *, /* GitHub */
-body.gl-platform-linux, body.gl-platform-linux *, /* GitLab */
-body.channel-view *, /* Mattermost */
-body.mono-as-fuck /* Slay all other other serif devils. */
-{
-    font-family: "JetBrains Mono" !important;
+a.result__a,
+div.result__extras,
+div.result__snippet,
+/* DuckDuckGo */
+body.env-production.page-responsive,
+body.env-production.page-responsive *,
+/* GitHub */
+body.gl-platform-linux,
+body.gl-platform-linux *,
+/* GitLab */
+body.channel-view *,
+/* Mattermost */
+body.mono-as-fuck
+
+/* Slay all other other serif devils. */
+  {
+  font-family: "JetBrains Mono" !important;
 }
-body.channel-view *
-{
-    font-family: "Iosevka Aile" !important;
+
+body.channel-view * {
+  font-family: "Iosevka Aile" !important;
 }
 
 body.qute-readability * {
-    font-family: "IBM Plex Serif" !important;
+  font-family: "IBM Plex Serif" !important;
 }
 
-body.gl-platform-linux, body.env-production.page-responsive {
-    div.js-pipeline-graph .gl-text-truncate {
-        overflow: unset !important;
-        text-overflow: none !important;
-        white-space: normal !important;
-        font-size: 0.6em;
-    }
-    div.sidebar-container .gl-text-truncate {
-        overflow: unset !important;
-        text-overflow: unset !important;
-        white-space: normal !important;
-    }
+body.gl-platform-linux div.js-pipeline-graph .gl-text-truncate {
+  overflow: unset !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+  font-size: 0.6em;
+}
 
-    body,
-    div.message-in,
-    div.message-out,
-    td.comment-body,
-    ul.notes li.note,
-    .ql-editor {
-        font-family: "JetBrains Mono" !important;
-    }
+body.gl-platform-linux div.sidebar-container .gl-text-truncate {
+  overflow: unset !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+}
 
-    .board-card.gl-rounded-base {
-        border-radius: 1.0rem !important;
-    }
+body.gl-platform-linux div.gl-new-dropdown-contents .gl-text-truncate {
+  overflow: unset !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+}
 
-    .board-card {
-        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1) !important;
-    }
+body.gl-platform-linux .board-card.gl-rounded-base {
+  border-radius: 4px !important;
+}
 
-    .board-card.is-active {
-        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1)  ;
-    }
+body.gl-platform-linux .board-card {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1) !important;
+}
 
-    code.job-log {
-        border-radius: 0px 0px 13px 13px !important;
-    }
+body.gl-platform-linux .board-card.is-active {
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+}
 
-    .js-pipeline-graph .build-content {
-        border-radius: 0.35rem !important;
-    }
+body.gl-platform-linux code.job-log {
+  border-radius: 0px 0px 13px 13px !important;
+}
 
-    .js-pipeline-graph .gl.js-pipeline-job-width {
-        width: 230px !important;
-    }
-    /*
+body.gl-platform-linux .js-pipeline-graph .dropdown-menu-toggle,
+body.gl-platform-linux .js-pipeline-graph .build-content {
+  border-radius: 0.35rem !important;
+}
+
+body.gl-platform-linux .js-pipeline-graph .js-grouped-pipeline-dropdown,
+body.gl-platform-linux .pipelines-container .mini-pipeline-graph-dropdown-menu {
+  width: 400px !important;
+}
+
+body.gl-platform-linux .pipelines-container .mini-pipeline-graph-dropdown-menu span.mw-70p {
+  max-width: 100% !important;
+}
+
+/*
     .js-pipeline-graph .ci-job-component {
         width: 240px !important;
     }
@@ -70,80 +84,96 @@ body.gl-platform-linux, body.env-production.page-responsive {
     }
     */
 
-    .js-pipeline-graph div[data-testid="stage-column"] {
-        padding-left: 0.5rem;
-        padding-right:0.5rem;
-    }
+body.gl-platform-linux .js-pipeline-graph div[data-testid="stage-column"] {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 
-    .js-pipeline-graph .gl-ci-action-icon-container {
-      border-radius: 15% !important;
-    }
+body.gl-platform-linux .js-pipeline-graph .gl-ci-action-icon-container {
+  border-radius: 15% !important;
+}
 
-    .js-pipeline-graph .ci-job-component .js-pipeline-graph-job-link {
-      border-radius: 8px !important;
-    }
+body.gl-platform-linux .js-pipeline-graph .ci-job-component .js-pipeline-graph-job-link {
+  border-radius: 8px !important;
+}
 
-    .gl-label {
-        border-radius: 0.35rem !important;
-    }
+body.gl-platform-linux .gl-label {
+  border-radius: 0.35rem !important;
+}
 
-    .c-timestamp__label {
-        font-size: 0.8em;
-    }
+body.gl-platform-linux .c-timestamp__label {
+  font-size: 0.8em;
+}
 
-    .fa {
-        font: "normal normal normal 14px/1 FontAwesome";
-    }
+/* .fa { */
+/*     font: "normal normal normal 14px/1 FontAwesome"; */
+/* } */
 
-    .ci-status-icon-failed-with-warnings svg,
-    .ci-status-icon-success-with-warnings svg {
-        fill: crimson !important;
-    }
+body.gl-platform-linux .ci-status-icon-failed-with-warnings svg,
+body.gl-platform-linux .ci-status-icon-success-with-warnings svg {
+  fill: crimson !important;
+}
 
-    .dropdown-menu li[data-milestone-id^="Ops Team Sprint"] {
-      background-color: blanchedalmond !important;
-      font-weight: bold !important;
-    }
-    .dropdown-menu li[data-milestone-id="Ops Team Backlog"] {
-      background-color: palegoldenrod !important;
-      font-weight: bold !important;
-    }
-    .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover,
-    .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover * {
-      background-color: blanchedalmond !important;
-    }
-    .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover,
-    .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover * {
-      background-color: palegoldenrod !important;
-    }
+body.gl-platform-linux .dropdown-menu li[data-milestone-id^="Ops Team Sprint"] {
+  background-color: blanchedalmond !important;
+  font-weight: bold !important;
+}
 
-    .gl-label-text-light {
-        border-radius: 0.35rem
-    }
+body.gl-platform-linux .dropdown-menu li[data-milestone-id="Ops Team Backlog"] {
+  background-color: palegoldenrod !important;
+  font-weight: bold !important;
+}
 
-    .js-pipeline-graph .build {
-        width: auto;
-    }
+body.gl-platform-linux .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover,
+body.gl-platform-linux .dropdown-menu li[data-milestone-id^="Ops Team Sprint"]:hover * {
+  background-color: blanchedalmond !important;
+}
 
-    .js-pipeline-graph .gl-text-truncate {
-        overflow: visible;
-    }
+body.gl-platform-linux .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover,
+body.gl-platform-linux .dropdown-menu li[data-milestone-id="Ops Team Backlog"]:hover * {
+  background-color: palegoldenrod !important;
+}
 
-    .js-pipeline-graph .build .build-content {
-        border-radius: 10px;
-    }
+body.gl-platform-linux .gl-label-text-light {
+  border-radius: 0.35rem
+}
 
-    .js-pipeline-graph div.ci-job-component[id*="production"] .menu-item {
-        box-shadow: 0px 0px 5px #f00606;
-    }
+body.gl-platform-linux .js-pipeline-graph .build {
+  width: auto;
+}
 
-    .js-pipeline-graph div.ci-job-component[id*="staging"] .menu-item {
-        box-shadow: 0px 0px 5px #f09a06;
-    }
+body.gl-platform-linux .js-pipeline-graph .gl-text-truncate {
+  overflow: visible;
+}
 
-    li.timeline-entry {
-        font-size: 0.8em !important;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
+body.gl-platform-linux .js-pipeline-graph .build .build-content {
+  border-radius: 10px;
+}
+
+body.gl-platform-linux .js-pipeline-graph div.ci-job-dropdown-container[id*="production"] button,
+body.gl-platform-linux .js-pipeline-graph div.ci-job-component[id*="production"] .menu-item {
+  box-shadow: 0px 0px 5px #f00606;
+}
+
+body.gl-platform-linux .js-pipeline-graph div.ci-job-dropdown-container[id*="staging"] button,
+body.gl-platform-linux .js-pipeline-graph div.ci-job-component[id*="staging"] .menu-item {
+  box-shadow: 0px 0px 5px #f09a06;
+}
+
+body.gl-platform-linux li.timeline-entry.system-note .timeline-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0px 0px 0px 9px;
+}
+
+body.gl-platform-linux li.timeline-entry.system-note .timeline-icon svg {
+  width: 8px;
+  height: 8px;
+}
+
+body.gl-platform-linux li.timeline-entry.system-note {
+  font-size: 0.8em !important;
+  font-weight: 300;
+  padding-top: 0;
+  padding-bottom: 0;
 }
