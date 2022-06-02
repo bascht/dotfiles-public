@@ -39,6 +39,7 @@ alias tdir="take (mktemp -d --suffix=.(basename (pwd)))"
 
 # Abbreviations
 
+abbr osl "openssl x509 -noout -text -in -"
 abbr bosl "base64 -d | openssl x509 -noout -text -in -"
 abbr baml "-o yaml | bat -l yaml"
 
