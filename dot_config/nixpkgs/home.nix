@@ -63,6 +63,7 @@ in
       unstable.pkgs.darktable
       unstable.pkgs.foot
       unstable.pkgs.qutebrowser
+      pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat
       pkgs.age
@@ -419,6 +420,7 @@ in
 
   services.mbsync.enable = true;
   services.gnome-keyring.enable = true;
+
   services.nextcloud-client.enable = true;
   services.emacs.enable = true;
   programs.emacs = {

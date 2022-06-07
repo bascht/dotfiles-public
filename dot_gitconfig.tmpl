@@ -7,9 +7,23 @@
 	excludesfile = ~/.gitignore
 	editor = em -nw
 	hooksPath = ~/.config/git/hooks
+	pager = delta
 
 [commit]
 	gpgsign = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
 
 [alias]
 	lol= 'log' '--oneline' '--graph' '--decorate'
