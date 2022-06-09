@@ -20,6 +20,9 @@ case "${match}" in
 	*.slack.*)
 		exec qutebrowser-comms "$1"
 		;;
+	https://staging-app*)
+		exec chromium "$1"
+		;;
 	inode/directory)
 		exec browse-folder "${argument}"
 		;;
