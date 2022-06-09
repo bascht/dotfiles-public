@@ -2,8 +2,8 @@
 
 # Watch for the Keyboard instead of the Thinkpad dock since this keeps us from tripping
 # into weird race conditions as the docks usb hub takes a few seconds to settle.
-if [[ "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shine Keyboard"' ]] &&
-   [[ "${NAME}" != '"ZSA Technology Labs Planck EZ Glow Keyboard"' ]]; then
+if [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shine Keyboard"' ]] &&
+   [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs Planck EZ Glow Keyboard"' ]]; then
   echo "Skipping superfluous events for ${NAME}" >> /tmp/thinkpad.log
   exit 0
 fi;
@@ -16,16 +16,30 @@ export DBUS_SESSION_BUS_ADDRESS
 TITLE="Docking Station: ${ACTION} ${NAME}"
 /home/bascht/.nix-profile/bin/notify-send -t 3000 "$TITLE"
 
+
 sleep 0.5
 
-if [[ "$ACTION" == "add" ]]; then
+# Home and at my main desk
+if swaymsg -t get_inputs | grep "ZSA Technology Labs Inc ErgoDox EZ Shine"; then
+  nmcli connection up "thinkpad-dock"
+  nmcli connection down "dorhamm-wifi"
+  if grep closed /proc/acpi/button/lid/LID/state; then
+    swaymsg output eDP-1 disable
+  fi
+
+
+# Home and on the side desk
+elif swaymsg -t get_inputs | grep "ZSA Technology Labs Inc Planck EZ Glow"; then
   nmcli connection up "dorhamm-docking"
   nmcli connection down "dorhamm-wifi"
   if grep closed /proc/acpi/button/lid/LID/state; then
     swaymsg output eDP-1 disable
   fi
+
+# Whereever else
 else
   nmcli connection up "dorhamm-wifi"
   nmcli connection down "dorhamm-docking" 
+  nmcli connection down "thinkpad-dock"
   swaymsg output eDP-1 enable
 fi;
