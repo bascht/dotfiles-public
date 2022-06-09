@@ -404,7 +404,7 @@ in
              RestartSec = 5;
        };
        Install = {
-             WantedBy = [ "graphical-session-pre.target" ];
+             WantedBy = [ "graphical-session.target" ];
        };
  };
 
