@@ -177,3 +177,8 @@ body.gl-platform-linux li.timeline-entry.system-note {
   padding-top: 0;
   padding-bottom: 0;
 }
+
+body.gl-platform-linux ul.merge-request-tabs li a {
+  padding-left: 1em;
+  padding-right: 1em;
+}
