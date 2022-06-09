@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
-blur-lock & sleep 5
-systemctl suspend
+SWAYSOCK=/run/user/$(id -u)/sway-ipc.sock
+
+swaymsg exec blur-lock & 
+sleep 3
+doas /run/current-system/sw/bin/systemctl suspend
