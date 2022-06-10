@@ -29,7 +29,7 @@ if swaymsg -t get_inputs | grep "ZSA Technology Labs Inc ErgoDox EZ Shine"; then
 
 
 # Home and on the side desk
-elif swaymsg -t get_inputs | grep "ZSA Technology Labs Inc Planck EZ Glow"; then
+elif swaymsg -t get_inputs | grep "ZSA Technology Labs Planck EZ Glow"; then
   nmcli connection up "dorhamm-docking"
   nmcli connection down "dorhamm-wifi"
   if grep closed /proc/acpi/button/lid/LID/state; then
