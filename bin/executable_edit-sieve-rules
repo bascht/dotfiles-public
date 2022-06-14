@@ -3,4 +3,4 @@
 
 SIEVE_PASSWORD=$(gopass show communication/hosted.mailcow.de/mail@bascht.com)
 export SIEVE_PASSWORD
-sieveshell  --authname mail@bascht.com --use-tls hosted.mailcow.de 
+echo -n "edit bascht" | sieveshell  --authname mail@bascht.com --use-tls hosted.mailcow.de
