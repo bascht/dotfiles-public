@@ -11,7 +11,6 @@
   nix.autoOptimiseStore = true;
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.reusePassphrases = true;
   boot.kernelModules = [ "kvm-amd" "v4l2loopback" ];
@@ -24,6 +23,7 @@
       "fs.inotify.max_user_watches" = "1310720";
       "fs.inotify.max_user_instances" = "8192";
   };
+  boot.loader.systemd-boot.enable = false;
   boot.loader.grub = {
     enable = true;
     version = 2;
@@ -189,13 +189,13 @@
   nix.trustedUsers = [ "root" "bascht" ];
 
   environment.systemPackages = with pkgs; [
+    home-manager
     wget
     curl
     vim
     git
     cachix
     linuxPackages.v4l2loopback
-    wireguard
     wireguard-tools
     openvpn
     openssl

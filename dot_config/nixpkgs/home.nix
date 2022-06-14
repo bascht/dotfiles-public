@@ -60,9 +60,9 @@ in
   home.packages = [
       # unstable.pkgs.logseq
       # unstable.pkgs.obsidian
-      unstable.pkgs.darktable
-      unstable.pkgs.foot
-      unstable.pkgs.qutebrowser
+      pkgs.darktable
+      pkgs.foot
+      pkgs.qutebrowser
       pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat
@@ -72,7 +72,7 @@ in
       pkgs.inotify-tools
       pkgs.graphviz
       pkgs.liboping
-      pkgs.libqrencode
+      pkgs.qrencode
       pkgs.pandoc
       pkgs.ghostscript
       pkgs.ansi2html
@@ -81,7 +81,7 @@ in
       pkgs.tmux-cssh
       pkgs.dict
       pkgs.wordnet
-      pkgs.dragon-drop
+      pkgs.xdragon
       pkgs.borgmatic
       pkgs.weechat
       pkgs.docker-compose
@@ -143,23 +143,17 @@ in
       pkgs.fd
       pkgs.feh
       pkgs.firefox-wayland
-      pkgs.font-awesome-ttf
+      pkgs.font-awesome
       pkgs.fzf
-      pkgs.gammastep
       pkgs.gcc
       pkgs.glab
       pkgs.glib
       pkgs.gnome-icon-theme
       pkgs.gnome-themes-extra
-      pkgs.gnome-themes-standard
-      pkgs.gnome-themes-standard
+      pkgs.gnome-themes-extra
       pkgs.gnome3.adwaita-icon-theme
-      pkgs.gnome3.defaultIconTheme
-      pkgs.gnome3.defaultIconTheme
       pkgs.gnome3.file-roller
-      pkgs.gnome3.gcr
       pkgs.gnome3.gnome-keyring
-      pkgs.gnome3.gnome-themes-standard
       pkgs.gnome3.libgnome-keyring
       pkgs.gnome3.seahorse
       pkgs.gnome3.zenity
@@ -222,7 +216,6 @@ in
       pkgs.playerctl
       pkgs.pngquant
       pkgs.pwgen
-      pkgs.gammastep
       pkgs.mc
       pkgs.mopidy
       pkgs.mopidy-iris
@@ -230,7 +223,6 @@ in
       pkgs.mopidy-mpd
       pkgs.mopidy-mpris
       pkgs.mopidy-somafm
-      pkgs.mopidy-spotify
       pkgs.rpm
       pkgs.qalculate-gtk
       pkgs.ripgrep
@@ -273,7 +265,6 @@ in
 
  programs.direnv.enable = true;
  programs.direnv.nix-direnv.enable = true;
- programs.direnv.enableFishIntegration = true;
  programs.fish.package = unstable.pkgs.fish;
  programs.fish.enable = true;
  programs.fish.loginShellInit = ''
@@ -341,14 +332,14 @@ in
  systemd.user.services.comacs = {
        Unit = {
              Description = "Emacs Coding daemon";
-	     X-RestartIfChanged = "false";
+             X-RestartIfChanged = "false";
        };
        Service = {
              ExecStart = "${pkgs.bash}/bin/bash -l -c '~/.nix-profile/bin/emacs --fg-daemon=comacs'";
              Restart = "on-failure";
              SuccessExitStatus = 15;
              Type = "notify";
-	     Environment = "EMACS_SERVER_NAME=comacs";
+             Environment = "EMACS_SERVER_NAME=comacs";
        };
        Install = {
              WantedBy = [ "graphical-session.target" ];
@@ -410,6 +401,7 @@ in
 
   services.gammastep = {
         enable = true;
+        provider = "manual";
         latitude = "48.15";
         longitude = "11.64";
         temperature = {
