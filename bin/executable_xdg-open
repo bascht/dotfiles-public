@@ -40,7 +40,7 @@ case "${match}" in
 		exec zathura "$1"
 		;;
 	text/calendar)
-		echo $1 | wl-copy
+		echo $1 | wl-copy --trim-newline
 		exec notify-send -i x-office-calendar "Calendar Event" "Copied path ${@} to clipboard" >&2
 		;;
 	image/gif|video/*)
