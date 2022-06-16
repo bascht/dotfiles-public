@@ -149,19 +149,21 @@
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
 
+; Don't add #0 #1 #2 #3… workspaces :D
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+
 ; Directly create a matching workspace for the project (when launched with `bin/tn')
 (defun bascht/switch-to-or-load-workspace (name directory)
-  ; Delete the temporary workspace #1234 created by (create-frame)
-  (+workspace-delete (+workspace-current-name))
-
+  (interactive)
+  (message "Started workspace switcher")
+  (persp-mode)
   (if (+workspace-exists-p name)
-      (progn
-        (+workspace-switch name))
-    (progn
-      (+workspace-new name)
       (+workspace-switch name)
-      (find-file directory)
-      (magit-status-setup-buffer))))
+    (progn (+workspace-new name)
+           (+workspace-switch name)
+           (find-file directory)
+           (magit-status-setup-buffer))))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
   "Set the From address based on the To address of the original message."
