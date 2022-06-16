@@ -9,3 +9,4 @@ convert -resize 20% -fill "#282828" -colorize 50% -blur 0x3 -resize 500% /home/b
 convert -gravity center -composite /home/bascht/.lockbg.png /home/bascht/Pictures/Wallpapers/lock.png /tmp/lockfinal.png
 
 $LOCKER -i /tmp/lockfinal.png $1
+thinkpad-dock
