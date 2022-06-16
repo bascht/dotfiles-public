@@ -48,6 +48,10 @@ body.gl-platform-linux .board-card.gl-rounded-base {
   border-radius: 4px !important;
 }
 
+body.gl-platform-linux img.avatar {
+  border-radius: 25% !important;
+}
+
 body.gl-platform-linux .board-card {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1) !important;
 }
