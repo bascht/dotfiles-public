@@ -146,6 +146,11 @@ body.gl-platform-linux .js-pipeline-graph .build {
   width: auto;
 }
 
+body.gl-platform-linux .js-pipeline-container button.gl-button !important {
+  border-radius: none;
+  margin-left: 1em;
+}
+
 body.gl-platform-linux .js-pipeline-graph .gl-text-truncate {
   overflow: visible;
 }
