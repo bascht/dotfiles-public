@@ -14,7 +14,7 @@ if ! tmux has-session -t "${name}" 2> /dev/null; then
   tmux select-window -t "${name}" -t 0
 fi;
 
-if [[ -z "${TMUX} ]]; then
+if [[ -z "${TMUX}" ]]; then
   tmux attach -t "${name}"
 else
   tmux switch-client -t "${name}"
