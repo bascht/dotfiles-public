@@ -8,6 +8,7 @@
       /etc/nixos/machine.nix
     ];
 
+  system.stateVersion = "22.05";
   nix.autoOptimiseStore = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -48,7 +49,7 @@
   programs.light.enable = true;
   programs.fish.enable = true;
 
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.fish;
   users.extraUsers.bascht = {
     isNormalUser = true;
     shell = pkgs.fish;
