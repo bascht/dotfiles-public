@@ -418,7 +418,7 @@ in
   programs.emacs = {
     enable = true;
     package = pkgs.emacsPgtkNativeComp;
-    extraPackages = epkgs: [ epkgs.vterm ];
+    extraPackages = epkgs: [ epkgs.vterm epkgs.pdf-tools epkgs.org-pdftools];
   };
 
   # This value determines the Home Manager release that your
