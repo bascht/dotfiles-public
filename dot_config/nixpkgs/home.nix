@@ -387,6 +387,7 @@ in
        Service = {
              ExecStart = '' ${pkgs.swayidle}/bin/swayidle -w -d \
                before-sleep '${config.home.homeDirectory}/bin/blur-lock' \
+               unlock '${config.home.homeDirectory}/bin/thinkpad-dock' \
                timeout 300 '${config.home.homeDirectory}/bin/blur-lock' \
                timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
                resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
