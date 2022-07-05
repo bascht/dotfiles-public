@@ -154,11 +154,10 @@
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
         modus-themes-fringes 'subtle
+        modus-themes-hl-line '(accented intense)
         modus-themes-paren-match '(bold intense)
         modus-themes-prompts '(bold intense)
-        ;; modus-themes-completions 'opinionated
         modus-themes-region '(bg-only)
-        ;; modus-themes-scale-headings t
         modus-themes-org-blocks 'tinted-background
         modus-themes-mode-line '(accented borderless (padding . 1))
         modus-themes-headings '((1 . (rainbow overline background 1.4))
@@ -256,6 +255,13 @@
 
 (custom-set-faces
  '(mu4e-header-highlight-face ((t (:background "lemon chiffon")))))
+
+(after! dap-mode
+  (unless (display-graphic-p)
+    (set-face-background 'dap-ui-marker-face "orange")
+    (set-face-attribute 'dap-ui-marker-face nil :inherit nil)
+    (set-face-background 'dap-ui-pending-breakpoint-face "lightpink")
+    (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
 
 (load! "mail.el")
 (if (not (bascht/is-comacs))
