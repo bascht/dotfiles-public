@@ -53,7 +53,7 @@
   users.extraUsers.bascht = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" "plugdev" "docker" ];
+    extraGroups = [ "audio" "video" "networkmanager" "storage" "wheel" "disk" "plugdev" "docker" "qemu-libvirtd" "libvirtd" ];
   };
 
   security.doas.enable = true;
