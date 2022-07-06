@@ -44,6 +44,7 @@ config.bind(',grl', 'greasemonkey-reload')
 config.bind(',uu', 'spawn -u untrack-url -o {url}')
 config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
 config.bind(',up', 'spawn -u untrack-url -p {clipboard}')
+config.bind(',e', 'fake-key e;; later 0.3s edit-text')
 
 config.bind(',oc', 'spawn --userscript org-capture')
 
