@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 url="${1}"
+if [ -z "${url}" ]; then
+    url=$(wl-paste)
+fi;
 shortcode=$(get-gitlab-shortcode "${url}")
 markdown="[${shortcode}](${url})"
 echo $markdown | wl-copy
