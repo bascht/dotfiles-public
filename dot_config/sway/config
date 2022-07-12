@@ -1,48 +1,8 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-{{- if (eq .chezmoi.hostname "apfelstrudel") }}
-set $base00 #2E3440
-set $base01 #3B4252
-set $base02 #434C5E
-set $base03 #4C566A
-set $base04 #D8DEE9
-set $base05 #E5E9F0
-set $base06 #ECEFF4
-set $base07 #8FBCBB
-set $base08 #88C0D0
-set $base09 #81A1C1
-set $base0A #5E81AC
-set $base0B #BF616A
-set $base0C #D08770
-set $base0D #EBCB8B
-set $base0E #A3BE8C
-set $base0F #B48EAD
-{{- else }}
-set $base00 #181818
-set $base01 #282828
-set $base02 #383838
-set $base03 #585858
-set $base04 #b8b8b8
-set $base05 #d8d8d8
-set $base06 #e8e8e8
-set $base07 #f8f8f8
-set $base08 #ab4642
-set $base09 #dc9656
-set $base0A #f7ca88
-set $base0B #a1b56c
-set $base0C #86c1b9
-set $base0D #7cafc2
-set $base0E #ba8baf
-set $base0F #a16946
-{{- end }}
+set $megamod Alt+Mod4
+
+# Include machine-specific colours
+include ~/.config/sway/sway.`hostname`.config
 
 # Home row direction keys, like vim
 set $left h
@@ -63,7 +23,7 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 ### Output configuration
 output * bg ~/Pictures/Wallpapers/spring-grindelwald.jpg fill
 
-output $display_lg mode 3440x1440@49.987000Hz pos 1205 450
+output $display_lg mode 3440x1440@49.987000Hz pos 1200 450
 output $display_dell transform 90 pos 0 0
 output $display_coworking pos 2560 0
 
@@ -281,7 +241,7 @@ bindsym $mod+b splith
 bindsym $mod+v splitv
 
 bindsym $mod+c move position center
-bindsym $mod+alt+c move position center, resize set 80ppt 80ppt
+bindsym $mod+Alt+c move position center, resize set 80ppt 80ppt
 
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
@@ -365,7 +325,18 @@ mode "resize" {
 
 set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
 set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)lipboard (r)ofi (p)ass (s)snippets (w)eb (a)lfaview"
-set $mode_file "Files: (h)ome (s)creenshots (d)rop-last"
+set $mode_file "Files: (h)ome (s)creenshots (d)ocuments (l)astshot"
+
+# Modeless shortcuts
+bindsym $megamod+d exec $menu;
+bindsym $megamod+a mode $mode_alfaview;
+bindsym $megamod+f mode $mode_file;
+bindsym $megamod+w exec browser;
+bindsym $megamod+b exec $menu bookmarks;
+bindsym $megamod+p exec $menu gopass;
+bindsym $megamod+s exec $menu snippets;
+bindsym $megamod+e exec em;
+bindsym $megamod+h exec $menu clipboard;
 
 mode $mode_run {
   bindsym a mode $mode_alfaview
