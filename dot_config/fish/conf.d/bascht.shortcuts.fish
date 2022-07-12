@@ -34,3 +34,6 @@ bind \eggs "git status"
 
 # SSH Quick Jump
 bind \egss "z saltstack; commandline -f repaint; commandline -i -- './ssh -e '"
+
+# k9s is such a handy tool
+bind \e9 "k9s"
