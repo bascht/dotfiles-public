@@ -30,6 +30,7 @@ then
 elif [[ "$1" == "clipboard" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+  FOOT_OPTIONS="-W 190x30 ${FOOT_OPTIONS}"
   COMMAND=~/bin/launcher-clipboard
 elif [[ "$1" == "gopass" ]]
 then
