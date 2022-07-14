@@ -191,3 +191,10 @@ body.gl-platform-linux ul.merge-request-tabs li a {
   padding-left: 1em;
   padding-right: 1em;
 }
+
+/* Fix up the Hetzner Cloud Console */
+hc-app a.editable_edit-link,
+hc-app hc-servers a.servers-list__name {
+  overflow: revert !important;
+  text-overflow: unset !important;
+}
