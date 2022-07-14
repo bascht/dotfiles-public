@@ -207,7 +207,7 @@ in
       pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
-      unstable.mu
+      pkgs.mu
       pkgs.ncmpcpp
       pkgs.ncspot
       pkgs.nixfmt
