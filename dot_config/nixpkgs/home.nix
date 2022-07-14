@@ -60,6 +60,7 @@ in
   home.packages = [
       # unstable.pkgs.logseq
       # unstable.pkgs.obsidian
+      pkgs.vulkan-loader
       pkgs.darktable
       pkgs.foot
       pkgs.qutebrowser
@@ -173,6 +174,7 @@ in
       pkgs.gst_all_1.gst-plugins-bad
       pkgs.gst_all_1.gst-plugins-good
       pkgs.gst_all_1.gst-plugins-ugly
+      pkgs.gst_all_1.gst-vaapi
       pkgs.gthumb
       pkgs.gtk-engine-murrine
       pkgs.gtk_engines
