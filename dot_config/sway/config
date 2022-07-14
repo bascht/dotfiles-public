@@ -336,7 +336,7 @@ bindsym $megamod+b exec $menu bookmarks;
 bindsym $megamod+p exec $menu gopass;
 bindsym $megamod+s exec $menu snippets;
 bindsym $megamod+e exec em;
-bindsym $megamod+h exec $menu clipboard;
+bindsym $megamod+c exec $menu clipboard;
 
 mode $mode_run {
   bindsym a mode $mode_alfaview
