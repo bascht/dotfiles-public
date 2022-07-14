@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+client_info=$(swaymsg -t get_tree | jq '.. | select(.type?) | select(.focused==true)')
+pid=$(echo "$client_info"| jq .id)
+info_file="/dev/shm/sway-width-${pid}"
+current_info_file="/dev/shm/sway-width-${pid}.current"
+echo "$client_info" > "$info_file"
+
+if [[ -f $current_info_file ]]; then
+   width=$(<"$current_info_file")
+fi;
+
+if [[ -z "${width}" ]]; then
+   echo "None yet"
+   echo 25 > "${current_info_file}"
+   swaymsg resize set 25ppt 50ppt
+elif [[ "${width}" == "25" ]]; then
+   echo 50 > "${current_info_file}"
+   swaymsg resize set 50ppt 50ppt
+elif [[ "${width}" == "50" ]]; then
+   echo 75 > "${current_info_file}"
+   swaymsg resize set 75ppt 75ppt
+elif [[ "${width}" == "75" ]]; then
+   rm -f "${current_info_file}"
+   old_width=$(echo "$client_info"| jq .geometry.width)
+   old_height=$(echo "$client_info"| jq .geometry.height)
+   swaymsg resize set "${old_width}px" "${old_height}px"
+else
+   echo "ui"
+fi
+
+swaymsg move position center
