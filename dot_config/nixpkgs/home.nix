@@ -61,6 +61,7 @@ in
       # unstable.pkgs.logseq
       # unstable.pkgs.obsidian
       pkgs.vulkan-loader
+      pkgs.vulkan-validation-layers
       pkgs.darktable
       pkgs.foot
       pkgs.qutebrowser
