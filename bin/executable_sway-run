@@ -8,7 +8,6 @@ export SWAYSOCK
 
 # See https://github.com/swaywm/wlroots/issues/1873
 export WLR_DRM_NO_MODIFIERS=1
-export WLR_RENDERER=vulkan
 
 #exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
-exec sway 1>&1 > /dev/null
+exec dbus-run-session sway 1>&1 > /dev/null

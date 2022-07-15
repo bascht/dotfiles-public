@@ -21,7 +21,7 @@ c.prompt.filebrowser = False
 c.completion.height = "40%"
 c.downloads.location.directory = '/home/bascht/Downloads/'
 
-c.qt.args = ['--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--enable-zero-copy', '--enable-features=VaapiVideoDecoder', '--enable-vulkan', '--use-gl=egl']
+c.qt.args = ['ignore-gpu-blocklist', '--enable-zero-copy', '--enable-features=VaapiVideoDecoder', '--use-gl=egl', 'enable-accelerated-video-decode', 'enable-gpu-rasterization']
 
 c.content.webgl = False
 c.content.autoplay = False
