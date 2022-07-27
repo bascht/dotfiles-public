@@ -8,7 +8,6 @@ import os
 
 DEST_DOMAINS = {
   "nitter": [
-    "nitter.net",
     "nitter.42l.fr",
     "nitter.pussthecat.org",
     "nitter.nixnet.services",
