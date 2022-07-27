@@ -11,14 +11,15 @@ if [[ -f $current_info_file ]]; then
 fi;
 
 if [[ -z "${width}" ]]; then
-   echo "None yet"
-   echo 25 > "${current_info_file}"
+   echo "None" > "${current_info_file}"
+elif [[ "${width}" == "None" ]]; then
+   echo "25ppt 50ppt" > "${current_info_file}"
    swaymsg resize set 25ppt 50ppt
-elif [[ "${width}" == "25" ]]; then
-   echo 50 > "${current_info_file}"
+elif [[ "${width}" == "25ppt 50ppt" ]]; then
+   echo "50ppt 50ppt" > "${current_info_file}"
    swaymsg resize set 50ppt 50ppt
-elif [[ "${width}" == "50" ]]; then
-   echo 75 > "${current_info_file}"
+elif [[ "${width}" == "50ppt 50ppt" ]]; then
+   echo "75ppt 75ppt" > "${current_info_file}"
    swaymsg resize set 75ppt 75ppt
 elif [[ "${width}" == "75" ]]; then
    rm -f "${current_info_file}"
