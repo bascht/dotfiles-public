@@ -191,6 +191,24 @@ body.gl-platform-linux ul.merge-request-tabs li a {
   padding-left: 1em;
   padding-right: 1em;
 }
+/* Unwrap Milestones in GitLab Epic overview */
+div.related-items-tree span.milestone-title, 
+div.related-items-tree span.board-card-weight {
+  overflow: revert !important;
+  text-overflow: unset !important;
+  font-size: smaller;
+  font-family: "Iosevka" !important;
+}
+
+div.related-items-tree span.board-card-weight {
+  margin-left: 1em;
+}
+
+div.related-items-tree div.card svg.clock-icon {
+  height: 8px;
+  width: 8px;
+}
+
 
 /* Fix up the Hetzner Cloud Console */
 hc-app a.editable_edit-link,
