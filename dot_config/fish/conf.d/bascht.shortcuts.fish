@@ -1,6 +1,8 @@
 # Old bash habits die hard
 bind \xe edit_command_buffer
 bind -M default \cn down-or-search
+bind \ekv fish_vi_key_bindings
+bind \eke fish_default_key_bindings
 
 # Jumper
 bind \a "cd (z -l | sort -rn | cut -c 12- | fzf --query=(commandline --current-token) --no-sort --exact); commandline -f repaint"
