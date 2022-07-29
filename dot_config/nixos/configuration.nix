@@ -35,12 +35,55 @@
 
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.useDHCP = false;
-  networking.networkmanager.enable = true;
-  networking.useNetworkd = true;
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking = {
+    useDHCP = false;
+    networkmanager.enable = false;
+    useNetworkd = true;
+    firewall.allowedTCPPorts = [ 22 ];
+    wireless = {
+      enable = true;
+      userControlled.enable = true;
+    };
+  };
 
-  systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.network = {
+    enable = true;
+
+    networks."90-ipv4" = {
+      matchConfig.Name = "ethernet";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = false;
+        LinkLocalAddressing = "ipv4";
+      };
+    };
+
+    networks."90-ipv6" = {
+      matchConfig.Name = "ethernet";
+      networkConfig = {
+        DHCP = "ipv6";
+        IPv6AcceptRA = true;
+        LinkLocalAddressing = "ipv6";
+      };
+    };
+    networks."100-wifi-ipv4" = {
+      matchConfig.Name = "wifi";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = false;
+        LinkLocalAddressing = "ipv4";
+      };
+    };
+
+    networks."100-wifi" = {
+      matchConfig.Name = "wifi";
+      networkConfig = {
+        DHCP = "ipv6";
+        IPv6AcceptRA = true;
+        LinkLocalAddressing = "ipv6";
+      };
+    };
+  };
 
   time.timeZone = "Europe/Berlin";
 
