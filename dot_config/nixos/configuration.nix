@@ -153,7 +153,7 @@
   services.udev.extraRules = ''
     ACTION=="remove", ATTRS{idVendor}=="3297", RUN+="${pkgs.su}/bin/su bascht --shell ${pkgs.bash}/bin/bash /home/bascht/bin/thinkpad-dock", OWNER="bascht"
     ACTION=="add",    ATTRS{idVendor}=="3297", RUN+="${pkgs.su}/bin/su bascht --shell ${pkgs.bash}/bin/bash /home/bascht/bin/thinkpad-dock", OWNER="bascht"
-  '';
+  '' + builtins.readFile /etc/nixos/machine-udev-network.rules;
 
   nixpkgs.config.joypixels.acceptLicense = true;
 
