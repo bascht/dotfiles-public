@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+set -xv
 
 # Watch for the Keyboard instead of the Thinkpad dock since this keeps us from tripping
 # into weird race conditions as the docks usb hub takes a few seconds to settle.
 if [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shine Keyboard"' ]] &&
-   [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs ErgoDox EZ Shine Keyboard"' ]]; then
+   [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs ErgoDox EZ Shine Keyboard"' ]] &&
    [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs Planck EZ Glow Keyboard"' ]]; then
   exit 0
 fi;
@@ -13,16 +14,19 @@ DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 export SWAYSOCK
 export DBUS_SESSION_BUS_ADDRESS
 
-TITLE="Docking Station: ${ACTION} ${NAME}"
-/home/bascht/.nix-profile/bin/notify-send -t 3000 "$TITLE"
+if [[ "${ACTION}" == "add" ]]; then
+	ICON=$(readlink -f ~/.nix-profile/share/icons/gnome/48x48/devices/computer.png)
+else
+	ICON=$(readlink -f ~/.nix-profile/share/icons/gnome/48x48/devices/display.png)
+fi;
 
+TITLE="${ACTION} ${NAME}"
+/home/bascht/.nix-profile/bin/notify-send -t 3000 --icon="${ICON}" "Docking event" "$TITLE"
 
 sleep 0.5
 
 # Home and at my main desk
 if swaymsg -t get_inputs | grep "ZSA Technology Labs Inc ErgoDox EZ Shine"; then
-  nmcli connection up "thinkpad-dock"
-  nmcli connection down "dorhamm-wifi"
   if grep closed /proc/acpi/button/lid/LID/state; then
     swaymsg output eDP-1 disable
   fi
@@ -30,16 +34,11 @@ if swaymsg -t get_inputs | grep "ZSA Technology Labs Inc ErgoDox EZ Shine"; then
 
 # Home and on the side desk
 elif swaymsg -t get_inputs | grep "ZSA Technology Labs Planck EZ Glow"; then
-  nmcli connection up "dorhamm-docking"
-  nmcli connection down "dorhamm-wifi"
   if grep closed /proc/acpi/button/lid/LID/state; then
     swaymsg output eDP-1 disable
   fi
 
 # Whereever else
 else
-  nmcli connection up "dorhamm-wifi"
-  nmcli connection down "dorhamm-docking" 
-  nmcli connection down "thinkpad-dock"
   swaymsg output eDP-1 enable
 fi;
