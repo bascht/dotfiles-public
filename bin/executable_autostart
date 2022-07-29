@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+systemctl --user import-environment WAYLAND_DISPLAY DISPLAY PATH
+
 systemctl --user start gnome-keyring.service
 systemctl --user start graphical-session.target
 
