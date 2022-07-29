@@ -9,6 +9,8 @@ body.gl-platform-linux,
 body.gl-platform-linux *,
 /* GitLab */
 body.channel-view *,
+/* Slack from v1.9 on */
+html[data-app-context="team"] body *,
 /* Mattermost */
 body.mono-as-fuck
 
