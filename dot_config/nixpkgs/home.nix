@@ -123,7 +123,6 @@ in
       pkgs.adementary-theme
       pkgs.alacritty
       pkgs.appimage-run
-      pkgs.neovim
       pkgs.enchant
       pkgs.entr
       (unstable.pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
@@ -423,6 +422,18 @@ in
     enable = true;
     package = pkgs.emacsPgtkNativeComp;
     extraPackages = epkgs: [ epkgs.vterm epkgs.pdf-tools epkgs.org-pdftools];
+  };
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      vim-which-key
+      vim-nix
+      vim-fish
+      vim-surround
+    ];
   };
 
   # This value determines the Home Manager release that your
