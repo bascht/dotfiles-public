@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
+set -eo pipefail
+
 FILE="/run/user/1000/org/current-task"
-message=$(cat ${FILE} 2>/dev/null)
 exit_code=0
 
 if [ ! -f $FILE ]; then
 	message="No file found";
 	exit_code=1;
-fi;
+else
+	message=$(cat ${FILE} 2>/dev/null)
 
-if grep chilling $FILE; then
-	exit_code=1
-fi
+	if grep chilling $FILE > /dev/null; then
+		exit_code=1
+	fi
+fi;
 
 echo $message
 exit $exit_code
