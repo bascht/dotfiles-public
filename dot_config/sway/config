@@ -23,8 +23,8 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 ### Output configuration
 output * bg ~/Pictures/Wallpapers/spring-grindelwald.jpg fill
 
-output $display_lg mode 3440x1440@49.987000Hz pos 1200 450
-output $display_dell transform 90 pos 0 0
+output $display_lg mode 3440x1440@59.973Hz pos 1200 450
+output $display_dell mode 1920x1200@59.950Hz transform 90 pos 0 0
 output $display_coworking pos 2560 0
 
 ### Idle configuration
