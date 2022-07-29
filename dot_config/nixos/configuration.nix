@@ -48,39 +48,61 @@
 
   systemd.network = {
     enable = true;
+    wait-online.anyInterface = true;
 
-    networks."90-ipv4" = {
-      matchConfig.Name = "ethernet";
-      networkConfig = {
-        DHCP = "ipv4";
-        IPv6AcceptRA = false;
-        LinkLocalAddressing = "ipv4";
+    networks = {
+      "90-ethernet-ipv4" = {
+        matchConfig.Name = "ethernet";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "ipv4";
+        };
       };
-    };
 
-    networks."90-ipv6" = {
-      matchConfig.Name = "ethernet";
-      networkConfig = {
-        DHCP = "ipv6";
-        IPv6AcceptRA = true;
-        LinkLocalAddressing = "ipv6";
+      "90-ethernet-ipv6" = {
+        matchConfig.Name = "ethernet";
+        networkConfig = {
+          DHCP = "ipv6";
+          IPv6AcceptRA = true;
+          LinkLocalAddressing = "ipv6";
+        };
       };
-    };
-    networks."100-wifi-ipv4" = {
-      matchConfig.Name = "wifi";
-      networkConfig = {
-        DHCP = "ipv4";
-        IPv6AcceptRA = false;
-        LinkLocalAddressing = "ipv4";
-      };
-    };
 
-    networks."100-wifi" = {
-      matchConfig.Name = "wifi";
-      networkConfig = {
-        DHCP = "ipv6";
-        IPv6AcceptRA = true;
-        LinkLocalAddressing = "ipv6";
+      "91-dorhamm-docking-ipv4" = {
+        matchConfig.Name = "dorhamm-docking";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "ipv4";
+        };
+      };
+
+      "91-dorhamm-docking-ipv6" = {
+        matchConfig.Name = "dorhamm-docking";
+        networkConfig = {
+          DHCP = "ipv6";
+          IPv6AcceptRA = true;
+          LinkLocalAddressing = "ipv6";
+        };
+      };
+
+      "100-wifi-ipv4" = {
+        matchConfig.Name = "wifi";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "ipv4";
+        };
+      };
+
+      "100-wifi" = {
+        matchConfig.Name = "wifi";
+        networkConfig = {
+          DHCP = "ipv6";
+          IPv6AcceptRA = true;
+          LinkLocalAddressing = "ipv6";
+        };
       };
     };
   };
