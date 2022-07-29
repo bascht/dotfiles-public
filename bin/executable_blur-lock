@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-LOCKER="swaylock"
-
 WALLPAPER=$(realpath ~/Pictures/Wallpapers/mountains-blue.jpg)
 BLURRED_WALLPAPER=$(realpath ~/.local/share/wallpaper-blurred.jpg)
 
@@ -11,5 +9,5 @@ if [[ ! -f "${BLURRED_WALLPAPER}" ]]; then
 	convert -gravity center -composite "${BLURRED_WALLPAPER}" /home/bascht/Pictures/Wallpapers/lock.png "${BLURRED_WALLPAPER}"
 fi;
 
-$LOCKER -i "${BLURRED_WALLPAPER}" $1
+swaylock --show-failed-attempts --indicator-thickness 10 --indicator-radius 130 -i "${BLURRED_WALLPAPER}" $1
 thinkpad-dock
