@@ -381,24 +381,54 @@ in
        };
  };
 
+ systemd.user.sockets.dbus = {
+   Unit = {
+     Description = "D-Bus User Message Bus Socket";
+   };
+   Socket = {
+     ListenStream = "%t/bus";
+     ExecStartPost = "${pkgs.systemd}/bin/systemctl --user set-environment DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus";
+   };
+   Install = {
+     WantedBy = [ "sockets.target" ];
+     Also = [ "dbus.service" ];
+   };
+ };
+
+ systemd.user.services.dbus = {
+   Unit = {
+     Description = "D-Bus User Message Bus";
+     Requires = [ "dbus.socket" ];
+   };
+   Service = {
+     ExecStart = "${pkgs.dbus}/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation";
+     ExecReload = "${pkgs.dbus}/bin/dbus-send --print-reply --session --type=method_call --dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig";
+   };
+   Install = {
+     Also = [ "dbus.socket" ];
+   };
+ };
+
  systemd.user.services.swayidle = {
-       Unit = {
-             Description = "Idle Manager for Wayland";
-             After = "graphical-session-pre.target";
-             PartOf = "graphical-session.target";
-       };
-       Service = {
-             ExecStart = '' ${pkgs.swayidle}/bin/swayidle -w -d \
+   Unit = {
+     Description = "Idle Manager for Wayland";
+     After = "graphical-session-pre.target";
+     PartOf = "graphical-session.target";
+   };
+   Service = {
+     ExecStart = '' ${pkgs.swayidle}/bin/swayidle -w -d \
                before-sleep '${config.home.homeDirectory}/bin/blur-lock' \
                unlock '${config.home.homeDirectory}/bin/thinkpad-dock' \
-               timeout 300 '${config.home.homeDirectory}/bin/blur-lock'
+               timeout 300 '${config.home.homeDirectory}/bin/blur-lock' \
+               timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
+               resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
              '';
-             Restart = "on-failure";
-             RestartSec = 5;
-       };
-       Install = {
-             WantedBy = [ "graphical-session.target" ];
-       };
+     Restart = "on-failure";
+     RestartSec = 5;
+   };
+   Install = {
+     WantedBy = [ "graphical-session.target" ];
+   };
  };
 
   services.gammastep = {

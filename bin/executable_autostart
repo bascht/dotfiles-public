@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-systemctl --user import-environment
-dbus-update-activation-environment --systemd --all
 systemctl --user start gnome-keyring.service
 systemctl --user start graphical-session.target
 

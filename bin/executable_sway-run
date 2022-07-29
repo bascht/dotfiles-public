@@ -1,16 +1,7 @@
 #!/usr/bin/env bash
 
-# first import environment variables from the login manager
-systemctl --user import-environment
-# then start the service
-#exec systemctl --user start sway.service
-export SWAYSOCK
-echo $SWAYSOCK
 pkill -9 sway
 rm -f /run/user/1000/sway-ipc.*
 
-# See https://github.com/swaywm/wlroots/issues/1873
-export WLR_DRM_NO_MODIFIERS=1
-
 #exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
-exec dbus-run-session sway 1>&1 > /dev/null
+exec sway 1>&1 > /dev/null
