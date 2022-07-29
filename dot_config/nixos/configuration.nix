@@ -53,6 +53,7 @@
     networks = {
       "90-ethernet-ipv4" = {
         matchConfig.Name = "ethernet";
+        dhcpV4Config.UseDomains = true;
         networkConfig = {
           DHCP = "ipv4";
           IPv6AcceptRA = false;
@@ -71,6 +72,7 @@
 
       "91-dorhamm-docking-ipv4" = {
         matchConfig.Name = "dorhamm-docking";
+        dhcpV4Config.UseDomains = true;
         networkConfig = {
           DHCP = "ipv4";
           IPv6AcceptRA = false;
@@ -89,6 +91,7 @@
 
       "100-wifi-ipv4" = {
         matchConfig.Name = "wifi";
+        dhcpV4Config.UseDomains = true;
         networkConfig = {
           DHCP = "ipv4";
           IPv6AcceptRA = false;
@@ -96,7 +99,7 @@
         };
       };
 
-      "100-wifi" = {
+      "100-wifi-ipv6" = {
         matchConfig.Name = "wifi";
         networkConfig = {
           DHCP = "ipv6";
