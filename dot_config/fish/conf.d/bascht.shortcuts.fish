@@ -21,7 +21,7 @@ bind \egoba "commandline -i -- '-o yaml | bat -l yaml'"
 # FZF SSH
 
 bind \es fzf-ssh
-bind \ev fzf-vm
+bind \egv fzf-vm
 
 # Tmux quick access
 bind \egta "ta; commandline -f repaint"
