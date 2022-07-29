@@ -40,6 +40,11 @@ max_width = 10
 block = "load"
 interval = 10
 format = "{1m}"
+warning = 2
+critical = 4
+[block.theme_overrides]
+warning_fg = "#813e00"
+critical_fg = "#a60000"
 
 [[block]]
 block = "memory"
