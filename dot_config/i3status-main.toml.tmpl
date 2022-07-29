@@ -1,4 +1,4 @@
-icons = "awesome"
+icons = "awesome6"
 
 [theme]
 name = "plain"
@@ -48,11 +48,18 @@ format_mem = "{mem_used_percents}"
 format_swap = "{swap_used_percents}"
 
 [[block]]
-block = "networkmanager"
-on_click = "alacritty -e nmtui"
-interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+", "tun0", "virbr\\-[0-9]{12}"]
-#interface_name_include = []
-device_format = "{icon}{ap}"
+block = "net"
+device = "ethernet"
+hide_inactive = true
+format = ""
+format_alt = "{speed_down} {speed_up}"
+
+[[block]]
+block = "net"
+device = "wifi"
+hide_inactive = true
+format = "{ssid} {signal_strength}"
+format_alt = "{speed_down} {speed_up}"
 
 [[block]]
 block = "toggle"
