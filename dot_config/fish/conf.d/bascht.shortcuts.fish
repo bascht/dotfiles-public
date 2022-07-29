@@ -33,6 +33,7 @@ bind \egcm gcm
 bind \eggbb gbb
 bind \eggp git push
 bind \eggs "git status"
+bind \egpa "for remote in (git remote); git push $remote; end"
 
 # SSH Quick Jump
 bind \egss "z saltstack; commandline -f repaint; commandline -i -- './ssh -e '"
