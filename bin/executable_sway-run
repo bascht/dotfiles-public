@@ -7,7 +7,7 @@ systemctl --user import-environment
 export SWAYSOCK
 echo $SWAYSOCK
 pkill -9 sway
-rum -f /run/user/1000/sway-ipc.*
+rm -f /run/user/1000/sway-ipc.*
 
 # See https://github.com/swaywm/wlroots/issues/1873
 export WLR_DRM_NO_MODIFIERS=1
