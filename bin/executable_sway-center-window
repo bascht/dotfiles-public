@@ -20,7 +20,7 @@ elif [[ "${width}" == "25ppt 50ppt" ]]; then
    swaymsg resize set 50ppt 50ppt
 elif [[ "${width}" == "50ppt 50ppt" ]]; then
    echo "75ppt 75ppt" > "${current_info_file}"
-   swaymsg resize set 75ppt 75ppt
+   swaymsg resize set 75ppt 85ppt
 elif [[ "${width}" == "75" ]]; then
    rm -f "${current_info_file}"
    old_width=$(echo "$client_info"| jq .geometry.width)
