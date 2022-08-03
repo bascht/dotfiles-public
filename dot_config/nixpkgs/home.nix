@@ -220,12 +220,6 @@ in
       pkgs.pngquant
       pkgs.pwgen
       pkgs.mc
-      pkgs.mopidy
-      pkgs.mopidy-iris
-      pkgs.mopidy-local
-      pkgs.mopidy-mpd
-      pkgs.mopidy-mpris
-      pkgs.mopidy-somafm
       pkgs.rpm
       pkgs.qalculate-gtk
       pkgs.ripgrep
@@ -440,6 +434,18 @@ in
               day= 6500;
               night = 3000;
         };
+  };
+
+  services.mopidy = {
+    enable = true;
+    extensionPackages = with pkgs; [
+      mopidy-iris
+      mopidy-local
+      mopidy-mpd
+      mopidy-somafm
+      mopidy-tunein
+      mopidy-youtube
+    ];
   };
 
   services.mbsync.enable = true;
