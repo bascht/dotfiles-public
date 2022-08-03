@@ -71,7 +71,8 @@ config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --otp-only')
 
-config.bind('ygs', 'spawn get-gitlab-shortcode-as-markdown {url}')
+config.bind('ygs', 'spawn get-gitlab-shortcode {url}')
+config.bind('ygm', 'spawn get-gitlab-shortcode-as-markdown {url}')
 
 # per Domain settings
 
