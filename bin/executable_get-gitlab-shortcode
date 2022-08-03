@@ -8,7 +8,7 @@ begin
 
   abort "Not a valid forge URI" unless uri.host.start_with? "git."
 
-  if uri_match = uri.path.match(%r{/(?<group>[a-z/]+?)(/-/)(?<type>[\w]+)/(?<issue>[\w]+)})
+  if uri_match = uri.path.match(%r{/(?<group>([a-z/]+)?)/(?<project>([a-z-]+))(/-/(?<type>[\w]+)(/)(?<issue>[\w]+))?})
     short_code = case uri_match[:type]
                  when "merge_requests"
                    "!"
@@ -17,14 +17,14 @@ begin
                  when "commit"
                    "@"
                  end
-    out = [uri_match[:group], uri_match[:issue]].join(short_code)
+    out = [[uri_match[:group], uri_match[:project]].join("/"), uri_match[:issue]].join(short_code)
   elsif uri_match = uri.path.match(%r{/(?<group>([a-z/]+)?)/(?<project>([a-z]+))(/)?})
     out = [uri_match[:group], uri_match[:project]].join("/") + ">"
   else
-    abort "Could not find anything to match in #{uri}" if uri_match.nil?
+
+  abort "Could not find anything to match in #{uri}" if uri_match.nil?
   end
 
-  `notify-send #{ARGV.inspect}`
   $stdout.puts out
 rescue URI::InvalidURIError => e
   $stderr.puts "The supplied URI could not be parsed: #{e.message}"

@@ -6,4 +6,5 @@ if [ -z "${url}" ]; then
 fi;
 shortcode=$(get-gitlab-shortcode "${url}")
 markdown="[${shortcode}](${url})"
-echo $markdown | wl-copy
+notify-send "${shortcode}" "${url} \ncopied to clipboard"
+echo "${markdown}" | wl-copy
