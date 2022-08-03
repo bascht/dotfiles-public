@@ -52,60 +52,42 @@
     wait-online.anyInterface = true;
 
     networks = {
-      "90-ethernet-ipv4" = {
+      "100-ethernet" = {
         matchConfig.Name = "ethernet";
-        dhcpV4Config.UseDomains = true;
+	DHCP = "yes";
         networkConfig = {
-          DHCP = "ipv4";
-          IPv6AcceptRA = false;
-          LinkLocalAddressing = "ipv4";
-        };
-      };
-
-      "90-ethernet-ipv6" = {
-        matchConfig.Name = "ethernet";
-        networkConfig = {
-          DHCP = "ipv6";
           IPv6AcceptRA = true;
-          LinkLocalAddressing = "ipv6";
+          LinkLocalAddressing = "yes";
+        };
+        dhcpConfig = {
+          UseDomains = true;
+          UseDNS = true;
         };
       };
 
-      "91-dorhamm-docking-ipv4" = {
+      "100-dorhamm-docking" = {
         matchConfig.Name = "dorhamm-docking";
-        dhcpV4Config.UseDomains = true;
+	DHCP = "yes";
         networkConfig = {
-          DHCP = "ipv4";
-          IPv6AcceptRA = false;
-          LinkLocalAddressing = "ipv4";
-        };
-      };
-
-      "91-dorhamm-docking-ipv6" = {
-        matchConfig.Name = "dorhamm-docking";
-        networkConfig = {
-          DHCP = "ipv6";
           IPv6AcceptRA = true;
-          LinkLocalAddressing = "ipv6";
+          LinkLocalAddressing = "yes";
+        };
+        dhcpConfig = {
+          UseDomains = true;
+          UseDNS = true;
         };
       };
 
-      "100-wifi-ipv4" = {
+      "100-wifi" = {
         matchConfig.Name = "wifi";
-        dhcpV4Config.UseDomains = true;
+	DHCP = "yes";
         networkConfig = {
-          DHCP = "ipv4";
-          IPv6AcceptRA = false;
-          LinkLocalAddressing = "ipv4";
-        };
-      };
-
-      "100-wifi-ipv6" = {
-        matchConfig.Name = "wifi";
-        networkConfig = {
-          DHCP = "ipv6";
           IPv6AcceptRA = true;
-          LinkLocalAddressing = "ipv6";
+          LinkLocalAddressing = "yes";
+        };
+        dhcpConfig = {
+          UseDomains = true;
+          UseDNS = true;
         };
       };
     };
