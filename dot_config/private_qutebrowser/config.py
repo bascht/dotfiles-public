@@ -58,6 +58,8 @@ config.bind(',gca', 'quickmark-load calendar')
 config.bind(',vu', 'spawn umpv {url}')
 config.bind(',vf', 'hint links spawn umpv {hint-url}')
 config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')
+config.bind(',mu', 'open http://localhost:6680/youtube?url={url}')
+config.bind(',mf', 'hint links open http://localhost:6680/youtube?url={hint-url}')
 config.bind(',su', 'spawn -u send-url')
 config.bind(',sp', 'spawn -u send-url baschtfon')
 
