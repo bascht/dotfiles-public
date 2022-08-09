@@ -276,6 +276,33 @@
     (org-clock-in)
     (save-buffer))
 
+  ;; Export current clock subtree to Personio
+  (defun bascht/org-clock-to-personio ()
+    (interactive)
+    (evil-window-left 0)
+    (persp-switch "@Org")
+    (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
+    (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
+    (goto-char (org-find-exact-headline-in-buffer (format-time-string "%Y-%m")))
+    (search-forward ":LOGBOOK:")
+    (search-forward ":END:")
+    (while (not (s-equals? (s-trim (thing-at-point 'line t)) ":LOGBOOK:"))
+      (forward-line -1)
+      (let* ((line (s-trim (thing-at-point 'line t)))
+             (re (concat "^\\(\\*+\\)[ \t]\\|^[ \t]*"
+                   org-clock-string
+                   "[ \t]*\\(?:\\(\\[.*?\\]\\)-+\\(\\[.*?\\]\\)\\|=>[ \t]+\\([0-9]+\\):\\([0-9]+\\)\\)")))
+
+        (re-search-forward re)
+        (message "Matching %s in %s" line (match-string 0)))))
+
+  ;; Temporary test-function to re-trigger the export and get the logs
+  (defun bascht/test-org-clock-to-personio ()
+    (interactive)
+    (evil-window-left 1)
+    (bascht/org-clock-to-personio)
+    (evil-window-right 1))
+
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
      ((string-match " Tue" date) "8:00")
