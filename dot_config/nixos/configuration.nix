@@ -54,39 +54,45 @@
     networks = {
       "100-ethernet" = {
         matchConfig.Name = "ethernet";
-	DHCP = "yes";
+        DHCP = "yes";
         networkConfig = {
           IPv6AcceptRA = true;
           LinkLocalAddressing = "yes";
         };
-        dhcpConfig = {
+        dhcpV4Config = {
           UseDomains = true;
+        };
+        dhcpConfig = {
           UseDNS = true;
         };
       };
 
       "100-dorhamm-docking" = {
         matchConfig.Name = "dorhamm-docking";
-	DHCP = "yes";
+        DHCP = "yes";
         networkConfig = {
           IPv6AcceptRA = true;
           LinkLocalAddressing = "yes";
         };
-        dhcpConfig = {
+        dhcpV4Config = {
           UseDomains = true;
+        };
+        dhcpConfig = {
           UseDNS = true;
         };
       };
 
       "100-wifi" = {
         matchConfig.Name = "wifi";
-	DHCP = "yes";
+        DHCP = "yes";
         networkConfig = {
           IPv6AcceptRA = true;
           LinkLocalAddressing = "yes";
         };
-        dhcpConfig = {
+        dhcpV4Config = {
           UseDomains = true;
+        };
+        dhcpConfig = {
           UseDNS = true;
         };
       };
