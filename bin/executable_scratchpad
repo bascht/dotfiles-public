@@ -12,7 +12,7 @@ fi
 
 echo $TMUX_CMD
 if ! swaymsg -t get_tree | grep "terminal_scratchpad"; then
-	swaymsg exec -- foot --app-id terminal_scratchpad ${TMUX_CMD}
+	swaymsg exec -- foot --config=$HOME/.config/foot/foot-scratchpad.ini --app-id terminal_scratchpad ${TMUX_CMD}
 fi;
 
 exec swaymsg [app_id="terminal_scratchpad"] scratchpad show

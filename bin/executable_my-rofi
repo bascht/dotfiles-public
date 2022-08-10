@@ -5,21 +5,20 @@ export FZF_DEFAULT_OPTS='
   --layout=reverse
   --margin=0
   --padding=0
-  --color=fg:#bfbfbf,bg:#1f2430,hl:#707a8c
-  --color=fg+:#feacd0,bg+:#191e2a,hl+:#ffcc66
-  --color=info:#73d0ff,prompt:#707a8c,pointer:#cbccc6
-  --color=marker:#73d0ff,spinner:#73d0ff,header:#d4bfff
+  --color=bg+:#303446,bg:#202c3d,spinner:#f2d5cf,hl:#e78284
+  --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
+  --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 '
 
 FOOT_OPTIONS=''
 
 if [[ -z "$1" ]]
 then
-  FZF_DEFAULT_OPTS="--prompt='  '${FZF_DEFAULT_OPTS}"
+  FZF_DEFAULT_OPTS="--prompt='🦄 '${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-run
 elif [[ "$1" == "bookmarks" ]]
 then
-  FZF_DEFAULT_OPTS="--prompt=' '${FZF_DEFAULT_OPTS}"
+  FZF_DEFAULT_OPTS="--prompt='🔖 '${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-bookmarks
   FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
 elif [[ "$1" == "documents" ]]
