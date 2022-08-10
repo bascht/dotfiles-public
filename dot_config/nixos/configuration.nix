@@ -91,6 +91,7 @@
         };
         dhcpV4Config = {
           UseDomains = true;
+          RouteMetric = 1200;
         };
         dhcpConfig = {
           UseDNS = true;
