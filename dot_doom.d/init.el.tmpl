@@ -12,8 +12,7 @@
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       ligatures         ; ligatures and symbols to make your code pretty again
-       modeline          ; snazzy, Atom-inspired modeline, plus API
+       (modeline +light) ; snazzy, Atom-inspired modeline, plus API
        indent-guides     ; highlighted indent columns
        nav-flash         ; blink cursor line after big motions
        ophints           ; highlight the region an operation acts on
@@ -61,7 +60,6 @@
        pass
 
        :os
-       (:if IS-MAC macos)  ; improve compatibility with macOS
        tty               ; improve the terminal Emacs experience
 
        :lang
