@@ -217,6 +217,7 @@
   fonts = {
     enableDefaultFonts = false;
     fonts = with pkgs; [
+      emacs-all-the-icons-fonts
       font-awesome
       twitter-color-emoji
       jetbrains-mono
