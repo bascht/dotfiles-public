@@ -9,5 +9,4 @@ if [[ ! -f "${BLURRED_WALLPAPER}" ]]; then
 	convert -gravity center -composite "${BLURRED_WALLPAPER}" /home/bascht/Pictures/Wallpapers/lock.png "${BLURRED_WALLPAPER}"
 fi;
 
-swaylock --show-failed-attempts --indicator-thickness 10 --indicator-radius 130 -i "${BLURRED_WALLPAPER}" $1
-thinkpad-dock
+swaylock -f --show-failed-attempts --indicator-thickness 10 --indicator-radius 130 -i "${BLURRED_WALLPAPER}" $1
