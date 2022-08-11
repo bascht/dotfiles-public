@@ -40,5 +40,7 @@ elif swaymsg -t get_inputs | grep "ZSA Technology Labs Planck EZ Glow"; then
 
 # Whereever else
 else
-  swaymsg output eDP-1 enable
+  if ! swaymsg -t get_outputs | jq -e '.[] | select(.name == "eDP-1" and .active == true)'
+    swaymsg output eDP-1 enable
+  fi
 fi;
