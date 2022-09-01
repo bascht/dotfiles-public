@@ -46,6 +46,8 @@
         org-habit-completed-glyph ?✰
         org-habit-show-all-today t
         org-hide-emphasis-markers t
+        org-hide-leading stars nil
+        org-indent-mode-turns-on-hiding-stars nil
         org-icalendar-alarm-time 120
         org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics"
         org-icalendar-include-todo (quote all)
