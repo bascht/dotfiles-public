@@ -26,7 +26,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/79d28f8388bfe9e1933e4aa769676d2452cc6ad6.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/8707d84ec67b39d5655929fc974055bcb9a160fb.tar.gz;
     }))
   ];
 
@@ -207,7 +207,7 @@ in
       pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
-      pkgs.mu
+      unstable.pkgs.mu
       pkgs.ncmpcpp
       pkgs.ncspot
       pkgs.nixfmt
