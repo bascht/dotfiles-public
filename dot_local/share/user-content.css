@@ -27,6 +27,13 @@ body.qute-readability * {
   font-family: "IBM Plex Serif" !important;
 }
 
+body.gl-platform-linux div.diff-file * {
+  font-family: "Iosevka Term" !important;
+}
+body.gl-platform-linux div.diff-file span.line {
+  font-size: 1.15em;
+}
+
 body.gl-platform-linux div.js-pipeline-graph .gl-text-truncate {
   overflow: unset !important;
   text-overflow: unset !important;
