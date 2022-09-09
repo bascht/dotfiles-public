@@ -446,6 +446,10 @@ in
       mopidy-tunein
       mopidy-youtube
     ];
+
+    settings = {
+      file = { media_dirs = [ "~/Musik"]; };
+    };
   };
 
   services.mbsync.enable = true;
