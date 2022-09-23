@@ -76,7 +76,7 @@
        (yaml +lsp)       ; JSON, but readable
 
        :email
-       (mu4e)
+       (mu4e +org)
 
        :app
        calendar
