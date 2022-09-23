@@ -269,6 +269,9 @@
 
   virtualisation = {
     docker.enable = true;
+    docker.daemon.settings = {
+      dns = ["1.1.1.1" "8.8.4.4"];
+    };
     podman = {
       enable = true;
       dockerCompat = false;
