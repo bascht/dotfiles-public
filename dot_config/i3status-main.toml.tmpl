@@ -22,6 +22,11 @@ separator_fg = "#434C5E"
 
 [[block]]
 block = "custom"
+command = '/home/bascht/bin/homeassistant-co2-office'
+interval = 60
+
+[[block]]
+block = "custom"
 command = '/home/bascht/bin/org-get-current-clock-task'
 interval = 10
 on_click = "em -c -e '(org-clock-goto)'"

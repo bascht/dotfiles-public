@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if JSON=$(curl --fail-early --connect-timeout 1 -s 'http://victoriametrics.dorhamm.me/prometheus/api/v1/query?query=hass_sensor_carbon_dioxide_ppm%7Bentity%3D%22sensor.netatmo_home_office_co2%22%7D'); then
+	if VALUE=$(echo $JSON | jq -r ".data.result[0].value | last"); then
+		if [ $VALUE -ge 1500 ]; then
+			COLOR="#88C0D0"
+		elif [ $VALUE -ge 1000 ]; then
+			COLOR="#E5E9F0"
+		else
+			COLOR="#"
+		fi;
+		echo "<span color='${COLOR}'>${VALUE}</span>"
+	else
+		echo "fail";
+	fi;
+else
+	echo "?";
+fi;
