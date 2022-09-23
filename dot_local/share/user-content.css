@@ -34,6 +34,10 @@ body.gl-platform-linux div.diff-file span.line {
   font-size: 1.15em;
 }
 
+body.gl-platform-linux div.related-merge-requests {
+  font-size: 0.8em;
+}
+
 body.gl-platform-linux div.js-pipeline-graph .gl-text-truncate {
   overflow: unset !important;
   text-overflow: unset !important;
@@ -127,6 +131,12 @@ body.gl-platform-linux .ci-status-icon-success-with-warnings svg {
   fill: crimson !important;
 }
 
+body.gl-platform-linux div.stage-container div.gl-new-dropdown button.mini-pipeline-graph-dropdown-toggle {
+  height: 28px !important;
+  width: 28px !important;
+  border-radius: 5px !important;
+}
+
 body.gl-platform-linux .dropdown-menu li[data-milestone-id^="Ops Team Sprint"] {
   background-color: blanchedalmond !important;
   font-weight: bold !important;
@@ -200,6 +210,7 @@ body.gl-platform-linux ul.merge-request-tabs li a {
   padding-left: 1em;
   padding-right: 1em;
 }
+
 /* Unwrap Milestones in GitLab Epic overview */
 div.related-items-tree span.milestone-title, 
 div.related-items-tree span.board-card-weight {
