@@ -23,6 +23,11 @@ body.channel-view * {
   font-family: "Iosevka Aile" !important;
 }
 
+/* Todoist could use a proper font as well */
+html.theme_todoist body * {
+  font-family: "Iosevka Aile" !important;
+}
+
 body.qute-readability * {
   font-family: "IBM Plex Serif" !important;
 }
