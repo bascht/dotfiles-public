@@ -24,7 +24,7 @@ sleep 0.5
 # Home and at my main desk
 if (swaymsg -t get_inputs | grep "ErgoDox EZ"); then
    doas /run/current-system/sw/bin/networkctl down wifi
-   doas /run/current-system/sw/bin/networkctl up ethernet
+   doas /run/current-system/sw/bin/networkctl reconfigure ethernet
 
    ACTION="On main desk."
 
@@ -38,7 +38,7 @@ elif swaymsg -t get_inputs | grep "Planck EZ"; then
 
    ACTION="On side desk."
    doas /run/current-system/sw/bin/networkctl down wifi
-   doas /run/current-system/sw/bin/networkctl up dorhamm-docking
+   doas /run/current-system/sw/bin/networkctl reconfigure dorhamm-docking
 
 # Whereever else
 else
