@@ -7,9 +7,9 @@ if JSON=$(curl --fail-early --connect-timeout 1 -s 'http://victoriametrics.dorha
 		elif [ $VALUE -ge 1000 ]; then
 			COLOR="#E5E9F0"
 		else
-			COLOR="#"
+			COLOR="#2E3440"
 		fi;
-		echo "<span color='${COLOR}'>${VALUE}</span>"
+		echo "<span color='${COLOR}'>${VALUE}ppm</span>"
 	else
 		echo "fail";
 	fi;
