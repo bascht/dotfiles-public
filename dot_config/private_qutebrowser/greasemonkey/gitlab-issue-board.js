@@ -2,7 +2,8 @@
 // @name        GitLabBoardEnhancements
 // @namespace   https://github.com/bascht
 // @description Adjust a few non-mono pages that I like to read
-// @include     /^https://git.*
+// @include     /^https:\/\/git.*$/
+// @include     https://gitlab.com*
 // @version     1
 // @author      Bascht
 // ==/UserScript==
