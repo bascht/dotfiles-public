@@ -60,6 +60,7 @@ in
   home.packages = [
       # unstable.pkgs.logseq
       # unstable.pkgs.obsidian
+      pkgs.envsubst
       pkgs.wpa_supplicant_gui
       pkgs.vulkan-loader
       pkgs.vulkan-validation-layers
