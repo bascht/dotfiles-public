@@ -277,7 +277,7 @@ bindsym $mod+t scratchpad toggle
 for_window [title=".*"] title_format %title (class=%class app_id=%app_id instance=%instance shell=%shell)
 for_window [app_id="terminal_scratchpad"] move scratchpad, fullscreen disable, border pixel 4, move position center
 for_window [app_id="launcher"] border pixel 4, move position center
-for_window [title="^qutebrowser-editor.*$"] floating enable, border pixel 4, move position center
+for_window [title="^qutebrowser-editor.*$"] border pixel 4
 
 bindsym $mod+u exec scratchpad
 
