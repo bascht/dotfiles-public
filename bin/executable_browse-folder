@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-exec foot --app-id 'files' lf $*
+COMMAND="(dired \"${1}\")"
+exec em -e "${COMMAND}"
