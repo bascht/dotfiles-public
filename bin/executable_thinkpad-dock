@@ -8,8 +8,8 @@ if [[ "${ACTION}" != "" && "${NAME}" != '"ZSA Technology Labs Inc ErgoDox EZ Shi
   exit 0
 fi;
 
-SWAYSOCK=/run/user/$(id -u)/sway-ipc.sock
-DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+SWAYSOCK=/run/user/$(id -u bascht)/sway-ipc.sock
+DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u bascht)/bus"
 export SWAYSOCK
 export DBUS_SESSION_BUS_ADDRESS
 
@@ -48,5 +48,5 @@ else
 fi;
 
 TITLE="${ACTION} ${NAME}"
-swaymsg exec -- /home/bascht/.nix-profile/bin/notify-send -t 3000 --icon="${ICON}" "Docking event" "$TITLE"
+swaymsg exec -- sh -c '/home/bascht/.nix-profile/bin/notify-send -t 3000 --icon=\"${ICON}\" \"Docking event\" \"$TITLE\"'
 
