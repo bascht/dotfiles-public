@@ -66,7 +66,7 @@ config.bind(',sp', 'spawn -u send-url baschtfon')
 config.bind(',aw', 'set content.webgl true')
 config.bind(',ac', 'set content.javascript.can_access_clipboard true')
 
-config.bind(',b', 'open https://read.bascht.space/bookmarklet?url={url}')
+config.bind(',b', 'open https://read.yakshed.org/bookmarklet?url={url}')
 
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
