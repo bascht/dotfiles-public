@@ -88,14 +88,14 @@
        :desc "Run table formatter"    "tf" #'org-table-calc-current-TBLFM
 
        (:prefix-map ("c" . "clocks")
-        :desc "Clock in alfatraining" "a" #'bascht/alfatraining-clock-in))
+        :desc "Clock in alfatraining" "a" #'bascht/alfatraining-clock-in
+        :desc "Goto in recent clock"  "r" #'org-mru-clock-select-recent-task))
 
       (:prefix-map ("nw" . "WirZwei")
        :desc "Open todays wzzk"       "t" #'bascht/wzzk-find-today
        :desc "Open yesterdays wzzk"   "y" #'bascht/wzzk-find-yesterday
        :desc "Find file in wzzk"      "f" #'bascht/wzzk-find)
 
-      # :desc "Archive subtree"         "msa" #'org-archive-subtree
       :desc "Open yesterdays journal" "njy" #'bascht/goto-yesterdays-journal
       :desc "Find in Alfaview"        "nga" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/CustomerAlfaview.org"))
       :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org"))
