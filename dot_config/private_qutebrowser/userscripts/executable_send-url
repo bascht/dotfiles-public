@@ -10,18 +10,21 @@
 # See, ma? No Mozilla sync necessary.
 
 set -eo pipefail
+set -xv
 
 source ~/.config/environment.d/10-bascht.conf
 export SSH_AUTH_SOCK
 
 TARGET_HOST="${1:-pierogi}"
 
-# TARGET_HOST="pierogi"
 if [[  $(hostname) == "${TARGET_HOST}" ]]; then
 TARGET_HOST="apfelstrudel"
 fi
 
-notify-send "Sending Tab '${QUTE_TITLE}' to ${TARGET_HOST}" "${QUTE_URL}"
+NOTIFICATION_TITLE="Sending Tab ${QUTE_TITLE} to ${TARGET_HOST}"
+NOTIFICATION_MESSAGE="${QUTE_URL}"
+
+swaymsg exec -- "notify-send '${NOTIFICATION_TITLE}' '${NOTIFICATION_MESSAGE}'"
 
 if [[ "${TARGET_HOST}" == "baschtfon" ]]; then
 curl -s \
