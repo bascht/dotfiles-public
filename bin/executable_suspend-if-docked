@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+SWAYSOCK=/run/user/$(id -u)/sway-ipc.sock
+DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+export SWAYSOCK
+export DBUS_SESSION_BUS_ADDRESS
+
+if swaymsg -t get_inputs | grep "Planck EZ"; then
+  doas /run/current-system/sw/bin/systemctl suspend;
+fi;
