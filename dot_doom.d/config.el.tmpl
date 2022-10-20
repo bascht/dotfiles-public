@@ -150,6 +150,36 @@
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
 
+(after! ranger
+  (setq
+   ranger-override-dired 'ranger))
+
+(map! :after ranger
+      :map ranger-mode-map
+      :localleader
+
+      (:desc "Drop file" "d" #'dwim-shell-command-drop)
+      (:desc "Drag file" "r" #'dwim-shell-command-drag))
+
+(use-package! dwim-shell-command
+  :init
+
+  (defun dwim-shell-command-drop ()
+    "Drop stuff over to drop.bascht.space"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Drop to drop.bascht.space"
+     "swaymsg exec -- drop <<f>>"
+     :utils "drop"))
+
+  (defun dwim-shell-command-drag ()
+    "Drag stuff via dragon"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Drag files somewhere"
+     "swaymsg exec -- dragon --and-exit <<f>>"
+     :utils "dragon")))
+
 (after! modus-themes
   (setq modus-themes-syntax '(faint green-strings yellow-comments yellow-alt-syntax)
         modus-themes-bold-constructs t
