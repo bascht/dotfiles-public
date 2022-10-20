@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+swaymsg splitv
+emacsclient --socket-name=comacs --create-frame -e "(progn (find-file \"${1}\")(gfm-mode))"
