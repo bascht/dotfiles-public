@@ -242,6 +242,8 @@
                                   (bascht/switch-spellcheck "de_DE")
                                   (evil-insert-state))
 
+(add-hook! 'terraform-mode-hook   #'format-all-mode)
+
 (defun bascht/markdown-do ()
   "Keep markdown-do from straight away going into gfm-mode and adding checkboxes"
   (interactive)
@@ -286,9 +288,6 @@
     (set-face-attribute 'dap-ui-marker-face nil :inherit nil)
     (set-face-background 'dap-ui-pending-breakpoint-face "lightpink")
     (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
-
-(after! terraform
-  (terraform-format-on-save-mode))
 
 (custom-set-faces
  '(mode-line ((t (:family "Iosevka Aile" :height 1.0))))
