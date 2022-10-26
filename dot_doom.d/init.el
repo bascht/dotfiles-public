@@ -4,12 +4,12 @@
 (doom! :input
        :completion
        company           ; the ultimate code completion backend
-       (ivy -fuzzy +prescient +icons) ; a search engine for love and life
+       ;(ivy -fuzzy +prescient +icons) ; a search engine for love and life
+       (vertico +icons)
 
        :ui
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
-       doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        (modeline +light) ; snazzy, Atom-inspired modeline, plus API
@@ -18,7 +18,7 @@
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        treemacs          ; a project drawer, like neotree but cooler
-       vc-gutter         ; vcs diff in the fringe
+       (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
@@ -28,6 +28,8 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
+       format            ; automated prettiness
+       parinfer
        multiple-cursors  ; editing in many places at once
        snippets          ; my elves. They type so I don't have to
 
