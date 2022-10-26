@@ -259,10 +259,10 @@ c.colors.statusbar.normal.fg = base05
 c.colors.statusbar.normal.bg = base00
 
 # Foreground color of the statusbar in insert mode.
-c.colors.statusbar.insert.fg = base0C
+c.colors.statusbar.insert.fg = base00
 
 # Background color of the statusbar in insert mode.
-c.colors.statusbar.insert.bg = base00
+c.colors.statusbar.insert.bg = base0C
 
 # Foreground color of the statusbar in passthrough mode.
 c.colors.statusbar.passthrough.fg = base0A
