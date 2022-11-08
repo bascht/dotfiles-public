@@ -454,6 +454,7 @@ in
   };
 
   services.mbsync.enable = true;
+  services.mbsync.verbose = false;
   services.gnome-keyring.enable = true;
 
   services.nextcloud-client.enable = true;
