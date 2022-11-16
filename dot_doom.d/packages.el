@@ -13,7 +13,10 @@
 (package! ef-themes)
 (package! literate-calc-mode)
 (package! dwim-shell-command)
+(package! obsidian)
 
-{{- range .doom.extra_packages }}
-(package! {{ . }})
-{{- end }}
+(when (string= (system-name) "apfelstrudel")
+  (package! protobuf-mode)
+  (package! salt-mode)
+  (package! ob-grpc :recipe
+    (:host github :repo "shsms/ob-grpc")))
