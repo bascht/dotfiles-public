@@ -419,7 +419,7 @@ in
                before-sleep '${config.home.homeDirectory}/bin/blur-lock' \
                unlock '${config.home.homeDirectory}/bin/thinkpad-dock' \
                timeout 300 '${config.home.homeDirectory}/bin/blur-lock' \
-               timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
+               timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' resume '${pkgs.sway}/bin/swaymsg "output * dpms on" && /home/bascht/bin/thinkpad-dock' \
                timeout 900 '${config.home.homeDirectory}/bin/suspend-if-docked' resume '${pkgs.sway}/bin/swaymsg "output * dpms on" && /home/bascht/bin/thinkpad-dock'
              '';
      Restart = "on-failure";
