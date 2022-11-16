@@ -102,8 +102,9 @@ in
       pkgs.k9s
       pkgs.multimarkdown
       pkgs.unzip
-      pkgs.go
-      pkgs.gopls
+      unstable.pkgs.go
+      unstable.pkgs.gopls
+      unstable.pkgs.godef
       pkgs.libreoffice
       pkgs.awscli2
       pkgs.kristall
@@ -166,11 +167,14 @@ in
       pkgs.hledger
       pkgs.gnupg
       pkgs.gnupg-pkcs11-scd
-      pkgs.go
-      pkgs.gopass
-      pkgs.gore
-      pkgs.gotests
-      pkgs.gomodifytags
+      # unstable.pkgs.kakoune
+      unstable.pkgs.helix
+      unstable.pkgs.go
+      unstable.pkgs.gopass
+      unstable.pkgs.gore
+      unstable.pkgs.gotests
+      unstable.pkgs.gomodifytags
+      unstable.pkgs.grpcurl
       pkgs.grim
       pkgs.gsettings-desktop-schemas
       pkgs.gst_all_1.gst-plugins-bad
@@ -474,6 +478,15 @@ in
       vim-nix
       vim-fish
       vim-surround
+      vim-plug
+      nvim-ale-diagnostic
+      ale
+      vim-go
+      deoplete-nvim
+      deoplete-go
+      cmp-nvim-lsp
+      nvim-lspconfig
+
     ];
   };
 
