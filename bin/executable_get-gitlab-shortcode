@@ -3,12 +3,17 @@
 require "uri"
 
 begin
-  abort "Please supply a valid URL to this script." if ARGV.empty?
-  uri = URI.parse(ARGV.last.strip)
+  uri_argument = if ARGV.empty?
+                   `wl-paste -n`
+                 else
+                   ARGV.last.strip
+                 end
+
+  uri = URI.parse(uri_argument)
 
   abort "Not a valid forge URI" unless uri.host.start_with? "git."
 
-  if uri_match = uri.path.match(%r{/(?<group>([a-z/]+)?)/(?<project>([a-z-]+))(/-/(?<type>[\w]+)(/)(?<issue>[\w]+))?})
+  if uri_match = uri.path.match(%r{/(?<group>([a-z/]+)?)/(?<project>([a-z-]+))/-/(?<type>[\w]+)(/)(?<issue>[\w]+)})
     short_code = case uri_match[:type]
                  when "merge_requests"
                    "!"
@@ -25,7 +30,11 @@ begin
   abort "Could not find anything to match in #{uri}" if uri_match.nil?
   end
 
-  $stdout.puts out
+  if STDIN.isatty
+    $stdout.puts out
+  else
+    `wl-copy #{out}`
+  end
 rescue URI::InvalidURIError => e
   $stderr.puts "The supplied URI could not be parsed: #{e.message}"
 end
