@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-COMMAND="(dired \"${1}\")"
+COMMAND="(dired \"${1}\")(ranger-mode)"
 exec em -e "${COMMAND}"
