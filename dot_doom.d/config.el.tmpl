@@ -262,6 +262,8 @@
   "Keep markdown-do from straight away going into gfm-mode and adding checkboxes"
   (interactive)
   (cond
+   ((thing-at-point-looking-at obsidian--basic-wikilink-regex)
+    (obsidian-follow-link-at-point))
    ((thing-at-point-looking-at markdown-regex-wiki-link)
     (markdown-follow-wiki-link-at-point))
    (t
@@ -302,6 +304,8 @@
     (set-face-attribute 'dap-ui-marker-face nil :inherit nil)
     (set-face-background 'dap-ui-pending-breakpoint-face "lightpink")
     (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
+
+(after! obsidian (obsidian-specify-path "~/WirZwei/Zettelkasten"))
 
 (custom-set-faces
  '(mode-line ((t (:family "Iosevka Aile" :height 1.0))))
