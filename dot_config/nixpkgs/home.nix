@@ -473,6 +473,9 @@ in
     enable = true;
     viAlias = true;
     vimAlias = true;
+    extraConfig = ''
+      set number
+    '';
     plugins = with pkgs.vimPlugins; [
       vim-which-key
       vim-nix
@@ -481,10 +484,11 @@ in
       vim-plug
       nvim-ale-diagnostic
       ale
+      neorg
       vim-go
       deoplete-nvim
       deoplete-go
-      cmp-nvim-lsp
+      #cmp-nvim-lsp
       nvim-lspconfig
 
     ];
