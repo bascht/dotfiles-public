@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+TREE=$(swaymsg -t get_tree | jq -r '[ recurse(.nodes[]) | select(.app_id == "org.qutebrowser.qutebrowser") ]')
 
 BROWSER=qutebrowser
 SWAYSOCK="/run/user/1000/sway-ipc.sock"
+QUTE_SOCK="${XDG_RUNTIME_DIR}/qutebrowser/ipc-e1046d5b3be559e50bde86bda91e0739"
+export SWAYSOCK
 
-if ! pgrep $BROWSER > /dev/null; then
-	echo "Opening a new instance of ${BROWSER}"
-	$BROWSER &
+if [[ "$TREE" == "[]" ]]; then
+	echo "No ${BROWSER} found. Opening a new instance of ${BROWSER}"
+	$BROWSER "${1}" &
+	exit 0
+elif [ -z "$1" ]; then
+	args=":open -w"
+elif echo "${TREE}" | jq -e "any(.visible)"; then
+	args=":open -t $1"
+else
+	args=":open -w $1"
 fi
 
-swaymsg exec $BROWSER -- --target tab-silent --target tab-silent $*
+echo "Running with ${args}"
+echo '{"args":["'"${args}"'"], "target_arg":"", "protocol_version":1}' | socat - "UNIX-CONNECT:${QUTE_SOCK}"
