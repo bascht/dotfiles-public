@@ -19,10 +19,12 @@ else
 	ICON=$(readlink -f ~/.nix-profile/share/icons/gnome/48x48/devices/display.png)
 fi;
 
+export ICON
+
 sleep 0.5
 
 # Home and at my main desk
-if (swaymsg -t get_inputs | grep "ErgoDox EZ"); then
+if swaymsg -t get_inputs | grep "ErgoDox EZ"; then
    doas /run/current-system/sw/bin/networkctl down wifi
    doas /run/current-system/sw/bin/networkctl reconfigure ethernet
 
@@ -34,19 +36,18 @@ if (swaymsg -t get_inputs | grep "ErgoDox EZ"); then
   fi
 
 # Home and on the side desk
-elif swaymsg -t get_inputs | grep "Planck EZ"; then
-
+elif (swaymsg -t get_inputs | grep "Planck EZ") && networkctl status dorhamm-docking; then
    ACTION="On side desk."
    doas /run/current-system/sw/bin/networkctl down wifi
    doas /run/current-system/sw/bin/networkctl reconfigure dorhamm-docking
 
 # Whereever else
 else
-   ACTION="Not docked at all"
+  ACTION="Not docked at all"
   swaymsg output eDP-1 enable
   doas /run/current-system/sw/bin/networkctl up wifi
 fi;
 
 TITLE="${ACTION} ${NAME}"
-swaymsg exec -- sh -c '/home/bascht/.nix-profile/bin/notify-send -t 3000 --icon=\"${ICON}\" \"Docking event\" \"$TITLE\"'
-
+export TITLE
+swaymsg exec -- sh -c "/home/bascht/.nix-profile/bin/notify-send -t 3000 --icon=\"${ICON}\" \"Docking event\" \"$TITLE\""
