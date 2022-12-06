@@ -11,6 +11,11 @@
 (async function IIFE() {
     'use strict';
 
+    const rtf = new Intl.RelativeTimeFormat("en-GB", {
+        localeMatcher: "best fit",
+        numeric: "always",
+        style: "long",
+    });
     var enhanceGitLabCard = async function(card) {
         const full_issue = $(card).find("h4 a").first().attr("href");
         var project_path = full_issue.split("/-/issues/")[0].replace("https://git.alfa.sx/", "")
@@ -24,9 +29,18 @@
             onload: function(response) {
                 $(board_info_items).find("div.related-merge-requests").each(function(){ $(this).remove()});
                 $(JSON.parse(response.responseText)).each(function(){
-                    var div = $("<div>", { class: "related-merge-requests gl-display-flex align-items-start" })
-                    var a = $("<a>", { href: this.web_url, title: this.title })
-                    a.html("<code>[" + this.state + "]</code>" + this.references.full)
+                    const div = $("<div>", { class: "related-merge-requests gl-display-flex align-items-start" })
+                    const a = $("<a>", { href: this.web_url, title: this.title })
+
+                    if(this.state == "merged") {
+                        const days_ago = Math.round((Date.parse(this.merged_at) - new Date()) / 86400000)
+                        var code = "<code>[✔️ " + rtf.format(days_ago, "days") +  "]</code>"
+                    }
+                    else
+                    {
+                        var code = "<code>[" + this.detailed_merge_status + "]</code>"
+                    }
+                    a.html(code + this.references.full)
                     $(div).append(a)
                     $(board_info_items).append(div)
 
