@@ -296,6 +296,15 @@
        do (bascht/format-clock-line-as-csv (org-element-at-point))
        (forward-line 1))))
 
+(defun bascht/format-clock-line-as-csv (clock-line)
+  (let* ((timestamp (org-element-property :value clock-line))
+         (ts-start (org-timestamp-to-time timestamp))
+         (ts-end (org-timestamp-to-time timestamp t)))
+
+    (message (format "go-personio --work-start '%s' --work-end '%s'"
+                     (format-time-string "%F %a %R %Z" ts-start)
+                     (format-time-string "%F %a %R %Z" ts-end)))))
+
   ;; Temporary test-function to re-trigger the export and get the logs
   (defun bascht/test-org-clock-to-personio ()
     (interactive)
