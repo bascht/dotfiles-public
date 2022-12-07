@@ -324,7 +324,7 @@
     (find-file (expand-file-name org-file))
     (counsel-org-goto)
     (org-reveal)
-    (org-show-subtree))
+    (org-fold-show-subtree))
 
   (defun bascht/wzzk-find ()
     (interactive)
