@@ -1,5 +1,5 @@
 #!/run/current-system/sw/bin/env nix-shell
-#!nix-shell -i bash -p python38Packages.managesieve
+#!nix-shell -i bash -p python310Packages.managesieve
 
 SIEVE_PASSWORD=$(gopass show communication/hosted.mailcow.de/mail@bascht.com)
 export SIEVE_PASSWORD
