@@ -29,7 +29,7 @@
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        format            ; automated prettiness
-       parinfer
+       ;; parinfer
        multiple-cursors  ; editing in many places at once
        snippets          ; my elves. They type so I don't have to
 
@@ -72,7 +72,7 @@
        ledger            ; an accounting system in Emacs
        markdown          ; writing docs for people to ignore
        nix               ; I hereby declare "nix geht mehr!"
-       (org +gnuplot +dragndrop +journal +pandoc +pomodoro +present +hugo +roam2 +noter)    ; organize your plain life in plain text
+       (org +gnuplot +dragndrop +journal +pandoc +pomodoro +present +hugo +noter)    ; organize your plain life in plain text
        (ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (sh +fish)                ; she sells {ba,z,fi}sh shells on the C xor
        (yaml +lsp)       ; JSON, but readable
