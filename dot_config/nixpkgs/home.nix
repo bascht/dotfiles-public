@@ -26,7 +26,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/8707d84ec67b39d5655929fc974055bcb9a160fb.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/2ce014a48bf6845b9bbeca6eabbff9ba5783c30d.tar.gz;
     }))
   ];
 
@@ -465,7 +465,7 @@ in
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsNativeComp;
+    package = pkgs.emacs28NativeComp;
     extraPackages = epkgs: [ epkgs.vterm epkgs.pdf-tools epkgs.org-pdftools];
   };
 
