@@ -289,21 +289,12 @@
     (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
     (goto-char (org-find-exact-headline-in-buffer (format-time-string "%Y-%m")))
     (search-forward ":LOGBOOK:")
-    (while '(not (string-equal (s-trim (thing-at-point 'line t)) ":END:"))
-      (message "(while) at line [%s]" (s-trim (thing-at-point 'line t)))
+    (save-excursion
       (forward-line 1)
-      ;; (sleep-for 0.2)
-      ;; (message "Processing line [%s]: %s" (s-trim (thing-at-point 'line t)) (not (s-equals? (s-trim (thing-at-point 'line t)) ":LOGBOOK:")))
-      ;; (sleep-for 0.2)
-      (let* ((line (s-trim (thing-at-point 'line t)))
-             (re (concat "^\\(\\*+\\)[ \t]\\|^[ \t]*"
-                   org-clock-string
-                   "[ \t]*\\(?:\\(\\[.*?\\]\\)-+\\(\\[.*?\\]\\)\\|=>[ \t]+\\([0-9]+\\):\\([0-9]+\\)\\)")))
-
-        ;; (nonincremental-re-search-forward re)
-        (string-match re line)
-        ;; (sleep-for 0.2)
-        (message "Matching %s in %s" line (match-string 0)))))
+      (cl-loop
+       until (s-equals? (s-trim (thing-at-point 'line t)) ":END:")
+       do (bascht/format-clock-line-as-csv (org-element-at-point))
+       (forward-line 1))))
 
   ;; Temporary test-function to re-trigger the export and get the logs
   (defun bascht/test-org-clock-to-personio ()
