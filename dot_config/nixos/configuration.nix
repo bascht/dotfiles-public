@@ -11,6 +11,7 @@
 
   system.stateVersion = "22.05";
   nix.autoOptimiseStore = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
   boot.loader.efi.canTouchEfiVariables = true;
