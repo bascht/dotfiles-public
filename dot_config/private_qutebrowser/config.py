@@ -67,6 +67,7 @@ config.bind(',aw', 'set content.webgl true')
 config.bind(',ac', 'set content.javascript.can_access_clipboard true')
 
 config.bind(',b', 'open https://read.yakshed.org/bookmarklet?url={url}')
+config.bind(',y', 'open https://social.yakshed.org/authorize_interaction?uri={url}')
 
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
