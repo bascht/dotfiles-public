@@ -10,7 +10,7 @@
     ];
 
   system.stateVersion = "22.05";
-  nix.autoOptimiseStore = true;
+  nix.settings.auto-optimise-store = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
@@ -251,7 +251,7 @@
     };
   };
 
-  nix.trustedUsers = [ "root" "bascht" ];
+  nix.settings.trusted-users = [ "root" "bascht" ];
 
   environment.systemPackages = with pkgs; [
     home-manager
