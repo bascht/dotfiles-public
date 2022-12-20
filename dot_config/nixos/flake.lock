@@ -5,14 +5,18 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 0,
-        "narHash": "sha256-7FExs2oN1zJW/kWqCyQqfKFnOOlRqrgDALXemtKJRVQ=",
+        "lastModified": 1671521595,
+        "narHash": "sha256-+LYCsEH49LCxKEcvMIvobvhdOG1zby4+8gODIS9ac0o=",
+        "ref": "main",
+        "rev": "aa37546c9109c06d9d0cc25380288ce5758a78b0",
+        "revCount": 4,
         "type": "git",
-        "url": "file:///home/bascht/Code/nixos-private.git"
+        "url": "https://git.dorhamm.me/bascht/nixos-private.git"
       },
       "original": {
+        "ref": "main",
         "type": "git",
-        "url": "file:///home/bascht/Code/nixos-private.git"
+        "url": "https://git.dorhamm.me/bascht/nixos-private.git"
       }
     },
     "nixos-hardware": {

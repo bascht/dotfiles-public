@@ -1,12 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  imports =
-    [
-      # /etc/nixos/hardware-configuration.nix
-      # /etc/nixos/machine.nix
-      # /etc/nixos/wifi.nix
-    ];
+  imports = [];
 
   system.stateVersion = "22.05";
   nix.settings.auto-optimise-store = true;
@@ -20,7 +15,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
 
   networking = {
     useDHCP = false;
