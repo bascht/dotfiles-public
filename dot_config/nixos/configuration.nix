@@ -29,6 +29,16 @@
 
   time.timeZone = "Europe/Berlin";
 
+  i18n = {
+    defaultLocale = "en_GB.UTF-8";
+    extraLocaleSettings = {
+      LC_TIME     = "en_GB.UTF-8";
+      LC_MONETARY = "de_DE.UTF-8";
+      LC_PAPER    = "de_DE.UTF-8";
+      LC_NUMERIC  = "de_DE.UTF-8";
+    };
+  };
+
   programs.zsh.enable = true;
   programs.light.enable = true;
   programs.fish.enable = true;
