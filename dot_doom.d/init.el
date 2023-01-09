@@ -61,21 +61,22 @@
        terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        pass
+       tree-sitter
 
        :os
        tty               ; improve the terminal Emacs experience
 
        :lang
-       emacs-lisp        ; drown in parentheses
-       (go +lsp)         ; the hipster dialect
-       json              ; At least it ain't XML
-       ledger            ; an accounting system in Emacs
-       markdown          ; writing docs for people to ignore
-       nix               ; I hereby declare "nix geht mehr!"
-       (org +gnuplot +dragndrop +journal +pandoc +pomodoro +present +hugo +noter)    ; organize your plain life in plain text
-       (ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (sh +fish)                ; she sells {ba,z,fi}sh shells on the C xor
-       (yaml +lsp)       ; JSON, but readable
+       (emacs-lisp +tree-sitter)                                                  ; drown in parentheses
+       (go +lsp +tree-sitter)                                                     ; the hipster dialect
+       json                                                                       ; At least it ain't XML
+       ledger                                                                     ; an accounting system in Emacs
+       (markdown +tree-sitter)                                                    ; writing docs for people to ignore
+       nix                                                                        ; I hereby declare "nix geht mehr!"
+       (org +gnuplot +dragndrop +journal +pandoc +pomodoro +present +hugo +noter) ; organize your plain life in plain text
+       (ruby +rails)                                                              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       (sh +fish +tree-sitter)                                                    ; she sells {ba,z,fi}sh shells on the C xor
+       (yaml +lsp +tree-sitter)                                                   ; JSON, but readable
 
        :email
        (mu4e +org)
