@@ -4,8 +4,12 @@ set -eo pipefail
 
 export SWAYSOCK=/run/user/1000/sway-ipc.sock
 
+
+# Kudos: https://stackoverflow.com/a/37840948
+function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+
 # Strip file:// protocol as file -b will handle this
-argument=$(echo $1 | sed "s|file://||")
+argument=$(urldecode "${1}" | sed "s|file://||")
 url_regex='^(https?|alfaview|mailto|ftp):/?/?.*'
 
 if [[ $argument =~ $url_regex ]]; then
