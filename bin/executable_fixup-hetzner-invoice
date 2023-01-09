@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
+TMP=$(mktemp -d)
 NAME=$(basename "${1}" .pdf)
-FIXED="${NAME}-fixed.pdf"
+FIXED="${TMP}/${NAME}-fixed.pdf"
 pdftops "${1}" - | ps2pdf12 - "${FIXED}"
-xdg-open "${FIXED}"
+echo "${FIXED}"
