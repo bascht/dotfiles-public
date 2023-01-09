@@ -12,6 +12,7 @@ mkdir -p /root/.config/fish
 ln -sfn "${CHEZMOI_DIR}/dot_config/nixos" /etc/nixos
 cp "${CHEZMOI_DIR}/bootstrap/root.config.fish" /root/.config/fish/config.fish
 git config --global credential.helper store
+git ls-remote https://git.dorhamm.me/bascht/nixos-private.git || exit 1
 
 pushd /etc/nixos
 nix flake update
