@@ -46,7 +46,12 @@ case "${match}" in
 		exec browser "$1"
 		;;
 	application/x-postscript|image/x-eps|application/pdf)
-		exec zathura "$1"
+		PDF="${1}"
+		if [[ $argument =~ Hetzner_[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_R ]]; then
+			notify-send "Fixing up Hetzner invoice at ${argument}"
+			PDF=$(fixup-hetzner-invoice "${argument}")
+		fi;
+		exec zathura "${PDF}"
 		;;
 	text/calendar)
 		echo $1 | wl-copy --trim-newline
