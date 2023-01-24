@@ -79,7 +79,7 @@
   services.devmon.enable = true;
   services.printing.drivers = [ pkgs.brgenml1cupswrapper ];
   services.printing.enable = true;
-  services.udev.packages = [ pkgs.yubikey-personalization ];
+  services.udev.packages = [ pkgs.yubikey-personalization pkgs.platformio ];
   services.udisks2.enable = true;
   services.xserver.enable = false;
   services.xserver.libinput.enable = true;
