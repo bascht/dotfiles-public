@@ -60,6 +60,9 @@ in
   home.packages = [
       # unstable.pkgs.logseq
       unstable.pkgs.obsidian
+      unstable.android-tools
+      pkgs.cura
+      pkgs.blender
       pkgs.envsubst
       pkgs.wpa_supplicant_gui
       pkgs.vulkan-loader
