@@ -14,6 +14,7 @@ c.scrolling.smooth = True
 c.tabs.title.format = "{audio}{index} {current_title}({host})"
 c.tabs.favicons.scale = 0.8
 c.tabs.indicator.width = 2
+c.session.lazy_restore = True
 
 c.new_instance_open_target = "tab-bg"
 c.input.insert_mode.auto_load = True
