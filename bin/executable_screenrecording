@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+FOLDER="/home/bascht/Videos/Screenrecordings/$(date +'%Y-%m')"
+mkdir -p "${FOLDER}"
+
+if [[ -z "${*}" ]]; then
+	NAME="${FOLDER}/$(date +%Y-%m-%d-%H%M%S).webm"
+else
+	NAME="${*}.webm";
+fi;
+
+wf-recorder -d /dev/dri/renderD128 -c libvpx-vp9 -g "$(slurp-window)" -f "${NAME}"
