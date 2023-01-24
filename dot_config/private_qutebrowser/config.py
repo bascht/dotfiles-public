@@ -80,7 +80,7 @@ config.bind('ygm', 'spawn get-gitlab-shortcode-as-markdown {url}')
 # per Domain settings
 
 ## WebGL
-for domain in ['www.windy.com', "experience.arcgis.com", "www.figma.com"]:
+for domain in ['www.windy.com', "experience.arcgis.com", "figma.com"]:
     config.set('content.webgl', True, domain)
 
 ## JS Clipboard Access
