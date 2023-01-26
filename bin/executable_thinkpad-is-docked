@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec swaymsg -t get_inputs | grep -E "ErgoDox EZ|Planck EZ" > /dev/null
