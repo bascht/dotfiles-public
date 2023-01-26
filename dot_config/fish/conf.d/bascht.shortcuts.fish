@@ -11,7 +11,7 @@ bind \a "cd (z -l | sort -rn | cut -c 12- | fzf --query=(commandline --current-t
 bind \egkk "_kubeconfig|source; and kubectx; commandline -f repaint"
 bind \egkx "kubectx; commandline -f repaint"
 bind \egkn "kubens; commandline -f repaint"
-bind \egkp "kgp; commandline -f repaint"
+bind \egkp "kubectl get pods;"
 
 # Yaml Engineering
 bind \egoy "commandline -i -- '-o yaml'"
