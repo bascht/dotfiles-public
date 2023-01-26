@@ -279,15 +279,15 @@
     (save-buffer))
 
   ;; Export current clock subtree to Personio
-  (defun bascht/org-clock-to-personio ()
-    (interactive)
+  (defun bascht/org-clock-to-personio (month)
+    (interactive (list (read-string "Monat?" (format-time-string "%Y-%m"))))
     (when (org-clock-is-active)
       (org-clock-out))
     (evil-window-left 0)
     (persp-switch "@Org")
     (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
     (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
-    (goto-char (org-find-exact-headline-in-buffer (format-time-string "%Y-%m")))
+    (goto-char (org-find-exact-headline-in-buffer month))
     (search-forward ":LOGBOOK:")
     (save-excursion
       (forward-line 1)
