@@ -323,7 +323,7 @@ mode "resize" {
   bindsym Escape mode "default"
 }
 
-set $mode_alfaview "Alfaview: (r) launch (s) share (k) stop share"
+set $mode_alfaview "Alfaview: (a) launch (s) share (r) regionshare (k) stop share"
 set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)lipboard (r)ofi (p)ass (s)snippets (w)eb (a)lfaview"
 set $mode_file "Files: (h)ome (s)creenshots (d)ocuments (l)astshot"
 
@@ -372,7 +372,8 @@ mode $mode_run {
 }
 
 mode $mode_alfaview {
-  bindsym r exec "alfaview"; mode "default";
+  bindsym a exec "alfaview"; mode "default";
+  bindsym r exec "alfaview-regionshare"; mode "default";
   bindsym s exec "alfaview-screenshare"; mode "default";
   bindsym k exec "alfaview-screenshare stop"; mode "default";
   # return to default mode
