@@ -1,0 +1,15 @@
+;;; $DOOMDIR/chezmoi.el -*- lexical-binding: t; -*-
+
+(setq user-full-name "{{ .me.name }}"
+      user-mail-address "{{ .me.email }}")
+(after! forge
+  (add-to-list 'forge-alist
+               {{- range .magit.forges }}
+               '("{{ .host }}" "{{ .api }}" "{{ .host }}" {{ .type }})
+               {{- end }}))
+
+(setq org-link-abbrev-alist
+      '({{- range .bookmarks -}}
+            ("{{ .name }}" . "{{ .url }}")
+            {{ end -}}
+            ))

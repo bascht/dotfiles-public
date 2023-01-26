@@ -5,17 +5,16 @@
 (defun bascht/is-comacs()
   (string= (getenv "EMACS_SERVER_NAME") "comacs"))
 
-(setq user-full-name "{{ .me.name }}"
-      user-mail-address "{{ .me.email }}"
-      doom-font (font-spec :family "JetBrains Mono" :size 14)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 14)
-      doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-duo-light)
+      doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
       doom-modeline-height 23
       ef-themes-mixed-fonts t
       modus-themes-variable-pitch-ui t
       modus-themes-rainbow-headings t
       modus-themes-section-headings t
       modus-themes-scale-headings t
+      company-idle-delay 0
       org-directory "~/Documents/Zettelkasten/"
       bascht/wzzk "~/WirZwei/Zettelkasten"
       bascht/wzzk-journals "~/WirZwei/Zettelkasten/journals"
@@ -155,13 +154,6 @@
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
 
-(map! :after ranger
-      :map ranger-mode-map
-      :localleader
-
-      (:desc "Drop file" "d" #'dwim-shell-command-drop)
-      (:desc "Drag file" "r" #'dwim-shell-command-drag))
-
 (use-package! dwim-shell-command
   :init
 
@@ -233,6 +225,8 @@
    mu4e-compose-format-flowed t
    mu4e-get-mail-command "mbsync -a"
    mu4e-headers-include-related t
+   mu4e-index-lazy-check t
+   mu4e-index-cleanup nil
    sendmail-program "msmtp"))
 
 ; Disable spell-fu-mode globally
@@ -280,11 +274,6 @@
         markdown-wiki-link-fontify-missing t
         markdown-link-space-sub-char " "))
 
-(after! forge
-  (add-to-list 'forge-alist
-               {{- range .magit.forges }}
-               '("{{ .host }}" "{{ .api }}" "{{ .host }}" {{ .type }})
-               {{- end }}))
 
 (after! magit
     (magit-wip-mode)
@@ -297,11 +286,6 @@
   (with-current-buffer (find-file-noselect file)
     (buffer-string)))
 
-(setq org-link-abbrev-alist
-      '({{- range .bookmarks -}}
-            ("{{ .name }}" . "{{ .url }}")
-            {{ end -}}
-            ))
 
 (after! dap
   (unless (display-graphic-p)
@@ -322,6 +306,7 @@
  '(org-level-2 ((t (:height 1.2 :weight light))))
  '(org-level-3 ((t (:height 1.1 :weight light)))))
 
+(load! "chezmoi.el")
 (load! "mail.el")
 (if (not (bascht/is-comacs))
     (load! "org.el"))
