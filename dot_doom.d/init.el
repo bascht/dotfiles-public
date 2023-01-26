@@ -34,7 +34,7 @@
        snippets          ; my elves. They type so I don't have to
 
        :emacs
-       (dired +ranger +icons)             ; making dired pretty [functional]
+       (dired +icons)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
@@ -58,7 +58,7 @@
        (magit +forge)    ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        pdf               ; pdf enhancements
-       terraform         ; infrastructure as code
+       (terraform +treemacs-git-mode)         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        pass
        tree-sitter
@@ -71,11 +71,11 @@
        (go +lsp +tree-sitter)                                                     ; the hipster dialect
        json                                                                       ; At least it ain't XML
        ledger                                                                     ; an accounting system in Emacs
-       (markdown +tree-sitter)                                                    ; writing docs for people to ignore
+       markdown                                                                   ; writing docs for people to ignore
        nix                                                                        ; I hereby declare "nix geht mehr!"
        (org +gnuplot +dragndrop +journal +pandoc +pomodoro +present +hugo +noter) ; organize your plain life in plain text
        (ruby +rails)                                                              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (sh +fish +tree-sitter)                                                    ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +fish)                                                                 ; she sells {ba,z,fi}sh shells on the C xor
        (yaml +lsp +tree-sitter)                                                   ; JSON, but readable
 
        :email
