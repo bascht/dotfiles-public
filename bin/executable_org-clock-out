@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+
+REASON="${1:-Clocking out from current task}"
+
+if [[ $(emacsclient -n -e "(org-clocking-p)") == "t" ]]; then
+  emacsclient -n -e "(org-clock-out)"
+else
+  REASON="Nothing to clock out from."
+fi
+notify-send "OrgMode $(org-get-current-clock-task)" "${REASON}"

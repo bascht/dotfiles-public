@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+OUTPUT=$(emacsclient -n -e "(org-clock-in-last)")
+notify-send "OrgMode" "${OUTPUT}"
