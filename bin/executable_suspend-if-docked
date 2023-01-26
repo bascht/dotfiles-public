@@ -5,6 +5,11 @@ DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 export SWAYSOCK
 export DBUS_SESSION_BUS_ADDRESS
 
-if swaymsg -t get_inputs | grep "Planck EZ"; then
-  doas /run/current-system/sw/bin/systemctl suspend;
+if thinkpad-is-docked; then
+  if [[ $(emacsclient -n -e "(org-clocking-p)") == "t" ]]; then
+    notify-send "OrgMode $(org-get-current-clock-task)" "Clocking out of current task because of inactivity."
+    org-clock-out
+
+    doas /run/current-system/sw/bin/systemctl suspend;
+  fi;
 fi;
