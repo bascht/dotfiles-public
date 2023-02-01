@@ -14,7 +14,7 @@
       modus-themes-rainbow-headings t
       modus-themes-section-headings t
       modus-themes-scale-headings t
-      company-idle-delay 0
+      company-idle-delay nil
       org-directory "~/Documents/Zettelkasten/"
       bascht/wzzk "~/WirZwei/Zettelkasten"
       bascht/wzzk-journals "~/WirZwei/Zettelkasten/journals"
