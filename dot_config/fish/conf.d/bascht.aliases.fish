@@ -37,7 +37,6 @@ alias tdir="take (mktemp -d --suffix=.(basename (pwd)))"
 abbr osslx "openssl x509 -noout -text"
 abbr osslc "openssl s_client -connect"
 abbr osslb64 "base64 -d | openssl x509 -noout -text"
-abbr baml "-o yaml | bat -l yaml"
 abbr dco "docker-compose"
 abbr k kubectl
 abbr kgp "kubectl get pods"
