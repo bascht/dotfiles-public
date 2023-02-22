@@ -171,7 +171,9 @@
     (dwim-shell-command-on-marked-files
      "Drag files somewhere"
      "swaymsg exec -- dragon --and-exit <<f>>"
-     :utils "dragon")))
+     :utils "dragon"
+     :silent-success t
+     )))
 
 (after! modus-themes
   (setq modus-themes-syntax '(faint green-strings yellow-comments yellow-alt-syntax)
