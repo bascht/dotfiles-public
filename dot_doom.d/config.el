@@ -170,7 +170,9 @@
     (dwim-shell-command-on-marked-files
      "Drop to drop.bascht.space"
      "swaymsg exec -- drop <<f>>"
-     :utils "drop"))
+     :utils "drop"
+     :silent-success t
+     ))
 
   (defun dwim-shell-command-drag ()
     "Drag stuff via dragon"
