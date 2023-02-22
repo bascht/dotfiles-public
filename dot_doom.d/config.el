@@ -309,6 +309,52 @@
 
 (after! obsidian (obsidian-specify-path "~/WirZwei/Zettelkasten"))
 
+(use-package! dirvish
+  :init
+  (dirvish-override-dired-mode)
+  (evil-make-overriding-map dirvish-mode-map 'normal)
+
+  :config
+  (dirvish-peek-mode)
+  (dirvish-side-follow-mode)
+
+  (setq dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
+  (setq dirvish-attributes '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
+  (setq delete-by-moving-to-trash t)
+  (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
+
+  :bind ; Bind `dirvish|dirvish-side|dirvish-dwim' as you see fit
+  (("C-c f" . dirvish-fd)
+   :map dirvish-mode-map ; Dirvish inherits `dired-mode-map'
+   ("a"   . dirvish-quick-access)
+   ("f"   . dirvish-file-info-menu)
+   ("y"   . dirvish-yank-menu)
+   ("N"   . dirvish-narrow)
+   ("^"   . dirvish-history-last)
+   ("h"   . dirvish-history-jump) ; remapped `describe-mode'
+   ("s"   . dirvish-quicksort)    ; remapped `dired-sort-toggle-or-edit'
+   ("v"   . dirvish-vc-menu)      ; remapped `dired-view-file'
+   ("TAB" . dirvish-subtree-toggle)
+   ("gg"  . beginning-of-buffer)
+   ("gu"  . dired-up-directory)
+   ("md"  . dwim-shell-command-drag)
+   ("mo"  . dwim-shell-command-drop)
+   ("G"   . end-of-buffer)
+   ("M-f" . dirvish-history-go-forward)
+   ("M-b" . dirvish-history-go-backward)
+   ("M-l" . dirvish-ls-switches-menu)
+   ("M-m" . dirvish-mark-menu)
+   ("M-t" . dirvish-layout-toggle)
+   ("M-s" . dirvish-setup-menu)
+   ("M-e" . dirvish-emerge-menu)
+   ("M-j" . dirvish-fd-jump))
+  )
+
+(defun bascht/dirvish-tdir()
+  (interactive)
+  (find-file
+   (string-trim (shell-command-to-string "mktemp -d"))))
+
 (custom-set-faces
  '(mode-line ((t (:family "Iosevka Aile" :height 1.0))))
  '(mode-line-active ((t (:family "Iosevka Aile" :height 1.0)))) ; For 29+
