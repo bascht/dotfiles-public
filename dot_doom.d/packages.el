@@ -14,6 +14,10 @@
 (package! literate-calc-mode)
 (package! dwim-shell-command)
 (package! obsidian)
+(package! scad-mode)
+(package! dirvish)
+(package! zoxide)
+(package! flycheck-vale)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)

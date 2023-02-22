@@ -4,8 +4,8 @@ bind -M default \cn down-or-search
 bind \ekv fish_vi_key_bindings
 bind \eke fish_default_key_bindings
 
-# Jumper
-bind \a "cd (z -l | sort -rn | cut -c 12- | fzf --query=(commandline --current-token) --no-sort --exact); commandline -f repaint"
+# Jumper is now just zoxide
+bind \a "zi; commandline -f repaint"
 
 # Kubeshizzle
 bind \egkk "_kubeconfig|source; and kubectx; commandline -f repaint"
