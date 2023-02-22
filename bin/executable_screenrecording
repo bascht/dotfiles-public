@@ -10,3 +10,4 @@ else
 fi;
 
 wf-recorder -d /dev/dri/renderD128 -c libvpx-vp9 -g "$(slurp-window)" -f "${NAME}"
+echo "${NAME}"
