@@ -121,6 +121,13 @@
        :desc "Heading (respecting)" "h" #'org-insert-heading-respect-content
        :desc "TODO heading"         "t" #'org-insert-heading-respect-content))
 
+(map! :after dired
+      :map dired-mode-map
+      :localleader
+
+      :desc "Drag" "d" #'dwim-shell-command-drag
+      :desc "Drop" "o" #'dwim-shell-command-drop)
+
 (map!
    :after markdown-mode
    :map evil-markdown-mode-map
