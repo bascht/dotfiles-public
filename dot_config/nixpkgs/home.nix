@@ -268,6 +268,13 @@ in
       pkgs.spotify-tui
   ];
 
+ home.pointerCursor = {
+  gtk.enable = true;
+  package = pkgs.capitaine-cursors;
+  name = "capitaine-cursors";
+  size = 22;
+ };
+
  programs.direnv.enable = true;
  programs.direnv.nix-direnv.enable = true;
  programs.fish.package = unstable.pkgs.fish;
