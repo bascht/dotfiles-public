@@ -61,6 +61,9 @@ in
       # unstable.pkgs.logseq
       unstable.pkgs.obsidian
       unstable.android-tools
+      pkgs.vale
+      pkgs.openscad
+      pkgs.freecad
       pkgs.cura
       pkgs.blender
       pkgs.envsubst
