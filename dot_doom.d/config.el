@@ -223,6 +223,8 @@
             (plist-get (car-safe (mu4e-message-field msg :to)) :email)
             (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
 
+(after! flycheck-vale (flycheck-vale-setup))
+
 (after! mu4e
   (setq
    org-msg-signature (with-current-buffer (find-file-noselect "/home/bascht/.signature") (buffer-string))
