@@ -1,8 +1,7 @@
 
 { config, lib, pkgs, systemd, inputs, services, ... }:
 let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-
+  unstable = import <nixpkgs-unstable> { config = { allowUnfree = true; }; };
 in
 {
   programs.home-manager.enable = true;
@@ -58,13 +57,11 @@ in
   };
 
   home.packages = [
-      # unstable.pkgs.logseq
-      unstable.pkgs.obsidian
-      unstable.android-tools
+      pkgs.android-tools
       pkgs.vale
-      pkgs.openscad
-      pkgs.freecad
-      pkgs.cura
+      unstable.pkgs.openscad
+      unstable.pkgs.freecad
+      unstable.pkgs.cura
       pkgs.blender
       pkgs.envsubst
       pkgs.wpa_supplicant_gui
@@ -72,7 +69,7 @@ in
       pkgs.vulkan-validation-layers
       pkgs.darktable
       pkgs.foot
-      pkgs.qutebrowser
+      unstable.pkgs.qutebrowser
       pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat
@@ -101,16 +98,16 @@ in
       pkgs.somafm-cli
       pkgs.tree
       pkgs.scrot
-      unstable.pkgs.imv
+      pkgs.imv
       pkgs.cloc
       pkgs.httpie
       pkgs.yaml-language-server
       pkgs.k9s
       pkgs.multimarkdown
       pkgs.unzip
-      unstable.pkgs.go
-      unstable.pkgs.gopls
-      unstable.pkgs.godef
+      pkgs.go
+      pkgs.gopls
+      pkgs.godef
       pkgs.libreoffice
       pkgs.awscli2
       pkgs.kristall
@@ -134,7 +131,7 @@ in
       pkgs.appimage-run
       pkgs.enchant
       pkgs.entr
-      (unstable.pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
+      (pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
       pkgs.bat
       pkgs.bemenu
       pkgs.obs-studio
@@ -144,6 +141,7 @@ in
       pkgs.capitaine-cursors
       pkgs.chezmoi
       unstable.pkgs.chromium
+      unstable.pkgs.openarena
       pkgs.clipman
       pkgs.cmake
       pkgs.dmenu
@@ -173,14 +171,13 @@ in
       pkgs.hledger
       pkgs.gnupg
       pkgs.gnupg-pkcs11-scd
-      # unstable.pkgs.kakoune
-      unstable.pkgs.helix
-      unstable.pkgs.go
-      unstable.pkgs.gopass
-      unstable.pkgs.gore
-      unstable.pkgs.gotests
-      unstable.pkgs.gomodifytags
-      unstable.pkgs.grpcurl
+      pkgs.helix
+      pkgs.go
+      pkgs.gopass
+      pkgs.gore
+      pkgs.gotests
+      pkgs.gomodifytags
+      pkgs.grpcurl
       pkgs.grim
       pkgs.gsettings-desktop-schemas
       pkgs.gst_all_1.gst-plugins-bad
@@ -211,14 +208,14 @@ in
       pkgs.libvterm
       pkgs.lsof
       pkgs.lxappearance
-      pkgs.mako # notification daemon
+      unstable.pkgs.mako # notification daemon
       pkgs.material-design-icons
       pkgs.mpc_cli
-      pkgs.mpv
+      unstable.pkgs.mpv
       pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
-      unstable.pkgs.mu
+      pkgs.mu
       pkgs.ncmpcpp
       pkgs.ncspot
       pkgs.nixfmt
@@ -239,20 +236,21 @@ in
       pkgs.rofi
       pkgs.rofi-calc
       pkgs.rpm
-      unstable.pkgs.signal-desktop
+      pkgs.signal-desktop
       pkgs.silver-searcher
       pkgs.slurp
-      pkgs.sway
+      unstable.pkgs.wlroots
+      unstable.pkgs.sway
       pkgs.starship
-      pkgs.swayidle
-      pkgs.swaylock
+      unstable.pkgs.swayidle
+      unstable.pkgs.swaylock
       pkgs.wayvnc
       pkgs.tdns-cli
       pkgs.tmux
       pkgs.tmuxinator
       pkgs.upower
       pkgs.weather-icons
-      pkgs.wf-recorder
+      unstable.pkgs.wf-recorder
       pkgs.wl-clipboard
       pkgs.python38Packages.youtube-dl
       pkgs.python38Packages.pip
@@ -263,7 +261,7 @@ in
       pkgs.xfce.thunar
       pkgs.xfce.thunar
       pkgs.xfce.thunar-volman
-      pkgs.xwayland
+      unstable.pkgs.xwayland
       pkgs.yubikey-manager
       pkgs.yubikey-personalization
       pkgs.zathura
@@ -280,7 +278,7 @@ in
 
  programs.direnv.enable = true;
  programs.direnv.nix-direnv.enable = true;
- programs.fish.package = unstable.pkgs.fish;
+ programs.fish.package = pkgs.fish;
  programs.fish.enable = true;
  programs.fish.loginShellInit = ''
    if [ (/run/current-system/sw/bin/tty) = "/dev/tty1" ]
@@ -578,5 +576,5 @@ in
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.03";
+  home.stateVersion = "22.11";
 }
