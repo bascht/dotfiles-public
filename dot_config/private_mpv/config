@@ -12,3 +12,5 @@ ytdl-raw-options=yes-playlist=
 osd-msg3=${time-pos}(${=time-pos})/${duration} (${percent-pos}%)
 screenshot-high-bit-depth=no
 hwdec=auto-safe
+vo=gpu
+profile=gpu-hq
