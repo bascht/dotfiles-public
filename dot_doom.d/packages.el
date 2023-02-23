@@ -18,6 +18,7 @@
 (package! dirvish)
 (package! zoxide)
 (package! flycheck-vale)
+(package! dictcc)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
