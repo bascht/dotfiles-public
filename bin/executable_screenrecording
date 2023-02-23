@@ -3,11 +3,11 @@
 FOLDER="/home/bascht/Videos/Screenrecordings/$(date +'%Y-%m')"
 mkdir -p "${FOLDER}"
 
-if [[ -z "${*}" ]]; then
-	NAME="${FOLDER}/$(date +%Y-%m-%d-%H%M%S).webm"
-else
-	NAME="${*}.webm";
+
+NAME="${FOLDER}/$(date +%Y-%m-%d-%H%M%S)"
+if [[ -n "${*}" ]]; then
+	NAME="${NAME}-${*}";
 fi;
 
-wf-recorder -d /dev/dri/renderD128 -c libvpx-vp9 -g "$(slurp-window)" -f "${NAME}"
-echo "${NAME}"
+wf-recorder -d /dev/dri/renderD128 -c libvpx-vp9 -g "$(slurp-window)" -f "${NAME}.webm" > /dev/null 2>&1
+echo "${NAME}.webm"
