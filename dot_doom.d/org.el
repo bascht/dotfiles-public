@@ -301,7 +301,7 @@
          (ts-start (org-timestamp-to-time timestamp))
          (ts-end (org-timestamp-to-time timestamp t)))
 
-    (message (format "go-personio --work-start '%s' --work-end '%s'"
+    (message (format "go-personio --work-start \"%s\" --work-end \"%s\""
                      (format-time-string "%F %a %R %Z" ts-start)
                      (format-time-string "%F %a %R %Z" ts-end)))))
 
