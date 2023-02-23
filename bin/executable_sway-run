@@ -5,3 +5,4 @@ rm -f /run/user/1000/sway-ipc.*
 
 #exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
 exec sway 1>&1 > /dev/null
+export WLR_RENDERER=vulkan
