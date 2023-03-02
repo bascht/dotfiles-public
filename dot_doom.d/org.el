@@ -2,29 +2,27 @@
 
 (after! org
   (setq org-directory "~/Documents/Zettelkasten"
+        ;; org-agenda-include-diary t
+        ;; org-agenda-inhibit-startup t
+        org-agenda-span 1
+        org-agenda-start-day nil
+        ;; org-agenda-start-with-clockreport-mode t
+        ;; org-agenda-sticky nil
         calendar-week-start-day 1
         org-agenda-columns-add-appointments-to-effort-sum t
         org-agenda-default-appointment-duration 30
+        org-agenda-dim-blocked-tasks nil
         org-agenda-file-regexp (format-time-string "\\`[^.].*\\.org\\'\\|\\`%Y%m[0-9]+\\'")
         org-agenda-files '("~/Documents/Zettelkasten")
         org-agenda-hide-tags-regexp "presents"
-        org-agenda-include-diary t
-        org-agenda-ndays 1
-        org-agenda-start-day nil
         org-agenda-show-inherited-tags (quote always)
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-deadline-is-shown t
         org-agenda-skip-scheduled-if-done t
-        org-agenda-span 1
-        org-agenda-start-with-clockreport-mode t
-        org-agenda-sticky nil
         org-agenda-tags-column -105
         org-agenda-time-leading-zero t
-        org-agenda-with-colors t
-        org-agenda-dim-blocked-tasks nil
-        org-agenda-inhibit-startup t
         org-agenda-use-tag-inheritance nil
-        org-alert-notification-title "OrgMode"
+        org-agenda-with-colors t
         org-archive-location "%s_archive::"
         org-clock-in-resume t
         org-clock-out-remove-zero-time-clocks t
@@ -34,20 +32,17 @@
         org-clock-sound t
         org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM"
         org-confirm-babel-evaluate nil
-        org-duration-format 'h:mm
-        org-link-elisp-confirm-function nil
         org-deadline-warning-days 5
         org-default-notes-file "~/Documents/Zettelkasten/refile.org"
         org-ellipsis " ▼ "
+        org-habit-completed-glyph ?✰
         org-habit-following-days 3
         org-habit-graph-column 60
+        org-habit-show-all-today t
         org-habit-show-habits-only-for-today nil
         org-habit-today-glyph ?‖
-        org-habit-completed-glyph ?✰
-        org-habit-show-all-today t
         org-hide-emphasis-markers t
         org-hide-leading-stars nil
-        org-indent-mode-turns-on-hiding-stars nil
         org-icalendar-alarm-time 120
         org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics"
         org-icalendar-include-todo (quote all)
@@ -56,12 +51,10 @@
         org-icalendar-use-deadline (quote (event-if-todo todo-due))
         org-icalendar-use-scheduled (quote (event-if-todo todo-start))
         org-icalendar-with-timestamps nil
-        org-journal-dir "~/Documents/Worklog/"
-        org-journal-enable-agenda-integration t
-        org-journal-file-format "%Y%m%d"
-        org-journal-date-format "%A, %d/%m/%Y"
+        org-indent-mode-turns-on-hiding-stars nil
+        org-journal-dir "~/Documents/Worklog"
+        org-link-elisp-confirm-function nil
         org-log-done t
-        org-mu4e-link-query-in-headers-mode nil
         org-outline-path-complete-in-steps nil
         org-pretty-entities t
         org-refile-allow-creating-parent-nodes 'confirm
@@ -73,10 +66,9 @@
         org-show-notification-handler "notify-send"
         org-startup-folded t
         org-tag-faces (quote (("next" . "red") ("waiting" . "blue")))
-        counsel-org-goto-all-outline-path-prefix 'file-name-nondirectory
         )
 
-  (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
+  ;; (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
@@ -103,11 +95,11 @@
   ;; Resume clocking task when emacs is restarted
   (org-clock-persistence-insinuate)
 
-  (setq org-agenda-time-grid
-        (quote
-         ((daily require-timed)
-          (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000)
-          "......" "───────────────")))
+  ;; (setq org-agenda-time-grid
+  ;;       (quote
+  ;;        ((daily require-timed)
+  ;;         (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000)
+  ;;         "......" "───────────────")))
 
   (setq org-modules
         (quote (org-habit
@@ -116,16 +108,74 @@
 
 
   (use-package! org-super-agenda
-    :hook (org-agenda-mode . org-super-agenda-mode))
 
-  (after! (org-agenda org-super-agenda)
-    (setq! org-super-agenda-header-map (make-sparse-keymap)))
+    :init
+    (setq! org-super-agenda-header-map (make-sparse-keymap))
+
+    :config
+    (org-super-agenda-mode)
+    (setq! org-super-agenda-groups
+       '(;; Each group has an implicit boolean OR operator between its selectors.
+         (:name "Today"  ; Optionally specify section name
+                :time-grid t  ; Items that appear on the time grid
+                :todo "TODAY")  ; Items that have this TODO keyword
+         (:name "Personal"
+                ;; Single arguments given alone
+                :category "Personal")
+         (:name "Alfatraining"
+          ;; Multiple args given in list with implicit OR
+          :category "CustomerAlfaview")
+
+         (:name "Projects"
+          ;; Multiple args given in list with implicit OR
+          :todo "PROJ")
+         ;; Set order of multiple groups at once
+         (:order-multi (2 (:name "Shopping in town"
+                                 ;; Boolean AND group matches items that match all subgroups
+                                 :and (:tag "shopping" :tag "@town"))
+                          (:name "Alfatraining"
+                                 ;; Multiple args given in list with implicit OR
+                                 :category "CustomerAlfatraining")
+                          (:name "Food-related"
+                                 ;; Multiple args given in list with implicit OR
+                                 :tag ("food" "dinner"))
+                          (:name "Personal"
+                                 :habit t
+                                 :tag "personal")
+                          (:name "Space-related (non-moon-or-planet-related)"
+                                 ;; Regexps match case-insensitively on the entire entry
+                                 :and (:regexp ("space" "NASA")
+                                               ;; Boolean NOT also has implicit OR between selectors
+                                               :not (:regexp "moon" :tag "planet")))))
+         ;; Groups supply their own section names when none are given
+         (:todo "WAITING" :order 8)  ; Set order of this section
+         (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
+                ;; Show this group at the end of the agenda (since it has the
+                ;; highest number). If you specified this group last, items
+                ;; with these todo keywords that e.g. have priority A would be
+                ;; displayed in that group instead, because items are grouped
+                ;; out in the order the groups are listed.
+                :order 9)
+         (:priority<= "B"
+                      ;; Show this section after "Today" and "Important", because
+                      ;; their order is unspecified, defaulting to 0. Sections
+                      ;; are displayed lowest-number-first.
+                      :order 1)
+         ;; After the last group, the agenda will display items that didn't
+         ;; match any of these groups, with the default order position of 99
+         ))
+
+    )
+
+    (add-hook! 'org-roam-mode-hook
+               (setq company-idle-delay 0.2))
 
   (setq org-agenda-custom-commands
         '(("l" "Open loops"
            ((agenda ""))
            ((org-agenda-start-day "-1d")
             ;; (org-agenda-span 'week)
+            (org-super-agenda-groups nil)
             (org-agenda-show-log nil)
             (org-agenda-ndays 2)
             (tags-todo "-imported")
@@ -157,17 +207,19 @@
                       (org-super-agenda-groups
                        '((:name none  ; Disable super group header
                           :children todo)
-                         (:discard (:anything t))))))))
-          ("a" "Mega Agenda" agenda
-           (org-super-agenda-mode)
-           ((org-super-agenda-groups
-             '(
-               (:name "Critical Now" :priority "A")
-               (:name "Opportunity Now" :priority "B")
-               (:name "Over the horizon" :priority "C")
-               )
-             )
-            )
+                         (:discard (:anything t)))))))
+           ((org-agenda-span 1))
+           )
+          ;; ("a" "Mega Agenda" agenda
+          ;;  (org-super-agenda-mode)
+          ;;  ((org-super-agenda-groups
+          ;;    '(
+          ;;      (:name "Critical Now" :priority "A")
+          ;;      (:name "Opportunity Now" :priority "B")
+          ;;      (:name "Over the horizon" :priority "C")
+          ;;      )
+          ;;    )
+          ;;   ))
            ("d" "Sort during Daily" agenda
             (org-super-agenda-mode)
             (setq org-agenda-span 1)
@@ -190,9 +242,8 @@
                 (:name "Low Prio and future"
                  :priority<= "B"
                  :scheduled future
-                 :order 1))))
-            (org-agenda nil "a"))
-           )))
+                 :order 1)))))
+           ))
 
   (setq org-tag-alist '(
                         (:startgroup . nil)
