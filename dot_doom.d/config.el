@@ -131,7 +131,9 @@
 (map!
    :after markdown-mode
    :map evil-markdown-mode-map
-   :n [return] #'bascht/markdown-do)
+   :n [return] #'bascht/markdown-do
+   :i "M-b" #'backward-word
+   )
 
 (map!
    :after mu4e
