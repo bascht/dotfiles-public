@@ -355,6 +355,9 @@ mode $mode_run {
   bindsym s exec $menu snippets; mode "default"
   bindsym tab exec swytch; mode "default"
 
+  bindsym k exec $menu k8s; mode "default"
+  bindsym z exec $menu zoxide; mode "default"
+
   bindsym w exec browser; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
 
