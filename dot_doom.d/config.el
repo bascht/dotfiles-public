@@ -225,7 +225,14 @@
             (plist-get (car-safe (mu4e-message-field msg :to)) :email)
             (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
 
-(after! flycheck-vale (flycheck-vale-setup))
+(after! flycheck
+  (flycheck-define-checker vale
+    "A checker for prose"
+    :command ("vale" "--output" "line" source)
+    :standard-input nil
+    :error-patterns ((error line-start (file-name) ":" line ":" column ":" (id (one-or-more (not (any ":")))) ":" (message) line-end))
+    :modes (markdown-mode markdown-mode gfm-mode org-mode text-mode))
+  (add-to-list 'flycheck-checkers 'vale 'append))
 
 (after! mu4e
   (setq
