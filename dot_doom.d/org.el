@@ -2,27 +2,29 @@
 
 (after! org
   (setq org-directory "~/Documents/Zettelkasten"
-        ;; org-agenda-include-diary t
-        ;; org-agenda-inhibit-startup t
-        org-agenda-span 1
-        org-agenda-start-day nil
-        ;; org-agenda-start-with-clockreport-mode t
-        ;; org-agenda-sticky nil
         calendar-week-start-day 1
         org-agenda-columns-add-appointments-to-effort-sum t
         org-agenda-default-appointment-duration 30
-        org-agenda-dim-blocked-tasks nil
         org-agenda-file-regexp (format-time-string "\\`[^.].*\\.org\\'\\|\\`%Y%m[0-9]+\\'")
         org-agenda-files '("~/Documents/Zettelkasten")
         org-agenda-hide-tags-regexp "presents"
+        org-agenda-include-diary t
+        org-agenda-ndays 1
+        org-agenda-start-day nil
         org-agenda-show-inherited-tags (quote always)
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-deadline-is-shown t
         org-agenda-skip-scheduled-if-done t
+        org-agenda-span 1
+        org-agenda-start-with-clockreport-mode t
+        org-agenda-sticky nil
         org-agenda-tags-column -105
         org-agenda-time-leading-zero t
-        org-agenda-use-tag-inheritance nil
         org-agenda-with-colors t
+        org-agenda-dim-blocked-tasks nil
+        org-agenda-inhibit-startup t
+        org-agenda-use-tag-inheritance nil
+        org-alert-notification-title "OrgMode"
         org-archive-location "%s_archive::"
         org-clock-in-resume t
         org-clock-out-remove-zero-time-clocks t
@@ -32,17 +34,20 @@
         org-clock-sound t
         org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM"
         org-confirm-babel-evaluate nil
+        org-duration-format (quote (("h" . t) (special . 2)))
+        org-link-elisp-confirm-function nil
         org-deadline-warning-days 5
         org-default-notes-file "~/Documents/Zettelkasten/refile.org"
         org-ellipsis " ▼ "
-        org-habit-completed-glyph ?✰
         org-habit-following-days 3
         org-habit-graph-column 60
-        org-habit-show-all-today t
         org-habit-show-habits-only-for-today nil
         org-habit-today-glyph ?‖
+        org-habit-completed-glyph ?✰
+        org-habit-show-all-today t
         org-hide-emphasis-markers t
         org-hide-leading-stars nil
+        org-indent-mode-turns-on-hiding-stars nil
         org-icalendar-alarm-time 120
         org-icalendar-combined-agenda-file "~/Nextcloud/OrgExport/Org.ics"
         org-icalendar-include-todo (quote all)
@@ -51,10 +56,12 @@
         org-icalendar-use-deadline (quote (event-if-todo todo-due))
         org-icalendar-use-scheduled (quote (event-if-todo todo-start))
         org-icalendar-with-timestamps nil
-        org-indent-mode-turns-on-hiding-stars nil
-        org-journal-dir "~/Documents/Worklog"
-        org-link-elisp-confirm-function nil
+        org-journal-dir "~/Documents/Worklog/"
+        org-journal-enable-agenda-integration t
+        org-journal-file-format "%Y%m%d"
+        org-journal-date-format "%A, %d/%m/%Y"
         org-log-done t
+        org-mu4e-link-query-in-headers-mode nil
         org-outline-path-complete-in-steps nil
         org-pretty-entities t
         org-refile-allow-creating-parent-nodes 'confirm
@@ -66,9 +73,10 @@
         org-show-notification-handler "notify-send"
         org-startup-folded t
         org-tag-faces (quote (("next" . "red") ("waiting" . "blue")))
+        counsel-org-goto-all-outline-path-prefix 'file-name-nondirectory
         )
 
-  ;; (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
+  (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
@@ -95,11 +103,11 @@
   ;; Resume clocking task when emacs is restarted
   (org-clock-persistence-insinuate)
 
-  ;; (setq org-agenda-time-grid
-  ;;       (quote
-  ;;        ((daily require-timed)
-  ;;         (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000)
-  ;;         "......" "───────────────")))
+  (setq org-agenda-time-grid
+        (quote
+         ((daily require-timed)
+          (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000)
+          "......" "───────────────")))
 
   (setq org-modules
         (quote (org-habit
@@ -108,142 +116,132 @@
 
 
   (use-package! org-super-agenda
+    :hook (org-agenda-mode . org-super-agenda-mode))
 
-    :init
-    (setq! org-super-agenda-header-map (make-sparse-keymap))
-
+  (after! (org-agenda org-super-agenda)
     :config
-    (org-super-agenda-mode)
-    (setq! org-super-agenda-groups
-       '(;; Each group has an implicit boolean OR operator between its selectors.
-         (:name "Today"  ; Optionally specify section name
-                :time-grid t  ; Items that appear on the time grid
-                :todo "TODAY")  ; Items that have this TODO keyword
-         (:name "Personal"
-                ;; Single arguments given alone
-                :category "Personal")
-         (:name "Alfatraining"
-          ;; Multiple args given in list with implicit OR
-          :category "CustomerAlfaview")
+    (setq! org-super-agenda-header-map (make-sparse-keymap))
+    ;; (setq org-super-agenda-groups
+    ;;       '((:name "Next Items"
+    ;;          :time-grid t
+    ;;          :tag ("NEXT" "outbox"))
+    ;;         (:name "Important"
+    ;;          :priority "A")
+    ;;         (:name "Quick Picks"
+    ;;          :effort< "0:30")
+    ;;         (:name "Low key"
+    ;;          :priority<= "B"
+    ;;          :scheduled future
+    ;;          :order 1)))
 
-         (:name "Projects"
-          ;; Multiple args given in list with implicit OR
-          :todo "PROJ")
-         ;; Set order of multiple groups at once
-         (:order-multi (2 (:name "Shopping in town"
-                                 ;; Boolean AND group matches items that match all subgroups
-                                 :and (:tag "shopping" :tag "@town"))
-                          (:name "Alfatraining"
-                                 ;; Multiple args given in list with implicit OR
-                                 :category "CustomerAlfatraining")
-                          (:name "Food-related"
-                                 ;; Multiple args given in list with implicit OR
-                                 :tag ("food" "dinner"))
-                          (:name "Personal"
-                                 :habit t
-                                 :tag "personal")
-                          (:name "Space-related (non-moon-or-planet-related)"
-                                 ;; Regexps match case-insensitively on the entire entry
-                                 :and (:regexp ("space" "NASA")
-                                               ;; Boolean NOT also has implicit OR between selectors
-                                               :not (:regexp "moon" :tag "planet")))))
-         ;; Groups supply their own section names when none are given
-         (:todo "WAITING" :order 8)  ; Set order of this section
-         (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
-                ;; Show this group at the end of the agenda (since it has the
-                ;; highest number). If you specified this group last, items
-                ;; with these todo keywords that e.g. have priority A would be
-                ;; displayed in that group instead, because items are grouped
-                ;; out in the order the groups are listed.
-                :order 9)
-         (:priority<= "B"
-                      ;; Show this section after "Today" and "Important", because
-                      ;; their order is unspecified, defaulting to 0. Sections
-                      ;; are displayed lowest-number-first.
-                      :order 1)
-         ;; After the last group, the agenda will display items that didn't
-         ;; match any of these groups, with the default order position of 99
-         ))
+    (setq org-agenda-custom-commands
+          '(("l" "Open loops"
+             ((agenda ""))
+             ((org-agenda-start-day "-1d")
+              ;; (org-agenda-span 'week)
+              (org-agenda-show-log nil)
+              (org-agenda-ndays 2)
+              (tags-todo "-imported")
+              (org-agenda-start-with-clockreport-mode nil)
+              (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+              (org-agenda-start-with-log-mode '(closed clock state) )))
+            ("u" "Super view"
+             ((agenda "" ((org-super-agenda-groups
+                           '((:name "Today"
+                              :time-grid t)))))
+              (todo "" ((org-agenda-overriding-header "Projects")
+                        (org-super-agenda-groups
+                         '((:name none  ; Disable super group header
+                            :children todo)
+                           (:discard (:anything t)))))))))
+    ))
 
-    )
-
-    (add-hook! 'org-roam-mode-hook
-               (setq company-idle-delay 0.2))
-
-  (setq org-agenda-custom-commands
-        '(("l" "Open loops"
-           ((agenda ""))
-           ((org-agenda-start-day "-1d")
-            ;; (org-agenda-span 'week)
-            (org-super-agenda-groups nil)
-            (org-agenda-show-log nil)
-            (org-agenda-ndays 2)
-            (tags-todo "-imported")
-            (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-            (org-agenda-start-with-log-mode '(closed clock state) )))
-          ("D" "Old and DONE items"
-           ((agenda ""))
-           ((org-agenda-start-day "-1d")
-            ;; (org-agenda-span 'week)
-            (org-agenda-show-log nil)
-            (org-agenda-ndays 2)
-            (tags-todo "-imported")
-            (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo))
-            (org-agenda-start-with-log-mode '(closed clock state) )))
-          ("h" "Daily habits"
-           ((agenda ""))
-           ((org-agenda-show-log t)
-            (org-agenda-ndays 7)
-            (org-agenda-log-mode-items '(state))
-            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-          ("u" "Super view"
-           ((agenda "" ((org-super-agenda-groups
-                         '((:name "Today"
-                            :time-grid t)))))
-            (todo "" ((org-agenda-overriding-header "Other")
-                      (org-super-agenda-groups
-                       '((:auto-category t))                     )))
-            (todo "" ((org-agenda-overriding-header "Grouped")
-                      (org-super-agenda-groups
-                       '((:name none  ; Disable super group header
-                          :children todo)
-                         (:discard (:anything t)))))))
-           ((org-agenda-span 1))
-           )
-          ;; ("a" "Mega Agenda" agenda
-          ;;  (org-super-agenda-mode)
-          ;;  ((org-super-agenda-groups
-          ;;    '(
-          ;;      (:name "Critical Now" :priority "A")
-          ;;      (:name "Opportunity Now" :priority "B")
-          ;;      (:name "Over the horizon" :priority "C")
-          ;;      )
-          ;;    )
-          ;;   ))
-           ("d" "Sort during Daily" agenda
-            (org-super-agenda-mode)
-            (setq org-agenda-span 1)
-            ((org-super-agenda-groups
-              '(
-                (:name "Quick Picks"
-                 :effort< "0:30"
-                 )
-                (:name "Immersive + Deep"
-                 :tag ("@immersive" "@deep"))
-                (:name "Immersive + Shallow"
-                 :tag ("@immersive" "@shallow"))
-                (:name "Process + Deep"
-                 :tag ("@process" "@deep"))
-                (:name "Process + Shallow"
-                 :tag ("@process" "@shallow"))
-                (:name "Customer Projects"
-                 :file-path "Customer"
-                 )
-                (:name "Low Prio and future"
-                 :priority<= "B"
-                 :scheduled future
-                 :order 1)))))
-           ))
+  ;; (setq org-agenda-custom-commands
+  ;;       '(("l" "Open loops"
+  ;;          ((agenda ""))
+  ;;          ((org-agenda-start-day "-1d")
+  ;;           ;; (org-agenda-span 'week)
+  ;;           (org-agenda-show-log nil)
+  ;;           (org-agenda-ndays 2)
+  ;;           (tags-todo "-imported")
+  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+  ;;           (org-agenda-start-with-log-mode '(closed clock state) )))
+  ;;         ("D" "Old and DONE items"
+  ;;          ((agenda ""))
+  ;;          ((org-agenda-start-day "-1d")
+  ;;           ;; (org-agenda-span 'week)
+  ;;           (org-agenda-show-log nil)
+  ;;           (org-agenda-ndays 2)
+  ;;           (tags-todo "-imported")
+  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo))
+  ;;           (org-agenda-start-with-log-mode '(closed clock state) )))
+  ;;         ("h" "Daily habits"
+  ;;          ((agenda ""))
+  ;;          ((org-agenda-show-log t)
+  ;;           (org-agenda-ndays 7)
+  ;;           (org-agenda-log-mode-items '(state))
+  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+  ;;         ("w" "Work agenda"
+  ;;          ((agenda ""))
+  ;;          ((org-agenda-show-log t)
+  ;;           (org-agenda-ndays 7)
+  ;;           (org-agenda-log-mode-items '(state))
+  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+  ;;         ("u" "Super view"
+  ;;          ((agenda "" ((org-super-agenda-groups
+  ;;                        '((:name "Today"
+  ;;                           :time-grid t)))))
+  ;;           (todo "" ((org-agenda-overriding-header "Other")
+  ;;                     (org-super-agenda-groups
+  ;;                      '((:auto-category t)))))
+  ;;           (todo "" ((org-agenda-overriding-header "Grouped")
+  ;;                     (org-super-agenda-groups
+  ;;                      '((:name none  ; Disable super group header
+  ;;                         :children todo)
+  ;;                        (:discard (:anything t))))))))
+  ;;         ("a" "Mega Agenda" agenda
+  ;;          (org-super-agenda-mode)
+  ;;          ((org-super-agenda-groups
+  ;;            '(
+  ;;              (:name "Critical Now" :priority "A")
+  ;;              (:name "Opportunity Now" :priority "B")
+  ;;              (:name "Over the horizon" :priority "C")
+  ;;              )
+  ;;            )
+  ;;           )
+  ;;         ("w" "Work"
+  ;;          ((agenda ""))
+  ;;          ((org-agenda-start-day "-1d")
+  ;;           ;; (org-agenda-span 'week)
+  ;;           (org-agenda-show-log nil)
+  ;;           (org-agenda-ndays 2)
+  ;;           (tags-todo "-imported")
+  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+  ;;           (org-agenda-start-with-log-mode '(closed clock state) ))) ("d" "Sort during Daily" agenda
+  ;;           (org-super-agenda-mode)
+  ;;           (setq org-agenda-span 1)
+  ;;           ((org-super-agenda-groups
+  ;;             '(
+  ;;               (:name "Quick Picks"
+  ;;                :effort< "0:30"
+  ;;                )
+  ;;               (:name "Immersive + Deep"
+  ;;                :tag ("@immersive" "@deep"))
+  ;;               (:name "Immersive + Shallow"
+  ;;                :tag ("@immersive" "@shallow"))
+  ;;               (:name "Process + Deep"
+  ;;                :tag ("@process" "@deep"))
+  ;;               (:name "Process + Shallow"
+  ;;                :tag ("@process" "@shallow"))
+  ;;               (:name "Customer Projects"
+  ;;                :file-path "Customer"
+  ;;                )
+  ;;               (:name "Low Prio and future"
+  ;;                :priority<= "B"
+  ;;                :scheduled future
+  ;;                :order 1))))
+  ;;           (org-agenda nil "a"))
+  ;;          )))
 
   (setq org-tag-alist '(
                         (:startgroup . nil)
@@ -299,7 +297,7 @@
     (if (org-clocking-p)
         (format "%s @ %s"
                 org-clock-heading
-                (format-seconds "%h:%m" (* (org-clock-get-clocked-time) 60)))
+                (format "%2f h" (/ (org-clock-get-clocked-time) 60.0)))
       (format "🕶 chilling")))
 
   (add-to-list 'org-global-properties
@@ -310,58 +308,73 @@
     (interactive)
     (find-file (expand-file-name (concat org-journal-dir (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))))
 
+  ;; Find my work tree and clock into the respective day / create entry if it does not exist
   (defun bascht/alfatraining-clock-in ()
     (interactive)
-    (persp-switch "@Org")
     (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
-    (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
-    (goto-char (org-find-exact-headline-in-buffer (format-time-string "%Y-%m")))
-    (search-forward "Total")
-    (org-table-insert-row)
-    (let ((start-time-stamp
-           (if (time-less-p (org-read-date nil t "+0d 07:30") (current-time))
-               (current-time)
-             (org-read-date nil t "+0d 09:30"))))
-      (org-insert-time-stamp start-time-stamp t))
-    (execute-kbd-macro (read-kbd-macro "<tab>"))
-    (org-insert-time-stamp (org-read-date nil t "+0d 17:30") t)
-    (execute-kbd-macro (read-kbd-macro "<backtab>f:"))
-    (org-clock-in)
-    (save-buffer))
 
-  ;; Export current clock subtree to Personio
-  (defun bascht/org-clock-to-personio (month)
-    (interactive (list (read-string "Monat?" (format-time-string "%Y-%m"))))
-    (when (org-clock-is-active)
-      (org-clock-out))
-    (evil-window-left 0)
-    (persp-switch "@Org")
-    (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
-    (goto-char (org-find-exact-headline-in-buffer "Arbeitszeiten"))
-    (goto-char (org-find-exact-headline-in-buffer month))
-    (search-forward ":LOGBOOK:")
+    (let ((month (format-time-string "%Y-%m"))
+          (today (format-time-string "[%Y-%m-%d]")))
+      (goto-char (org-find-exact-headline-in-buffer month))
+
+      (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
+          (goto-char (org-find-exact-headline-in-buffer today))
+        (progn
+          (org-insert-subheading nil)
+          (insert today)))
+      (org-clock-in)
+      (save-buffer)))
+
+  ;; Add the a small button to report the current clock line in a :clockreport to
+  ;; Personio. This won't actually do the remote call, but just add a elisp: hyperlink.
+  ;; That way we keep the table rendering nice and quick.
+  ;; Skip the first 3 total / sum rows by matching the current item against =org-ts-regexp0=
+  (defun bascht/ts-for-report-table (ts h)
     (save-excursion
-      (forward-line 1)
-      (cl-loop
-       until (s-equals? (s-trim (thing-at-point 'line t)) ":END:")
-       do (bascht/format-clock-line-as-csv (org-element-at-point))
-       (forward-line 1))))
+    (if (string-match org-ts-regexp0 ts)
+        (progn
+          (beginning-of-buffer)
+          (goto-char (org-find-exact-headline-in-buffer ts))
+          (search-forward ":LOGBOOK:")
+          (search-forward ":END:")
+          (forward-line -1)
+          (let* ((timestamp (org-element-property :value (org-element-at-point)))
+                 (ts-start (org-timestamp-to-time timestamp))
+                 (ts-end (org-timestamp-to-time timestamp t))
+                 (hours (s-chop-suffix "h" h)))
 
-(defun bascht/format-clock-line-as-csv (clock-line)
-  (let* ((timestamp (org-element-property :value clock-line))
-         (ts-start (org-timestamp-to-time timestamp))
-         (ts-end (org-timestamp-to-time timestamp t)))
+            (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report]]" ts-start hours))
+          )
+      ""
+      )))
 
-    (message (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                     (format-time-string "%F %a %R %Z" ts-start)
-                     (format-time-string "%F %a %R %Z" ts-end)))))
+  ; Split working hours into personio-compatible slots around a 1 hour break in
+  ; case the report is longer than 4 hours. There are probably a 1000 easier
+  ; ways to do this, but I'mma take proud in my hacky solution since it works
+  ; and it was hard enough to cobble together.
+  (defun bascht/ts-report-to-personio (ts hours)
+    (if (> hours 4)
+        (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
+               (break-end (time-add first-shift-end 3600))
+               (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
 
-  ;; Temporary test-function to re-trigger the export and get the logs
-  (defun bascht/test-org-clock-to-personio ()
-    (interactive)
-    (evil-window-left 1)
-    (bascht/org-clock-to-personio)
-    (evil-window-right 1))
+          (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
+                                           (format-time-string "%F %a %R %Z" ts)
+                                           (format-time-string "%F %a %R %Z" first-shift-end)))
+          (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
+                                           (format-time-string "%F %a %R %Z" break-end)
+                                           (format-time-string "%F %a %R %Z" shift-end)))
+
+          ))
+    (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
+      (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
+                                       (format-time-string "%F %a %R %Z" ts)
+                                       (format-time-string "%F %a %R %Z" shift-end))))
+
+
+    (org-shifttab)
+    (org-cycle)
+    (insert "✓ "))
 
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
