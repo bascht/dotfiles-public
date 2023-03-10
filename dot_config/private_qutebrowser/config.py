@@ -70,6 +70,14 @@ config.bind(',ac', 'set content.javascript.can_access_clipboard true')
 config.bind(',b', 'open https://read.yakshed.org/bookmarklet?url={url}')
 config.bind(',y', 'open https://social.yakshed.org/authorize_interaction?uri={url}')
 
+
+# GitLab quick-actions
+config.bind(',glc', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus()')
+config.bind(',glp0', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::0')
+config.bind(',glp1', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::1')
+config.bind(',glp2', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::2')
+config.bind(',glp3', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::3')
+
 config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
