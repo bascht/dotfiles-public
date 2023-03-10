@@ -540,7 +540,27 @@ in
   programs.emacs = {
     enable = true;
     package = pkgs.emacs28NativeComp;
-    extraPackages = epkgs: [ epkgs.vterm epkgs.pdf-tools epkgs.org-pdftools];
+    extraPackages = epkgs: [
+      epkgs.vterm
+      epkgs.pdf-tools
+      epkgs.sqlite
+      epkgs.org-pdftools
+      epkgs.org-super-agenda
+      epkgs.org-mru-clock
+      epkgs.org-journal
+      epkgs.org-alert
+      epkgs.csv-mode
+      epkgs.ef-themes
+      epkgs.literate-calc-mode
+      epkgs.dwim-shell-command
+      epkgs.consult-org-roam
+      epkgs.obsidian
+      epkgs.scad-mode
+      epkgs.dirvish
+      epkgs.zoxide
+      epkgs.dictcc
+      epkgs.toml-mode
+    ];
   };
 
   programs.neovim = {
