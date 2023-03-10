@@ -59,6 +59,7 @@ in
   home.packages = [
       pkgs.android-tools
       pkgs.vale
+      pkgs.kubectx
       unstable.pkgs.openscad
       unstable.pkgs.freecad
       unstable.pkgs.cura
