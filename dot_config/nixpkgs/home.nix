@@ -99,7 +99,7 @@ in
       pkgs.somafm-cli
       pkgs.tree
       pkgs.scrot
-      unstable.pkgs.imv
+      pkgs.imv
       pkgs.cloc
       pkgs.httpie
       pkgs.yaml-language-server
