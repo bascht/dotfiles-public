@@ -31,6 +31,7 @@ alias gf="git fetch -a && git rebase && git --no-pager today-all;  commandline -
 alias gcm="git checkout (git branch --format='%(refname:short)' | grep -E '^main|^master')"
 alias gbb="set BRANCH=(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin {$BRANCH} && git checkout {$BRANCH}"
 alias tdir="take (mktemp -d --suffix=.(basename (pwd)))"
+alias ag=rg
 
 # Abbreviations
 
