@@ -44,6 +44,14 @@ then
   FZF_DEFAULT_OPTS="--prompt='🌐'${FZF_DEFAULT_OPTS}"
   FOOT_OPTIONS="-W 250x40 ${FOOT_OPTIONS}"
   COMMAND=~/bin/launcher-qutebrowser
+elif [[ "$1" == "zoxide" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt=' ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-zoxide
+elif [[ "$1" == "k8s" ]]
+then
+  FZF_DEFAULT_OPTS="--prompt='󱃾 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-k8s
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;

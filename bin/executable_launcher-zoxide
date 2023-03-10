@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+FOLDER=$(zoxide query --list |fzf --preview="tmux ls |grep -i {q}" --preview-window="bottom")
+
+if [ -n "${FOLDER}" ]; then
+  swaymsg exec -- foot -D "${FOLDER}" "tn"
+fi
