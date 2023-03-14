@@ -202,6 +202,10 @@
                                 (3 . (rainbow bold 1.2))
                                 (t . (semilight 1.1)))))
 
+(after! solaire-mode
+  (solaire-global-mode -1))
+
+
 ; Don't add #0 #1 #2 #3… workspaces :D
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
