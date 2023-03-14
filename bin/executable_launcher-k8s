@@ -4,5 +4,5 @@ source <(_kubeconfig)
 CONTEXT=$(kubectl config get-contexts -o name |fzf --preview="echo Current context: $(kubectl config current-context)" --preview-window="bottom")
 if [ -n "${CONTEXT}" ]; then
   kubectl config use-context "${CONTEXT}"
-   swaymsg exec foot -- KUBECONFIG="${KUBECONFIG}" fish -C /home/bascht/.nix-profile/bin/kubens
+   swaymsg exec foot -- KUBECONFIG="${KUBECONFIG}" fish -C /home/bascht/.nix-profile/bin/kubens 
 fi
