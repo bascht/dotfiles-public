@@ -541,9 +541,9 @@ in
   programs.emacs = {
     enable = true;
     package = pkgs.emacs28NativeComp;
-    extraPackages = epkgs: [
-      epkgs.vterm
-      epkgs.pdf-tools
+    extraPackages = epkgs: [ 
+      epkgs.vterm 
+      epkgs.pdf-tools 
       epkgs.sqlite
       epkgs.org-pdftools
       epkgs.org-super-agenda
