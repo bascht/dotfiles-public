@@ -439,7 +439,7 @@
   :config
   (org-roam-db-autosync-mode +1)
   (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
-  (add-hook 'org-roam-mode-hook (setq company-idle-delay 0.2))
+  (add-hook 'org-roam-mode-hook (setq company-idle-delay 0.2)))
 
 (use-package! websocket
   :after org-roam)
