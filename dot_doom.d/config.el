@@ -15,7 +15,6 @@
       modus-themes-section-headings t
       modus-themes-scale-headings t
       company-idle-delay nil
-      org-directory "~/Documents/Zettelkasten/"
       bascht/wzzk "~/WirZwei/Zettelkasten"
       bascht/wzzk-journals "~/WirZwei/Zettelkasten/journals"
       display-line-numbers-type nil
@@ -40,6 +39,10 @@
         ("BUG" error bold)
         ("MAYBE" warning bold))
       )
+
+(setq org-directory (if (string= (system-name) "apfelstrudel")
+                        "~/Work/Zettelkasten/"
+                      "~/Documents/Zettelkasten/"))
 
 (defun doom-dashboard-draw-ascii-banner-fn ()
   (let* ((banner

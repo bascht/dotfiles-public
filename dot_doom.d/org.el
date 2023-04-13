@@ -1,12 +1,11 @@
 ;;; org.el -*- lexical-binding: t; -*-
 
 (after! org
-  (setq org-directory "~/Documents/Zettelkasten"
+  (setq
         calendar-week-start-day 1
         org-agenda-columns-add-appointments-to-effort-sum t
         org-agenda-default-appointment-duration 30
         org-agenda-file-regexp (format-time-string "\\`[^.].*\\.org\\'\\|\\`%Y%m[0-9]+\\'")
-        org-agenda-files '("~/Documents/Zettelkasten")
         org-agenda-hide-tags-regexp "presents"
         org-agenda-include-diary t
         org-agenda-ndays 1
@@ -75,6 +74,10 @@
         org-tag-faces (quote (("next" . "red") ("waiting" . "blue")))
         counsel-org-goto-all-outline-path-prefix 'file-name-nondirectory
         )
+
+(setq org-agenda-files (if (string= (system-name) "apfelstrudel")
+                           '("~/Documents/Zettelkasten" "~/Work/Zettelkasten/")
+                         '("~/Documents/Zettelkasten/")))
 
   (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
 
