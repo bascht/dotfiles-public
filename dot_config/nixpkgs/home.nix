@@ -70,7 +70,7 @@ in
       pkgs.vulkan-validation-layers
       pkgs.darktable
       pkgs.foot
-      unstable.pkgs.qutebrowser
+      unstable.pkgs.qutebrowser-qt6
       pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat
