@@ -282,7 +282,38 @@ in
  programs.starship.enableBashIntegration = true;
  programs.direnv.enable = true;
  programs.direnv.nix-direnv.enable = true;
+ programs.bash = {
+   enable = true;
+   enableCompletion = true;
+   historyFileSize = 80000;
+   profileExtra = ''
+     if [ $(/run/current-system/sw/bin/tty) == "/dev/tty1" ]; then
+       exec sway-run
+     fi;
+     '';
+     initExtra = ''
+       . ~/.config/bash/aliases.sh
+       . ~/.config/bash/shortcuts.sh
+       '';
+ };
+
+ programs.atuin = {
+   package = unstable.pkgs.atuin;
+   enable = true;
+   enableBashIntegration = true;
+   # flags = ["--disable-up-arrow"]; # does not yet work in 22.11
+   settings = {
+     auto_sync = false;
+     update_check = false;
+     dialect = "uk";
+     style = "compact";
+     # inline_height = 10;
+     show_preview = true;
+   };
+ };
+
  programs.fish.package = pkgs.fish;
+
  programs.fish.enable = true;
  programs.fish.loginShellInit = ''
    if [ (/run/current-system/sw/bin/tty) = "/dev/tty1" ]

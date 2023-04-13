@@ -39,14 +39,13 @@
     };
   };
 
-  programs.zsh.enable = true;
   programs.light.enable = true;
   programs.fish.enable = true;
 
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.bash;
   users.extraUsers.bascht = {
     isNormalUser = true;
-    shell = pkgs.fish;
+    shell = pkgs.bash;
     extraGroups = [ "audio" "video" "networkmanager" "systemd-network" "storage" "wheel" "disk" "plugdev" "docker"  "scanner" "lp" ];
   };
 
