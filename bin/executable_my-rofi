@@ -46,6 +46,7 @@ then
   COMMAND=~/bin/launcher-qutebrowser
 elif [[ "$1" == "zoxide" ]]
 then
+  FOOT_OPTIONS="-W 160x30 ${FOOT_OPTIONS}"
   FZF_DEFAULT_OPTS="--prompt=' ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-zoxide
 elif [[ "$1" == "k8s" ]]
