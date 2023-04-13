@@ -334,50 +334,61 @@
   ;; Skip the first 3 total / sum rows by matching the current item against =org-ts-regexp0=
   (defun bascht/ts-for-report-table (ts h)
     (save-excursion
-    (if (string-match org-ts-regexp0 ts)
-        (progn
-          (beginning-of-buffer)
-          (goto-char (org-find-exact-headline-in-buffer ts))
-          (search-forward ":LOGBOOK:")
-          (search-forward ":END:")
-          (forward-line -1)
-          (let* ((timestamp (org-element-property :value (org-element-at-point)))
-                 (ts-start (org-timestamp-to-time timestamp))
-                 (ts-end (org-timestamp-to-time timestamp t))
-                 (hours (s-chop-suffix "h" h)))
+      (if (string-match org-ts-regexp0 ts)
+          (progn
+            (beginning-of-buffer)
+            (goto-char (org-find-exact-headline-in-buffer ts))
+            (if (org-entry-get nil "PERSONIO_REPORTED")
+                "✓ Reported"
+              (progn
+                (search-forward ":LOGBOOK:")
+                (search-forward ":END:")
+                (forward-line -1)
+                (let* ((timestamp (org-element-property :value (org-element-at-point)))
+                       (ts-start (org-timestamp-to-time timestamp))
+                       (ts-end (org-timestamp-to-time timestamp t))
+                       (hours (s-chop-suffix "h" h)))
 
-            (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report]]" ts-start hours))
-          )
-      ""
-      )))
+                  (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report]]" ts-start hours))
+                )))
+        "")))
 
   ; Split working hours into personio-compatible slots around a 1 hour break in
   ; case the report is longer than 4 hours. There are probably a 1000 easier
   ; ways to do this, but I'mma take proud in my hacky solution since it works
   ; and it was hard enough to cobble together.
   (defun bascht/ts-report-to-personio (ts hours)
-    (if (> hours 4)
-        (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
-               (break-end (time-add first-shift-end 3600))
-               (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
+    (point-to-register 'bascht/ts-report-current-table)
+    (async-start
+     (lambda ()
 
-          (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                                           (format-time-string "%F %a %R %Z" ts)
-                                           (format-time-string "%F %a %R %Z" first-shift-end)))
-          (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                                           (format-time-string "%F %a %R %Z" break-end)
-                                           (format-time-string "%F %a %R %Z" shift-end)))
+       (if (> hours 4)
+           (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
+                  (break-end (time-add first-shift-end 3600))
+                  (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
 
-          ))
-    (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
-      (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                                       (format-time-string "%F %a %R %Z" ts)
-                                       (format-time-string "%F %a %R %Z" shift-end))))
+             (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
+                                    (format-time-string "%F %a %R %Z" ts)
+                                    (format-time-string "%F %a %R %Z" first-shift-end)))
+             (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
+                                    (format-time-string "%F %a %R %Z" break-end)
+                                    (format-time-string "%F %a %R %Z" shift-end)))))
 
+       (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
+         (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
+                                (format-time-string "%F %a %R %Z" ts)
+                                (format-time-string "%F %a %R %Z" shift-end))))
 
-    (org-shifttab)
-    (org-cycle)
-    (insert "✓ "))
+       (list (format-time-string "[%F]" ts) (format "Successfully reported %s hours to Personio" hours)))
+
+     (lambda (result)
+       (jump-to-register 'bascht/ts-report-current-table)
+       (save-excursion
+         (beginning-of-buffer)
+         (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
+         (org-set-property "PERSONIO_REPORTED" "t"))
+       (message (car-safe (cdr-safe result)))
+       (org-table-recalculate))))
 
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
