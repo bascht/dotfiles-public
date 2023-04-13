@@ -57,6 +57,7 @@ in
   };
 
   home.packages = [
+      pkgs.btop
       pkgs.android-tools
       pkgs.vale
       pkgs.kubectx
