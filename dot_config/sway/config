@@ -302,7 +302,9 @@ assign [instance="signal"] "3 "
 #
 # Resizing containers:
 #
-mode "resize" {
+
+set $mode_resize "Resize: (2)5% (5)0% (7)5%"
+mode $mode_resize {
   # left will shrink the containers width
   # right will grow the containers width
   # up will shrink the containers height
@@ -318,6 +320,10 @@ mode "resize" {
   bindsym Up resize shrink height 10px
   bindsym Right resize grow width 10px
   
+  bindsym 2 resize set width 25ppt; mode "default"
+  bindsym 5 resize set width 50ppt; mode "default"
+  bindsym 7 resize set width 75ppt; mode "default"
+
   # return to default mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
@@ -396,7 +402,7 @@ mode $mode_file {
 
 bindsym $mod+d mode $mode_run
 bindsym $mod+shift+d mode $mode_run
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode $mode_resize
 
 font pango:JetBrains Mono 10
 default_border pixel 2
