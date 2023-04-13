@@ -278,6 +278,8 @@ in
   size = 22;
  };
 
+ programs.starship.enable = true;
+ programs.starship.enableBashIntegration = true;
  programs.direnv.enable = true;
  programs.direnv.nix-direnv.enable = true;
  programs.fish.package = pkgs.fish;
