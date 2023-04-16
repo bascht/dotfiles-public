@@ -12,7 +12,8 @@ body.channel-view *,
 /* Slack from v1.9 on */
 html[data-app-context="team"] body *,
 /* Mattermost */
-body.mono-as-fuck
+body.mono-as-fuck,
+body#appBody.system-theme
 
 /* Slay all other other serif devils. */
   {
