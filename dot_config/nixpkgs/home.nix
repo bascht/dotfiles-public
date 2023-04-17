@@ -322,6 +322,9 @@ in
    enable = true;
    enableCompletion = true;
    historyFileSize = 80000;
+   sessionVariables = {
+    HISTTIMEFORMAT = "%Y-%m-%d-%H%M%S ";
+   };
    profileExtra = ''
      if [ $(/run/current-system/sw/bin/tty) == "/dev/tty1" ]; then
        exec sway-run
