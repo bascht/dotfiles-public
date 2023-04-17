@@ -5,6 +5,9 @@ systemctl --user import-environment WAYLAND_DISPLAY DISPLAY PATH
 systemctl --user start gnome-keyring.service
 systemctl --user start graphical-session.target
 
+dbus-sway-environment
+configure-gtk
+
 swaymsg workspace "4 "
 swaymsg exec -- "emacsclient --create-frame -e '(org-agenda-list)'"
 sleep 0.5

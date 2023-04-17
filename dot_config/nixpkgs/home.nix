@@ -2,6 +2,38 @@
 { config, lib, pkgs, systemd, inputs, services, ... }:
 let
   unstable = import <nixpkgs-unstable> { config = { allowUnfree = true; }; };
+  # Via https://nixos.wiki/wiki/Sway
+  dbus-sway-environment = pkgs.writeTextFile {
+    name = "dbus-sway-environment";
+    destination = "/bin/dbus-sway-environment";
+    executable = true;
+
+    text = ''
+  dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+  systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
+  systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
+      '';
+  };
+  #
+  # currently, there is some friction between sway and gtk:
+  # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+  # the suggested way to set gtk settings is with gsettings
+  # for gsettings to work, we need to tell it where the schemas are
+  # using the XDG_DATA_DIR environment variable
+  # run at the end of sway config
+  configure-gtk = pkgs.writeTextFile {
+      name = "configure-gtk";
+      destination = "/bin/configure-gtk";
+      executable = true;
+      text = let
+        schema = pkgs.gsettings-desktop-schemas;
+        datadir = "${schema}/share/gsettings-schemas/${schema.name}";
+      in ''
+        export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
+        gnome_schema=org.gnome.desktop.interface
+        gsettings set $gnome_schema gtk-theme 'Dracula'
+        '';
+  };
 in
 {
   programs.home-manager.enable = true;
@@ -57,13 +89,15 @@ in
   };
 
   home.packages = [
+    dbus-sway-environment
+    configure-gtk
       pkgs.btop
       pkgs.android-tools
       pkgs.vale
       pkgs.kubectx
-      unstable.pkgs.openscad
-      unstable.pkgs.freecad
-      unstable.pkgs.cura
+      pkgs.openscad
+      pkgs.freecad
+      pkgs.cura
       pkgs.blender
       pkgs.envsubst
       pkgs.wpa_supplicant_gui
@@ -71,7 +105,9 @@ in
       pkgs.vulkan-validation-layers
       pkgs.darktable
       pkgs.foot
-      unstable.pkgs.qutebrowser-qt6
+      pkgs.mesa
+      pkgs.mesa_drivers
+      pkgs.qutebrowser
       pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat
@@ -142,8 +178,8 @@ in
       pkgs.brightnessctl
       pkgs.capitaine-cursors
       pkgs.chezmoi
-      unstable.pkgs.chromium
-      unstable.pkgs.openarena
+      pkgs.chromium
+      pkgs.openarena
       pkgs.clipman
       pkgs.cmake
       pkgs.dmenu
@@ -210,10 +246,10 @@ in
       pkgs.libvterm
       pkgs.lsof
       pkgs.lxappearance
-      unstable.pkgs.mako # notification daemon
+      pkgs.mako # notification daemon
       pkgs.material-design-icons
       pkgs.mpc_cli
-      unstable.pkgs.mpv
+      pkgs.mpv
       pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
@@ -253,7 +289,7 @@ in
       pkgs.upower
       pkgs.weather-icons
       unstable.pkgs.wf-recorder
-      pkgs.wl-clipboard
+      unstable.pkgs.wl-clipboard
       pkgs.python38Packages.youtube-dl
       pkgs.python38Packages.pip
       pkgs.python38Packages.setuptools
@@ -263,7 +299,7 @@ in
       pkgs.xfce.thunar
       pkgs.xfce.thunar
       pkgs.xfce.thunar-volman
-      unstable.pkgs.xwayland
+      pkgs.xwayland
       pkgs.yubikey-manager
       pkgs.yubikey-personalization
       pkgs.zathura
@@ -297,19 +333,9 @@ in
        '';
  };
 
- programs.atuin = {
-   package = unstable.pkgs.atuin;
+ programs.fzf = {
    enable = true;
    enableBashIntegration = true;
-   # flags = ["--disable-up-arrow"]; # does not yet work in 22.11
-   settings = {
-     auto_sync = false;
-     update_check = false;
-     dialect = "uk";
-     style = "compact";
-     # inline_height = 10;
-     show_preview = true;
-   };
  };
 
  programs.fish.package = pkgs.fish;
@@ -418,6 +444,9 @@ in
     enable = true;
     enableFishIntegration = true;
   };
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.chromium.commandLineArgs = "--enable-features=UseOzonePlatform --ozone-platform=wayland";
+
  programs.vscode = {
      enable = true;
      package = pkgs.vscode;
