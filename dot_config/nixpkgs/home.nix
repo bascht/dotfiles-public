@@ -329,11 +329,10 @@ in
      if [ $(/run/current-system/sw/bin/tty) == "/dev/tty1" ]; then
        exec sway-run
      fi;
-     '';
-     initExtra = ''
-       . ~/.config/bash/aliases.sh
-       . ~/.config/bash/shortcuts.sh
-       '';
+   '';
+   initExtra = ''
+     for f in ~/.config/bash/*.sh; do source $f; done
+   '';
  };
 
  programs.fzf = {
