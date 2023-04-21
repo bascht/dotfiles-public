@@ -572,9 +572,8 @@ in
    };
  };
 
-  services.gammastep = {
+  services.wlsunset = {
         enable = true;
-        provider = "manual";
         latitude = "48.15";
         longitude = "11.64";
         temperature = {
