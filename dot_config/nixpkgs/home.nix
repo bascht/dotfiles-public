@@ -627,6 +627,7 @@ in
       epkgs.zoxide
       epkgs.dictcc
       epkgs.toml-mode
+      epkgs.janet-mode
     ];
   };
 
