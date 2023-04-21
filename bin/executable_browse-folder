@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-COMMAND="(dired \"${1}\")(dirvish-layout-toggle)"
+COMMAND="(dirvish \"${1}\")"
 exec em -e "${COMMAND}"
