@@ -89,8 +89,10 @@ in
   };
 
   home.packages = [
-    dbus-sway-environment
-    configure-gtk
+      dbus-sway-environment
+      configure-gtk
+      pkgs.janet
+      pkgs.jpm
       pkgs.btop
       pkgs.android-tools
       pkgs.vale
@@ -277,19 +279,19 @@ in
       pkgs.signal-desktop
       pkgs.silver-searcher
       pkgs.slurp
-      unstable.pkgs.wlroots
-      unstable.pkgs.sway
+      pkgs.wlroots
+      pkgs.sway
       pkgs.starship
-      unstable.pkgs.swayidle
-      unstable.pkgs.swaylock
+      pkgs.swayidle
+      pkgs.swaylock
       pkgs.wayvnc
       pkgs.tdns-cli
       pkgs.tmux
       pkgs.tmuxinator
       pkgs.upower
       pkgs.weather-icons
-      unstable.pkgs.wf-recorder
-      unstable.pkgs.wl-clipboard
+      pkgs.wf-recorder
+      pkgs.wl-clipboard
       pkgs.python38Packages.youtube-dl
       pkgs.python38Packages.pip
       pkgs.python38Packages.setuptools
