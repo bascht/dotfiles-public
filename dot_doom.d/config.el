@@ -332,11 +332,9 @@
 (after! obsidian (obsidian-specify-path "~/WirZwei/Zettelkasten"))
 
 (use-package! dirvish
-  :init
-  (dirvish-override-dired-mode)
-  (evil-make-overriding-map dirvish-mode-map 'normal)
-
   :config
+  (evil-make-overriding-map dirvish-mode-map 'normal)
+  (dirvish-override-dired-mode)
   (dirvish-peek-mode)
   (dirvish-side-follow-mode)
 
