@@ -53,6 +53,11 @@ elif [[ "$1" == "k8s" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='󱃾 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/launcher-k8s
+elif [[ "$1" == "calc" ]]
+then
+  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+  FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/iqalc
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;

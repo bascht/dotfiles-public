@@ -1,0 +1,150 @@
+#!/bin/bash
+
+# iqalc = fzf + qalc ^ love
+#
+# (c) 2020 Maddison Hellstrom (github.com/b0o)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+set -euo pipefail
+
+declare -g prog="${BASH_SOURCE[0]}"
+
+declare -g hist="${XDG_CONFIG_HOME:-$HOME/.config}/qalculate/qalc.history"
+
+declare -g flag_interactive
+flag_interactive="$(mktemp -u "${XDG_CONFIG_HOME:-$HOME/.config}/qalculate/qalc-i-flag_XXXXXX")"
+
+trap 'rm $flag_interactive &>/dev/null || true' EXIT
+
+function run_fzf() {
+  local -i interactive=0
+  local -a res
+  local _res
+  _res="$(
+    fzf --tac --no-sort --print-query --query="$*" \
+      --bind 'ctrl-d:delete-char,ctrl-c:clear-query,ctrl-o:replace-query,ctrl-i:execute(printf "%s\n" {q} {..} > '"$flag_interactive"')+abort' \
+      --preview-window=down --preview "$prog"' -q {q} {..}' < "$hist"
+  )"
+  local c=$?
+  [[ $c -le 1 ]] || {
+    if [[ -f "$flag_interactive" ]]; then
+      interactive=1
+      mapfile -t res < "$flag_interactive"
+      rm "$flag_interactive"
+    else
+      return $c
+    fi
+  }
+  [[ -v res ]] || mapfile -t res <<< "$_res"
+  [[ ${#res[@]} -ge 1 ]] || return 0
+  local expr="${res[0]}"
+  if [[ -z "$expr" && ${#res[@]} -ge 2 ]]; then
+    expr="${res[1]}"
+  fi
+  echo "$expr"
+  echo "$expr" >> "$hist"
+  if [[ $interactive -eq 1 ]]; then
+    run_qalc -i "$expr" "$expr"
+    return 0
+  fi
+}
+
+function run_qalc() {
+  local -a qalc_opts=()
+
+  local -i OPTIND
+  local OPTARG opt
+  while getopts "i" opt "$@"; do
+    case "$opt" in
+    i)
+      qalc_opts+=(-i)
+      ;;
+    \?)
+      return 1
+      ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  # [[ $# -eq 2 ]] || {
+  #   echo "-q: expected 2 arguments, got $#" >&2
+  #   return 1
+  # }
+
+  local -a expr=()
+  if [[ $# -eq 1 && -n "$1" ]]; then
+    expr=("$1")
+  elif [[ $# -eq 2 ]]; then
+    expr=("$2")
+    if [[ -n $1 ]]; then
+      expr=("$1")
+    fi
+  fi
+
+  qalc "${qalc_opts[@]}" "${expr[@]}"
+}
+
+function main() {
+  local fn=(run_fzf)
+  local -i repeat=1
+
+  local -i OPTIND
+  local OPTARG opt
+  while getopts "hqQ1" opt "$@"; do
+    case "$opt" in
+    h)
+      echo "usage: $(basename "$prog") [-h] [-1] [expr]" >&2
+      echo "" >&2
+      echo "fzf keybindings:" >&2
+      echo "  <C-n> or <C-j> to select next line" >&2
+      echo "  <C-p> or <C-k> to select prev line" >&2
+      echo "  <C-o> to use selected line as query" >&2
+      echo "  <C-i> to open qalc in interactive mode" >&2
+      echo "  <C-q> or <C-g> to exit iqalc entirely" >&2
+      echo "  <C-c> to clear current query" >&2
+      echo "  <C-d> to delete character" >&2
+      echo "" >&2
+      echo "qalc interactive mode keybindings:" >&2
+      echo "  <C-n> to select next history item" >&2
+      echo "  <C-p> to select prev history item" >&2
+      echo "  <C-d> to exit back to fzf" >&2
+      echo "  <C-c> to exit iqalc entirely" >&2
+      return 0
+      ;;
+    q)
+      repeat=0
+      fn=(run_qalc)
+      ;;
+    Q)
+      repeat=0
+      fn=(run_qalc -i)
+      ;;
+    1)
+      repeat=0
+      ;;
+    \?)
+      exit 1
+      ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  while "${fn[@]}" "$@"; do
+    [[ $repeat -eq 1 ]] || return 0
+    [[ $# -eq 0 ]] || shift $#
+  done
+}
+
+main "$@"
