@@ -12,7 +12,7 @@
        doom-dashboard    ; a nifty splash screen for Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       (modeline +light) ; snazzy, Atom-inspired modeline, plus API
+       (modeline)        ; snazzy, Atom-inspired modeline, plus API
        indent-guides     ; highlighted indent columns
        nav-flash         ; blink cursor line after big motions
        ophints           ; highlight the region an operation acts on
