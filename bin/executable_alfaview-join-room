@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+MAIN_ID="$(alfaview-get-window-id)"  
+LOG=$(/usr/bin/env ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1)
+#LOG=$(lsof -Fn +D ~/.local/share/alfaview-staging|grep ^n | cut -d "n" -f 2-)
+ROOM=$(grep -z obj=SubroomModel ${LOG}|grep -Po "SubroomInfo\\K.*," | grep -Po ",name=\\K.*" | cut -d , -f 1|sort -u|fzf)
+swaymsg "[con_id=$MAIN_ID]" focus
+wtype -d 50 -M ctrl f
+wtype -d 50 "${ROOM}"
+wtype -d 50 -k down -d 100 -k return

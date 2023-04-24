@@ -58,6 +58,11 @@ then
   FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
   FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/iqalc
+elif [[ "$1" == "alfaview-room" ]]
+then
+  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+  FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/alfaview-join-room
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;
