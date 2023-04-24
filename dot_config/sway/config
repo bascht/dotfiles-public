@@ -329,8 +329,8 @@ mode $mode_resize {
   bindsym Escape mode "default"
 }
 
-set $mode_alfaview "Alfaview: (a) launch (s) share (r) regionshare (k) stop share"
-set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)lipboard (r)ofi (p)ass (s)snippets (w)eb (a)lfaview"
+set $mode_alfaview "Alfaview: (a) launch (s) share (r) regionshare (k) stop share (j)oin room (b)reak "
+set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (c)alculator (h)istory (r)ofi (p)ass (s)snippets (w)eb (a)lfaview"
 set $mode_file "Files: (h)ome (s)creenshots (d)ocuments (l)astshot"
 
 # Modeless shortcuts
@@ -342,7 +342,8 @@ bindsym $megamod+b exec $menu bookmarks;
 bindsym $megamod+p exec $menu gopass;
 bindsym $megamod+s exec $menu snippets;
 bindsym $megamod+e exec em;
-bindsym $megamod+c exec $menu clipboard;
+bindsym $megamod+h exec $menu clipboard;
+bindsym $megamod+c exec $menu calc;
 
 mode $mode_run {
   bindsym a mode $mode_alfaview
@@ -370,7 +371,8 @@ mode $mode_run {
   bindsym e exec em; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
-  bindsym c exec $menu clipboard; mode "default"
+  bindsym c exec $menu calc; mode "default"
+  bindsym h exec $menu history; mode "default"
 
   bindsym o exec pavucontrol; mode "default"
 
@@ -385,6 +387,8 @@ mode $mode_alfaview {
   bindsym r exec "alfaview-regionshare"; mode "default";
   bindsym s exec "alfaview-screenshare"; mode "default";
   bindsym k exec "alfaview-screenshare stop"; mode "default";
+  bindsym b exec "alfaview-toggle-break"; mode "default";
+  bindsym j exec "my-rofi alfaview-room"; mode "default";
   # return to default mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
