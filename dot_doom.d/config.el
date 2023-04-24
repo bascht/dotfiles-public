@@ -105,9 +105,7 @@
 
       :desc "Open yesterdays journal" "njy" #'bascht/goto-yesterdays-journal
       :desc "Find in Alfaview"        "nga" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/CustomerAlfaview.org"))
-      :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org"))
-      :desc "Treemacs alternative"    "ot" #'+treemacs/toggle
-      :desc "Vterm alternative"       "op" #'+vterm/toggle)
+      :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org")))
 
 (map! :after org
       :map org-mode-map
