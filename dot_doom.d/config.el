@@ -148,6 +148,12 @@
    :map mu4e-headers-mode-map :vn
    "T" (lambda () (interactive) (mu4e-headers-mark-thread nil '(refile))))
 
+;; https://micro.rousette.org.uk/2021/01/03/a-useful-binding.html
+(map!
+ (:map 'override
+   :v "v" #'er/expand-region
+   :v "V" #'er/contract-region))
+
 ; Define quick helper switches to switch between languages while
 ; keeping distinct personal dictionaries for both of them
 (defun bascht/switch-spellcheck (lang)
