@@ -17,7 +17,8 @@ set $term foot
 set $menu "my-rofi"
 set $display_laptop eDP-1
 set $display_dell "Dell Inc. DELL U2415 7MT018BM1PGU"
-set $display_lg "LG Electronics 34UM95 0x00000101"
+#set $display_lg "LG Electronics 34UM95 0x00000101" # (as soon as new wlroots release drops from unstable) 
+set $display_lg "Goldstar Company Ltd 34UM95 0x00000101"
 set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 
 ### Output configuration
@@ -138,7 +139,7 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl prev
-bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl-toggle-mute-if-streaming
 
 bindsym Print exec screenshot
 bindsym shift+Print exec screenshot -s
@@ -342,8 +343,8 @@ bindsym $megamod+b exec $menu bookmarks;
 bindsym $megamod+p exec $menu gopass;
 bindsym $megamod+s exec $menu snippets;
 bindsym $megamod+e exec em;
-bindsym $megamod+h exec $menu clipboard;
-bindsym $megamod+c exec $menu calc;
+bindsym $megamod+c exec $menu clipboard;
+bindsym $megamod+r exec $menu calc;
 
 mode $mode_run {
   bindsym a mode $mode_alfaview
@@ -356,7 +357,6 @@ mode $mode_run {
   bindsym b exec $menu bookmarks; mode "default"
   bindsym $mod+shift+d exec $menu bookmarks; mode "default"
 
-  bindsym r exec rofi -show run; mode "default";
   bindsym p exec $menu gopass; mode "default";
 
   bindsym s exec $menu snippets; mode "default"
@@ -371,8 +371,8 @@ mode $mode_run {
   bindsym e exec em; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
-  bindsym c exec $menu calc; mode "default"
-  bindsym h exec $menu history; mode "default"
+  bindsym r exec $menu calc; mode "default"
+  bindsym c exec $menu clipboard; mode "default"
 
   bindsym o exec pavucontrol; mode "default"
 
