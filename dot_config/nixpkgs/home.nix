@@ -57,7 +57,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/f417b108302f2faf18f60a367c70c135ba7b848c.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/052ee45a317aaa5b24be093fbde3afb504c8f55.tar.gz;
     }))
   ];
 
@@ -91,6 +91,7 @@ in
   home.packages = [
       dbus-sway-environment
       configure-gtk
+      pkgs.obsidian
       pkgs.janet
       pkgs.jpm
       pkgs.btop
@@ -292,9 +293,9 @@ in
       pkgs.weather-icons
       pkgs.wf-recorder
       pkgs.wl-clipboard
-      pkgs.python38Packages.youtube-dl
-      pkgs.python38Packages.pip
-      pkgs.python38Packages.setuptools
+      pkgs.yt-dlp
+      pkgs.python311Packages.pip
+      pkgs.python311Packages.setuptools
       pkgs.wofi
       pkgs.wol
       pkgs.wtype
@@ -328,7 +329,7 @@ in
     HISTTIMEFORMAT = "%Y-%m-%d-%H%M%S ";
    };
    profileExtra = ''
-     if [ $(/run/current-system/sw/bin/tty) == "/dev/tty1" ]; then
+     if [[ $(/run/current-system/sw/bin/tty) == "/dev/tty1" ]]; then
        exec sway-run
      fi;
    '';
@@ -337,6 +338,16 @@ in
    '';
  };
 
+ programs.readline = {
+   enable = true;
+   extraConfig = ''
+     set completion-ignore-case On
+     set colored-stats On
+     set mark-symlinked-directories On
+     set colored-completion-prefix On
+     set menu-complete-display-prefix On
+   '';
+ };
  programs.fzf = {
    enable = true;
    enableBashIntegration = true;
@@ -591,10 +602,13 @@ in
       mopidy-somafm
       mopidy-tunein
       mopidy-youtube
+      mopidy-mpris
+      yt-dlp
     ];
 
     settings = {
       file = { media_dirs = [ "~/Musik"]; };
+      youtube = { youtube_dl_package = "yt_dlp"; };
     };
   };
 
@@ -608,9 +622,10 @@ in
     enable = true;
     package = pkgs.emacs28NativeComp;
     extraPackages = epkgs: [ 
+      #epkgs.sqlite3
+      epkgs.zoxide
       epkgs.vterm 
       epkgs.pdf-tools 
-      epkgs.sqlite
       epkgs.org-pdftools
       epkgs.org-super-agenda
       epkgs.org-mru-clock
@@ -623,7 +638,7 @@ in
       epkgs.consult-org-roam
       epkgs.obsidian
       epkgs.scad-mode
-      epkgs.dirvish
+      # epkgs.dirvish
       epkgs.zoxide
       epkgs.dictcc
       epkgs.toml-mode
