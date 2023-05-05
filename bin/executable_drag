@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-dragon --and-exit $*
+dragon --and-exit "${*}"
