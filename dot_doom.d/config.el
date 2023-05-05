@@ -261,8 +261,8 @@
    mu4e-compose-format-flowed t
    mu4e-get-mail-command "mbsync -a"
    mu4e-headers-include-related t
-   mu4e-index-lazy-check t
-   mu4e-index-cleanup nil
+   mu4e-index-lazy-check nil
+   mu4e-index-cleanup t
    sendmail-program "msmtp"))
 
 ; Disable spell-fu-mode globally
