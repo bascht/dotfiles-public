@@ -7,6 +7,7 @@ systemctl --user start graphical-session.target
 
 dbus-sway-environment
 configure-gtk
+thinkpad-dock
 
 swaymsg workspace "4 "
 swaymsg exec -- "emacsclient --create-frame -e '(org-agenda-list)'"
