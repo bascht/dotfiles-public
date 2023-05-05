@@ -103,6 +103,8 @@
        :desc "Open yesterdays wzzk"   "y" #'bascht/wzzk-find-yesterday
        :desc "Find file in wzzk"      "f" #'bascht/wzzk-find)
 
+      :desc "Open file via zoxide"    "fz" #'zoxide-find-file
+
       :desc "Open yesterdays journal" "njy" #'bascht/goto-yesterdays-journal
       :desc "Find in Alfaview"        "nga" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/CustomerAlfaview.org"))
       :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org")))
@@ -169,6 +171,7 @@
   (interactive)
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
+(use-package! zoxide)
 
 (use-package! dwim-shell-command
   :init
