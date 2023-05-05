@@ -9,9 +9,14 @@
   hardware.logitech.wireless.enableGraphical = true;
   hardware.ledger.enable = true;
 
-  services.pipewire.enable = true;
-  hardware.pulseaudio.enable = true;
   programs.sway.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
 
   services.prometheus = {
       exporters = {
