@@ -24,12 +24,42 @@
         const origin = window.location.origin;
         const project_path = full_issue.split("/-/issues/")[0].replace(origin + "/", "")
         const issue_id = full_issue.split("/-/issues/")[1]
-        const full_api_path = origin + "/api/v4/projects/" + encodeURIComponent(project_path) + "/issues/" + issue_id + "/related_merge_requests?per_page=100";
+        const issue_path = origin + "/api/v4/projects/" + encodeURIComponent(project_path) + "/issues/" + issue_id;
+        const related_merge_requests_path = origin + "/api/v4/projects/" + encodeURIComponent(project_path) + "/issues/" + issue_id + "/related_merge_requests?per_page=100";
+        const resource_state_events_path = origin + "/api/v4/projects/" + encodeURIComponent(project_path) + "/issues/" + issue_id + "/resource_state_events";
 
         const board_info_items = $(card).find("span.board-info-items").first()
+
         GM.xmlHttpRequest({
             method: "GET",
-            url: full_api_path,
+            url: issue_path,
+            onload: function(response) {
+                const issue = JSON.parse(response.responseText);
+                const issue_iid = issue.iid; // const updated_days_ago = Math.round((Date.parse(issue.updated_at) - new Date()) / 86400000);
+                const project_id = issue.project_id; // const updated_days_ago = Math.round((Date.parse(issue.updated_at) - new Date()) / 86400000);
+
+                GM.xmlHttpRequest({
+                    method: "GET",
+                    url: origin + "/api/v4/projects/" + issue.project_id + "/issues/" + issue.iid + "/resource_state_events",
+                    onload: function(response) {
+                        const resource_state_events = JSON.parse(response.responseText); // const updated_days_ago = Math.round((Date.parse(issue.updated_at) - new Date()) / 86400000);
+                        const last_event = resource_state_events[resource_state_events.lastIndex];
+                        const event_timeline = resource_state_events.map(state => "" + state.state).join(" → ");
+                        const time_since_last_event = Math.round((Date.parse(last_event.created_at) - new Date()) / 86400000);
+                        const days = time_since_last_event != 0 ? rtf.format(time_since_last_event, "day") : "today";
+
+                        const text = last_event.state + " " + days + " by " + last_event.user.username;
+                        const div = $("<div>", { class: "last-event gl-display-flex align-items-start", style: "margin-top: 0.75em; margin-bottom: 0.5em;" })
+                        const item = $("<div>", { style: "display: flex; align-items: center; background-color: #f2f7fb; width: 100%; border-radius: 3px; padding: 0.1em", title: event_timeline })
+                        item.append($("<span>", {style: "display: block; min-width: fit-content; font-weight: lighter; font-size:0.6em"}).append(text));
+                        $(div).append(item);
+                        $(board_info_items).append(div);
+
+                    }});
+		}});
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: related_merge_requests_path,
             onload: function(response) {
                 $(board_info_items).css("width", "100%");
                 $(board_info_items).find("div.related-merge-requests").each(function(){ $(this).remove()});
