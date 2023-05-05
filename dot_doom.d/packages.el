@@ -4,6 +4,10 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 (package! ef-themes)
+(package! dirvish)
+
+(package! pdf-tools :built-in 'prefer)
+(package! emacsql-sqlite-builtin :built-in 'prefer)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
