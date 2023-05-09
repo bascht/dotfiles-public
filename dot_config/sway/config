@@ -342,6 +342,7 @@ bindsym $megamod+w exec browser;
 bindsym $megamod+b exec $menu bookmarks;
 bindsym $megamod+p exec $menu gopass;
 bindsym $megamod+s exec $menu snippets;
+bindsym $megamod+m exec $menu emoji;
 bindsym $megamod+e exec em;
 bindsym $megamod+c exec $menu clipboard;
 bindsym $megamod+r exec $menu calc;
@@ -364,6 +365,7 @@ mode $mode_run {
 
   bindsym k exec $menu k8s; mode "default"
   bindsym z exec $menu zoxide; mode "default"
+  bindsym m exec $menu emoji; mode "default"
 
   bindsym w exec browser; mode "default";
   bindsym $mod+w exec chromium-browser; mode "default";
@@ -415,6 +417,9 @@ workspace_auto_back_and_forth yes
 
 smart_gaps on
 smart_borders on
+
+gaps inner 10
+gaps outer 10
 
 # class border backgr. text indic. child_border
 
