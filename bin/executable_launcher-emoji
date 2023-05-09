@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#
+# Shell based emoji picker
+# Inspired by https://github.com/biox/shmoji/blob/main/shmoji
+#
+SWAYSOCK="/run/user/1000/sway-ipc.sock"
+export SWAYSOCK
+
+set -eo pipefail
+set -xv
+
+EMOJI_FILE=$(readlink -f ~/.local/share/emojis.txt)
+
+if [ ! -f "${EMOJI_FILE}" ]; then
+  curl -os "${EMOJI_FILE}" "https://trash.j3s.sh/emojis.txt"
+fi;
+
+EMOJI=$(fzf < "${EMOJI_FILE}" | cut -d " " -f 1 | tr -d '\n' | tee wl-copy)
+
+notify-send "${EMOJI} Copied to clipboard." -t 1200 --icon=edit-copy-symbolic
