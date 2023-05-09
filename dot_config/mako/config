@@ -1,12 +1,14 @@
 anchor=bottom-center
-width=900
+#width=900
 max-visible=2
-border-radius=4
+border-radius=2
 group-by=category
-padding=10
+padding=25,10,18,10
+margin=2,0,-8,0
 font=Iosevka Aile 12
-max-icon-size=48
+#max-icon-size=48
 icon-path=/home/bascht/.nix-profile/share/icons/Adwaita
+#icon-location=top
 
 background-color=#1d1f21
 text-color=#c5c8c6
