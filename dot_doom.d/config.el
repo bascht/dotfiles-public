@@ -346,8 +346,11 @@
     (magit-wip-mode)
     (magit-todos-mode)
     (setq magit-log-arguments '("--graph" "--decorate" "--color")
-                    magit-delete-by-moving-to-trash nil
-                              git-commit-summary-max-length 80))
+          magit-delete-by-moving-to-trash nil
+          git-commit-summary-max-length 80
+          transient-values '((magit-rebase "--autosquash" "--autostash")
+                             (magit-pull "--rebase" "--autostash")
+                             (magit-revert "--autostash"))))
 (defun bascht/file-string (file)
   "Read the contents of a file and return as a string."
   (with-current-buffer (find-file-noselect file)
