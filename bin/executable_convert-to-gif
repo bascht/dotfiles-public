@@ -9,7 +9,6 @@
 
 require 'tmpdir'
 
-DEFAULT_WIDTH=400
 DEFAULT_FPS=10
 name = ARGV[0]
 
@@ -23,8 +22,7 @@ frames per second are optional parameters.
 
 $ convert-to-gif video.mp4
 
-Will result in a GIF with #{DEFAULT_FPS} fps that is #{DEFAULT_WIDTH}
-pixel wide.
+Will result in a GIF with #{DEFAULT_FPS} fps that is as wide as the original video.
 EOL
   exit
 end
@@ -37,7 +35,7 @@ Dir.mktmpdir do |tmpdir|
     abort "File [#{name}] does not exist. Please see --help."
   end
 
-  width = ARGV[1] || DEFAULT_WIDTH
+  width = ARGV[1] || `ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of default=nw=1:nk=1 #{name}|head -n1`
   fps = ARGV[2] || DEFAULT_FPS
 
   basename = File.basename(name, ".*")
