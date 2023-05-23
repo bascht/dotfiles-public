@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+MAIN_ID="$(alfaview-get-window-id)"
+CURRENT_ID=$(swaymsg -t get_tree | jq '.. | (.nodes? // empty)[] | select(.focused==true).id') 
+swaymsg "[con_id=$MAIN_ID]" focus
+wtype -M ctrl m
+swaymsg "[con_id=$CURRENT_ID]" focus
