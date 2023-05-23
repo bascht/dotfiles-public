@@ -293,6 +293,13 @@
 (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
 
+; Always open new project with dired
+(defun bascht/projectile-open-dired (dir)
+  (let ((default-directory (file-truename (expand-file-name dir))))
+    (call-interactively #'projectile-dired)))
+
+(setq +workspaces-switch-project-function #'bascht/projectile-open-dired)
+
 (add-hook! 'yaml-mode-hook
           (setq auto-fill-mode -1)
           (flycheck-select-checker 'yaml-yamllint))
