@@ -95,6 +95,7 @@ in
       unstable.pkgs.pynitrokey
       unstable.pkgs.nitrokey-app
       pkgs.obsidian
+      unstable.pkgs.super-slicer-latest
       pkgs.janet
       pkgs.jpm
       pkgs.btop
