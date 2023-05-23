@@ -91,6 +91,9 @@ in
   home.packages = [
       dbus-sway-environment
       configure-gtk
+      unstable.pkgs.logseq
+      unstable.pkgs.pynitrokey
+      unstable.pkgs.nitrokey-app
       pkgs.obsidian
       pkgs.janet
       pkgs.jpm
@@ -631,6 +634,7 @@ in
       epkgs.org-mru-clock
       epkgs.org-journal
       epkgs.org-alert
+      epkgs.org-modern
       epkgs.csv-mode
       epkgs.ef-themes
       epkgs.literate-calc-mode
