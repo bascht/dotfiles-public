@@ -37,7 +37,7 @@
         org-link-elisp-confirm-function nil
         org-deadline-warning-days 5
         org-default-notes-file "~/Documents/Zettelkasten/refile.org"
-        org-ellipsis " ▼ "
+        org-ellipsis " ⧩ "
         org-habit-following-days 3
         org-habit-graph-column 60
         org-habit-show-habits-only-for-today nil
