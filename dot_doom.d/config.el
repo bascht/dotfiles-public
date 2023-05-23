@@ -58,6 +58,10 @@
 (setq doom-modeline-time nil)
 (setq doom-modeline-persp-name t)
 (setq doom-modeline-modal nil)
+
+; Make avy leads real nice big and shiny
+(face-spec-set 'avy-lead-face '((t (:inherit isearch :family "IBM Plex Mono" :background "deep pink" :foreground "snow"))))
+
 (defun doom-dashboard-draw-ascii-banner-fn ()
   (let* ((banner
           '(
