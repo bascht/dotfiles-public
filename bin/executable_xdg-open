@@ -38,6 +38,9 @@ case "${match}" in
 	alfaview:*)
 		exec alfaview "${argument}"
 		;;
+	alfastaging:*)
+		exec alfaview-staging "${argument}"
+		;;
 	ssh:*)
 		host=$(echo $1 | cut -d "/" -f 3)
 		exec foot ssh "$host"
