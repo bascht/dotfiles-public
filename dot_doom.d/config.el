@@ -28,6 +28,7 @@
       helm-org-rifle-show-path t
       doom-dashboard-ascii-banner-fn #'bascht/doom-dashboard-calvin
       frame-title-format (concat "%b - " user-login-name "@" (system-name))
+      dired-async-mode t
       hl-todo-keyword-faces
       `(("TODO" warning bold)
         ("FIXME" error bold)
