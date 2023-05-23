@@ -361,23 +361,22 @@
     (point-to-register 'bascht/ts-report-current-table)
     (async-start
      (lambda ()
+         (if (> hours 4)
+             (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
+                    (break-end (time-add first-shift-end 3600))
+                    (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
 
-       (if (> hours 4)
-           (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
-                  (break-end (time-add first-shift-end 3600))
-                  (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
+               (shell-command (format "report-to-personio \"%s\" \"%s\" \"%s\" \"%s\""
+                                                (format-time-string "%R" ts)
+                                                (format-time-string "%R" first-shift-end)
+                                                (format-time-string "%R" break-end)
+                                                (format-time-string "%R" shift-end)))
+               )
 
-             (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                                    (format-time-string "%F %a %R %Z" ts)
-                                    (format-time-string "%F %a %R %Z" first-shift-end)))
-             (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                                    (format-time-string "%F %a %R %Z" break-end)
-                                    (format-time-string "%F %a %R %Z" shift-end)))))
-
-       (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
-         (shell-command (format "go-personio --work-start \"%s\" --work-end \"%s\""
-                                (format-time-string "%F %a %R %Z" ts)
-                                (format-time-string "%F %a %R %Z" shift-end))))
+           (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
+             (shell-command (format "report-to-personio \"%s\" \"%s\""
+                                    (format-time-string "%R" ts)
+                                    (format-time-string "%R" shift-end)))))
 
        (list (format-time-string "[%F]" ts) (format "Successfully reported %s hours to Personio" hours)))
 
