@@ -48,6 +48,13 @@
                         "~/Work/Zettelkasten/"
                       "~/Documents/Zettelkasten/"))
 
+(map! :leader
+      :desc "Copy URL link"
+      "o U" #'link-hint-copy-link)
+(map! :leader
+      :desc "Open URL link"
+      "o u" #'link-hint-open-link)
+
 (defun doom-dashboard-draw-ascii-banner-fn ()
   (let* ((banner
           '(
