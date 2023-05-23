@@ -140,7 +140,9 @@
       :localleader
 
       :desc "Drag" "d" #'dwim-shell-command-drag
-      :desc "Drop" "o" #'dwim-shell-command-drop)
+      :desc "Drop" "o" #'dwim-shell-command-drop
+      :desc "Convert to GIF" "g" #'dwim-shell-command-convert-to-gif
+      )
 
 (map!
    :after markdown-mode
@@ -186,6 +188,15 @@
 
 (use-package! dwim-shell-command
   :init
+
+  (defun dwim-shell-command-convert-to-gif ()
+    "Convert file to a small GIF"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Converting <<f>> to GIF"
+     "convert-to-gif <<f>>"
+     :utils "convert-to-gif"
+     ))
 
   (defun dwim-shell-command-drop ()
     "Drop stuff over to drop.bascht.space"
