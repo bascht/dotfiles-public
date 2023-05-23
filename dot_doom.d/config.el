@@ -55,6 +55,9 @@
       :desc "Open URL link"
       "o u" #'link-hint-open-link)
 
+(setq doom-modeline-time nil)
+(setq doom-modeline-persp-name t)
+(setq doom-modeline-modal nil)
 (defun doom-dashboard-draw-ascii-banner-fn ()
   (let* ((banner
           '(
