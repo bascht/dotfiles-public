@@ -101,3 +101,7 @@ for file in $(chezmoi status|awk '{ print $2 }'); do
 	clear
 done
 }
+
+function ddir {
+  take "$(datestamp)-${*}"
+}
