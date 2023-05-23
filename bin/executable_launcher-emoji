@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-#
-# Shell based emoji picker
-# Inspired by https://github.com/biox/shmoji/blob/main/shmoji
-#
+
 SWAYSOCK="/run/user/1000/sway-ipc.sock"
 export SWAYSOCK
 
