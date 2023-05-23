@@ -43,17 +43,20 @@
                     url: origin + "/api/v4/projects/" + issue.project_id + "/issues/" + issue.iid + "/resource_state_events",
                     onload: function(response) {
                         const resource_state_events = JSON.parse(response.responseText); // const updated_days_ago = Math.round((Date.parse(issue.updated_at) - new Date()) / 86400000);
+			if(resource_state_events.length > 0) {
                         const last_event = resource_state_events[resource_state_events.lastIndex];
                         const event_timeline = resource_state_events.map(state => "" + state.state).join(" → ");
-                        const time_since_last_event = Math.round((Date.parse(last_event.created_at) - new Date()) / 86400000);
-                        const days = time_since_last_event != 0 ? rtf.format(time_since_last_event, "day") : "today";
 
-                        const text = last_event.state + " " + days + " by " + last_event.user.username;
-                        const div = $("<div>", { class: "last-event gl-display-flex align-items-start", style: "margin-top: 0.75em; margin-bottom: 0.5em;" })
-                        const item = $("<div>", { style: "display: flex; align-items: center; background-color: #f2f7fb; width: 100%; border-radius: 3px; padding: 0.1em", title: event_timeline })
-                        item.append($("<span>", {style: "display: block; min-width: fit-content; font-weight: lighter; font-size:0.6em"}).append(text));
-                        $(div).append(item);
-                        $(board_info_items).append(div);
+                          const time_since_last_event = Math.round((Date.parse(last_event.created_at) - new Date()) / 86400000);
+                          const days = time_since_last_event != 0 ? rtf.format(time_since_last_event, "day") : "today";
+
+                          const text = last_event.state + " " + days + " by " + last_event.user.username;
+                          const div = $("<div>", { class: "last-event gl-display-flex align-items-start", style: "margin-top: 0.75em; margin-bottom: 0.5em;" })
+                          const item = $("<div>", { style: "display: flex; align-items: center; background-color: #f2f7fb; width: 100%; border-radius: 3px; padding: 0.1em", title: event_timeline })
+                          item.append($("<span>", {style: "display: block; min-width: fit-content; font-weight: lighter; font-size:0.6em"}).append(text));
+                          $(div).append(item);
+                          $(board_info_items).append(div);
+			};
 
                     }});
 		}});
