@@ -184,7 +184,13 @@
   (interactive)
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
+
 (use-package! zoxide)
+
+(use-package! org-modern
+  :hook (org-mode . global-org-modern-mode)
+  :config
+  (setq org-modern-label-border 0.3))
 
 (use-package! dwim-shell-command
   :init
