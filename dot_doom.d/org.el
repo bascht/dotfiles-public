@@ -439,20 +439,41 @@
   (add-hook 'org-clock-in-hook 'save-buffer)
   (add-hook 'org-clock-out-hook 'save-buffer))
 
+(use-package! md-roam
+  :after (org-roam)
+  :config
+  ;; (set-company-backend! 'markdown-mode 'company-capf)
+  (setq org-roam-file-extensions '("md" "org"))
+  (md-roam-mode 1)
+  (org-roam-db-autosync-mode 1)
+  (add-to-list 'org-roam-capture-templates
+               '("m" "Markdown" plain "" :target
+                 (file+head "%<%Y-%m-%dT%H%M%S>-${slug}.md"
+                            "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
+                 :unnarrowed t)))
+
 (use-package! org-roam
   :init
-  (setq org-roam-directory (file-truename "~/WirZwei/ZettelkastenOrg")
+  (setq org-roam-directory (file-truename "~/WirZwei/Zettelkasten")
         org-roam-completion-everywhere t
+        ;; org-roam-database-connector 'sqlite-builtin
+        org-roam-dailies-directory "journals/"
+        org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.md"
+                              "#+title: %<%Y-%m-%d>\n")))
         org-roam-capture-templates
          '(("d" "default" plain
             "%?"
-            :if-new (file+head "${title}.org" "#+title: ${title}\n")
+            :if-new (file+head "${title}.md" "# ${title}\n")
             :unnarrowed t))
         org-id-link-to-org-use-id 'create-if-interactive)
   :config
   (org-roam-db-autosync-mode +1)
   (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
-  (add-hook 'org-roam-mode-hook (setq company-idle-delay 0.2)))
+  (add-hook 'org-roam-mode-hook (lambda () (setq company-idle-delay 0.2)))
+  )
 
 (use-package! websocket
   :after org-roam)
