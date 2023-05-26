@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+ALFAVIEW_ID="$(alfaview-get-window-id)"
+WINDOW_TYPE=$(swaymsg -t get_tree | jq -e -r "recurse(.nodes[],.floating_nodes[]) | select(.id == ${ALFAVIEW_ID}).type")
+CURRENT_WORKSPACE=$(swaymsg -t get_workspaces | jq '.[] | select(.focused==true) | .name')
+
+swaymsg "[con_id=${ALFAVIEW_ID}]" focus
+if [[ "${WINDOW_TYPE}" == "floating_con" ]]; then
+	swaymsg "[con_id=${ALFAVIEW_ID}]" move container to workspace 3 
+	swaymsg "[con_id=${ALFAVIEW_ID}]" floating off
+else
+	swaymsg "[con_id=${ALFAVIEW_ID}]" floating on
+	swaymsg "[con_id=${ALFAVIEW_ID}]" move container to workspace "${CURRENT_WORKSPACE}"
+	swaymsg "[con_id=${ALFAVIEW_ID}]" focus
+	sway-center-window
+	sway-center-window
+fi;
+
