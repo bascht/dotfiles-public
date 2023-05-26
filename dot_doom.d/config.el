@@ -48,6 +48,7 @@
                         "~/Work/Zettelkasten/"
                       "~/Documents/Zettelkasten/"))
 
+
 (map! :leader
       :desc "Copy URL link"
       "o U" #'link-hint-copy-link)
@@ -154,7 +155,6 @@
 (map!
    :after markdown-mode
    :map evil-markdown-mode-map
-   :n [return] #'bascht/markdown-do
    :i "M-b" #'backward-word
    )
 
@@ -191,13 +191,13 @@
   (interactive)
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
-
 (use-package! zoxide)
 
 (use-package! org-modern
   :hook (org-mode . global-org-modern-mode)
   :config
   (setq org-modern-label-border 0.3))
+
 
 (use-package! dwim-shell-command
   :init
@@ -337,21 +337,12 @@
 
 (add-hook! 'terraform-mode-hook   #'format-all-mode)
 
-(defun bascht/markdown-do ()
-  "Keep markdown-do from straight away going into gfm-mode and adding checkboxes"
-  (interactive)
-  (cond
-   ((thing-at-point-looking-at obsidian--basic-wikilink-regex)
-    (obsidian-follow-link-at-point))
-   ((thing-at-point-looking-at markdown-regex-wiki-link)
-    (markdown-follow-wiki-link-at-point))
-   (t
-    (markdown-do))))
-
-(after! markdown
+(use-package! markdown-mode
+  :init
   (setq markdown-enable-wiki-links t
         markdown-wiki-link-search-type '(sub-directories parent-directories)
         markdown-wiki-link-fontify-missing t
+        markdown-enable-math nil
         markdown-link-space-sub-char " "))
 
 
@@ -377,7 +368,12 @@
     (set-face-background 'dap-ui-pending-breakpoint-face "lightpink")
     (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
 
-(after! obsidian (obsidian-specify-path "~/WirZwei/Zettelkasten"))
+(use-package! obsidian
+  :config
+  (obsidian-specify-path "~/WirZwei/Zettelkasten"))
+
+(after! markdown-mode
+  (set-company-backend! 'markdown-mode '(:separate obsidian-tags-backend company-capf company-dabbrev company-yasnippet company-ispell)))
 
 (use-package! dirvish
   :config
