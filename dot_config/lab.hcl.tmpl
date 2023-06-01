@@ -1,5 +1,7 @@
+{{ if (and (index . "lab") (index .lab "core") (index .lab "core" "host")) }}
 "core" = {
   "host" = "{{ .lab.core.host }}"
   "token" = ""
   "user" = "{{ .lab.core.user }}"
 }
+{{ end }}

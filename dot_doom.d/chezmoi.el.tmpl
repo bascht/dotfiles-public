@@ -2,11 +2,13 @@
 
 (setq user-full-name "{{ .me.name }}"
       user-mail-address "{{ .me.email }}")
+{{- if (and (index . "magit") (index .magit "forges")) }}
 (after! forge
   (add-to-list 'forge-alist
                {{- range .magit.forges }}
                '("{{ .host }}" "{{ .api }}" "{{ .host }}" {{ .type }})
                {{- end }}))
+       {{- end }}
 
 (setq org-link-abbrev-alist
       '({{- range .bookmarks -}}
