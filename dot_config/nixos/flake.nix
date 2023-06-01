@@ -53,10 +53,14 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-        ./hardware-configuration.nix
-        ./wifi.nix
         ./scanberry.nix
-        ./flaki-host.nix
+        ./boot.nix
+        ./network.nix
+        ./security.nix
+        ./host-flaki.nix
+        bascht-private.udev-flaki
+        bascht-private.trieste
+        bascht-private.wifi
       ];
     };
   };
