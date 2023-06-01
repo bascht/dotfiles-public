@@ -42,6 +42,7 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
+        ./futros.nix
         ./boot.nix
         ./network.nix
         ./security.nix
@@ -53,6 +54,7 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
+        ./futros.nix
         ./scanberry.nix
         ./boot.nix
         ./network.nix
