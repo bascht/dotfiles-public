@@ -34,6 +34,17 @@
         bascht-private.wifi
       ];
     };
+    nixosConfigurations.zurek = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./configuration.nix
+        ./boot.nix
+        ./network.nix
+        ./security.nix
+        ./host-zurek.nix
+        bascht-private.udev-zurek
+      ];
+    };
     nixosConfigurations.flaki = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
