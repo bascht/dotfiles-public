@@ -10,9 +10,32 @@
     boot.initrd.kernelModules = [ "dm-snapshot" ];
     boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/1786c83d-16de-4a83-bedc-dd2606b6eccc";
 
+
+    services.scanberry.enable = true;
     hardware.sane.enable = true;
     hardware.sane.drivers.scanSnap.enable = true;
 
+    services.prometheus = {
+      exporters = {
+        node = {
+          enable = true;
+          enabledCollectors = [ "systemd" ];
+          port = 9100;
+        };
+      };
+    };
+    services.nginx = {
+      enable = true;
+      virtualHosts."scanberry.dorhamm.me" =  {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:3000";
+          proxyWebsockets = true;
+        };
+      };
+    };
+    networking = {
+      firewall.allowedTCPPorts = [ 22 80 9100 ];
+    };
     fileSystems."/" =
       {
         device = "/dev/mapper/vg-root";
