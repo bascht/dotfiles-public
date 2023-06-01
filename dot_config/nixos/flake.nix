@@ -48,6 +48,7 @@
         ./security.nix
         ./host-zurek.nix
         bascht-private.udev-zurek
+        bascht-private.ssh-boot-zurek
       ];
     };
     nixosConfigurations.flaki = nixpkgs.lib.nixosSystem {
