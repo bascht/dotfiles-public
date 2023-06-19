@@ -17,8 +17,7 @@ set $term foot
 set $menu "my-rofi"
 set $display_laptop eDP-1
 set $display_dell "Dell Inc. DELL U2415 7MT018BM1PGU"
-#set $display_lg "LG Electronics 34UM95 0x00000101" # (as soon as new wlroots release drops from unstable) 
-set $display_lg "Goldstar Company Ltd 34UM95 0x00000101"
+set $display_lg "LG Electronics 34UM95 0x00000101"
 set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 
 ### Output configuration
