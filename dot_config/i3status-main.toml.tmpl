@@ -1,7 +1,8 @@
+[icons]
 icons = "awesome6"
 
 [theme]
-name = "plain"
+theme = "plain"
 
 [theme.overrides]
 {{- if (eq .chezmoi.hostname "apfelstrudel") }}
@@ -29,23 +30,25 @@ interval = 60
 block = "custom"
 command = '/home/bascht/bin/org-get-current-clock-task'
 interval = 10
-on_click = "em -c -e '(org-clock-goto)'"
+[[block.click]]
+button = "left"
+cmd = "em -c -e '(org-clock-goto)'"
 
 [[block]]
 block = "sound"
 
 [[block]]
 block = "music"
-buttons = ["play", "next"]
-on_collapsed_click = "foot ncmpcpp"
-marquee = false
-max_width = 10
+format = " $icon {$combo.str(max_w:15,rot_interval:0.5) $play $next |}"
 player = ["org.mpris.MediaPlayer2.mopidy"]
+[[block.click]]
+button = "left"
+cmd = "foot ncmpcpp"
 
 [[block]]
 block = "load"
 interval = 10
-format = "{1m}"
+format = "$1m"
 warning = 2
 critical = 4
 [block.theme_overrides]
@@ -54,28 +57,29 @@ critical_fg = "#a60000"
 
 [[block]]
 block = "memory"
-display_type = "memory"
-format_mem = "{mem_used_percents}"
-format_swap = "{swap_used_percents}"
+format = " $icon $mem_used_percents.eng(w:1) "
+format_alt = " $icon_swap $swap_free.eng(w:3,u:B,p:M)/$swap_total.eng(w:3,u:B,p:M)($swap_used_percents.eng(w:2)) "
 
 [[block]]
 block = "net"
 device = "ethernet"
-hide_inactive = true
+missing_format = ""
 format = ""
-format_alt = "{speed_down} {speed_up}"
+format_alt = "$speed_down $speed_up"
 
 [[block]]
 block = "net"
 device = "wifi"
-hide_inactive = true
-format = "{ssid} {signal_strength}"
-format_alt = "{speed_down} {speed_up}"
-on_click = "wpa_gui"
+missing_format = ""
+format = "$ssid $signal_strength"
+format_alt = "$speed_down $speed_up"
+[[block.click]]
+button = "left"
+cmd = "wpa_gui"
 
 [[block]]
 block = "toggle"
-text = ""
+format = ""
 command_state = "alfaview-screenshare status"
 command_on = "alfaview-screenshare start"
 command_off = "alfaview-screenshare stop"
@@ -83,23 +87,20 @@ interval = 10
 
 [[block]]
 block = "backlight"
-{{- if or (eq .chezmoi.hostname "kandalingo") }}
-device = "intel_backlight"
-{{- end }}
 
 [[block]]
 block = "battery"
 driver = "upower"
-format = "{percentage} {time}"
+format = "$percentage $time"
 
 [[block]]
 block = "time"
 interval = 10
-format = "(u%R)"
+format = "$timestamp.datetime(f:'u%R') "
 timezone = "UTC"
 
 [[block]]
 block = "time"
 interval = 10
-format = "%a %d.%m. %R"
+format = " $icon $timestamp.datetime(f:'%d.%m %R', l:de_DE) "
 timezone = "Europe/Berlin"

@@ -1,7 +1,8 @@
-icons = "awesome"
+[icons]
+icons = "awesome6"
 
 [theme]
-name = "plain"
+theme = "plain"
 
 [theme.overrides]
 idle_bg = "#2E3440"
@@ -15,20 +16,13 @@ separator_fg = "#434C5E"
 block = "sound"
 
 [[block]]
-block = "music"
-buttons = ["play", "next"]
-on_collapsed_click = "cantata"
-marquee = false
-max_width = 10
-
-[[block]]
 block = "time"
 interval = 60
-format = "(u %R)"
+format = "$timestamp.datetime(f:'u%R') "
 timezone = "UTC"
 
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d.%m. %R"
+format = " $icon $timestamp.datetime(f:'%d/%m %R', l:de_DE) "
 timezone = "Europe/Berlin"
