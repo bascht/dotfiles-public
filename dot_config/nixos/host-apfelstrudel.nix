@@ -7,7 +7,7 @@
     virtualisation.libvirtd.enable = true;
 
 
-    boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/22d00e62-3409-4f07-a400-8e5de944f56a";
+#    boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/22d00e62-3409-4f07-a400-8e5de944f56a";
     boot.initrd.luks.devices = {
       root = {
         device = "/dev/disk/by-uuid/22d00e62-3409-4f07-a400-8e5de944f56a";

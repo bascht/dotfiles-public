@@ -5,7 +5,7 @@
   config = {
     networking.hostName = "pierogi";
 
-    boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/00b9f4c9-396a-4078-9d99-c00e3a0070be";
+#    boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/00b9f4c9-396a-4078-9d99-c00e3a0070be";
     boot.initrd.luks.devices = {
       root = {
         device = "/dev/disk/by-uuid/00b9f4c9-396a-4078-9d99-c00e3a0070be";
