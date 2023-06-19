@@ -3,7 +3,7 @@
 {
   imports = [];
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "22.05";
   nix.settings.auto-optimise-store = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "bascht" ];
