@@ -4,7 +4,7 @@ declare name
 raw_name=$(basename $(realpath $(pwd)/../))/$(basename $PWD)
 name="${raw_name//./_}"
 
-if ! tmux has-session -t "${name}" 2> /dev/null; then
+if ! tmux has-session -t="${name}" 2> /dev/null; then
   tmux new-session -A -s "${name}" -d
   tmux new-window -t "${name}"
   tmux select-window -t "${name}" -t 0

@@ -290,7 +290,7 @@ for_window [title="^backup$"] floating enable, border pixel 4, move position cen
 for_window [title="nm-tray"] floating enable
 for_window [app_id="org.gnome.Nautilus"] floating enable
 for_window [title="Firefox - Sharing Indicator"] floating enable
-for_window [title="^alfaview - Region share.*$"] floating enable, border pixel 1, move position center
+for_window [title="^alfaview - Share screen region.*$"] floating enable, border pixel 1, move position center
 
 assign [instance="^.*\.yakshed\.org$"] "3 "
 assign [title=".*slack.*"] "3 "
