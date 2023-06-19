@@ -96,6 +96,9 @@ in
       unstable.pkgs.nitrokey-app
       pkgs.obsidian
       unstable.pkgs.super-slicer-latest
+      pkgs.todoman
+      pkgs.khal
+      pkgs.calcurse
       pkgs.janet
       pkgs.jpm
       pkgs.btop
@@ -300,6 +303,7 @@ in
       pkgs.yt-dlp
       pkgs.python311Packages.pip
       pkgs.python311Packages.setuptools
+      pkgs.vdirsyncer
       pkgs.wofi
       pkgs.wol
       pkgs.wtype
