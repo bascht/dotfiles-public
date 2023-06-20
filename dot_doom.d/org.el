@@ -315,19 +315,20 @@
   ;; Find my work tree and clock into the respective day / create entry if it does not exist
   (defun bascht/alfatraining-clock-in ()
     (interactive)
-    (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
+    (save-excursion
+      (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
 
-    (let ((month (format-time-string "%Y-%m"))
-          (today (format-time-string "[%Y-%m-%d]")))
-      (goto-char (org-find-exact-headline-in-buffer month))
+      (let ((month (format-time-string "%Y-%m"))
+            (today (format-time-string "[%Y-%m-%d]")))
+        (goto-char (org-find-exact-headline-in-buffer month))
 
-      (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
-          (goto-char (org-find-exact-headline-in-buffer today))
-        (progn
-          (org-insert-subheading nil)
-          (insert today)))
-      (org-clock-in)
-      (save-buffer)))
+        (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
+            (goto-char (org-find-exact-headline-in-buffer today))
+          (progn
+            (org-insert-subheading nil)
+            (insert today)))
+        (org-clock-in)
+        (save-buffer))))
 
   ;; Add the a small button to report the current clock line in a :clockreport to
   ;; Personio. This won't actually do the remote call, but just add a elisp: hyperlink.
