@@ -285,6 +285,7 @@ bindsym $mod+u exec scratchpad
 bindsym $mod+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl dismiss -a
 
+for_window [title="^Worklog.*$"] floating enable, border pixel 4, move position center
 for_window [title="^worklogger.*$"] floating enable, border pixel 4, move position center
 for_window [title="^backup$"] floating enable, border pixel 4, move position center
 for_window [title="nm-tray"] floating enable

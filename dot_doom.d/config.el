@@ -266,6 +266,15 @@
            (find-file directory)
              (magit-status-setup-buffer)))))
 
+(defun bascht/worklog ()
+  "Switch to my worklog workspace and append a new log"
+  (interactive)
+  (org-set-frame-title "Worklog")
+  (bascht/switch-to-or-load-workspace "worklog")
+  (org-journal-new-entry nil)
+  (unless (bound-and-true-p writeroom-mode)(writeroom-mode))
+  (evil-append nil))
+
 (defun bascht/mu4e-change-from-to-catchall (msg)
   "Set the From address based on the To address of the original message if I reply."
   (setq user-mail-address

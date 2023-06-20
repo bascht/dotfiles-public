@@ -20,6 +20,9 @@ DIALOG="zenity --entry"
 
 appending = File.exist?(CURRENT_FILE) && (not File.zero?(CURRENT_FILE))
 
+`emacsclient --create-frame -e '(bascht/worklog)'`
+exit 0
+
 File.open(CURRENT_FILE, "a+") do |f|
   last_tasks = if appending
                  all_tasks = f.each_line.select{|line| line.start_with? "**" }
