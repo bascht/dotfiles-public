@@ -256,16 +256,16 @@
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
 ; Directly create a matching workspace for the project (when launched with `bin/tn')
-(defun bascht/switch-to-or-load-workspace (name directory)
+(defun bascht/switch-to-or-load-workspace (name &optional directory)
   (interactive)
-  (message "Started workspace switcher")
   (persp-mode)
   (if (+workspace-exists-p name)
       (+workspace-switch name)
     (progn (+workspace-new name)
            (+workspace-switch name)
+           (if directory
            (find-file directory)
-           (magit-status-setup-buffer))))
+             (magit-status-setup-buffer)))))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
   "Set the From address based on the To address of the original message if I reply."
