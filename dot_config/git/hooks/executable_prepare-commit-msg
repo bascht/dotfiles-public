@@ -6,12 +6,12 @@ commit_file = ARGV[0]
 commit_msg = File.read(commit_file)
 
 if commit_msg.nil?
-  $stderr.puts "Nothing given, aborting"
+  $stderr.puts "Nothing given, aborting" if ENV.fetch("LOG_LEVEL", nil).eql? "DEBUG"
   exit 0
 end
 
 unless commit_msg.lines.first.strip.empty?
-  $stderr.puts "Commit message not empty, aborting"
+  $stderr.puts "Commit message not empty, aborting" if ENV.fetch("LOG_LEVEL", nil).eql? "DEBUG"
   exit 0
 end
 

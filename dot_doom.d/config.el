@@ -178,7 +178,6 @@
 ; keeping distinct personal dictionaries for both of them
 (defun bascht/switch-spellcheck (lang)
   (interactive)
-  (message lang)
   (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
   (ispell-change-dictionary lang) lang)
 
