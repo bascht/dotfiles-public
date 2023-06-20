@@ -59,6 +59,7 @@
         org-journal-enable-agenda-integration t
         org-journal-file-format "%Y%m%d"
         org-journal-date-format "%A, %d/%m/%Y"
+        org-journal-carryover-items ""
         org-log-done t
         org-mu4e-link-query-in-headers-mode nil
         org-outline-path-complete-in-steps nil
