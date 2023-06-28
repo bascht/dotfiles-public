@@ -19,7 +19,7 @@
 ;; Until https://github.com/doomemacs/doomemacs/issues/7196 is fixed:
 (unpin! evil-collection)
 (package! evil-collection
-  :recipe (:repo "kepi/evil-collection" :branch "mu4e-development"))
+  :recipe (:repo "emacs-evil/evil-collection" :branch "master"))
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
