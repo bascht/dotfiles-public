@@ -18,6 +18,7 @@ bind '"\a" "zi; \n"'
 bind '"\egkk" ". <(_kubeconfig) && kubectx; \n "'
 bind '"\egkx" "kubectx; \n"'
 bind '"\egkn" "kubens; \n"'
+bind '"\egku" "kubectl "'
 bind '"\egkp" "kubectl get pods;"'
 
 # Yaml Engineering
