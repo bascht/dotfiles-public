@@ -196,7 +196,12 @@
 (use-package! org-modern
   :hook (org-mode . global-org-modern-mode)
   :config
-  (setq org-modern-label-border 0.3))
+  (setq org-modern-label-border 0.1)
+  (setq org-modern-checkbox
+        '((?X . "◾")
+          (?- . #("◽–" 0 2 (composition ((2)))))
+          (?\s . "◽")))
+  )
 
 
 (use-package! dwim-shell-command
