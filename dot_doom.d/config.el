@@ -313,7 +313,14 @@
    mu4e-headers-include-related t
    mu4e-index-lazy-check nil
    mu4e-index-cleanup t
-   sendmail-program "msmtp"))
+   sendmail-program "msmtp")
+
+  ;; TODO: Until mu 1.10 ~ names are replaced in upstream doom
+  ;; (defalias '+mu4e~main-action-str-prettier-mu4e '+a--main-action-str-prettier-a)
+  ;; (defalias '+mu4e~main-keyval-str-prettier-mu4e '+a--main-keyval-str-prettier-a)
+  (defalias 'mu4e~view-open-file 'mu4e--view-open-file)
+  (defalias 'mu4e~view-gather-mime-parts 'mu4e--view-gather-mime-parts)
+  (defalias 'mu4e~view-mime-part-to-temp-file 'mu4e--view-mime-part-to-temp-file))
 
 ; Disable spell-fu-mode globally
 (remove-hook 'text-mode-hook #'spell-fu-mode)
