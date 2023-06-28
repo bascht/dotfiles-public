@@ -49,6 +49,9 @@ config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
 config.bind(',up', 'spawn -u untrack-url -p {clipboard}')
 config.bind(',e', 'jseval document.querySelector("button.btn-edit").click()')
 
+config.bind(',ttl', 'set tabs.position left')
+config.bind(',ttt', 'set tabs.position top')
+
 config.bind(',oc', 'spawn --userscript org-capture')
 
 config.bind(',r', 'spawn --userscript readability')
