@@ -12,6 +12,7 @@
       doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
       doom-modeline-height 23
       ef-themes-mixed-fonts t
+      emojify-display-style 'unicode
       modus-themes-variable-pitch-ui t
       modus-themes-rainbow-headings t
       modus-themes-section-headings t
