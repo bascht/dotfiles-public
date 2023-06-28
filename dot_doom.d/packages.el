@@ -5,6 +5,8 @@
 (package! org-roam-ui)
 (package! ef-themes)
 (package! dirvish)
+(package! mingus)
+(package! spacious-padding)
 (package! md-roam
   :recipe (:host github
            :repo "nobiot/md-roam"
