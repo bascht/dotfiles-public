@@ -278,7 +278,8 @@
   (org-set-frame-title "Worklog")
   (bascht/switch-to-or-load-workspace "worklog")
   (org-journal-new-entry nil)
-  (unless (bound-and-true-p writeroom-mode)(writeroom-mode))
+  (hide-mode-line-mode)
+  (spacious-padding-mode)
   (evil-append nil))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
