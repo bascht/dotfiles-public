@@ -333,6 +333,7 @@ in
    enable = true;
    enableCompletion = true;
    historyFileSize = 80000;
+   historyControl = [ "ignoredups" "ignorespace" ];
    sessionVariables = {
     HISTTIMEFORMAT = "%Y-%m-%d-%H%M%S ";
    };
