@@ -382,6 +382,7 @@
   (with-current-buffer (find-file-noselect file)
     (buffer-string)))
 
+(add-hook 'prog-mode-hook (lambda () (setq company-idle-delay 0.2)))
 
 (after! dap
   (unless (display-graphic-p)
