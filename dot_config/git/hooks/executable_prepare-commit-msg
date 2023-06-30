@@ -1,32 +1,41 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-abort "No tempfile given" if ARGV.empty?
+log_level=${LOG_LEVEL:-}
 
-commit_file = ARGV[0]
-commit_msg = File.read(commit_file)
+if [ -z "$1" ]; then
+  echo "No tempfile given"
+  exit 1
+fi
 
-if commit_msg.nil?
-  $stderr.puts "Nothing given, aborting" if ENV.fetch("LOG_LEVEL", nil).eql? "DEBUG"
+commit_file=$1
+commit_msg=$(<"$commit_file")
+
+if [ -z "$commit_msg" ]; then
+  if [ "$log_level" = "DEBUG" ]; then
+    echo "Nothing given, aborting" >&2
+  fi
   exit 0
-end
+fi
 
-unless commit_msg.lines.first.strip.empty?
-  $stderr.puts "Commit message not empty, aborting" if ENV.fetch("LOG_LEVEL", nil).eql? "DEBUG"
+first_line=$(echo "$commit_msg" | head -n 1 | tr -d '[:space:]')
+
+if [ -n "$first_line" ]; then
+  if [ "$log_level" = "DEBUG" ]; then
+    echo "Commit message not empty, aborting" >&2
+  fi
   exit 0
-end
+fi
 
-jira_match = commit_msg.match(%r{# On branch (?<ticket>[A-Z]{1,10}-\d+)})
-gitlab_match = commit_msg.match(%r{# On branch (?<ticket>\d+)-.*+})
+gitlab_match=$(echo "$commit_msg" | grep -Po '# On branch \K\d+')
 
-if jira_match && branch_match["ticket"]
-  ticket = jira_match["ticket"]
-  new_commit = "#{ticket}: \n" + commit_msg
-elsif gitlab_match && gitlab_match["ticket"]
-  ticket = gitlab_match["ticket"]
-  new_commit = "\n# Refs: ##{ticket}\n" + commit_msg
+if [ -n "$gitlab_match" ]; then
+  ticket="$gitlab_match"
+  new_commit="\n# Refs: #${ticket}\n${commit_msg}"
 else
-  $stderr.puts "Could not extract a ticket from the commit message"
-  exit
-end
+  if [ "$log_level" = "DEBUG" ]; then
+	  echo "Could not extract a ticket from the commit message" >&2;
+	  exit 0
+  fi;
+fi
 
-File.write(commit_file, new_commit, mode: "w")
+echo -e "$new_commit" > "$commit_file"
