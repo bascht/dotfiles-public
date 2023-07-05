@@ -7,7 +7,7 @@
         org-agenda-default-appointment-duration 30
         org-agenda-file-regexp (format-time-string "\\`[^.].*\\.org\\'\\|\\`%Y%m[0-9]+\\'")
         org-agenda-hide-tags-regexp "presents"
-        org-agenda-include-diary t
+        org-agenda-include-diary nil
         org-agenda-ndays 1
         org-agenda-start-day nil
         org-agenda-show-inherited-tags (quote always)
