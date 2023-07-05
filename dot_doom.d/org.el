@@ -15,7 +15,7 @@
         org-agenda-skip-scheduled-if-deadline-is-shown t
         org-agenda-skip-scheduled-if-done t
         org-agenda-span 1
-        org-agenda-start-with-clockreport-mode t
+        org-agenda-start-with-clockreport-mode nil
         org-agenda-sticky nil
         org-agenda-tags-column -105
         org-agenda-time-leading-zero t
@@ -56,7 +56,7 @@
         org-icalendar-use-scheduled (quote (event-if-todo todo-start))
         org-icalendar-with-timestamps nil
         org-journal-dir "~/Documents/Worklog/"
-        org-journal-enable-agenda-integration t
+        org-journal-enable-agenda-integration nil
         org-journal-file-format "%Y%m%d"
         org-journal-date-format "%A, %d/%m/%Y"
         org-journal-carryover-items ""
