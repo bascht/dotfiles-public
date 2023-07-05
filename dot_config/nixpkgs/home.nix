@@ -329,6 +329,12 @@ in
  programs.starship.enableBashIntegration = true;
  programs.direnv.enable = true;
  programs.direnv.nix-direnv.enable = true;
+ programs.atuin = {
+   enable = true;
+   package = unstable.pkgs.atuin;
+   enableBashIntegration = true;
+   flags = [ "--disable-up-arrow" ];
+ };
  programs.bash = {
    enable = true;
    enableCompletion = true;
