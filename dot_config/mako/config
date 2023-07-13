@@ -1,5 +1,5 @@
 anchor=bottom-center
-#width=900
+width=600
 max-visible=2
 border-radius=2
 group-by=category
