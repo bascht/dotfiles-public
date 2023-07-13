@@ -277,6 +277,7 @@
   (interactive)
   (org-set-frame-title "Worklog")
   (bascht/switch-to-or-load-workspace "worklog")
+  (revert-buffer)
   (org-journal-new-entry nil)
   (hide-mode-line-mode)
   (spacious-padding-mode)
