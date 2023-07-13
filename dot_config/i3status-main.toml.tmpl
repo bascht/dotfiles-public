@@ -64,6 +64,7 @@ format_alt = " $icon_swap $swap_free.eng(w:3,u:B,p:M)/$swap_total.eng(w:3,u:B,p:
 block = "net"
 device = "ethernet"
 missing_format = ""
+inactive_format = ""
 format = ""
 format_alt = "$speed_down $speed_up"
 
@@ -71,19 +72,12 @@ format_alt = "$speed_down $speed_up"
 block = "net"
 device = "wifi"
 missing_format = ""
+inactive_format = ""
 format = "$ssid $signal_strength"
 format_alt = "$speed_down $speed_up"
 [[block.click]]
 button = "left"
 cmd = "wpa_gui"
-
-[[block]]
-block = "toggle"
-format = ""
-command_state = "alfaview-screenshare status"
-command_on = "alfaview-screenshare start"
-command_off = "alfaview-screenshare stop"
-interval = 10
 
 [[block]]
 block = "backlight"
