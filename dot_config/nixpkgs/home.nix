@@ -648,6 +648,7 @@ in
       epkgs.org-journal
       epkgs.org-alert
       epkgs.org-modern
+      epkgs.olivetti
       epkgs.csv-mode
       epkgs.ef-themes
       epkgs.literate-calc-mode
