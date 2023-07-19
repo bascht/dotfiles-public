@@ -146,6 +146,7 @@ in
       pkgs.somafm-cli
       pkgs.tree
       pkgs.scrot
+      pkgs.swappy
       pkgs.imv
       pkgs.cloc
       pkgs.httpie
