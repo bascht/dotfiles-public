@@ -23,7 +23,7 @@ else
 	fi;
 fi;
 
-echo "Searching for ${match} in handlers"
+# echo "Searching ${*} as argument ${argument} for ${match} in handlers"
 
 case "${match}" in
 	*.slack.*)
@@ -64,7 +64,7 @@ case "${match}" in
 		exec mpv --loop=inf "$1"
 		;;
 	image/*)
-		exec imv "$1"
+		exec imv "${argument}"
 		;;
 	atom://*)
 		exec nix-shell -p atom --command "$1"
