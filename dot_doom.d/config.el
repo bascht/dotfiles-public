@@ -296,7 +296,9 @@
     :command ("vale" "--output" "line" source)
     :standard-input nil
     :error-patterns
-    ((error line-start (file-name) ":" line ":" column ":" (id (one-or-more (not (any ":")))) ":" (message) line-end)) :modes (markdown-mode markdown-mode gfm-mode org-mode text-mode))
+    ((error line-start (file-name) ":" line ":" column ":" (id (one-or-more (not (any ":")))) ":" (message) line-end)) :modes (markdown-mode markdown-mode gfm-mode org-mode text-mode)))
+
+(defun bascht/check-with-vale ()
   (add-to-list 'flycheck-checkers 'vale 'append))
 
 (after! mu4e
