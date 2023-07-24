@@ -32,6 +32,8 @@ alias dco="docker-compose"
 alias k="kubectl"
 alias kgp="kubectl get pods"
 alias krs="kubectl rollout status"
+alias kubens='kubectl config set-context --current --namespace="$(kubectl get ns -o json| jq -r .items[].metadata.name | fzf)"'
+alias kubectx='kubectl config use-context "$( yq .contexts[].name $KUBECONFIG  | fzf)"'
 alias kn="kubens"
 
 # Abbreviations

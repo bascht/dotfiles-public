@@ -104,7 +104,6 @@ in
       pkgs.btop
       pkgs.android-tools
       pkgs.vale
-      pkgs.kubectx
       pkgs.openscad
       pkgs.freecad
       pkgs.cura
