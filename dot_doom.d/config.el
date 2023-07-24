@@ -401,6 +401,8 @@
 (after! markdown-mode
   (set-company-backend! 'markdown-mode '(:separate obsidian-tags-backend company-capf company-dabbrev company-yasnippet company-ispell)))
 
+(add-hook! markdown-mode-hook 'spell-fu-mode)
+
 (use-package! dirvish
   :config
   (evil-make-overriding-map dirvish-mode-map 'normal)
