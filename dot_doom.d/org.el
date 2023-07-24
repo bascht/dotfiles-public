@@ -80,7 +80,7 @@
                            '("~/Documents/Zettelkasten" "~/Work/Zettelkasten/")
                          '("~/Documents/Zettelkasten/")))
 
-  (setq org-agenda-current-time-string "┈	┈	┈	┈	┈	┈	┈ now ┈	┈	┈	┈	┈	┈")
+  (setq org-agenda-current-time-string "	┈ now ┈	")
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
