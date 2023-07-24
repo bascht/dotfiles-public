@@ -224,6 +224,7 @@
     (interactive)
     (save-excursion
       (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
+      (beginning-of-buffer)
 
       (let ((month (format-time-string "%Y-%m"))
             (today (format-time-string "[%Y-%m-%d]")))
