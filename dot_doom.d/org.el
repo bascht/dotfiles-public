@@ -118,144 +118,41 @@
                 org-checklist
                 org-mouse)))
 
-
-  (use-package! org-super-agenda
-    :hook (org-agenda-mode . org-super-agenda-mode))
-
-  (after! (org-agenda org-super-agenda)
-    :config
-    (setq! org-super-agenda-header-map (make-sparse-keymap))
-    ;; (setq org-super-agenda-groups
-    ;;       '((:name "Next Items"
-    ;;          :time-grid t
-    ;;          :tag ("NEXT" "outbox"))
-    ;;         (:name "Important"
-    ;;          :priority "A")
-    ;;         (:name "Quick Picks"
-    ;;          :effort< "0:30")
-    ;;         (:name "Low key"
-    ;;          :priority<= "B"
-    ;;          :scheduled future
-    ;;          :order 1)))
-
-    (setq org-agenda-custom-commands
-          '(("l" "Open loops"
-             ((agenda ""))
-             ((org-agenda-start-day "-1d")
-              ;; (org-agenda-span 'week)
-              (org-agenda-show-log nil)
-              (org-agenda-ndays 2)
-              (tags-todo "-imported")
-              (org-agenda-start-with-clockreport-mode nil)
-              (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-              (org-agenda-start-with-log-mode '(closed clock state) )))
-            ("u" "Super view"
-             ((agenda "" ((org-super-agenda-groups
-                           '((:name "Today"
-                              :time-grid t)))))
-              (todo "" ((org-agenda-overriding-header "Projects")
-                        (org-super-agenda-groups
-                         '((:name none  ; Disable super group header
-                            :children todo)
-                           (:discard (:anything t))))))))
-            ("P" agenda "Printable"
-             ((ps-number-of-columns 2)
-              (ps-landscape-mode t)
-              (org-agenda-prefix-format " - [ ] ")
-              (org-agenda-with-colors t)
-              (org-agenda-remove-tags t)
-              (org-agenda-add-entry-text-maxlines 2)
-              (htmlize-output-type 'css))
-             (concat (file-name-as-directory (getenv "XDG_RUNTIME_DIR")) "org/agenda.html")))
-            )
-    ))
-
-  ;; (setq org-agenda-custom-commands
-  ;;       '(("l" "Open loops"
-  ;;          ((agenda ""))
-  ;;          ((org-agenda-start-day "-1d")
-  ;;           ;; (org-agenda-span 'week)
-  ;;           (org-agenda-show-log nil)
-  ;;           (org-agenda-ndays 2)
-  ;;           (tags-todo "-imported")
-  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-  ;;           (org-agenda-start-with-log-mode '(closed clock state) )))
-  ;;         ("D" "Old and DONE items"
-  ;;          ((agenda ""))
-  ;;          ((org-agenda-start-day "-1d")
-  ;;           ;; (org-agenda-span 'week)
-  ;;           (org-agenda-show-log nil)
-  ;;           (org-agenda-ndays 2)
-  ;;           (tags-todo "-imported")
-  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo))
-  ;;           (org-agenda-start-with-log-mode '(closed clock state) )))
-  ;;         ("h" "Daily habits"
-  ;;          ((agenda ""))
-  ;;          ((org-agenda-show-log t)
-  ;;           (org-agenda-ndays 7)
-  ;;           (org-agenda-log-mode-items '(state))
-  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-  ;;         ("w" "Work agenda"
-  ;;          ((agenda ""))
-  ;;          ((org-agenda-show-log t)
-  ;;           (org-agenda-ndays 7)
-  ;;           (org-agenda-log-mode-items '(state))
-  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-  ;;         ("u" "Super view"
-  ;;          ((agenda "" ((org-super-agenda-groups
-  ;;                        '((:name "Today"
-  ;;                           :time-grid t)))))
-  ;;           (todo "" ((org-agenda-overriding-header "Other")
-  ;;                     (org-super-agenda-groups
-  ;;                      '((:auto-category t)))))
-  ;;           (todo "" ((org-agenda-overriding-header "Grouped")
-  ;;                     (org-super-agenda-groups
-  ;;                      '((:name none  ; Disable super group header
-  ;;                         :children todo)
-  ;;                        (:discard (:anything t))))))))
-  ;;         ("a" "Mega Agenda" agenda
-  ;;          (org-super-agenda-mode)
-  ;;          ((org-super-agenda-groups
-  ;;            '(
-  ;;              (:name "Critical Now" :priority "A")
-  ;;              (:name "Opportunity Now" :priority "B")
-  ;;              (:name "Over the horizon" :priority "C")
-  ;;              )
-  ;;            )
-  ;;           )
-  ;;         ("w" "Work"
-  ;;          ((agenda ""))
-  ;;          ((org-agenda-start-day "-1d")
-  ;;           ;; (org-agenda-span 'week)
-  ;;           (org-agenda-show-log nil)
-  ;;           (org-agenda-ndays 2)
-  ;;           (tags-todo "-imported")
-  ;;           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-  ;;           (org-agenda-start-with-log-mode '(closed clock state) ))) ("d" "Sort during Daily" agenda
-  ;;           (org-super-agenda-mode)
-  ;;           (setq org-agenda-span 1)
-  ;;           ((org-super-agenda-groups
-  ;;             '(
-  ;;               (:name "Quick Picks"
-  ;;                :effort< "0:30"
-  ;;                )
-  ;;               (:name "Immersive + Deep"
-  ;;                :tag ("@immersive" "@deep"))
-  ;;               (:name "Immersive + Shallow"
-  ;;                :tag ("@immersive" "@shallow"))
-  ;;               (:name "Process + Deep"
-  ;;                :tag ("@process" "@deep"))
-  ;;               (:name "Process + Shallow"
-  ;;                :tag ("@process" "@shallow"))
-  ;;               (:name "Customer Projects"
-  ;;                :file-path "Customer"
-  ;;                )
-  ;;               (:name "Low Prio and future"
-  ;;                :priority<= "B"
-  ;;                :scheduled future
-  ;;                :order 1))))
-  ;;           (org-agenda nil "a"))
-  ;;          )))
+  (setq org-agenda-custom-commands
+        '(("l" "Open loops"
+           ((agenda ""))
+           ((org-agenda-start-day "-1d")
+            ;; (org-agenda-span 'week)
+            (org-agenda-show-log nil)
+            (org-agenda-ndays 2)
+            (tags-todo "-imported")
+            (org-agenda-start-with-clockreport-mode nil)
+            (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+            (org-agenda-start-with-log-mode '(closed clock state) )))
+          ("h" "Daily habits"
+           ((agenda ""))
+           ((org-agenda-show-log t)
+            (org-agenda-ndays 7)
+            (org-agenda-log-mode-items '(state))
+            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+          ("u" "Super view"
+           ((agenda "" ((org-super-agenda-groups
+                         '((:name "Today"
+                            :time-grid t)))))
+            (todo "" ((org-agenda-overriding-header "Projects")
+                      (org-super-agenda-groups
+                       '((:name none  ; Disable super group header
+                          :children todo)
+                         (:discard (:anything t))))))))
+          ("P" agenda "Printable"
+           ((ps-number-of-columns 2)
+            (ps-landscape-mode t)
+            (org-agenda-prefix-format " - [ ] ")
+            (org-agenda-with-colors t)
+            (org-agenda-remove-tags t)
+            (org-agenda-add-entry-text-maxlines 2)
+            (htmlize-output-type 'css))
+           (concat (file-name-as-directory (getenv "XDG_RUNTIME_DIR")) "org/agenda.html"))))
 
   (setq org-tag-alist '(
                         (:startgroup . nil)
