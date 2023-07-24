@@ -157,7 +157,17 @@
                         (org-super-agenda-groups
                          '((:name none  ; Disable super group header
                             :children todo)
-                           (:discard (:anything t)))))))))
+                           (:discard (:anything t))))))))
+            ("P" agenda "Printable"
+             ((ps-number-of-columns 2)
+              (ps-landscape-mode t)
+              (org-agenda-prefix-format " - [ ] ")
+              (org-agenda-with-colors t)
+              (org-agenda-remove-tags t)
+              (org-agenda-add-entry-text-maxlines 2)
+              (htmlize-output-type 'css))
+             (concat (file-name-as-directory (getenv "XDG_RUNTIME_DIR")) "org/agenda.html")))
+            )
     ))
 
   ;; (setq org-agenda-custom-commands
