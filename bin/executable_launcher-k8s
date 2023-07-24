@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 source <(_kubeconfig)
-CONTEXT=$(kubectl config get-contexts -o name |fzf --preview="echo Current context: $(kubectl config current-context)" --preview-window="bottom")
+
+set -xv
+CONTEXT=$(yq -r .contexts[].name "${KUBECONFIG}"|fzf --preview="echo Current context: $(kubectl config current-context 2>/dev/null|| echo 'no context')" --preview-window="bottom")
 if [ -n "${CONTEXT}" ]; then
-  kubectl config use-context "${CONTEXT}"
-   swaymsg exec foot -- KUBECONFIG="${KUBECONFIG}" fish -C /home/bascht/.nix-profile/bin/kubens 
+   yq -i e ".current-context=\"${CONTEXT}\"" "${KUBECONFIG}"
+   swaymsg exec -- KUBECONFIG="${KUBECONFIG}" foot
 fi
