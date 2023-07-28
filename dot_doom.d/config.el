@@ -453,6 +453,28 @@
   (find-file
    (string-trim (shell-command-to-string "mktemp -d"))))
 
+(defun bascht/create-mr-from-issue ()
+  (interactive)
+  (let* ((id (oref (forge-get-repository t) id))
+         (branch-suggestions '()))
+
+    (dolist (issue (forge-sql [:select $i1 :from issue :where (= repository $s2)] (forge--tablist-columns-vector) id))
+      (add-to-list 'branch-suggestions
+                   (concat (format "%s" (oref (forge-get-issue (car issue)) number)) "-" (replace-regexp-in-string "[ /]" "-" (downcase (oref (forge-get-issue (car issue)) title))))
+
+                   ))
+
+    (let* ((branch-name (completing-read "Branch name suggestions:" branch-suggestions)))
+      (message (format "Will create branch %s" branch-name))
+      (magit-branch-and-checkout branch-name (magit-main-branch))
+      (call-interactively #'magit-push-current)
+      (forge-create-pullreq branch-name (magit-main-branch))
+      (insert "Draft: \n")
+
+      ))
+
+  )
+
 (custom-set-faces
  '(mode-line ((t (:family "IBM Plex Mono" :weight normal :height 1.0))))
  '(mode-line-active ((t (:family "IBM Plex Mono" :height 1.0)))) ; For 29+
