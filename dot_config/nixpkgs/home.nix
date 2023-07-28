@@ -118,7 +118,7 @@ in
       pkgs.foot
       pkgs.mesa
       pkgs.mesa_drivers
-      pkgs.qutebrowser
+      pkgs.qutebrowser-qt6
       pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat

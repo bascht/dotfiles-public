@@ -71,7 +71,7 @@ config.bind(',su', 'spawn -u send-url')
 config.bind(',sp', 'spawn -u send-url baschtfon')
 
 config.bind(',aw', 'set content.webgl true')
-config.bind(',ac', 'set content.javascript.can_access_clipboard true')
+config.bind(',ac', 'set content.javascript.clipboard "access"')
 
 config.bind(',b', 'open https://read.yakshed.org/bookmarklet?url={url}')
 config.bind(',y', 'open https://social.yakshed.org/authorize_interaction?uri={url}')
@@ -107,7 +107,7 @@ for domain in [
 
 ## JS Clipboard Access
 for domain in ['wordle.at', 'https://www.nytimes.com/games/wordle/index.html']:
-    config.set('content.javascript.can_access_clipboard', True, domain)
+    config.set('content.javascript.clipboard', 'access', domain)
 
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
 # Base16 qutebrowser template by theova and Daniel Mulford
