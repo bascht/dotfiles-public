@@ -255,6 +255,8 @@
 (after! solaire-mode
   (solaire-global-mode -1))
 
+(after! writeroom-mode
+       (setq +zen-text-scale 0.8))
 
 ; Don't add #0 #1 #2 #3… workspaces :D
 (after! persp-mode

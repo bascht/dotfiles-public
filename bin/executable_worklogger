@@ -1,39 +1,31 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
 # OrgMode Worklog appender
 #
 # This supersedes [Worklogger](https://github.com/bascht/worklogger)
 # by appending to [OrgMode](https://github.com/bastibe/org-journal)
-# journal files and using KDialog for querying.
+# via a scratchpad Window in the background
 
-require 'pathname'
+WORKLOG_CRITERIA='select(.window_properties.class=="Emacs" and .name == "Worklog")'
 
-unless File.open(__FILE__).flock(File::LOCK_EX|File::LOCK_NB)
-  abort("An instance of Worklogger is already running. Aborting.")
-end
+get_worklog_window () {
+   swaymsg -t get_tree | jq -e -r "recurse(.nodes[],.floating_nodes[]) | ${WORKLOG_CRITERIA}.id"
+}
+get_scratchpad_worklog() {
+   swaymsg -t get_tree | jq -r "recurse(.nodes[]?)|recurse(.floating_nodes[]?)|select(.name == \"__i3_scratch\").floating_nodes[] | ${WORKLOG_CRITERIA}${1}"
+}
 
-now = Time.now
-
-JOURNAL_PATH = Pathname.new("~/Documents/Worklog").expand_path
-CURRENT_FILE = Pathname.new(JOURNAL_PATH.join(now.strftime("%Y%m%d")))
-DIALOG="zenity --entry"
-
-appending = File.exist?(CURRENT_FILE) && (not File.zero?(CURRENT_FILE))
-
-`emacsclient --create-frame -e '(bascht/worklog)'`
-exit 0
-
-File.open(CURRENT_FILE, "a+") do |f|
-  last_tasks = if appending
-                 all_tasks = f.each_line.select{|line| line.start_with? "**" }
-                 all_tasks.map{ |task| task.sub(/^\*\* /, "") }.last(3).join("")
-               else
-                 location = `#{DIALOG} --title='worklogger' --text="Where are we today?" --entry-text="HomeOffice"`.strip
-                 f.write(now.strftime("* %A, %d/%m/%Y\n"))
-                 f.write("   :PROPERTIES:\n    :WORKLOG_LOCATION: #{location}\n    :END:\n\n")
-                 "First entry for today!"
-               end
-  time = now.strftime('%H:%M')
-  entry = `#{DIALOG} --title='worklogger @#{time}' --width=300 --text="#{last_tasks}\nAdd entry for #{time}:"`.strip
-  f.write("** #{time} #{entry}\n") unless entry.empty?
-end
+if [ -z "$(get_worklog_window)" ]; then
+  echo "No worklog, need to start instance"
+  emacs --name Worklog --eval="(bascht/worklog)" &
+  exit 0
+else
+  get_scratchpad_worklog ".id"
+  if [ -n "$(get_scratchpad_worklog)" ]; then
+  echo "Worklog is in scratchpad, bringing it back"
+  ID=$(get_scratchpad_worklog ".id")
+  swaymsg "[con_id=${ID}]" scratchpad show
+  else
+    echo "Worklog is already visible"
+  fi;
+fi
