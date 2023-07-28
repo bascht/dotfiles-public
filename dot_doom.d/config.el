@@ -274,15 +274,19 @@
            (find-file directory)
              (magit-status-setup-buffer)))))
 
+(defun bascht/worklog-back-to-scratchpad()
+  (shell-command "swaymsg move scratchpad"))
+
 (defun bascht/worklog ()
   "Switch to my worklog workspace and append a new log"
   (interactive)
+  (run-hooks 'doom-first-input-hook)
+  (add-hook 'after-save-hook 'bascht/worklog-back-to-scratchpad)
+  (setq writeroom-width 90)
   (org-set-frame-title "Worklog")
-  (bascht/switch-to-or-load-workspace "worklog")
-  (revert-buffer)
   (org-journal-new-entry nil)
+  (writeroom-mode)
   (hide-mode-line-mode)
-  (spacious-padding-mode)
   (evil-append nil))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
