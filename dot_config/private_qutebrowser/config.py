@@ -18,7 +18,8 @@ c.session.lazy_restore = True
 c.url.searchengines = {"DEFAULT": "https://search.brave.com/search?q={}"}
 
 c.new_instance_open_target = "tab-bg"
-c.input.insert_mode.auto_load = True
+c.input.insert_mode.auto_enter = False
+c.input.insert_mode.auto_load = False
 c.prompt.filebrowser = False
 c.completion.height = "40%"
 c.downloads.location.directory = '/home/bascht/Downloads/'
