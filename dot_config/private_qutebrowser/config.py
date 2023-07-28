@@ -48,7 +48,7 @@ config.bind(',grl', 'greasemonkey-reload;; reload')
 config.bind(',uu', 'spawn -u untrack-url -o {url}')
 config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
 config.bind(',up', 'spawn -u untrack-url -p {clipboard}')
-config.bind(',e', 'jseval document.querySelector("button.btn-edit").click()')
+config.bind(',e', 'jseval document.querySelector("button[data-testid=edit-button]").click()')
 
 config.bind(',ttl', 'set tabs.position left')
 config.bind(',ttt', 'set tabs.position top')
