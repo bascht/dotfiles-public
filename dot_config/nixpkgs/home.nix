@@ -94,7 +94,7 @@ in
       unstable.pkgs.logseq
       unstable.pkgs.pynitrokey
       unstable.pkgs.nitrokey-app
-      unstable.pkgs.yq
+      pkgs.yq-go
       pkgs.bfs
       pkgs.obsidian
       unstable.pkgs.super-slicer-latest
