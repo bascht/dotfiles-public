@@ -96,7 +96,7 @@ in
       unstable.pkgs.nitrokey-app
       pkgs.yq-go
       pkgs.bfs
-      pkgs.obsidian
+      unstable.pkgs.obsidian
       unstable.pkgs.super-slicer-latest
       pkgs.todoman
       pkgs.khal
@@ -649,7 +649,6 @@ in
       epkgs.org-journal
       epkgs.org-alert
       epkgs.org-modern
-      epkgs.olivetti
       epkgs.csv-mode
       epkgs.ef-themes
       epkgs.literate-calc-mode
