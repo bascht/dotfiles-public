@@ -79,6 +79,7 @@ config.bind(',y', 'open https://social.yakshed.org/authorize_interaction?uri={ur
 
 # GitLab quick-actions
 config.bind(',glc', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus()')
+config.bind(',gls', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus();; mode-enter insert ;; spawn --detach my-rofi snippets')
 config.bind(',glp0', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::0')
 config.bind(',glp1', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::1')
 config.bind(',glp2', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::2')
