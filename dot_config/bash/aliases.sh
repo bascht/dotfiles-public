@@ -6,8 +6,8 @@ alias e=$EDITOR
 alias vim=nvim
 alias ssh-yop="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias scp-yop="scp -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-alias docker-rm-stopped="docker rm (docker ps -a -q)"
-alias docker-rm-dangling="docker rmi (docker images -q -f dangling=true)"
+alias docker-rm-stopped="docker rm \$(docker ps -a -q)"
+alias docker-rm-dangling="docker rmi \$(docker images -q -f dangling=true)"
 alias dcorrm="docker-compose run --rm"
 alias emacseval="emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "a")'"
 alias drri="docker run --rm -ti"
