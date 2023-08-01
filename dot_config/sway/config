@@ -21,7 +21,7 @@ set $display_lg "LG Electronics 34UM95 0x00000101"
 set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 
 ### Output configuration
-output * bg ~/Pictures/Wallpapers/snowy-trees.jpg fill
+output * bg ~/Pictures/Wallpapers/mountains-colourful.jpg fill
 
 output $display_lg mode 3440x1440@49.987Hz pos 1205 450
 output $display_dell mode 1920x1200@59.950Hz transform 90 pos 0 0
