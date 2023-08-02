@@ -57,7 +57,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/052ee45a317aaa5b24be093fbde3afb504c8f55.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/bf8fea22b4d5a5c59837c11d4675d4aa3a312957.tar.gz;
     }))
   ];
 
@@ -94,8 +94,10 @@ in
       unstable.pkgs.logseq
       unstable.pkgs.pynitrokey
       unstable.pkgs.nitrokey-app
+      pkgs.jless
       pkgs.yq-go
       pkgs.bfs
+      pkgs.shfmt
       unstable.pkgs.obsidian
       unstable.pkgs.super-slicer-latest
       pkgs.todoman
@@ -637,7 +639,7 @@ in
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs28NativeComp;
+    package = pkgs.emacs29-pgtk;
     extraPackages = epkgs: [ 
       #epkgs.sqlite3
       epkgs.zoxide
