@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+VOLUME_STATE="${XDG_RUNTIME_DIR}/playerctl-last-volume"
+
+if [[ $(playerctl -p mopidy status) == "Playing" ]]; then
+  if playerctl -p mopidy metadata|grep xesam:url > /dev/null; then
+    if [[ $(playerctl volume) == "0.000000" ]]; then
+      echo "Restoring old volume $(cat "${VOLUME_STATE}")"
+      playerctl -p mopidy volume "$(cat "${VOLUME_STATE}")"
+    else
+      playerctl -p mopidy volume > "${VOLUME_STATE}"
+      echo "Saved current volume $(cat "${VOLUME_STATE}"). Now muting."
+      playerctl -p mopidy volume 0.0
+    fi;
+    exit 0
+  fi;
+fi;
+
+exec playerctl play-pause
