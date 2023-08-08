@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-TREE=$(swaymsg -t get_tree | jq -r '[ recurse(.nodes[]) | select(.app_id == "org.qutebrowser.qutebrowser") ]')
 
 BROWSER=qutebrowser
 SWAYSOCK="/run/user/1000/sway-ipc.sock"
 QUTE_SOCK="${XDG_RUNTIME_DIR}/qutebrowser/ipc-e1046d5b3be559e50bde86bda91e0739"
 export SWAYSOCK
+TREE=$(swaymsg -t get_tree | jq -r '[ recurse(.nodes[]) | select(.app_id == "org.qutebrowser.qutebrowser") ]')
 
 if [[ "$TREE" == "[]" ]]; then
 	echo "No ${BROWSER} found. Opening a new instance of ${BROWSER}"
