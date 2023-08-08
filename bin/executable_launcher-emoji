@@ -12,6 +12,6 @@ if [ ! -f "${EMOJI_FILE}" ]; then
   curl -os "${EMOJI_FILE}" "https://trash.j3s.sh/emojis.txt"
 fi;
 
-EMOJI=$(fzf < "${EMOJI_FILE}" | cut -d " " -f 1 | tr -d '\n' | tee wl-copy)
-
+EMOJI=$(fzf < "${EMOJI_FILE}" | cut -d " " -f 1 | tr -d '\n')
+wl-copy "${EMOJI}"
 notify-send "${EMOJI} Copied to clipboard." -t 1200 --icon=edit-copy-symbolic
