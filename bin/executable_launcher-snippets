@@ -9,6 +9,6 @@ if [[ "$1" == "--preview" ]]; then
     exit 0
 fi;
 
-SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n"| fzf --preview-window="top:5" --preview="$0 --preview {}")
+SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n"| fzf -q "${QUERY}" --preview-window="top:5" --preview="$0 --preview {}")
 sleep 0.2
 swaymsg exec -- "wtype - < ${SNIPPET_DIR}/${SNIPPET}"

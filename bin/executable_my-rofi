@@ -38,6 +38,7 @@ then
 elif [[ "$1" == "snippets" ]]
 then
   FZF_DEFAULT_OPTS="--prompt='📋'${FZF_DEFAULT_OPTS}"
+  export QUERY="${2}"
   COMMAND=~/bin/launcher-snippets
 elif [[ "$1" == "qutebrowser" ]]
 then
