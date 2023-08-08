@@ -68,6 +68,11 @@ then
   FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
   FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
   COMMAND=~/bin/alfaview-join-room
+elif [[ "$1" == "totp" ]]
+then
+  FOOT_OPTIONS="-W 40x30 ${FOOT_OPTIONS}"
+  FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
+  COMMAND=~/bin/launcher-totp
 else
   exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
 fi;
