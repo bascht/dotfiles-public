@@ -15,7 +15,7 @@ c.tabs.title.format = "{audio}{index} {current_title}({host})"
 c.tabs.favicons.scale = 0.8
 c.tabs.indicator.width = 2
 c.session.lazy_restore = True
-c.url.searchengines = {"DEFAULT": "https://search.brave.com/search?q={}"}
+c.url.searchengines = {"DEFAULT": "https://duckduckgo.com/?ia=web&q={}"}
 
 c.new_instance_open_target = "tab-bg"
 c.input.insert_mode.auto_enter = False
