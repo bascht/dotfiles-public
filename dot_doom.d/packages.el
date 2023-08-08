@@ -26,3 +26,9 @@
   (package! salt-mode)
   (package! ob-grpc :recipe
     (:host github :repo "shsms/ob-grpc")))
+
+ (after! org-habit
+	(org-habit-graph-column 1)
+	(org-habit-preceding-days 10)
+	(org-habit-following-days 1)
+	(org-habit-show-habits-only-for-today nil))
