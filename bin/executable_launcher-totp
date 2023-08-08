@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# Select a password from the gopass store,copy it to current primary clipboard,
+# send the current terminal window to the scratch space & clear the clipboard
+# afterwards.
+
+
+QUERY=$1
+
+if [ -z "$QUERY" ]; then
+  QUERY=''
+fi
+
+list=$(ykman oath accounts list)
+account=$(echo -e "${list}"| fzf -q "$QUERY")
+ykman oath accounts code "${account}" | awk '{ print $2 }' | wl-copy
