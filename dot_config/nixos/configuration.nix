@@ -109,10 +109,10 @@
       fira-mono
       fira-code
       fantasque-sans-mono
-      medio
-      terminus_font
+      overpass
       ibm-plex
       iosevka
+      martian-mono
       roboto
       roboto-mono
       joypixels
