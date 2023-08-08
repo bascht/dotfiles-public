@@ -92,10 +92,15 @@
           ("c" "CustomerIssue" entry (file "~/Documents/Zettelkasten/Todo.org")
            "* TODO issue%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
 
+
           ("a" "Alfaview" entry (file+headline "~/Documents/Zettelkasten/CustomerAlfaview.org" "Arbeitszeiten")
            "* %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n" :jump-to-captured t :clock-in t)
-          ("r" "RubyShift" entry (file+headline "~/Documents/Zettelkasten/Projects.org" "RubyShift")
-           "* %?\nEntered on %U\n  %i\n  %a")))
+
+          ("b" "BlogIdeas" entry (file+olp "~/Documents/Zettelkasten/Projects.org" "bascht.com" "BlogIdeas")
+           "* TODO %?\n  %i")
+
+          ("R" "OpsRetro" entry (file+olp "~/Documents/Zettelkasten/CustomerAlfaview.org" "Ops-Retro")
+           "* TODO %?\n  %i")))
 
   (custom-theme-set-faces
    'user
