@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 log_level=${LOG_LEVEL:-}
+log_level=DEBUG
 
 if [ -z "$1" ]; then
   echo "No tempfile given"
@@ -31,6 +32,7 @@ gitlab_match=$(echo "$commit_msg" | grep -Po '# On branch \K\d+')
 if [ -n "$gitlab_match" ]; then
   ticket="$gitlab_match"
   new_commit="\n# Refs: #${ticket}\n${commit_msg}"
+  echo -e "$new_commit" > "$commit_file"
 else
   if [ "$log_level" = "DEBUG" ]; then
 	  echo "Could not extract a ticket from the commit message" >&2;
@@ -38,4 +40,3 @@ else
   fi;
 fi
 
-echo -e "$new_commit" > "$commit_file"
