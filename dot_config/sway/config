@@ -275,7 +275,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+t scratchpad toggle
 
 for_window [title=".*"] title_format %title (class=%class app_id=%app_id instance=%instance shell=%shell)
-for_window [app_id="terminal_scratchpad"] move scratchpad, fullscreen disable, border pixel 4, move position center
+for_window [app_id="terminal_scratchpad"] resize set 70ppt 60ppt, move scratchpad, fullscreen disable, border pixel 4, move position center 
 for_window [app_id="launcher"] border pixel 2, move position center
 for_window [title="^qutebrowser-editor.*$"] border pixel 4
 
@@ -285,7 +285,8 @@ bindsym $mod+u exec scratchpad
 bindsym $mod+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl dismiss -a
 
-for_window [title="^Worklog.*$"] floating enable, border pixel 4, move position center
+for_window [app_id="Worklog"] floating enable, border pixel 4, move position center
+for_window [title="^doom-capture"] floating enable, border pixel 4, resize width 70ppt, move position center,
 for_window [title="^worklogger.*$"] floating enable, border pixel 4, move position center
 for_window [title="^backup$"] floating enable, border pixel 4, move position center
 for_window [title="nm-tray"] floating enable

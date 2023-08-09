@@ -6,7 +6,7 @@
 # by appending to [OrgMode](https://github.com/bastibe/org-journal)
 # via a scratchpad Window in the background
 
-WORKLOG_CRITERIA='select(.window_properties.class=="Emacs" and .name == "Worklog")'
+WORKLOG_CRITERIA='select(.app_id=="Worklog" and .name == "Worklog")'
 
 get_worklog_window () {
    swaymsg -t get_tree | jq -e -r "recurse(.nodes[],.floating_nodes[]) | ${WORKLOG_CRITERIA}.id"
