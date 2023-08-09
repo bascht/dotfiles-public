@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+DOMAIN=$(echo ${1} | awk -F[/:] '{print $4}')
+USER="${DOMAIN}@bascht.com"
+notify-send "Copied username to clipboard" "${USER}"
+echo "${USER}" | wl-copy

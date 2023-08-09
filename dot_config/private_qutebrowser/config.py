@@ -93,6 +93,7 @@ config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-
 
 config.bind('ygs', 'spawn get-gitlab-shortcode {url}')
 config.bind('ygm', 'spawn get-gitlab-shortcode-as-markdown {url}')
+config.bind('ygd', 'spawn qutebrowser-generate-gopass-username {url}')
 
 # per Domain settings
 
