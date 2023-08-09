@@ -52,7 +52,7 @@ config.bind(',up', 'spawn -u untrack-url -p {clipboard}')
 config.bind(',ttl', 'set tabs.position left')
 config.bind(',ttt', 'set tabs.position top')
 
-config.bind(',oc', 'spawn --userscript org-capture')
+config.bind(',oc', 'spawn org-capture -k t {url}')
 
 config.bind(',r', 'spawn --userscript readability')
 
