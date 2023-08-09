@@ -150,8 +150,14 @@
 
       :desc "Drag" "d" #'dwim-shell-command-drag
       :desc "Drop" "o" #'dwim-shell-command-drop
-      :desc "Convert to GIF" "g" #'dwim-shell-command-convert-to-gif
-      )
+      :desc "Convert to GIF" "g" #'dwim-shell-command-convert-to-gif)
+
+;; Remap C-Return in org-journal mode since I don't need any other
+;; kind of headlines in org-journal files
+(map! :after org-journal
+      :map org-journal-mode-map
+      :desc "Insert new Journal entry" "C-j" #'org-journal-new-entry
+      :desc "Insert new Journal entry" "C-RET" #'org-journal-new-entry)
 
 (map!
    :after markdown-mode
@@ -286,7 +292,8 @@
   (org-set-frame-title "Worklog")
   (org-journal-new-entry nil)
   (writeroom-mode)
-  (hide-mode-line-mode)
+  (hide-mode-line-mode t)
+  (ef-themes-select 'ef-summer)
   (evil-append nil))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
