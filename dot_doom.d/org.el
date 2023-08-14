@@ -55,11 +55,6 @@
         org-icalendar-use-deadline (quote (event-if-todo todo-due))
         org-icalendar-use-scheduled (quote (event-if-todo todo-start))
         org-icalendar-with-timestamps nil
-        org-journal-dir "~/Documents/Worklog/"
-        org-journal-enable-agenda-integration nil
-        org-journal-file-format "%Y%m%d"
-        org-journal-date-format "%A, %d/%m/%Y"
-        org-journal-carryover-items ""
         org-log-done t
         org-mu4e-link-query-in-headers-mode nil
         org-outline-path-complete-in-steps nil
@@ -353,6 +348,27 @@
   (add-hook 'org-trigger-hook 'save-buffer)
   (add-hook 'org-clock-in-hook 'save-buffer)
   (add-hook 'org-clock-out-hook 'save-buffer))
+
+(use-package! org-journal
+  :after (org)
+  :init
+  (if (string= (getenv "EMACS_SERVER_NAME") "workmacs")
+      (progn
+        (run-hooks 'doom-first-input-hook)
+        (setq writeroom-width 90)
+        (global-writeroom-mode)
+        (global-hide-mode-line-mode)
+        (ef-themes-select 'ef-summer)
+        (add-hook 'org-journal-mode-hook
+                  (lambda () (add-hook 'after-save-hook 'delete-frame)))
+        (setq server-client-instructions nil) ;; hide noisy minibuffer
+        (org-journal-open-current-journal-file)))
+  :config
+  (setq org-journal-dir "~/Documents/Worklog/"
+        org-journal-enable-agenda-integration nil
+        org-journal-file-format "%Y%m%d"
+        org-journal-date-format "%A, %d/%m/%Y"
+        org-journal-carryover-items nil))
 
 (use-package! md-roam
   :after (org-roam)
