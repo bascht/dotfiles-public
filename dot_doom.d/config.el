@@ -280,7 +280,7 @@
            (find-file directory)
              (magit-status-setup-buffer)))))
 
-(defun bascht/worklog-back-to-scratchpad()
+(defun bascht/move-to-scratchpad()
   (shell-command "swaymsg move scratchpad"))
 
 (defun bascht/worklog ()
