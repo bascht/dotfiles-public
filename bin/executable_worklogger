@@ -4,28 +4,17 @@
 #
 # This supersedes [Worklogger](https://github.com/bascht/worklogger)
 # by appending to [OrgMode](https://github.com/bastibe/org-journal)
-# via a scratchpad Window in the background
+# by creating a new frame of the existing emacs server called "workmacs"
 
-WORKLOG_CRITERIA='select(.app_id=="Worklog" and .name == "Worklog")'
+
+WORKLOG_CRITERIA='select(.name == "Worklog")'
 
 get_worklog_window () {
    swaymsg -t get_tree | jq -e -r "recurse(.nodes[],.floating_nodes[]) | ${WORKLOG_CRITERIA}.id"
 }
-get_scratchpad_worklog() {
-   swaymsg -t get_tree | jq -r "recurse(.nodes[]?)|recurse(.floating_nodes[]?)|select(.name == \"__i3_scratch\").floating_nodes[] | ${WORKLOG_CRITERIA}${1}"
-}
 
-if [ -z "$(get_worklog_window)" ]; then
-  echo "No worklog, need to start instance"
-  emacs --name Worklog --eval="(bascht/worklog)" &
-  exit 0
-else
-  get_scratchpad_worklog ".id"
-  if [ -n "$(get_scratchpad_worklog)" ]; then
-  echo "Worklog is in scratchpad, bringing it back"
-  ID=$(get_scratchpad_worklog ".id")
-  swaymsg "[con_id=${ID}]" scratchpad show
-  else
-    echo "Worklog is already visible"
-  fi;
+if [ -n "$(get_worklog_window)" ]; then
+  notify-send "Worklog window is already visible"
 fi
+
+emacsclient -s workmacs --create-frame --eval "(bascht/worklog)" &
