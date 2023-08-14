@@ -94,6 +94,7 @@ in
       unstable.pkgs.logseq
       unstable.pkgs.pynitrokey
       unstable.pkgs.nitrokey-app
+      pkgs.ntfy-sh
       pkgs.jless
       pkgs.yq-go
       pkgs.bfs
