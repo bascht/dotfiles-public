@@ -286,14 +286,8 @@
 (defun bascht/worklog ()
   "Switch to my worklog workspace and append a new log"
   (interactive)
-  (run-hooks 'doom-first-input-hook)
-  (add-hook 'after-save-hook 'bascht/worklog-back-to-scratchpad)
-  (setq writeroom-width 90)
   (org-set-frame-title "Worklog")
   (org-journal-new-entry nil)
-  (writeroom-mode)
-  (hide-mode-line-mode t)
-  (ef-themes-select 'ef-summer)
   (evil-append nil))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
