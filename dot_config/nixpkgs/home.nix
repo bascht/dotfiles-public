@@ -641,6 +641,7 @@ in
       mopidy-tunein
       mopidy-youtube
       mopidy-mpris
+      mopidy-bandcamp
       yt-dlp
     ];
 
