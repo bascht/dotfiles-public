@@ -468,7 +468,7 @@
     (let* ((branch-name (completing-read "Branch name suggestions:" branch-suggestions)))
       (message (format "Will create branch %s" branch-name))
       (magit-branch-and-checkout branch-name (magit-main-branch))
-      (call-interactively #'magit-push-current)
+      (call-interactively #'magit-push-current-to-pushremote)
       (forge-create-pullreq branch-name (magit-main-branch))
       (insert "Draft: \n")
 
