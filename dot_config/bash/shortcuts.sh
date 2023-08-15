@@ -44,8 +44,8 @@ bind '"\eggs" "git status"'
 bind '"\egpa" "for remote in $(git remote); git push ${remote}; end"'
 
 # SSH Quick Jump
-bind '"\egss" "./ssh -e staging **"'
-bind '"\egsp" "./ssh -e production **"'
+bind '"\egsss" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e staging **\t"'
+bind '"\egssp" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e production **\t"'
 
 # k9s is such a handy tool
 bind '"\e9" "k9s\n"'
