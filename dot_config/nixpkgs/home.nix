@@ -337,6 +337,7 @@ in
  programs.atuin = {
    enable = true;
    package = unstable.pkgs.atuin;
+   style = "compact";
    enableBashIntegration = true;
    flags = [ "--disable-up-arrow" ];
  };
