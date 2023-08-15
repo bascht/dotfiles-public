@@ -94,7 +94,7 @@
           ("b" "BlogIdeas" entry (file+olp "~/Documents/Zettelkasten/Projects.org" "bascht.com" "BlogIdeas")
            "* TODO %?\n  %i")
 
-          ("R" "OpsRetro" entry (file+olp "~/Documents/Zettelkasten/CustomerAlfaview.org" "Ops-Retro")
+          ("R" "OpsRetro" entry (file+olp "~/Documents/Zettelkasten/CustomerAlfaview.org" "Meetings" "Ops-Retro")
            "* TODO %?\n  %i")))
 
   (custom-theme-set-faces
