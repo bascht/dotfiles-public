@@ -521,6 +521,23 @@ in
        };
  };
 
+ systemd.user.services.workmacs = {
+       Unit = {
+             Description = "Emacs Worklog daemon";
+             X-RestartIfChanged = "false";
+       };
+       Service = {
+             ExecStart = "${pkgs.bash}/bin/bash -l -c '~/.nix-profile/bin/emacs --name Worklog --fg-daemon=workmacs'";
+             Restart = "on-failure";
+             SuccessExitStatus = 15;
+             Type = "notify";
+             Environment = "EMACS_SERVER_NAME=workmacs";
+       };
+       Install = {
+             WantedBy = [ "graphical-session.target" ];
+       };
+ };
+
  systemd.user.services.mako = {
        Unit = {
              Description = "Mako notifications";
