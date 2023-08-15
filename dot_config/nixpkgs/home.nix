@@ -337,9 +337,14 @@ in
  programs.atuin = {
    enable = true;
    package = unstable.pkgs.atuin;
-   style = "compact";
    enableBashIntegration = true;
    flags = [ "--disable-up-arrow" ];
+   settings = {
+     style = "compact";
+     word_jump_mode = "emacs";
+     search_mode = "fuzzy";
+     inline_height = 30;
+   };
  };
  programs.bash = {
    enable = true;
