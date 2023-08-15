@@ -2,7 +2,11 @@
 
 VOLUME_STATE="${XDG_RUNTIME_DIR}/playerctl-last-volume"
 
-if [[ $(playerctl -p mopidy status) == "Playing" ]]; then
+if [[ $(playerctl -p mopidy status) == "Playing" && $(playerctl volume) == "0.000000" ]]; then
+      echo "Restoring old volume $(cat "${VOLUME_STATE}")"
+      playerctl -p mopidy volume "$(cat "${VOLUME_STATE}")"
+      exit 0
+elif [[ $(playerctl -p mopidy status) == "Playing" ]]; then
   if playerctl -p mopidy metadata|grep xesam:url > /dev/null; then
     if [[ $(playerctl volume) == "0.000000" ]]; then
       echo "Restoring old volume $(cat "${VOLUME_STATE}")"
