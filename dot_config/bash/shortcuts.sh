@@ -40,7 +40,7 @@ bind '"\eggf" gf'
 bind '"\egcm" gcm'
 bind '"\eggbb" gbb'
 bind '"\eggp" git push'
-bind '"\eggs" "git status"'
+bind '"\eggs" "git status\n"'
 bind '"\egpa" "for remote in $(git remote); git push ${remote}; end"'
 
 # SSH Quick Jump
