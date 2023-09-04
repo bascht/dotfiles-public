@@ -79,8 +79,8 @@ config.bind(',y', 'open https://social.yakshed.org/authorize_interaction?uri={ur
 # GitLab quick-actions
 config.bind(',gle', 'fake-key e ;; mode-enter insert ;; later 0.5s edit-text')
 config.bind(',glc', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus()')
-config.bind(',glptal', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus();; mode-enter insert ;; spawn --detach my-rofi snippets ptal')
-config.bind(',gllgtm', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus();; mode-enter insert ;; spawn --detach my-rofi snippets lgtm')
+config.bind(',glptal', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus();; mode-enter insert ;; spawn --detach my-rofi snippets ops-ptal')
+config.bind(',gllgtm', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus();; mode-enter insert ;; spawn --detach my-rofi snippets ops-lgtm')
 config.bind(',gls', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus();; mode-enter insert ;; spawn --detach my-rofi snippets')
 config.bind(',glp0', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::0')
 config.bind(',glp1', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::1')
