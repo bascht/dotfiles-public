@@ -31,6 +31,7 @@
       helm-org-rifle-show-path t
       doom-dashboard-ascii-banner-fn #'bascht/doom-dashboard-calvin
       frame-title-format (concat "%b - " user-login-name "@" (system-name))
+      browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
       dired-async-mode t
       hl-todo-keyword-faces
       `(("TODO" warning bold)
