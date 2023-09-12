@@ -94,6 +94,7 @@ in
       unstable.pkgs.logseq
       unstable.pkgs.pynitrokey
       unstable.pkgs.nitrokey-app
+      pkgs.xplr
       pkgs.ntfy-sh
       pkgs.jless
       pkgs.yq-go
@@ -654,6 +655,10 @@ in
       file = { media_dirs = [ "~/Musik"]; };
       youtube = { youtube_dl_package = "yt_dlp"; };
     };
+  };
+
+  services.syncthing = {
+    enable = true;
   };
 
   services.mbsync.enable = true;
