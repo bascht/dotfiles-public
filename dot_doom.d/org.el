@@ -383,6 +383,14 @@
                             "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
                  :unnarrowed t)))
 
+(use-package! org-habit
+  :init
+  (setq
+   org-habit-graph-column 1
+   org-habit-preceding-days 10
+   org-habit-following-days 1
+   org-habit-show-habits-only-for-today nil))
+
 (use-package! org-roam
   :init
   (setq org-roam-directory (file-truename "~/WirZwei/Zettelkasten")
