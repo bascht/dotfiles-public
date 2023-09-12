@@ -453,20 +453,22 @@
 
     (dolist (issue (forge-sql [:select $i1 :from issue :where (= repository $s2)] (forge--tablist-columns-vector) id))
       (add-to-list 'branch-suggestions
-                   (concat (format "%s" (oref (forge-get-issue (car issue)) number)) "-" (replace-regexp-in-string "[ /]" "-" (downcase (oref (forge-get-issue (car issue)) title))))
+                   (concat (format "%s" (oref (forge-get-issue (car issue)) number)) "-" (replace-regexp-in-string "[ /]" "-" (downcase (oref (forge-get-issue (car issue)) title))))))
 
-                   ))
-
-    (let* ((branch-name (completing-read "Branch name suggestions:" branch-suggestions)))
-      (message (format "Will create branch %s" branch-name))
-      (magit-branch-and-checkout branch-name (magit-main-branch))
+    (let* ((branch-name (completing-read "Branch name suggestions:" branch-suggestions))
+           (default-branch (oref (forge-get-repository t) default-branch))
+           (issue-number (string-to-number (car-safe (string-split branch-name "-")))) ;; TODO: Find a better way to get the issue number from the completing-read)
+           (issue (forge-get-issue issue-number))
+           (issue-title (oref issue title))
+           (issue-labels (oref issue labels))
+           (issue-milestone (oref issue milestone))
+           (forge-prefix (string-join (list (oref (forge-get-repository t) forge) (oref (forge-get-repository t) forge-id) "") ":"))
+           (labels-string (--map (format "/label %s" (string-remove-prefix forge-prefix (base64-decode-string it))) issue-labels))
+           )
+      (magit-branch-and-checkout branch-name default-branch)
       (call-interactively #'magit-push-current-to-pushremote)
-      (forge-create-pullreq branch-name (magit-main-branch))
-      (insert "Draft: \n")
-
-      ))
-
-  )
+      (forge-create-pullreq branch-name default-branch)
+      (insert (format "Draft: %s\n/milestone %%%s\n%s" issue-title issue-milestone (string-join labels-string "\n"))))))
 
 (custom-set-faces
  '(mode-line ((t (:family "IBM Plex Mono" :weight normal :height 1.0))))
