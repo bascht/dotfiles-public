@@ -23,7 +23,7 @@ else
 	fi;
 fi;
 
-# echo "Searching ${*} as argument ${argument} for ${match} in handlers"
+# echo "Searching ${*} as argument ${argument} for ${match} in handlers" |wl-copy
 
 case "${match}" in
 	*.slack.*)
