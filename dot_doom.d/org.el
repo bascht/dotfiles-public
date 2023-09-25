@@ -358,7 +358,7 @@
         (setq writeroom-width 90)
         (global-writeroom-mode)
         (global-hide-mode-line-mode)
-        (ef-themes-select 'ef-summer)
+        (ef-themes-select 'ef-duo-light)
         (add-hook 'org-journal-mode-hook
                   (lambda () (add-hook 'after-save-hook 'delete-frame)))
         (setq server-client-instructions nil) ;; hide noisy minibuffer
