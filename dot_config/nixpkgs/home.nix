@@ -689,7 +689,7 @@ in
       epkgs.org-mru-clock
       epkgs.org-journal
       epkgs.org-alert
-      epkgs.org-modern
+      epkgs.org-caldav
       epkgs.csv-mode
       epkgs.ef-themes
       epkgs.literate-calc-mode
