@@ -3,7 +3,7 @@ alias bi="bundle install"
 alias be="bundle exec"
 alias ber="bundle exec rake"
 alias e=$EDITOR
-alias vim=nvim
+alias vim=em
 alias ssh-yop="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias scp-yop="scp -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias docker-rm-stopped="docker rm \$(docker ps -a -q)"
