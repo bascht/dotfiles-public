@@ -6,8 +6,8 @@
   (string= (getenv "EMACS_SERVER_NAME") "comacs"))
 
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16)
-      doom-serif-font (font-spec :family "Iosevka Aile" :size 16)
+      doom-variable-pitch-font (font-spec :family "Martian Mono" :size 16)
+      doom-serif-font (font-spec :family "IBM Plex Mono" :size 16)
       doom-unicode-font (font-spec :family "Joypixels" :size 14)
       doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
       doom-modeline-height 23
