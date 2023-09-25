@@ -311,6 +311,7 @@
    mu4e-compose-complete-only-after "2016-01-01"
    mu4e-compose-dont-reply-to-self 't
    mu4e-compose-format-flowed t
+   mu4e-compose-in-new-frame t
    mu4e-get-mail-command "mbsync -a"
    mu4e-headers-include-related t
    mu4e-index-lazy-check nil
