@@ -17,4 +17,4 @@ if [ -n "$(get_worklog_window)" ]; then
   notify-send "Worklog window is already visible"
 fi
 
-emacsclient -s workmacs --create-frame --eval "(bascht/worklog)" &
+exec emacsclient -s workmacs --create-frame --eval "(bascht/worklog)"
