@@ -72,7 +72,10 @@ case "${match}" in
 	application/vnd.openxmlformats-officedocument*|application/vnd.oasis.opendocument*|"Microsoft OOXML")
 		exec libreoffice "$1"
 		;;
-	text/x-tex|application/json|text/plain|mailto://*)
+	mailto:*)
+		exec em --eval "(browse-url--mailto \"${argument}\")"
+		;;
+	text/x-tex|application/json|text/plain)
 		exec em "$argument"
 		;;
 	*)
