@@ -52,22 +52,22 @@ function take {
 # return the basename of the current folder or an argument
 # Used to supply the kubernetes pods with the correct app name
 function k_app {
-    if set -q argv; then
-        echo $argv
+    if [[ $# -ne 0 ]]; then
+        echo "${*}"
     else
         echo $(basename $(pwd))
     fi
 }
 
 function kfp {
-    kpods $argv | head -n 1
+    kpods ${*} | head -n 1
 }
 
 function kpods {
-    if set -q argv; then
+    if [[ $# -eq 0 ]]; then
         kubectl get pod --no-headers=true -o custom-columns=:metadata.name
     else
-        kubectl get pod -l app=$(k_app $argv) --no-headers=true -o custom-columns=:metadata.name
+        kubectl get pod -l app=$(k_app "${*}") --no-headers=true -o custom-columns=:metadata.name
     fi
 }
 
