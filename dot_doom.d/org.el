@@ -301,9 +301,11 @@
 
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
-     ((string-match " Tue" date) "8:00")
-     ((string-match " Wed" date) "8:00")
-     ((string-match " Thu" date) "8:00")
+     ((string-match "Mon" (s-trim date)) 4)
+     ((string-match "Tue" (s-trim date)) 8)
+     ((string-match "Wed" (s-trim date)) 8)
+     ((string-match "Thu" (s-trim date)) 8)
+     ((string-match "Fri" (s-trim date)) 2)
      (t "0:00")))
 
   (defun bascht/org-file-show-headings (org-file)
