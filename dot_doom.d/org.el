@@ -308,6 +308,23 @@
      ((string-match "Fri" (s-trim date)) 2)
      (t "0:00")))
 
+  (defun bascht/send-org-clock-to-ulanzi ()
+    (if (org-clocking-p)
+        (let* ((clocked-time (/ (org-clock-get-clocked-time) 60.0))
+               (percent (round (*(/ clocked-time (bascht/alfatraining-hours-a-day (format-time-string "%a"))) 100)))
+               (text (format "%.1fh" clocked-time)))
+
+          (request "http://ulanzi_clock_office/api/custom"
+            :type "POST"
+            :headers '(("Content-Type" . "application/json"))
+            :data (json-encode `(("name" . "worklog")
+                                 ("icon" . "11402")
+                                 ("progress" . ,percent)
+                                 ("text" . ,text))))
+          )
+
+      ))
+
   (defun bascht/org-file-show-headings (org-file)
     (interactive)
     (find-file (expand-file-name org-file))
