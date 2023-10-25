@@ -21,8 +21,8 @@ c.url.searchengines = {
         }
 
 c.new_instance_open_target = "tab-bg"
-c.input.insert_mode.auto_enter = False
-c.input.insert_mode.auto_load = False
+c.input.insert_mode.auto_enter = True
+c.input.insert_mode.auto_load = True
 c.prompt.filebrowser = False
 c.completion.height = "40%"
 c.downloads.location.directory = '/home/bascht/Downloads/'
