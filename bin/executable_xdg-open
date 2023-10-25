@@ -75,8 +75,24 @@ case "${match}" in
 	mailto:*)
 		exec em --eval "(browse-url--mailto \"${argument}\")"
 		;;
-	text/x-tex|application/json|text/plain)
-		exec em "$argument"
+	application/zip)
+		TEMPDIR=$(mktemp -d)
+		unzip -d "${TEMPDIR}" "${argument}"
+		exec xdg-open "${TEMPDIR}"
+		;;
+	application/gzip)
+		TEMPDIR=$(mktemp -d)
+		if [[ $argument =~ .tar.gz$ ]]; then
+			tar xvf "${argument}" -C "${TEMPDIR}"
+		else
+			cp "${argument}" "${TEMPDIR}"
+			gunzip "${TEMPDIR}/"*
+
+		fi;
+		exec xdg-open "${TEMPDIR}"
+		;;
+	text/x-tex|application/json|text/plain|text/xml)
+		exec em "${argument}"
 		;;
 	*)
 		notify-send "${0}" "Don't know how to open ${@} of type ${match}" -t 2500 >&2
