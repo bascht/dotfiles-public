@@ -5,4 +5,5 @@ Description=Ask for periodic worklog updates
 Type=oneshot
 Environment="QT_QPA_PLATFORMTHEME=qt5ct"
 Environment="XDG_CURRENT_DESKTOP=KDE"
+Environment="SWAYSOCK=/run/user/1000/sway-ipc.sock"
 ExecStart=/home/bascht/bin/worklogger
