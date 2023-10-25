@@ -314,7 +314,7 @@
                (percent (round (*(/ clocked-time (bascht/alfatraining-hours-a-day (format-time-string "%a"))) 100)))
                (text (format "%.1fh" clocked-time)))
 
-          (request "http://ulanzi_clock_office/api/custom"
+          (request "http://10.11.12.180/api/custom"
             :type "POST"
             :headers '(("Content-Type" . "application/json"))
             :data (json-encode `(("name" . "worklog")
