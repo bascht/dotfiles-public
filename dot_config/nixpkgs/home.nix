@@ -416,8 +416,17 @@ in
   ];
   programs.broot = {
     enable = true;
+    enableBashIntegration = true;
     settings = {
-      modal = true;
+      verbs = [
+        { key = "ctrl-j"; execution = ":line_down"; }
+        { key = "ctrl-k"; execution = ":line_up"; }
+        { key = "ctrl-l"; execution = ":panel_right"; }
+        { key = "ctrl-h"; execution = ":back"; }
+        { key = "ctrl-d"; execution = ":page_down"; }
+        { key = "ctrl-u"; execution = ":page_up"; }
+
+      ];
       skin = {
         default = "gray(1) None";
         tree = "gray(7) None / gray(18) None";
