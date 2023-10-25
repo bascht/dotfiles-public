@@ -19,6 +19,6 @@ swaymsg move scratchpad
 gopass show -o "$input" | wl-copy
 
 notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
-sleep 5
+sleep 10
 wl-copy --clear
 notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
