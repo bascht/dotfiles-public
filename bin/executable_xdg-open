@@ -41,6 +41,16 @@ case "${match}" in
 	alfastaging:*)
 		exec alfaview-staging "${argument}"
 		;;
+        application/vnd.debian.binary-package)
+		if [[ "${argument}" == ${XDG_RUNTIME_DIR}/alfaview* ]]; then
+			cd ~/.opt
+			make
+			killall -15 alfaview || echo "Nothing to kill"
+		else
+			notify-send "Nothing to do for ${argument}"
+
+		fi;
+		;;
 	ssh:*)
 		host=$(echo $1 | cut -d "/" -f 3)
 		exec foot ssh "$host"
