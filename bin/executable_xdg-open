@@ -54,7 +54,7 @@ case "${match}" in
 			notify-send "Fixing up Hetzner invoice at ${argument}"
 			PDF=$(fixup-hetzner-invoice "${argument}")
 		fi;
-		exec zathura "${PDF}"
+		exec swaymsg exec -- zathura "${PDF}"
 		;;
 	text/calendar)
 		echo $1 | wl-copy --trim-newline
