@@ -19,12 +19,14 @@ set $display_laptop eDP-1
 set $display_dell "Dell Inc. DELL U2415 7MT018BM1PGU"
 set $display_lg "LG Electronics 34UM95 0x00000101"
 set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
+set $display_teleprompter "Mediatrix Peripherals Inc MPI7002 0x00000001"
 
 ### Output configuration
 output * bg ~/Pictures/Wallpapers/mountains-colourful.jpg fill
 
-output $display_lg mode 3440x1440@49.987Hz pos 1205 450
+output $display_lg mode 3440x1440@49.987Hz pos 1200 600
 output $display_dell mode 1920x1200@59.950Hz transform 90 pos 0 0
+output $display_teleprompter mode 1024x600@60.044Hz pos 2187 0
 output $display_coworking pos 2560 0
 
 ### Idle configuration
@@ -477,5 +479,27 @@ bar {
       binding_mode $base00 $base0A $base00
   }
 }
+
+bar {
+	id teleprompter
+  position top
+  status_command i3status-rs  ~/.config/i3status-secondary.toml
+  font pango:JetBrains Mono, FontAwesome 12
+	output $display_teleprompter
+	tray_output none
+  colors {
+      background $base00
+      separator  $base01
+      statusline $base04
+
+      # State             Border  BG      Text
+      focused_workspace   $base05 $base0D $base00
+      active_workspace    $base05 $base03 $base00
+      inactive_workspace  $base03 $base01 $base05
+      urgent_workspace    $base08 $base08 $base00
+      binding_mode $base00 $base0A $base00
+  }
+}
+
 
 exec autostart
