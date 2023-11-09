@@ -158,6 +158,9 @@ bindsym XF86Calculator exec swytch
 bindsym $mod+shift+o move workspace to output right
 bindsym $mod+o focus output right
 
+bindsym $mod+shift+i move workspace to output up
+bindsym $mod+i focus output up
+
 # Basics:
 #
 # start a terminal
@@ -299,6 +302,8 @@ for_window [title="nm-tray"] floating enable
 for_window [app_id="org.gnome.Nautilus"] floating enable
 for_window [title="Firefox - Sharing Indicator"] floating enable
 for_window [title="^alfaview - Share screen region.*$"] floating enable, border pixel 1, move position center
+for_window [instance="alfaview" title="^Screen share - *$"] floating enable, border pixel 1, move position center
+for_window [instance="alfaview" title="^Screen share – No media shared$"] move scratchpad
 
 assign [instance="^.*\.yakshed\.org$"] "3 "
 assign [title=".*slack.*"] "3 "
