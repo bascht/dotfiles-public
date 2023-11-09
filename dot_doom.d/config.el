@@ -448,6 +448,13 @@
   (find-file
    (string-trim (shell-command-to-string "mktemp -d"))))
 
+(defun bascht/checkout-mr-after-creation ()
+  (interactive)
+  (magit-fetch)
+  (sleep-for 5)
+  (let* ((pullreq (forge-read-pullreq "Checkout pull request" t)))
+    (magit-checkout (forge--branch-pullreq (forge-get-pullreq pullreq)))))
+
 (defun bascht/create-mr-from-issue ()
   (interactive)
   (let* ((id (oref (forge-get-repository t) id))
