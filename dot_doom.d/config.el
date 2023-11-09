@@ -404,6 +404,7 @@
 
 (add-hook! markdown-mode-hook 'spell-fu-mode)
 
+(use-package! dired-preview)
 (use-package! dirvish
   :config
   (evil-make-overriding-map dirvish-mode-map 'normal)
@@ -424,7 +425,8 @@
    ("y"   . dirvish-yank-menu)
    ("N"   . dirvish-narrow)
    ("^"   . dirvish-history-last)
-   ("h"   . dirvish-history-jump) ; remapped `describe-mode'
+   ("h"   . dired-up-directory)
+   ("l"   . dired-find-file)
    ("s"   . dirvish-quicksort)    ; remapped `dired-sort-toggle-or-edit'
    ("v"   . dirvish-vc-menu)      ; remapped `dired-view-file'
    ("TAB" . dirvish-subtree-toggle)

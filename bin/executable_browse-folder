@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 FOLDER="${1:-${HOME}}"
-set -xv
-exec foot --app-id 'files' broot "${BROOT_OPTIONS[@]}" "${FOLDER}"
+
+COMMAND="(dirvish \"${FOLDER}\")"
+exec em -e "${COMMAND}"

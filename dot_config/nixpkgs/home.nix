@@ -700,6 +700,18 @@ in
       epkgs.obsidian
       epkgs.scad-mode
       # epkgs.dirvish
+      epkgs.dirvish
+      epkgs.dired-rifle
+      epkgs.dired-rainbow
+      epkgs.dired-sidebar
+      epkgs.dired-subtree
+      epkgs.dired-preview
+      epkgs.dired-narrow
+      epkgs.dired-quick-sort
+      epkgs.dired-ranger
+      epkgs.nerd-icons-dired
+      epkgs.treemacs-icons-dired
+      epkgs.all-the-icons-dired
       epkgs.zoxide
       epkgs.dictcc
       epkgs.toml-mode
