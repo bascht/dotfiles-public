@@ -72,8 +72,8 @@
         )
 
 (setq org-agenda-files (if (string= (system-name) "apfelstrudel")
-                           '("~/Documents/Zettelkasten" "~/Work/Zettelkasten/")
-                         '("~/Documents/Zettelkasten/")))
+                           '("~/Documents/Zettelkasten" "~/Work/Zettelkasten")
+                         '("~/Documents/Zettelkasten")))
 
   (setq org-agenda-current-time-string "	┈ now ┈	")
 
