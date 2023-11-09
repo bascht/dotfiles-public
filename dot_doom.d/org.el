@@ -402,6 +402,11 @@
                             "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
                  :unnarrowed t)))
 
+(use-package! khalel
+  :after org
+  :config
+  (khalel-add-capture-template))
+
 (use-package! org-habit
   :init
   (setq

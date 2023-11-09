@@ -28,3 +28,5 @@
   (package! ob-grpc :recipe
     (:host github :repo "shsms/ob-grpc")))
 
+
+(package! khalel)
