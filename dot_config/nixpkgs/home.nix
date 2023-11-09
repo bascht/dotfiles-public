@@ -425,7 +425,8 @@ in
         { key = "ctrl-h"; execution = ":back"; }
         { key = "ctrl-d"; execution = ":page_down"; }
         { key = "ctrl-u"; execution = ":page_up"; }
-
+        { invocation = "drop"; external = "drop {file}"; apply_to = "file"; leave_broot = false; switch_terminal = false; }
+        { invocation = "drag"; external = "drag {file}"; apply_to = "file"; leave_broot = false; switch_terminal = false; }
       ];
       skin = {
         default = "gray(1) None";
@@ -657,6 +658,7 @@ in
       mopidy-youtube
       mopidy-mpris
       mopidy-bandcamp
+      mopidy-jellyfin
       yt-dlp
     ];
 
