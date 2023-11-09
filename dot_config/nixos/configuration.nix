@@ -88,6 +88,8 @@
   services.fwupd.enable = true;
   services.fstrim.enable = true;
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
   hardware.nitrokey.enable = true;
   hardware.enableAllFirmware = true;
   hardware.opengl = {
