@@ -389,19 +389,6 @@
         org-journal-date-format "%A, %d/%m/%Y"
         org-journal-carryover-items nil))
 
-(use-package! md-roam
-  :after (org-roam)
-  :config
-  ;; (set-company-backend! 'markdown-mode 'company-capf)
-  (setq org-roam-file-extensions '("md" "org"))
-  (md-roam-mode 1)
-  (org-roam-db-autosync-mode 1)
-  (add-to-list 'org-roam-capture-templates
-               '("m" "Markdown" plain "" :target
-                 (file+head "%<%Y-%m-%dT%H%M%S>-${slug}.md"
-                            "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
-                 :unnarrowed t)))
-
 (use-package! khalel
   :after org
   :config
@@ -414,38 +401,3 @@
    org-habit-preceding-days 10
    org-habit-following-days 1
    org-habit-show-habits-only-for-today nil))
-
-(use-package! org-roam
-  :init
-  (setq org-roam-directory (file-truename "~/WirZwei/Zettelkasten")
-        org-roam-completion-everywhere t
-        ;; org-roam-database-connector 'sqlite-builtin
-        org-roam-dailies-directory "journals/"
-        org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           "* %?"
-           :target (file+head "%<%Y-%m-%d>.md"
-                              "#+title: %<%Y-%m-%d>\n")))
-        org-roam-capture-templates
-         '(("d" "default" plain
-            "%?"
-            :if-new (file+head "${title}.md" "# ${title}\n")
-            :unnarrowed t))
-        org-id-link-to-org-use-id 'create-if-interactive)
-  :config
-  (org-roam-db-autosync-mode +1)
-  (add-hook 'org-roam-mode-hook #'turn-on-visual-line-mode)
-  (add-hook 'org-roam-mode-hook (lambda () (setq company-idle-delay 0.2)))
-  )
-
-(use-package! websocket
-  :after org-roam)
-
-(use-package! org-roam-ui
-  :init
-  :after org
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))

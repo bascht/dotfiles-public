@@ -1,17 +1,6 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-(unpin! org-roam)
-(package! org-roam-ui)
-(package! ef-themes)
-(package! dirvish)
-(package! mingus)
-(package! spacious-padding)
-(package! md-roam
-  :recipe (:host github
-           :repo "nobiot/md-roam"
-           :files ("md-roam.el")))
-
 (package! pdf-tools :built-in 'prefer)
 (package! emacsql-sqlite-builtin :built-in 'prefer)
 (package! dictcc :built-in 'prefer)
