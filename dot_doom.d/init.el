@@ -34,7 +34,7 @@
        snippets          ; my elves. They type so I don't have to
 
        :emacs
-       (dired)           ; making dired pretty [functional]
+       (dired +icons +bindings)           ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree

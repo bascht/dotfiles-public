@@ -32,7 +32,6 @@
       doom-dashboard-ascii-banner-fn #'bascht/doom-dashboard-calvin
       frame-title-format (concat "%b - " user-login-name "@" (system-name))
       browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
-      dired-async-mode t
       hl-todo-keyword-faces
       `(("TODO" warning bold)
         ("FIXME" error bold)
@@ -404,46 +403,15 @@
 
 (add-hook! markdown-mode-hook 'spell-fu-mode)
 
-(use-package! dired-preview)
-(use-package! dirvish
-  :config
-  (evil-make-overriding-map dirvish-mode-map 'normal)
-  (dirvish-override-dired-mode)
-  (dirvish-peek-mode)
-  (dirvish-side-follow-mode)
-
-  (setq dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
+(after! dirvish
   (setq dirvish-attributes '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
-  (setq delete-by-moving-to-trash t)
   (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
+  (setq dirvish-hide-details t))
 
-  :bind ; Bind `dirvish|dirvish-side|dirvish-dwim' as you see fit
-  (("C-c f" . dirvish-fd)
-   :map dirvish-mode-map ; Dirvish inherits `dired-mode-map'
-   ("a"   . dirvish-quick-access)
-   ("f"   . dirvish-file-info-menu)
-   ("y"   . dirvish-yank-menu)
-   ("N"   . dirvish-narrow)
-   ("^"   . dirvish-history-last)
-   ("h"   . dired-up-directory)
-   ("l"   . dired-find-file)
-   ("s"   . dirvish-quicksort)    ; remapped `dired-sort-toggle-or-edit'
-   ("v"   . dirvish-vc-menu)      ; remapped `dired-view-file'
-   ("TAB" . dirvish-subtree-toggle)
-   ("gg"  . beginning-of-buffer)
-   ("gu"  . dired-up-directory)
-   ("md"  . dwim-shell-command-drag)
-   ("mo"  . dwim-shell-command-drop)
-   ("G"   . end-of-buffer)
-   ("M-f" . dirvish-history-go-forward)
-   ("M-b" . dirvish-history-go-backward)
-   ("M-l" . dirvish-ls-switches-menu)
-   ("M-m" . dirvish-mark-menu)
-   ("M-t" . dirvish-layout-toggle)
-   ("M-s" . dirvish-setup-menu)
-   ("M-e" . dirvish-emerge-menu)
-   ("M-j" . dirvish-fd-jump))
-  )
+(map! :after dired
+      :map dirvish-mode-map
+      :n "h" #'dired-up-directory
+      :n "l" #'dired-find-file)
 
 (defun bascht/dirvish-tdir()
   (interactive)

@@ -169,7 +169,7 @@ in
       pkgs.gitAndTools.lab
       pkgs.gimp
       pkgs.wally-cli
-      pkgs.poppler_utils
+      # pkgs.poppler_utils
       pkgs.python3Minimal
       pkgs.python38Packages.pdftotext
       pkgs.w3m
@@ -254,6 +254,8 @@ in
       pkgs.isync
       pkgs.j4-dmenu-desktop
       pkgs.jq
+      pkgs.mediainfo
+      pkgs.poppler
       pkgs.kanshi
       pkgs.ledger
       pkgs.libnotify
@@ -682,10 +684,12 @@ in
     enable = true;
     package = pkgs.emacs29-pgtk;
     extraPackages = epkgs: [ 
-      #epkgs.sqlite3
       epkgs.zoxide
       epkgs.vterm 
-      epkgs.pdf-tools 
+      epkgs.pdf-tools
+      epkgs.vscode-icon
+      epkgs.mingus
+      epkgs.spacious-padding
       epkgs.org-pdftools
       epkgs.org-super-agenda
       epkgs.org-mru-clock
@@ -696,22 +700,10 @@ in
       epkgs.ef-themes
       epkgs.literate-calc-mode
       epkgs.dwim-shell-command
-      epkgs.consult-org-roam
       epkgs.obsidian
-      epkgs.scad-mode
-      # epkgs.dirvish
-      epkgs.dirvish
-      epkgs.dired-rifle
-      epkgs.dired-rainbow
-      epkgs.dired-sidebar
-      epkgs.dired-subtree
-      epkgs.dired-preview
-      epkgs.dired-narrow
-      epkgs.dired-quick-sort
-      epkgs.dired-ranger
       epkgs.nerd-icons-dired
-      epkgs.treemacs-icons-dired
-      epkgs.all-the-icons-dired
+      epkgs.scad-mode
+      epkgs.dirvish
       epkgs.zoxide
       epkgs.dictcc
       epkgs.toml-mode
