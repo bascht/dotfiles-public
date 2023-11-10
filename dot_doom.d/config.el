@@ -387,12 +387,15 @@
 
 (add-hook 'prog-mode-hook (lambda () (setq company-idle-delay 0.2)))
 
+(use-package! dictcc)
 (after! dap
   (unless (display-graphic-p)
     (set-face-background 'dap-ui-marker-face "orange")
     (set-face-attribute 'dap-ui-marker-face nil :inherit nil)
     (set-face-background 'dap-ui-pending-breakpoint-face "lightpink")
     (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
+
+(use-package! ef-themes)
 
 (use-package! obsidian
   :config
