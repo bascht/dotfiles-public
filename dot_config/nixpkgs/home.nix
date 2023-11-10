@@ -684,6 +684,7 @@ in
     enable = true;
     package = pkgs.emacs29-pgtk;
     extraPackages = epkgs: [ 
+      epkgs.apropospriate-theme
       epkgs.zoxide
       epkgs.vterm 
       epkgs.pdf-tools

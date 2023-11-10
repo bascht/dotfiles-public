@@ -12,6 +12,7 @@
 (package! ef-themes :built-in 'prefer)
 (package! mingus :built-in 'prefer)
 (package! spacious-padding :built-in 'prefer)
+(package! apropospriate-theme :built-in 'prefer)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
