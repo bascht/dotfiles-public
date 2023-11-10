@@ -10,7 +10,6 @@
       doom-serif-font (font-spec :family "IBM Plex Mono" :size 16)
       doom-unicode-font (font-spec :family "Joypixels" :size 14)
       doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
-      doom-modeline-height 23
       ef-themes-mixed-fonts t
       emojify-display-style 'unicode
       modus-themes-variable-pitch-ui t
@@ -61,10 +60,15 @@
 (setq doom-modeline-time nil)
 (setq doom-modeline-persp-name t)
 (setq doom-modeline-modal nil)
+(setq nerd-icons-font-family  "Symbols Nerd Font Mono")
 
-; Make avy leads real nice big and shiny
+
 (custom-set-faces!
-  '(avy-lead-face :inherit isearch :family doom-font :bold t :italic nil :background "deep pink" :height 1.0 :foreground "snow"))
+  '(mode-line :family  "VictorMono Nerd Font" :weight medium)
+  '(mode-line-active :family "VictorMono Nerd Font" :weight medium)
+  '(mode-line-inactive :family "VictorMono Nerd Font" :weight medium)
+  '(avy-lead-face :inherit isearch :family doom-font :bold t :italic nil :background "deep pink" :height 1.0 :foreground "snow")
+  )
 
 (defun doom-dashboard-draw-ascii-banner-fn ()
   (let* ((banner
@@ -396,7 +400,8 @@
     (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
 
 (use-package! ef-themes)
-
+(use-package! apropospriate-theme)
+(use-package! khalel)
 (use-package! obsidian
   :config
   (obsidian-specify-path "~/WirZwei/Zettelkasten"))
