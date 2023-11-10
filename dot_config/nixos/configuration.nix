@@ -120,7 +120,7 @@
       joypixels
       (iosevka-bin.override { variant = "aile"; })
       (iosevka-bin.override { variant = "etoile"; })
-      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka" ]; }) ];
+      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka"  "NerdFontsSymbolsOnly" "VictorMono" ]; }) ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = lib.mkBefore [ "Joypixels" "Noto Color Emoji" ];
