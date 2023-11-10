@@ -26,6 +26,9 @@ bind '"\egoy" "commandline -i -- \"-o yaml\""'
 bind '"\egba" "commandline -i \"| bat -l yaml\""'
 bind '"\egoba" "commandline -i -- \"-o yaml | bat -l yaml\""'
 
+# Nix
+bind '"\egnsp" "nix search nixpkgs "'
+
 # FZF SSH
 
 bind '"\es" fzf-ssh'
