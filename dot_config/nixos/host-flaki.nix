@@ -8,8 +8,8 @@
 
     boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usb_storage" "usbhid" "sd_mod" ];
     boot.initrd.kernelModules = [ "dm-snapshot" ];
-    boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/1786c83d-16de-4a83-bedc-dd2606b6eccc";
 
+    boot.initrd.preLVMCommands = lib.mkOrder 400 "sleep 1";
 
     services.scanberry.enable = true;
     hardware.sane.enable = true;
