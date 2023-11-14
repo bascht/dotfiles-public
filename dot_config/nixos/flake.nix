@@ -1,9 +1,12 @@
 {
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-  inputs.bascht-private.url = "git+https://git.dorhamm.me/bascht/nixos-private.git?ref=main";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
   inputs.home-manager = {
-    url = "github:nix-community/home-manager";
+    url = "github:nix-community/home-manager/release-23.05";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+  inputs.bascht-private = {
+    url = "git+https://git.dorhamm.me/bascht/nixos-private.git?ref=main";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -62,8 +65,12 @@
         ./security.nix
         ./host-flaki.nix
         bascht-private.udev-flaki
+        bascht-private.ssh-boot-flaki
         bascht-private.trieste
         bascht-private.wifi
+        home-manager.nixosModules.home-manager
+        ./home-manager.nix
+
       ];
     };
   };
