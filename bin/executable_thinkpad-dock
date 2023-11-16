@@ -14,9 +14,9 @@ export SWAYSOCK
 export DBUS_SESSION_BUS_ADDRESS
 
 if [[ "${ACTION}" == "add" ]]; then
-	ICON=$(readlink -f ~/.nix-profile/share/icons/gnome/48x48/devices/computer.png)
+	ICON=$(readlink -f /etc/profiles/per-user/bascht/share/icons/gnome/48x48/devices/computer.png)
 else
-	ICON=$(readlink -f ~/.nix-profile/share/icons/gnome/48x48/devices/display.png)
+	ICON=$(readlink -f /etc/profiles/per-user/bascht/share/icons/gnome/48x48/devices/display.png)
 fi;
 
 export ICON
@@ -49,4 +49,4 @@ else
 fi;
 
 TITLE="${ACTION} ${NAME}"
-swaymsg exec -- sh -c '/home/bascht/.nix-profile/bin/notify-send -t 3000 --icon=\"${ICON}\" \"Docking event\" \"$TITLE\"'
+swaymsg exec -- sh -c '/etc/profiles/per-user/bascht/bin/notify-send -t 3000 --icon=\"${ICON}\" \"Docking event\" \"$TITLE\"'

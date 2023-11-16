@@ -529,7 +529,7 @@ in
              X-RestartIfChanged = "false";
        };
        Service = {
-             ExecStart = "${pkgs.bash}/bin/bash -l -c '~/.nix-profile/bin/emacs --fg-daemon=comacs'";
+             ExecStart = "${pkgs.bash}/bin/bash -l -c '/etc/profiles/per-user/bascht/bin/emacs --fg-daemon=comacs'";
              Restart = "on-failure";
              SuccessExitStatus = 15;
              Type = "notify";
@@ -546,7 +546,7 @@ in
              X-RestartIfChanged = "false";
        };
        Service = {
-             ExecStart = "${pkgs.bash}/bin/bash -l -c '~/.nix-profile/bin/emacs --name Worklog --fg-daemon=workmacs'";
+             ExecStart = "${pkgs.bash}/bin/bash -l -c '/etc/profiles/per-user/bascht/bin/emacs --name Worklog --fg-daemon=workmacs'";
              Restart = "on-failure";
              SuccessExitStatus = 15;
              Type = "notify";

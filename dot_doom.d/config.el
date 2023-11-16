@@ -23,7 +23,7 @@
       delete-selection-mode nil
       writeroom-width 100
       ispell-dictionary "en_GB"
-      ispell-aspell-data-dir "/home/bascht/.nix-profile/lib/aspell"
+      ispell-aspell-data-dir "/etc/profiles/per-user/bascht/lib/aspell"
       ispell-aspell-dict-dir ispell-aspell-data-dir
       ruby-insert-encoding-magic-comment nil
       git-gutter-fr+-side (quote left-fringe)

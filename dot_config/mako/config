@@ -7,7 +7,7 @@ padding=25,10,18,10
 margin=2,0,-8,0
 font=Iosevka Aile 12
 #max-icon-size=48
-icon-path=/home/bascht/.nix-profile/share/icons/Adwaita
+icon-path=/etc/profiles/per-user/bascht/share/icons/Adwaita
 #icon-location=top
 
 background-color=#1d1f21
