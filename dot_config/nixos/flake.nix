@@ -24,6 +24,8 @@
         bascht-private.udev-pierogi
         bascht-private.trieste
         bascht-private.wifi
+        home-manager.nixosModules.home-manager
+        ./home-manager.nix
       ];
     };
     nixosConfigurations.apfelstrudel = nixpkgs.lib.nixosSystem {
