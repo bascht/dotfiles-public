@@ -108,3 +108,8 @@ done
 function ddir {
   take "$(datestamp)-${*}"
 }
+
+function letter {
+    base=$(basename "${1}" ".tex")
+    podman run -e VERBOSE=false -i --rm letter < "${1}" > "${base}.pdf"
+}
