@@ -182,6 +182,13 @@
    :map mu4e-headers-mode-map :vn
    "T" (lambda () (interactive) (mu4e-headers-mark-thread nil '(refile))))
 
+(map!
+ :after mu4e
+ :map (mu4e-headers-mode-map mu4e-view-mode-map) :vn
+ :desc "Back to last search" "<backspace>" #'mu4e-search-prev
+ :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next
+ )
+
 ;; https://micro.rousette.org.uk/2021/01/03/a-useful-binding.html
 (map!
  (:map 'override
