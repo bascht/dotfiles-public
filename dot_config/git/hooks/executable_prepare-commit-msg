@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 log_level=${LOG_LEVEL:-}
-log_level=DEBUG
+log_level=INFO
 
 if [ -z "$1" ]; then
   echo "No tempfile given"
