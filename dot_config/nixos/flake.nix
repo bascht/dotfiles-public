@@ -41,6 +41,8 @@
         bascht-private.udev-apfelstrudel
         bascht-private.alfaview
         bascht-private.wifi
+        home-manager.nixosModules.home-manager
+        ./home-manager.nix
       ];
     };
     nixosConfigurations.zurek = nixpkgs.lib.nixosSystem {
