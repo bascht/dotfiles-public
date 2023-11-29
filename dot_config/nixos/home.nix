@@ -680,6 +680,7 @@ in
       epkgs.pdf-tools
       epkgs.vscode-icon
       epkgs.mingus
+      epkgs.hass
       epkgs.spacious-padding
       epkgs.org-pdftools
       epkgs.org-super-agenda

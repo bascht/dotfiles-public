@@ -6,8 +6,8 @@
 (package! vscode-icon :built-in 'prefer)
 (package! nerd-icons-dired :built-in 'prefer)
 (package! dictcc :built-in 'prefer)
-(package! org-caldav :built-in 'prefer)
 (package! khalel :built-in 'prefer)
+(package! hass :built-in 'prefer)
 
 (package! ef-themes :built-in 'prefer)
 (package! mingus :built-in 'prefer)
