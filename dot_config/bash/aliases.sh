@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 alias va="vagrant"
 alias bi="bundle install"
 alias be="bundle exec"
@@ -35,13 +37,44 @@ alias krs="kubectl rollout status"
 alias kubens='kubectl config set-context --current --namespace="$(kubectl get ns -o json| jq -r .items[].metadata.name | fzf)"'
 alias kubectx='kubectl config use-context "$( yq .contexts[].name $KUBECONFIG  | fzf)"'
 alias kn="kubens"
-alias nps="nix search nixpkgs"
+alias nps="nix search nixpkgs "
 
 # Abbreviations
 
 alias osslx="openssl x509 -noout -text"
 alias osslc="openssl s_client -connect"
 alias osslb64="base64 -d | openssl x509 -noout -text"
+
+alias oyaml="-o yaml"
+alias baml="|bat -l yaml"
+
+fzf-bash-aliases-widget() {
+    set -xv
+  local selected="$(launcher-bash-aliases "$@")"
+  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+  notify-send "Readline" "${READLINE_LINE}"
+  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+  notify-send "Readline Point" "${READLINE_POINT}"
+}
+
+__fzf_bash_aliases__() {
+  local output opts script
+  opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore ${FZF_DEFAULT_OPTS-} -n2..,.. --scheme=history --bind=ctrl-r:toggle-sort ${FZF_CTRL_R_OPTS-} +m --read0"
+  script='BEGIN { getc; $/ = "\n\t"; $HISTCOUNT = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCOUNT - $. . "\t$_" if !$seen{$_}++'
+  match=$(echo "$READLINE_LINE" | awk '{ print $NF }')
+  previous_line=$(echo "$READLINE_LINE" | sed s/'\w*$'//)
+  echo "${READLINE_LINE}"
+  echo $match
+  echo $previous_line
+  output=$(launcher-bash-aliases $(echo "$READLINE_LINE" | awk '{print $NF }')) || return
+  READLINE_LINE=$previous_line${output#*$'\t'}
+  if [[ -z "$READLINE_POINT" ]]; then
+    echo "$READLINE_LINE"
+  else
+    READLINE_POINT=0x7fffffff
+  fi
+}
+
 
 # Create & enter folder (borrowed from zsh's take)
 function take {
