@@ -343,7 +343,7 @@ mode $mode_resize {
 }
 
 set $mode_alfaview "Alfaview: (a) launch (s) share (r) regionshare (h)op to monitor (k) stop share (j)oin room (b)reak (m)ute"
-set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (t)otp (q)utebrowser (c)alculator (h)istory (r)ofi (p)ass (s)snippets (w)eb (a)lfaview e(m)oji"
+set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (t)otp (q)utebrowser (c)alculator (h)istory (r)ofi (p)ass (s)snippets (w)eb (a)lfaview e(m)oji (Space) org-capture"
 set $mode_file "Files: (h)ome (s)creenshots (d)ocuments (l)astshot"
 
 # Modeless shortcuts
@@ -391,6 +391,8 @@ mode $mode_run {
 
   bindsym o exec pavucontrol; mode "default"
   bindsym q exec $menu qutebrowser; mode "default"
+
+  bindsym Space exec org-capture; mode "default"
 
   # return to default mode
   bindsym Return mode "default"
