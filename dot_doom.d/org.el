@@ -374,10 +374,13 @@ is tomorrow.  With two prefixes, select the deadline."
                   (lev (org-outline-level))
                   (folded-p (invisible-p (point-at-eol)))
                   (from (plist-get msg :from)))
-              (when (consp (car from))
+              (when (consp (car from)) ; Occurs when using mu4e 1.8+.
                 (setq from (car from)))
+              ;;
+              ;; place the subheader
               (org-end-of-meta-data) ; skip property drawer
               (org-insert-todo-heading 1)        ; insert a todo heading
+              ;;
               ;; insert message and add deadline
               (insert (concat "Email beantworten: "
                               "[[mu4e:msgid:"
