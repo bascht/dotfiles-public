@@ -25,31 +25,35 @@
 
     var lastTopBarItem = document.querySelector("div.top-bar-container nav ul li:last-child");
     if (lastTopBarItem) {
-    lastTopBarItem.style.marginRight = "20px"
-    document.querySelectorAll("ul[data-testid=pinned-nav-items]>li>a").forEach((a) => {
-      a.querySelector("div.gl-truncate-end").innerText = [
-        menuMap[a.dataset.qaSubmenuItem],
-        a.querySelector("div.gl-truncate-end").innerText
-      ].join(" ")
+      lastTopBarItem.style.marginRight = "20px"
+      document.querySelectorAll("ul[data-testid=pinned-nav-items]>li>a").forEach((a) => {
+        if(typeof(a) == "object") {
+          a.querySelector("div.gl-truncate-end").innerText = [
+            menuMap[a.dataset.qaSubmenuItem],
+            a.querySelector("div.gl-truncate-end").innerText
+          ].join(" ")
 
-      var newTopBarItem = a.cloneNode(true);
-      newTopBarItem.style.fontSize = "0.8em";
-      newTopBarItem.removeChild(newTopBarItem.querySelector("div[data-testid=active-indicator]"))
+          var newTopBarItem = a.cloneNode(true);
+          newTopBarItem.style.fontSize = "0.8em";
+          newTopBarItem.removeChild(newTopBarItem.querySelector("div[data-testid=active-indicator]"))
 
-      if(newTopBarItem.querySelector("span.badge-pill") !== null) {
-	      const badgeCount = Number(newTopBarItem.querySelector("span.badge-pill")?.innerText.trim())
-	      if(badgeCount == 0 || isNaN(badgeCount)) {
-		      newTopBarItem.removeChild(newTopBarItem.querySelector("span.badge-pill").parentNode)
-	      }
-      }
+          if(newTopBarItem.querySelector("span.badge-pill") !== null) {
+	          const badgeCount = Number(newTopBarItem.querySelector("span.badge-pill")?.innerText.trim())
+	          if(badgeCount == 0 || isNaN(badgeCount)) {
+		          newTopBarItem.removeChild(newTopBarItem.querySelector("span.badge-pill").parentNode)
+	          }
+          }
 
-      const glTextRight = newTopBarItem.querySelector(".gl-text-right")?.innerText.trim();
-      if(glTextRight == undefined || glTextRight == "") {
-	      newTopBarItem.removeChild(newTopBarItem.querySelector(".gl-text-right"))
-      }
-      newTopBarItem.removeChild(newTopBarItem.querySelector("svg[data-testid=grip-icon]").parentNode)
-      lastTopBarItem.parentNode.append(newTopBarItem);
-    })
+          const glTextRight = newTopBarItem.querySelector(".gl-text-right")?.innerText.trim();
+          if(glTextRight == undefined || glTextRight == "") {
+            if(newTopBarItem.querySelector(".gl-text-right") != null){
+              newTopBarItem.removeChild(newTopBarItem.querySelector(".gl-text-right"))
+            }
+          }
+          newTopBarItem.removeChild(newTopBarItem.querySelector("svg[data-testid=grip-icon]").parentNode)
+          lastTopBarItem.parentNode.append(newTopBarItem);
+        };
+      })
     }}
-  );
+                           );
 })();
