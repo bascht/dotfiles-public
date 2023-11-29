@@ -13,10 +13,12 @@
 (package! mingus :built-in 'prefer)
 (package! spacious-padding :built-in 'prefer)
 (package! apropospriate-theme :built-in 'prefer)
+(package! literate-calc-mode, :built-in 'prefer)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
   (package! salt-mode)
+  (package! cmake-mode)
   (package! ob-grpc :recipe
     (:host github :repo "shsms/ob-grpc")))
 
