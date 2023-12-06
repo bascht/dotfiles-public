@@ -84,110 +84,55 @@ in
   home.packages = [
       dbus-sway-environment
       configure-gtk
-      pkgs.xplr
-      pkgs.ntfy-sh
-      pkgs.jless
-      pkgs.yq-go
-      pkgs.bfs
-      pkgs.shfmt
-      pkgs.obsidian
-      pkgs.super-slicer-latest
-      pkgs.todoman
-      pkgs.khal
-      pkgs.calcurse
-      pkgs.btop
-      pkgs.vale
-      pkgs.freecad
-      pkgs.envsubst
-      pkgs.wpa_supplicant_gui
-      pkgs.vulkan-loader
-      pkgs.vulkan-validation-layers
-      pkgs.foot
-      pkgs.mesa
-      pkgs.mesa_drivers
-      pkgs.qutebrowser
-      pkgs.delta
-      pkgs.any-nix-shell
-      pkgs.socat
-      pkgs.age
-      pkgs.gnuplot
-      pkgs.sqlite
-      pkgs.inotify-tools
-      pkgs.graphviz
-      pkgs.liboping
-      pkgs.qrencode
-      pkgs.pandoc
-      pkgs.ghostscript
-      pkgs.ansi2html
-      pkgs.kind
-      pkgs.liboping
-      pkgs.tmux-cssh
-      pkgs.dict
-      pkgs.wordnet
-      pkgs.xdragon
-      pkgs.borgmatic
-      pkgs.docker-compose
-      pkgs.toilet
-      pkgs.ydotool
-      pkgs.viu
-      pkgs.somafm-cli
-      pkgs.tree
-      pkgs.scrot
-      pkgs.swappy
-      pkgs.imv
-      pkgs.cloc
-      pkgs.httpie
-      pkgs.yaml-language-server
-      pkgs.k9s
-      pkgs.multimarkdown
-      pkgs.unzip
-      pkgs.go
-      pkgs.gopls
-      pkgs.godef
-      pkgs.libreoffice
-      pkgs.awscli2
-      pkgs.gitAndTools.tig
-      pkgs.gitAndTools.lab
-      pkgs.gimp
-      pkgs.wally-cli
-      pkgs.python3Minimal
-      pkgs.python38Packages.pdftotext
-      pkgs.w3m
-      pkgs.ruby
-      pkgs.rubyPackages.net-scp
-      pkgs.rubyPackages.net-ssh
-      pkgs.rubyPackages.pry
-      pkgs.ffmpegthumbnailer
-      pkgs.adwaita-qt
-      pkgs.adementary-theme
-      pkgs.appimage-run
-      pkgs.enchant
-      pkgs.entr
       (pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
+      pkgs.adementary-theme
+      pkgs.adwaita-qt
+      pkgs.age
+      pkgs.ansi2html
+      pkgs.any-nix-shell
+      pkgs.appimage-run
+      pkgs.awscli2
       pkgs.bat
-      pkgs.obs-studio
+      pkgs.bfs
       pkgs.binutils
       pkgs.borgbackup
+      pkgs.borgmatic
       pkgs.brightnessctl
+      pkgs.btop
+      pkgs.calcurse
       pkgs.capitaine-cursors
       pkgs.chezmoi
       pkgs.chromium
       pkgs.clipman
+      pkgs.cloc
       pkgs.cmake
+      pkgs.delta
+      pkgs.dict
       pkgs.dmenu
       pkgs.dnsutils
+      pkgs.docker-compose
       pkgs.editorconfig-core-c
+      pkgs.enchant
+      pkgs.entr
+      pkgs.envsubst
       pkgs.eza
       pkgs.fd
       pkgs.feh
+      pkgs.ffmpeg-full
+      pkgs.ffmpegthumbnailer
       pkgs.firefox-wayland
       pkgs.font-awesome
+      pkgs.foot
+      pkgs.freecad
       pkgs.fzf
       pkgs.gcc
+      pkgs.ghostscript
+      pkgs.gimp
+      pkgs.gitAndTools.lab
+      pkgs.gitAndTools.tig
       pkgs.glab
       pkgs.glib
       pkgs.gnome-icon-theme
-      pkgs.gnome-themes-extra
       pkgs.gnome-themes-extra
       pkgs.gnome3.adwaita-icon-theme
       pkgs.gnome3.file-roller
@@ -196,18 +141,19 @@ in
       pkgs.gnome3.seahorse
       pkgs.gnome3.zenity
       pkgs.gnumake
-      pkgs.libreoffice
-      pkgs.hledger-web
-      pkgs.hledger
       pkgs.gnupg
       pkgs.gnupg-pkcs11-scd
+      pkgs.gnuplot
       pkgs.go
+      pkgs.godef
+      pkgs.gomodifytags
       pkgs.gopass
+      pkgs.gopls
       pkgs.gore
       pkgs.gotests
-      pkgs.gomodifytags
-      pkgs.grpcurl
+      pkgs.graphviz
       pkgs.grim
+      pkgs.grpcurl
       pkgs.gsettings-desktop-schemas
       pkgs.gst_all_1.gst-plugins-bad
       pkgs.gst_all_1.gst-plugins-good
@@ -217,80 +163,127 @@ in
       pkgs.gtk-engine-murrine
       pkgs.gtk_engines
       pkgs.hicolor-icon-theme
-      pkgs.hicolor-icon-theme
+      pkgs.hledger
+      pkgs.hledger-web
+      pkgs.httpie
       pkgs.hunspell
-      pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.de_DE
       pkgs.hunspellDicts.en_GB-large
       pkgs.hunspellDicts.en_US
       pkgs.i3status-rust
       pkgs.imagemagick
+      pkgs.imv
+      pkgs.inotify-tools
       pkgs.ispell
       pkgs.isync
       pkgs.j4-dmenu-desktop
+      pkgs.jless
       pkgs.jq
-      pkgs.mediainfo
-      pkgs.poppler
+      pkgs.k9s
       pkgs.kanshi
+      pkgs.khal
+      pkgs.kind
       pkgs.ledger
       pkgs.libnotify
+      pkgs.liboping
       pkgs.libqalculate
+      pkgs.libreoffice
       pkgs.libtool
       pkgs.libvterm
       pkgs.lsof
       pkgs.lxappearance
       pkgs.mako
       pkgs.material-design-icons
+      pkgs.mediainfo
+      pkgs.mesa
+      pkgs.mesa_drivers
       pkgs.mpc_cli
       pkgs.mpv
-      pkgs.ffmpeg-full
       pkgs.msmtp
       pkgs.mtr
       pkgs.mu
+      pkgs.multimarkdown
       pkgs.ncmpcpp
       pkgs.ncspot
-      pkgs.nixfmt
       pkgs.nextcloud-client
+      pkgs.nixfmt
+      pkgs.ntfy-sh
+      pkgs.obs-studio
+      pkgs.obsidian
+      pkgs.pandoc
       pkgs.patchelf
       pkgs.pavucontrol
       pkgs.pcmanfm
       pkgs.pinentry-gtk2
       pkgs.playerctl
       pkgs.pngquant
+      pkgs.poppler
       pkgs.pwgen
-      pkgs.rpm
+      pkgs.python311Packages.pip
+      pkgs.python311Packages.setuptools
+      pkgs.python38Packages.pdftotext
+      pkgs.python3Minimal
       pkgs.qalculate-gtk
+      pkgs.qrencode
+      pkgs.qutebrowser
       pkgs.ripgrep
       pkgs.rocm-opencl-icd
       pkgs.rocm-opencl-runtime
       pkgs.rpm
+      pkgs.ruby
+      pkgs.rubyPackages.net-scp
+      pkgs.rubyPackages.net-ssh
+      pkgs.rubyPackages.pry
+      pkgs.scrot
+      pkgs.shfmt
       pkgs.signal-desktop
       pkgs.slurp
-      pkgs.wlroots
-      pkgs.sway
+      pkgs.socat
+      pkgs.somafm-cli
+      pkgs.spotify-player
+      pkgs.sqlite
       pkgs.starship
+      pkgs.super-slicer-latest
+      pkgs.swappy
+      pkgs.sway
       pkgs.swayidle
       pkgs.swaylock
-      pkgs.wayvnc
       pkgs.tdns-cli
       pkgs.tmux
+      pkgs.tmux-cssh
       pkgs.tmuxinator
+      pkgs.todoman
+      pkgs.toilet
+      pkgs.tree
+      pkgs.unzip
       pkgs.upower
+      pkgs.vale
+      pkgs.vdirsyncer
+      pkgs.viu
+      pkgs.vulkan-loader
+      pkgs.vulkan-validation-layers
+      pkgs.w3m
+      pkgs.wally-cli
+      pkgs.wayvnc
       pkgs.weather-icons
       pkgs.wf-recorder
       pkgs.wl-clipboard
-      pkgs.yt-dlp
-      pkgs.python311Packages.pip
-      pkgs.python311Packages.setuptools
-      pkgs.vdirsyncer
+      pkgs.wlroots
       pkgs.wofi
       pkgs.wol
+      pkgs.wordnet
+      pkgs.wpa_supplicant_gui
       pkgs.wtype
+      pkgs.xdragon
+      pkgs.xplr
       pkgs.xwayland
+      pkgs.yaml-language-server
+      pkgs.ydotool
+      pkgs.yq-go
+      pkgs.yt-dlp
       pkgs.yubikey-manager
       pkgs.yubikey-personalization
       pkgs.zathura
-      pkgs.spotify-player
   ];
 
  home.pointerCursor = {
