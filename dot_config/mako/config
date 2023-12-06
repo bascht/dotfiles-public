@@ -2,7 +2,6 @@ anchor=bottom-center
 width=600
 max-visible=2
 border-radius=2
-group-by=category
 padding=25,10,18,10
 margin=2,0,-8,0
 font=Iosevka Aile 12
