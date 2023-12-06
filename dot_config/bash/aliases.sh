@@ -44,6 +44,7 @@ alias nps="nix search nixpkgs "
 alias osslx="openssl x509 -noout -text"
 alias osslc="openssl s_client -connect"
 alias osslb64="base64 -d | openssl x509 -noout -text"
+alias wlposslx="wl-paste|openssl x509 -noout -text"
 
 alias oyaml="-o yaml"
 alias baml="|bat -l yaml"
