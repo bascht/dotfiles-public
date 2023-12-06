@@ -112,7 +112,7 @@ in
       pkgs.foot
       pkgs.mesa
       pkgs.mesa_drivers
-      pkgs.qutebrowser-qt6
+      pkgs.qutebrowser
       pkgs.delta
       pkgs.any-nix-shell
       pkgs.socat
@@ -191,7 +191,7 @@ in
       pkgs.dmenu
       pkgs.dnsutils
       pkgs.editorconfig-core-c
-      pkgs.exa
+      pkgs.eza
       pkgs.fd
       pkgs.feh
       pkgs.firefox-wayland

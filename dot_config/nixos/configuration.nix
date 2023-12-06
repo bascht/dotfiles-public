@@ -3,7 +3,7 @@
 {
   imports = [];
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
   nix.settings.auto-optimise-store = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "bascht" ];
@@ -101,8 +101,8 @@
   nixpkgs.config.joypixels.acceptLicense = true;
 
   fonts = {
-    enableDefaultFonts = false;
-    fonts = with pkgs; [
+    enableDefaultPackages = false;
+    packages = with pkgs; [
       emacs-all-the-icons-fonts
       font-awesome
       twitter-color-emoji
