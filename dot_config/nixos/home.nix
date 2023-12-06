@@ -95,20 +95,13 @@ in
       pkgs.todoman
       pkgs.khal
       pkgs.calcurse
-      pkgs.janet
-      pkgs.jpm
       pkgs.btop
-      pkgs.android-tools
       pkgs.vale
-      pkgs.openscad
       pkgs.freecad
-      pkgs.cura
-      pkgs.blender
       pkgs.envsubst
       pkgs.wpa_supplicant_gui
       pkgs.vulkan-loader
       pkgs.vulkan-validation-layers
-      pkgs.darktable
       pkgs.foot
       pkgs.mesa
       pkgs.mesa_drivers
@@ -133,7 +126,6 @@ in
       pkgs.wordnet
       pkgs.xdragon
       pkgs.borgmatic
-      pkgs.weechat
       pkgs.docker-compose
       pkgs.toilet
       pkgs.ydotool
@@ -154,12 +146,10 @@ in
       pkgs.godef
       pkgs.libreoffice
       pkgs.awscli2
-      pkgs.kristall
       pkgs.gitAndTools.tig
       pkgs.gitAndTools.lab
       pkgs.gimp
       pkgs.wally-cli
-      # pkgs.poppler_utils
       pkgs.python3Minimal
       pkgs.python38Packages.pdftotext
       pkgs.w3m
@@ -167,17 +157,14 @@ in
       pkgs.rubyPackages.net-scp
       pkgs.rubyPackages.net-ssh
       pkgs.rubyPackages.pry
-      pkgs.xfce.tumbler
       pkgs.ffmpegthumbnailer
       pkgs.adwaita-qt
       pkgs.adementary-theme
-      pkgs.alacritty
       pkgs.appimage-run
       pkgs.enchant
       pkgs.entr
       (pkgs.aspellWithDicts (dicts: with dicts; [de en en-computers en-science]))
       pkgs.bat
-      pkgs.bemenu
       pkgs.obs-studio
       pkgs.binutils
       pkgs.borgbackup
@@ -185,7 +172,6 @@ in
       pkgs.capitaine-cursors
       pkgs.chezmoi
       pkgs.chromium
-      pkgs.openarena
       pkgs.clipman
       pkgs.cmake
       pkgs.dmenu
@@ -215,7 +201,6 @@ in
       pkgs.hledger
       pkgs.gnupg
       pkgs.gnupg-pkcs11-scd
-      pkgs.helix
       pkgs.go
       pkgs.gopass
       pkgs.gore
@@ -254,7 +239,7 @@ in
       pkgs.libvterm
       pkgs.lsof
       pkgs.lxappearance
-      pkgs.mako # notification daemon
+      pkgs.mako
       pkgs.material-design-icons
       pkgs.mpc_cli
       pkgs.mpv
@@ -273,17 +258,13 @@ in
       pkgs.playerctl
       pkgs.pngquant
       pkgs.pwgen
-      pkgs.mc
       pkgs.rpm
       pkgs.qalculate-gtk
       pkgs.ripgrep
       pkgs.rocm-opencl-icd
       pkgs.rocm-opencl-runtime
-      pkgs.rofi
-      pkgs.rofi-calc
       pkgs.rpm
       pkgs.signal-desktop
-      pkgs.silver-searcher
       pkgs.slurp
       pkgs.wlroots
       pkgs.sway
@@ -305,15 +286,11 @@ in
       pkgs.wofi
       pkgs.wol
       pkgs.wtype
-      pkgs.xfce.thunar
-      pkgs.xfce.thunar
-      pkgs.xfce.thunar-volman
       pkgs.xwayland
       pkgs.yubikey-manager
       pkgs.yubikey-personalization
       pkgs.zathura
-      pkgs.spotifyd
-      pkgs.spotify-tui
+      pkgs.spotify-player
   ];
 
  home.pointerCursor = {
