@@ -5,5 +5,7 @@ ORGDIR="/run/user/1000/org"
 # Make sure the directory exists
 mkdir -p "${ORGDIR}"
 
+# Send it to my clock, while we're at it
+emacsclient -n -e "(bascht/send-org-clock-to-ulanzi)"
 # Trim the resulting quotes from emacs eval response
 emacsclient -n -e "(bascht/sway-org-clock-indicator)" | tr -d '"' > "${ORGDIR}/current-task"
