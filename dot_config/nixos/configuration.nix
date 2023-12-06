@@ -108,20 +108,15 @@
       twitter-color-emoji
       jetbrains-mono
       fira
-      mononoki
       fira-mono
       fira-code
-      fantasque-sans-mono
-      overpass
       ibm-plex
-      iosevka
       martian-mono
       roboto
       roboto-mono
       joypixels
-      (iosevka-bin.override { variant = "aile"; })
-      (iosevka-bin.override { variant = "etoile"; })
-      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka"  "NerdFontsSymbolsOnly" "VictorMono" ]; }) ];
+      monaspace
+      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "NerdFontsSymbolsOnly" "VictorMono"]; }) ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = lib.mkBefore [ "Joypixels" "Noto Color Emoji" ];
