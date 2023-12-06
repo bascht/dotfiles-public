@@ -436,7 +436,7 @@ is tomorrow.  With two prefixes, select the deadline."
       (progn
         (run-hooks 'doom-first-input-hook)
         (setq writeroom-width 90)
-        (global-writeroom-mode)
+        ;; (global-writeroom-mode)
         (global-hide-mode-line-mode)
         (ef-themes-select 'ef-duo-light)
         (add-hook 'org-journal-mode-hook
