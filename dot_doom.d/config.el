@@ -414,6 +414,15 @@
   :config
   (obsidian-specify-path "~/WirZwei/Zettelkasten"))
 
+(use-package! org-alert
+  :config
+  (setq
+   alert-default-style 'libnotify
+   org-alert-notify-cutoff 15
+   org-alert-notify-after-event-cutoff 15)
+  (org-alert-enable))
+
+
 (after! markdown-mode
   (set-company-backend! 'markdown-mode '(:separate obsidian-tags-backend company-capf company-dabbrev company-yasnippet company-ispell)))
 

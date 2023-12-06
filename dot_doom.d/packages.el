@@ -15,6 +15,8 @@
 (package! spacious-padding :built-in 'prefer)
 (package! apropospriate-theme :built-in 'prefer)
 (package! literate-calc-mode :built-in 'prefer)
+(package! org-alert :built-in 'prefer)
+(package! simple-mpc :built-in 'prefer)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
