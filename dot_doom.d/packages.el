@@ -3,6 +3,7 @@
 ;(package! pdf-tools :built-in 'prefer)
 ;; (package! dirvish :built-in 'prefer)
 
+(package! mu4e :built-in 'prefer)
 (package! vscode-icon :built-in 'prefer)
 (package! nerd-icons-dired :built-in 'prefer)
 (package! dictcc :built-in 'prefer)
