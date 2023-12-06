@@ -72,31 +72,32 @@
         counsel-org-goto-all-outline-path-prefix 'file-name-nondirectory
         )
 
-(setq org-agenda-files (if (string= (system-name) "apfelstrudel")
-                           '("~/Documents/Zettelkasten" "~/Work/Zettelkasten")
-                         '("~/Documents/Zettelkasten")))
+  (setq org-directory (expand-file-name (if (string= (system-name) "apfelstrudel")
+                                            "~/Work/Zettelkasten"
+                                          "~/Documents/Zettelkasten")))
+
+  (setq org-agenda-files (list org-directory))
 
   (setq org-agenda-current-time-string "	┈ now ┈	")
 
+
+
   (setq org-capture-templates
-        '(("t" "Todo" entry (file "~/Documents/Zettelkasten/Todo.org")
-           "* TODO %?\n  %i")
-          ("m" "MailTodo" entry (file "~/Documents/Zettelkasten/Todo.org")
-          "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
-          ("p" "Print" entry (file+headline "~/Documents/Zettelkasten/Personal.org" "Drucken")
-           "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
-          ("c" "CustomerIssue" entry (file "~/Documents/Zettelkasten/Todo.org")
-           "* TODO issue%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n")
-
-
-          ("a" "Alfaview" entry (file+headline "~/Documents/Zettelkasten/CustomerAlfaview.org" "Arbeitszeiten")
-           "* %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n" :jump-to-captured t :clock-in t)
-
-          ("b" "BlogIdeas" entry (file+olp "~/Documents/Zettelkasten/Projects.org" "bascht.com" "BlogIdeas")
-           "* TODO %?\n  %i")
-
-          ("R" "OpsRetro" entry (file+olp "~/Documents/Zettelkasten/CustomerAlfaview.org" "Meetings" "Ops-Retro")
-           "* TODO %?\n  %i")))
+        (if (string= (system-name) "apfelstrudel")
+            '(("t" "Todo" entry (file "Todo.org")
+               "* TODO %?\n  %i")
+              ("m" "MailTodo" entry (file "Todo.org")
+               "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
+              ("p" "OpsRetro positive" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :+1: %?\n  %i")
+              ("n" "OpsRetro negative" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :-1: %?\n  %i"))
+          '(("t" "Todo" entry (file "Todo.org")
+             "* TODO %?\n  %i")
+            ("m" "MailTodo" entry (file "Todo.org")
+             "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
+            ("p" "Print" entry (file+headline "Personal.org" "Drucken")
+             "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
+            ("b" "BlogIdeas" entry (file+olp "Projects.org" "bascht.com" "BlogIdeas")
+             "* TODO %?\n  %i"))))
 
   (custom-theme-set-faces
    'user
@@ -224,7 +225,8 @@
   (defun bascht/alfatraining-clock-in ()
     (interactive)
     (save-excursion
-      (find-file "/home/bascht/Documents/Zettelkasten/CustomerAlfaview.org")
+
+      (find-file (expand-file-name "Alfaview.org" org-directory))
       (goto-char (point-min))
 
       (let ((month (format-time-string "%Y-%m"))
@@ -330,7 +332,6 @@
     (interactive)
     (find-file (expand-file-name org-file))
     (counsel-org-goto)
-    (org-reveal)
     (org-fold-show-subtree))
 
   (defun bascht/wzzk-find ()
