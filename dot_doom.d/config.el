@@ -324,9 +324,10 @@
    mu4e-compose-format-flowed t
    mu4e-compose-in-new-frame t
    mu4e-get-mail-command "mbsync -a"
-   mu4e-headers-include-related t
+   mu4e-search-include-related t
    mu4e-index-lazy-check nil
    mu4e-index-cleanup t
+   mu4e-use-fancy-chars nil
    sendmail-program "msmtp")
 
   ;; TODO: Until mu 1.10 ~ names are replaced in upstream doom
