@@ -454,6 +454,9 @@ is tomorrow.  With two prefixes, select the deadline."
 (use-package! khalel
   :after org
   :config
+  (setq khalel-import-org-file (expand-file-name "Calendar.org" org-directory))
+  (setq khalel-import-end-date "+14d")
+  (setq khalel-import-org-file-confirm-overwrite nil)
   (khalel-add-capture-template))
 
 (use-package! org-habit
