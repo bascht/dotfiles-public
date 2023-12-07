@@ -118,7 +118,7 @@
         document.addEventListener('readystatechange', async function onReadyStateChange() {
             $("body").on("click", function(e){
 
-                var card = $(e.target).parents("li[data-qa-selector='board_card']").first();
+                var card = $(e.target).parents("li[data-testid='board-card']").first();
                 if(card.length > 0) {
                     enhanceGitLabCard(card)
                 }
