@@ -111,12 +111,16 @@
       fira-mono
       fira-code
       ibm-plex
+      iosevka
       martian-mono
       roboto
       roboto-mono
       joypixels
       monaspace
       (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "NerdFontsSymbolsOnly" "VictorMono"]; }) ];
+      (iosevka-bin.override { variant = "aile"; })
+      (iosevka-bin.override { variant = "etoile"; })
+      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka"  "NerdFontsSymbolsOnly" "VictorMono" ]; }) ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = lib.mkBefore [ "Joypixels" "Noto Color Emoji" ];
