@@ -117,7 +117,6 @@
       roboto-mono
       joypixels
       monaspace
-      (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "NerdFontsSymbolsOnly" "VictorMono"]; }) ];
       (iosevka-bin.override { variant = "aile"; })
       (iosevka-bin.override { variant = "etoile"; })
       (nerdfonts.override { fonts = [ "JetBrainsMono" "IBMPlexMono" "Iosevka"  "NerdFontsSymbolsOnly" "VictorMono" ]; }) ];
@@ -125,10 +124,12 @@
     fontconfig.defaultFonts = {
       emoji = lib.mkBefore [ "Joypixels" "Noto Color Emoji" ];
       monospace = lib.mkBefore [ "IBM Plex Mono" "JetBrains Mono" ];
-      serif = lib.mkBefore [ "Iosevka Etoile" ];
-      sansSerif = lib.mkBefore [ "Iosevka Aile" ];
+      serif = lib.mkBefore [ "IBM Plex Serif" ];
+      sansSerif = lib.mkBefore [ "IBM Plex Sans" ];
     };
   };
+
+  environment.homeBinInPath = true;
 
   environment.systemPackages = with pkgs; [
     home-manager

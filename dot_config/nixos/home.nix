@@ -599,6 +599,21 @@ in
    };
  };
 
+ systemd.user.services.alfaview-sway-event-bus = {
+   Unit = {
+     Description = "alfaview sway event bus";
+     X-RestartIfChanged = "false";
+   };
+   Service = {
+     ExecStart = "/home/bascht/bin/alfaview-sway-event-bus";
+     Restart = "on-failure";
+     RestartSec = 5;
+   };
+   Install = {
+     WantedBy = [ "graphical-session.target" ];
+   };
+ };
+
   services.wlsunset = {
         enable = true;
         latitude = "48.15";
@@ -650,6 +665,7 @@ in
       epkgs.pdf-tools
       epkgs.vscode-icon
       epkgs.mingus
+      epkgs.mu4e
       epkgs.hass
       epkgs.spacious-padding
       epkgs.org-pdftools
