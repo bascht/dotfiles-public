@@ -15,11 +15,10 @@ bind '"\C-n" next-history'
 bind '"\a" "zi; \n"'
 
 # Kubeshizzle
-bind '"\egkk" ". <(_kubeconfig) && kubectx; \n "'
+bind '"\egkc" ". <(_kubeconfig) && kubectx && kubens; \n "'
 bind '"\egkx" "kubectx; \n"'
 bind '"\egkn" "kubens; \n"'
-bind '"\egku" "kubectl "'
-bind '"\egkp" "kubectl get pods;"'
+bind '"\egkk" "kubectl "'
 
 # Yaml Engineering
 bind '"\egoy" "commandline -i -- \"-o yaml\""'
