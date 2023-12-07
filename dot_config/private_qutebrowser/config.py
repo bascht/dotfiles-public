@@ -90,10 +90,10 @@ config.bind(',glp1', ':scroll-to-perc 100;; jseval document.querySelector("texta
 config.bind(',glp2', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::2')
 config.bind(',glp3', ':scroll-to-perc 100;; jseval document.querySelector("textarea#note-body").focus() ;; insert-text /label ~priority::3')
 
-config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)"')
-config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --username-only')
-config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --password-only')
-config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass --username-target secret --username-pattern "user: (.+)" --otp-only')
+config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-dmenu" --username-target secret --username-pattern "user: (.+)"')
+config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-menu" --username-target secret --username-pattern "user: (.+)" --username-only')
+config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-menu" --username-target secret --username-pattern "user: (.+)" --password-only')
+config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-menu" --username-target secret --username-pattern "user: (.+)" --otp-only')
 
 config.bind('ygs', 'spawn get-gitlab-shortcode {url}')
 config.bind('ygm', 'spawn get-gitlab-shortcode-as-markdown {url}')
