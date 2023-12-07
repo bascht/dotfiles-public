@@ -465,9 +465,9 @@
  '(mode-line-inactive ((t (:family "IBM Plex Mono" :height 1.0))))
  '(mu4e-header-highlight-face ((t (:background "lemon chiffon"))))
  '(org-document-title ((t (:height 1.5 :underline nil))))
- '(org-level-1 ((t (:height 1.3 :weight normal))))
- '(org-level-2 ((t (:height 1.2 :weight light))))
- '(org-level-3 ((t (:height 1.1 :weight light)))))
+ '(org-level-1 ((t (:height 1.3 :overline nil :weight normal))))
+ '(org-level-2 ((t (:height 1.2 :overline nil :weight light))))
+ '(org-level-3 ((t (:height 1.1 :overline nil :weight light)))))
 
 (load! "chezmoi.el")
 (load! "mail.el")
