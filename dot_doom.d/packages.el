@@ -10,6 +10,9 @@
 (package! khalel :built-in 'prefer)
 (package! hass :built-in 'prefer)
 
+(package! spacious-padding)
+(package! rainbow-mode)
+
 (package! ef-themes :built-in 'prefer)
 (package! mingus :built-in 'prefer)
 (package! spacious-padding :built-in 'prefer)
