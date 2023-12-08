@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+sudo nixos-rebuild switch
+
+nix-env --delete-generations 7d
+nix-store --gc
+nix-collect-garbage -d

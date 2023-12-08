@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd ~/.local/share/chezmoi/dot_config/nixos
+tn
