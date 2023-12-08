@@ -483,6 +483,15 @@ in
      };
  };
 
+ systemd.user.targets.sway-session = {
+       Unit = {
+             Description = "Sway graphical session target";
+             BindsTo = "graphical-session.target";
+             Wants = "graphical-session-pre.target";
+             After = "graphical-session-pre.target";
+       };
+ };
+
  systemd.user.services.comacs = {
        Unit = {
              Description = "Emacs Coding daemon";

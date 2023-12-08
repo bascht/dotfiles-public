@@ -3,7 +3,7 @@
 systemctl --user import-environment WAYLAND_DISPLAY DISPLAY PATH
 
 systemctl --user start gnome-keyring.service
-systemctl --user start graphical-session.target
+systemctl --user start sway-session.target
 
 dbus-sway-environment
 configure-gtk
