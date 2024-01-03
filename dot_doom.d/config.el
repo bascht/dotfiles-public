@@ -280,7 +280,7 @@
     (progn (+workspace-new name)
            (+workspace-switch name)
            (if directory
-           (find-file directory)
+           (dirvish directory)
              (magit-status-setup-buffer)))))
 
 (defun bascht/move-to-scratchpad()
