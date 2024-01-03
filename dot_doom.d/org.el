@@ -420,6 +420,8 @@ is tomorrow.  With two prefixes, select the deadline."
         '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
           ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
           ("Customer.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+          ("Alfaview" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+          ("Calendar" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
           ("Freelance.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
           ("Projects" "~/.icons/emacs/generic-folder-16x16.png" nil nil :ascent center)
           ("\\(ROPrivat\\|ROArbeit\\)" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
