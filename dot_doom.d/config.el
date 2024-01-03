@@ -6,7 +6,7 @@
   (string= (getenv "EMACS_SERVER_NAME") "comacs"))
 
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Monaspace Radon")
+      doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font")
       doom-serif-font (font-spec :family "IBM Plex Mono")
       doom-symbol-font (font-spec :family "Joypixels")
       doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
