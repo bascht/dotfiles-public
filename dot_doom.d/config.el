@@ -291,6 +291,7 @@
   (interactive)
   (org-set-frame-title "Worklog")
   (org-journal-new-entry nil)
+  (setq indicate-empty-lines nil)
   (evil-append nil))
 
 (defun bascht/mu4e-change-from-to-catchall (msg)
