@@ -430,6 +430,8 @@ is tomorrow.  With two prefixes, select the deadline."
   (add-hook 'org-clock-in-hook 'save-buffer)
   (add-hook 'org-clock-out-hook 'save-buffer))
 
+(use-package! literate-calc-mode)
+
 (use-package! org-journal
   :after (org)
   :init
