@@ -39,6 +39,9 @@ alias kubectx='kubectl config use-context "$( yq .contexts[].name $KUBECONFIG  |
 alias kn="kubens"
 alias nps="nix search nixpkgs "
 
+# Make sure completions still work for aliases
+complete -o default -F __start_kubectl k
+
 # Abbreviations
 
 alias osslx="openssl x509 -noout -text"
