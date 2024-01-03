@@ -347,7 +347,7 @@
 ; Always open new project with dired
 (defun bascht/projectile-open-dired (dir)
   (let ((default-directory (file-truename (expand-file-name dir))))
-    (call-interactively #'projectile-dired)))
+    (dirvish)))
 
 (setq +workspaces-switch-project-function #'bascht/projectile-open-dired)
 
