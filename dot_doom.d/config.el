@@ -230,7 +230,7 @@
     (interactive)
     (dwim-shell-command-on-marked-files
      "Drop to drop.bascht.space"
-     "swaymsg exec -- drop <<f>>"
+     "drop <<f>>"
      :utils "drop"
      :silent-success t
      ))
@@ -240,7 +240,7 @@
     (interactive)
     (dwim-shell-command-on-marked-files
      "Drag files somewhere"
-     "swaymsg exec -- dragon --and-exit <<f>>"
+     "dragon --and-exit <<f>>"
      :utils "dragon"
      :silent-success t
      )))
