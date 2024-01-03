@@ -386,7 +386,6 @@
 
 (after! magit
     (magit-wip-mode)
-    (magit-todos-mode)
     (setq magit-log-arguments '("--graph" "--decorate" "--color")
           magit-delete-by-moving-to-trash nil
           git-commit-summary-max-length 80
