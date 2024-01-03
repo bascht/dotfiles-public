@@ -20,6 +20,7 @@
 (package! literate-calc-mode :built-in 'prefer)
 (package! org-alert :built-in 'prefer)
 (package! simple-mpc :built-in 'prefer)
+(package! magit-todos :disable t)
 
 (when (string= (system-name) "apfelstrudel")
   (package! protobuf-mode)
