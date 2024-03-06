@@ -27,6 +27,7 @@
       ispell-aspell-data-dir "/etc/profiles/per-user/bascht/lib/aspell"
       ispell-aspell-dict-dir ispell-aspell-data-dir
       ruby-insert-encoding-magic-comment nil
+      safe-local-variable-values '((buffer-read-only . 1))
       git-gutter-fr+-side (quote left-fringe)
       helm-org-rifle-show-path t
       doom-dashboard-ascii-banner-fn #'bascht/doom-dashboard-calvin
