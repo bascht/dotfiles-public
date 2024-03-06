@@ -29,6 +29,7 @@
         org-clock-out-remove-zero-time-clocks t
         org-clock-persist t
         org-clock-persist-query-resume nil
+        org-persist-directory (concat user-emacs-directory "org/persist/" (or (getenv "EMACS_SERVER_NAME")  "default"))
         org-clock-report-include-clocking-task t
         org-clock-sound t
         org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM"

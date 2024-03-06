@@ -10,6 +10,7 @@
       doom-serif-font (font-spec :family "IBM Plex Mono")
       doom-symbol-font (font-spec :family "Joypixels")
       doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
+      doom-scratch-dir (concat user-emacs-directory "scratch/" (or (getenv "EMACS_SERVER_NAME")  "default"))
       ef-themes-mixed-fonts t
       emojify-display-style 'unicode
       modus-themes-variable-pitch-ui t
