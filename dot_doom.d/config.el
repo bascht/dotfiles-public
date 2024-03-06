@@ -435,7 +435,7 @@
 (after! dirvish
   (setq dirvish-attributes '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
   (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
-  (setq dirvish-default-layout (list 0 0 0.4))
+  (setq dirvish-default-layout (list 0 0.4))
   (setq dirvish-hide-details t))
 
 (map! :after dired
