@@ -63,6 +63,7 @@
 (setq doom-modeline-persp-name t)
 (setq doom-modeline-modal nil)
 (setq nerd-icons-font-family  "Symbols Nerd Font Mono")
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
 
 (custom-set-faces!
