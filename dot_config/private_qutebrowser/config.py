@@ -16,7 +16,7 @@ c.tabs.favicons.scale = 0.8
 c.tabs.indicator.width = 2
 c.session.lazy_restore = True
 c.url.searchengines = {
-        "DEFAULT": "https://kagi.com/search?q={}",
+        "DEFAULT": "https://www.qwant.com/?theme=-1&hc=1&hti=0&c=pink&ch=none&q={}&t=web",
         "duck": "https://duckduckgo.com/?ia=web&q={}"
         }
 
