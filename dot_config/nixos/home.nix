@@ -501,7 +501,7 @@ in
              X-RestartIfChanged = "false";
        };
        Service = {
-             ExecStart = "${pkgs.bash}/bin/bash -l -c '${pkgs.emacs29-pgtk}/bin/emacs --fg-daemon=comacs'";
+             ExecStart = "${pkgs.bash}/bin/bash -l -c '${config.services.emacs.package}/bin/emacs --fg-daemon=comacs'";
              Restart = "on-failure";
              SuccessExitStatus = 15;
              Type = "notify";
@@ -518,7 +518,7 @@ in
              X-RestartIfChanged = "false";
        };
        Service = {
-             ExecStart = "${pkgs.bash}/bin/bash -l -c '${pkgs.emacs29-pgtk}/bin/emacs --name Worklog --fg-daemon=workmacs'";
+             ExecStart = "${pkgs.bash}/bin/bash -l -c '${config.services.emacs.package}/bin/emacs --name Worklog --fg-daemon=workmacs'";
              Restart = "on-failure";
              SuccessExitStatus = 15;
              Type = "notify";
