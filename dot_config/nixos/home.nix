@@ -236,6 +236,9 @@ in
       pkgs.rubyPackages.pry
       pkgs.scrot
       pkgs.shfmt
+      pkgs.bitwarden
+      pkgs.bitwarden-cli
+      pkgs.rofi-rbw-wayland
       pkgs.signal-desktop
       pkgs.slurp
       pkgs.socat
