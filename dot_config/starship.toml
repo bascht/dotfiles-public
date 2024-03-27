@@ -100,4 +100,6 @@ disabled = false
 "cluster-hcloud-.*(?P<var_cluster>[\\w-]+)" = "hcl-$var_cluster"
 "gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
 
-
+[golang]
+format = 'via [🏎💨 $version](bold cyan) '
+#format = 'via [$symbol($version )($mod_version )]($style)'
