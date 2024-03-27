@@ -456,6 +456,8 @@
   (interactive)
   (magit-call-git "checkout" (magit-main-branch))
   (magit-pull-from-upstream))
+(custom-set-variables
+ '(safe-local-variable-values '((buffer-read-only . 1))))
 
 (custom-set-faces
  '(mode-line ((t (:family "IBM Plex Mono" :weight normal :height 1.0))))
