@@ -112,6 +112,9 @@ in
       pkgs.dmenu
       pkgs.dnsutils
       pkgs.docker-compose
+      pkgs.dockfmt
+      pkgs.cljfmt
+      pkgs.clj-kondo
       pkgs.editorconfig-core-c
       pkgs.enchant
       pkgs.entr
