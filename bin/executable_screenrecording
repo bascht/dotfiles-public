@@ -9,5 +9,5 @@ if [[ -n "${*}" ]]; then
 	NAME="${NAME}-${*}";
 fi;
 
-wf-recorder -d /dev/dri/renderD128 -c libvpx-vp9 -g "$(slurp-window)" -f "${NAME}.webm" > /dev/null 2>&1
+wf-recorder -g "$(slurp-window)" -f "${NAME}.mp4"
 echo -e "\n\n${NAME}.webm"
