@@ -7,6 +7,7 @@
 
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font")
+      doom-big-font (font-spec :family "JetBrains Mono" :size 24)
       doom-serif-font (font-spec :family "IBM Plex Mono")
       doom-symbol-font (font-spec :family "Joypixels")
       doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
