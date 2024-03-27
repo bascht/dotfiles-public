@@ -674,34 +674,33 @@ in
   programs.emacs = {
     enable = true;
     package = pkgs.emacs29-pgtk;
-    extraPackages = epkgs: [ 
-      epkgs.apropospriate-theme
-      epkgs.zoxide
-      epkgs.vterm 
-      epkgs.pdf-tools
-      epkgs.vscode-icon
-      epkgs.mingus
-      epkgs.mu4e
-      epkgs.hass
-      epkgs.spacious-padding
-      epkgs.org-pdftools
-      epkgs.org-super-agenda
-      epkgs.org-mru-clock
-      epkgs.org-journal
-      epkgs.org-alert
-      epkgs.org-caldav
-      epkgs.csv-mode
-      epkgs.ef-themes
-      epkgs.literate-calc-mode
-      epkgs.dwim-shell-command
-      epkgs.obsidian
-      epkgs.nerd-icons-dired
-      epkgs.scad-mode
-      epkgs.dirvish
-      epkgs.zoxide
-      epkgs.dictcc
-      epkgs.toml-mode
-      epkgs.janet-mode
+    extraPackages = epkgs: [
+        epkgs.apropospriate-theme
+        epkgs.zoxide
+        epkgs.vterm 
+        epkgs.pdf-tools
+        epkgs.vscode-icon
+        epkgs.mingus
+        epkgs.benchmark-init
+        epkgs.mu4e
+        epkgs.hass
+        epkgs.spacious-padding
+        epkgs.org-pdftools
+        epkgs.org-super-agenda
+        epkgs.org-mru-clock
+        epkgs.org-journal
+        epkgs.org-alert
+        epkgs.org-caldav
+        epkgs.csv-mode
+        epkgs.ef-themes
+        epkgs.literate-calc-mode
+        epkgs.dwim-shell-command
+        epkgs.obsidian
+        epkgs.nerd-icons-dired
+        epkgs.dirvish
+        epkgs.zoxide
+        epkgs.dictcc
+        epkgs.toml-mode
     ];
   };
 

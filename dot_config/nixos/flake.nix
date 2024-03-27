@@ -9,10 +9,14 @@
     url = "git+https://git.dorhamm.me/bascht/nixos-private.git?ref=main";
     inputs.nixpkgs.follows = "nixpkgs";
   };
-
-  outputs = { self, nixpkgs, nixos-hardware, bascht-private, home-manager }: {
+  inputs.emacs-overlay = {
+    url = "github:nix-community/emacs-overlay";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+  outputs = { self, nixpkgs, nixos-hardware, bascht-private, home-manager, emacs-overlay}@inputs: {
     nixosConfigurations.pierogi = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         nixos-hardware.nixosModules.lenovo-thinkpad-t14s
         ./configuration.nix
@@ -30,6 +34,7 @@
     };
     nixosConfigurations.apfelstrudel = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         nixos-hardware.nixosModules.lenovo-thinkpad-t14s
         ./configuration.nix
