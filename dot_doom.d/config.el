@@ -193,6 +193,17 @@
  :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next
  )
 
+(map!
+ :after mu4e
+ :map (mu4e-headers-mode-map mu4e-view-mode-map)
+ :localleader
+ "g" (lambda () (interactive) (save-excursion
+                                (progn (goto-char (point-min))
+                                       (search-forward "view it on GitLab")
+                                       (backward-word)
+                                       (shr-browse-url))))
+ )
+
 ;; https://micro.rousette.org.uk/2021/01/03/a-useful-binding.html
 (map!
  (:map 'override
