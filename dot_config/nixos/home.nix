@@ -108,6 +108,7 @@ in
       pkgs.cmake
       pkgs.delta
       pkgs.dict
+      pkgs.dive
       pkgs.dmenu
       pkgs.dnsutils
       pkgs.docker-compose
