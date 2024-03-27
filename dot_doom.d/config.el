@@ -482,6 +482,12 @@
     (add-hook 'kill-buffer-hook 'bascht/checkout-mr-after-creation 90 t)
     (insert "/create_merge_request")))
 
+(defun bascht/projectile-get-started ()
+  ;; Open up a new project and reset to main / master + pull
+  (interactive)
+  (magit-call-git "checkout" (magit-main-branch))
+  (magit-pull-from-upstream))
+
 (custom-set-faces
  '(mode-line ((t (:family "IBM Plex Mono" :weight normal :height 1.0))))
  '(mode-line-active ((t (:family "IBM Plex Mono" :height 1.0)))) ; For 29+
