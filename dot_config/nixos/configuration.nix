@@ -16,7 +16,6 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
-
   networking = {
     useDHCP = true;
     networkmanager.enable = false;
@@ -142,7 +141,6 @@
     wireguard-tools
     openvpn
     openssl
-    ledger-udev-rules
   ];
 
   virtualisation = {
