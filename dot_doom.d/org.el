@@ -448,6 +448,11 @@ is tomorrow.  With two prefixes, select the deadline."
         (ef-themes-select 'ef-cyprus)
         (add-hook 'org-journal-mode-hook
                   (lambda () (add-hook 'after-save-hook 'delete-frame)))
+        ; Somehow my brain mapped this shortcut in org-journal mode
+        ; Oh yes, you know why? Because they feel like I finish a "git commit" :D
+        (map! :after org-journal
+              :map org-journal-mode-map
+              :n "C-c C-c" #'save-buffer)
         (setq server-client-instructions nil) ;; hide noisy minibuffer
         (org-journal-open-current-journal-file)))
   :config
