@@ -48,7 +48,7 @@
        :tools
        (lsp +peek)
        (debugger +lsp)
-       docker
+       (docker +lsp)
        editorconfig      ; let someone else argue about tabs vs spaces
        (eval +overlay)     ; run code, run (also, repls)
        (lookup +docsets +dictionary) ; navigate your code and its documentation
@@ -64,15 +64,16 @@
        tty               ; improve the terminal Emacs experience
 
        :lang
-       (emacs-lisp +tree-sitter)                                                  ; drown in parentheses
+       (emacs-lisp +lsp +tree-sitter)                                                  ; drown in parentheses
        (go +lsp +tree-sitter)                                                     ; the hipster dialect
+       clojure
        json                                                                       ; At least it ain't XML
        ledger                                                                     ; an accounting system in Emacs
-       markdown                                                                   ; writing docs for people to ignore
-       nix                                                                        ; I hereby declare "nix geht mehr!"
+       (markdown +lsp +tree-sitter)                                                                   ; writing docs for people to ignore
+       (nix +lsp +tree-sitter)                                                                        ; I hereby declare "nix geht mehr!"
        (org +gnuplot +dragndrop +journal +pandoc +present +hugo +habit +noter) ; organize your plain life in plain text
-       (ruby +rails)                                                              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (sh +fish)                                                                 ; she sells {ba,z,fi}sh shells on the C xor
+       (ruby)                                                              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       (sh +lsp +tree-sitter)                                                                 ; she sells {ba,z,fi}sh shells on the C xor
        (yaml +lsp +tree-sitter)                                                   ; JSON, but readable
 
        :email
