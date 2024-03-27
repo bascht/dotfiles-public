@@ -226,9 +226,10 @@
   (interactive)
   (bascht/switch-spellcheck "de_DE")
   (spell-fu-mode))
-(use-package! zoxide)
+(use-package! zoxide :defer t)
 
 (use-package! dwim-shell-command
+  :defer t
   :init
 
   (defun dwim-shell-command-convert-to-gif ()
@@ -391,6 +392,7 @@
 (add-hook! 'terraform-mode-hook   #'format-all-mode)
 
 (use-package! markdown-mode
+  :defer t
   :init
   (setq markdown-enable-wiki-links t
         markdown-wiki-link-search-type '(sub-directories parent-directories)
@@ -414,7 +416,7 @@
 
 (add-hook 'prog-mode-hook (lambda () (setq company-idle-delay 0.2)))
 
-(use-package! dictcc)
+(use-package! dictcc :defer t)
 (after! dap
   (unless (display-graphic-p)
     (set-face-background 'dap-ui-marker-face "orange")
@@ -423,13 +425,15 @@
     (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
 
 (use-package! ef-themes)
-(use-package! apropospriate-theme)
-(use-package! khalel)
+(use-package! apropospriate-theme :defer t)
+(use-package! khalel :defer t)
 (use-package! obsidian
+  :defer t
   :config
   (obsidian-specify-path "~/WirZwei/Zettelkasten"))
 
 (use-package! org-alert
+  :defer t
   :config
   (setq
    alert-default-style 'libnotify
@@ -437,14 +441,16 @@
    org-alert-notify-after-event-cutoff 15)
   (org-alert-enable))
 
-(use-package! spacious-padding)
+(use-package! spacious-padding :defer t)
 
 (after! markdown-mode
   (set-company-backend! 'markdown-mode '(:separate obsidian-tags-backend company-capf company-dabbrev company-yasnippet company-ispell)))
 
 (add-hook! markdown-mode-hook 'spell-fu-mode)
 
+(use-package! dirvish :defer t)
 (after! dirvish
+  (dirvish-override-dired-mode)
   (setq dirvish-attributes '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
   (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
   (setq dirvish-default-layout (list 0 0.4))
