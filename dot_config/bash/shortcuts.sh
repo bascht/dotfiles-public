@@ -15,7 +15,7 @@ bind '"\C-n" next-history'
 bind '"\a" "zi; \n"'
 
 # Kubeshizzle
-bind '"\egkc" ". <(_kubeconfig) && kubectx && kubens; \n "'
+bind '"\egkc" ". <(_kubeconfig)\n "'
 bind '"\egkx" "kubectx; \n"'
 bind '"\egkn" "kubens; \n"'
 bind '"\egkk" "kubectl "'
