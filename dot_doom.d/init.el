@@ -3,8 +3,9 @@
 
 (doom! :input
        :completion
-       company           ; the ultimate code completion backend
+       ;; (company +childframe +tng)           ; the ultimate code completion backend
        ;(ivy -fuzzy +prescient +icons) ; a search engine for love and life
+       (corfu +icons +orderless +dabbrev)
        (vertico +icons)
 
        :ui
