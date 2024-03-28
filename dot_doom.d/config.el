@@ -31,7 +31,6 @@
       safe-local-variable-values '((buffer-read-only . 1))
       git-gutter-fr+-side (quote left-fringe)
       helm-org-rifle-show-path t
-      doom-dashboard-ascii-banner-fn #'bascht/doom-dashboard-calvin
       frame-title-format (concat "%b - " user-login-name "@" (system-name))
       browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
       hl-todo-keyword-faces
@@ -75,7 +74,7 @@
   )
 
 (defun doom-dashboard-draw-ascii-banner-fn ()
-  (let* ((banner '("""(┛❍ᴥ❍﻿)┛彡┻━┻"""))
+  (let* ((banner '("""┻━┻ ︵ ¯\(ツ)/¯ ︵ ┻━┻"""))
          (longest-line (apply #'max (mapcar #'length banner))))
     (put-text-property
      (point)
