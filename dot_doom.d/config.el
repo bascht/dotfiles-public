@@ -457,7 +457,8 @@
   ;; Open up a new project and reset to main / master + pull
   (interactive)
   (magit-call-git "checkout" (magit-main-branch))
-  (magit-pull-from-upstream))
+  (magit-run-git-with-editor "pull"))
+
 (custom-set-variables
  '(safe-local-variable-values '((buffer-read-only . 1))))
 
