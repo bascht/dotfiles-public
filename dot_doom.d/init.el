@@ -4,7 +4,7 @@
 (doom! :input
        :completion
        ;; (company +childframe +tng)           ; the ultimate code completion backend
-       ;(ivy -fuzzy +prescient +icons) ; a search engine for love and life
+                                        ;(ivy -fuzzy +prescient +icons) ; a search engine for love and life
        (corfu +icons +orderless +dabbrev)
        (vertico +icons)
 
@@ -17,7 +17,7 @@
        indent-guides     ; highlighted indent columns
        nav-flash         ; blink cursor line after big motions
        ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       (popup +all +defaults)   ; tame sudden yet inevitable temporary windows
        ;; treemacs          ; a project drawer, like neotree but cooler
        (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -29,7 +29,7 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       format            ; automated prettiness
+       (format +onsave)  ; automated prettiness
        ;; parinfer
        multiple-cursors  ; editing in many places at once
        snippets          ; my elves. They type so I don't have to
@@ -43,7 +43,7 @@
        :checkers
        (syntax +childframe)      ; tasing you for every semicolon you forget
        (spell +aspell)   ; tasing you for misspelling mispelling
-       ;grammar           ; tasing grammar mistake every you make
+                                        ;grammar           ; tasing grammar mistake every you make
 
        :tools
        (lsp +peek)
@@ -81,7 +81,7 @@
 
        :app
        calendar
-       ;everywhere        ; *leave* Emacs!? You must be joking
+                                        ;everywhere        ; *leave* Emacs!? You must be joking
        (rss +org)        ; emacs as an RSS reader
 
        :config
