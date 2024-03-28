@@ -416,8 +416,8 @@
 
 (add-hook! markdown-mode-hook 'spell-fu-mode)
 
-(use-package! dirvish :defer t)
-(after! dirvish
+(use-package! dirvish
+  :config
   (dirvish-override-dired-mode)
   (setq dirvish-attributes '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
   (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
