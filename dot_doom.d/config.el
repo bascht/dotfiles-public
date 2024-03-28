@@ -141,48 +141,42 @@
       :desc "Insert new Journal entry" "C-j" #'org-journal-new-entry
       :desc "Insert new Journal entry" "C-RET" #'org-journal-new-entry)
 
-(map!
-   :after markdown-mode
-   :map evil-markdown-mode-map
-   :i "M-b" #'backward-word
-   )
+(map! :after markdown-mode
+      :map evil-markdown-mode-map
+      :i "M-b" #'backward-word
+      )
 
-(map!
-   :after mu4e
-   :map mu4e-view-mode-map :vn
-   "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
+(map! :after mu4e
+      :map mu4e-view-mode-map :vn
+      "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
 
-(map!
-   :after mu4e
-   :map mu4e-headers-mode-map :vn
-   "T" (lambda () (interactive) (mu4e-headers-mark-thread nil '(refile))))
+(map! :after mu4e
+      :map mu4e-headers-mode-map :vn
+      "T" (lambda () (interactive) (mu4e-headers-mark-thread nil '(refile))))
 
-(map!
- :after mu4e
- :map (mu4e-headers-mode-map mu4e-view-mode-map) :vn
- :desc "Back to last search" "<backspace>" #'mu4e-search-prev
- :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next
- )
+(map! :after mu4e
+      :map (mu4e-headers-mode-map mu4e-view-mode-map) :vn
+      :desc "Back to last search" "<backspace>" #'mu4e-search-prev
+      :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next
+      )
 
-(map!
- :after mu4e
- :map (mu4e-headers-mode-map mu4e-view-mode-map)
- :localleader
- "g" (lambda () (interactive) (save-excursion
-                                (progn (goto-char (point-min))
-                                       (search-forward "view it on GitLab")
-                                       (backward-word)
-                                       (shr-browse-url))))
- )
+(map! :after mu4e
+      :map (mu4e-headers-mode-map mu4e-view-mode-map)
+      :localleader
+      "g" (lambda () (interactive) (save-excursion
+                                     (progn (goto-char (point-min))
+                                            (search-forward "view it on GitLab")
+                                            (backward-word)
+                                            (shr-browse-url))))
+      )
 
 ;; https://micro.rousette.org.uk/2021/01/03/a-useful-binding.html
-(map!
- (:map 'override
-   :v "v" #'er/expand-region
-   :v "V" #'er/contract-region))
+(map! (:map 'override
+       :v "v" #'er/expand-region
+       :v "V" #'er/contract-region))
 
-; Define quick helper switches to switch between languages while
-; keeping distinct personal dictionaries for both of them
+                                        ; Define quick helper switches to switch between languages while
+                                        ; keeping distinct personal dictionaries for both of them
 (defun bascht/switch-spellcheck (lang)
   (interactive)
   (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
@@ -252,13 +246,13 @@
   (solaire-global-mode -1))
 
 (after! writeroom-mode
-       (setq +zen-text-scale 0.8))
+  (setq +zen-text-scale 0.8))
 
-; Don't add #0 #1 #2 #3… workspaces :D
+                                        ; Don't add #0 #1 #2 #3… workspaces :D
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
-; Directly create a matching workspace for the project (when launched with `bin/tn')
+                                        ; Directly create a matching workspace for the project (when launched with `bin/tn')
 (defun bascht/switch-to-or-load-workspace (name &optional directory)
   (interactive)
   (persp-mode)
@@ -266,9 +260,7 @@
       (+workspace-switch name)
     (progn (+workspace-new name)
            (+workspace-switch name)
-           (if directory
-           (dirvish directory)
-             (magit-status-setup-buffer)))))
+           (magit-status-setup-buffer))))
 
 (defun bascht/move-to-scratchpad()
   (shell-command "swaymsg move scratchpad"))
@@ -286,7 +278,7 @@
   (setq user-mail-address
         (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
             (plist-get (car-safe (mu4e-message-field msg :to)) :email)
-            (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
+          (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
 
 (after! flycheck
   (flycheck-define-checker vale
@@ -325,13 +317,13 @@
   (defalias 'mu4e~view-gather-mime-parts 'mu4e--view-gather-mime-parts)
   (defalias 'mu4e~view-mime-part-to-temp-file 'mu4e--view-mime-part-to-temp-file))
 
-; Disable spell-fu-mode globally
+                                        ; Disable spell-fu-mode globally
 (remove-hook 'text-mode-hook #'spell-fu-mode)
 
 (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
 
-; Always open new project with dired
+                                        ; Always open new project with dired
 (defun bascht/projectile-open-dired (dir)
   (let ((default-directory (file-truename (expand-file-name dir))))
     (dirvish)))
@@ -339,28 +331,29 @@
 (setq +workspaces-switch-project-function #'bascht/projectile-open-dired)
 
 (add-hook! 'yaml-mode-hook
-          (setq auto-fill-mode -1)
-          (flycheck-select-checker 'yaml-yamllint))
+  (setq auto-fill-mode -1)
+  (flycheck-select-checker 'yaml-yamllint))
 
 (add-hook! 'git-commit-mode-hook
-                                  (end-of-line)
-                                  (spell-fu-mode)
-                                  (bascht/switch-spellcheck "en_GB")
-                                  (evil-insert-state))
+  (end-of-line)
+  (spell-fu-mode)
+  (bascht/switch-spellcheck "en_GB")
+  (evil-insert-state))
 
 (add-hook! 'org-capture-mode-hook
-                                  (bascht/switch-spellcheck "de_DE")
-                                  (evil-insert-state))
+  (bascht/switch-spellcheck "de_DE")
+  (evil-insert-state))
 
 (add-hook! 'mu4e-compose-pre-hook
-                                  (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
-                                  (spell-fu-mode)
-                                  (bascht/switch-spellcheck "de_DE")
-                                  (evil-insert-state))
+  (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
+  (spell-fu-mode)
+  (bascht/switch-spellcheck "de_DE")
+  (evil-insert-state))
 
 (add-hook! 'mu4e-view-mode-hook (variable-pitch-mode))
 
-(add-hook! 'terraform-mode-hook   #'format-all-mode)
+(setq +format-on-save-enabled-modules '(terraform-mode
+                                        go-mode))
 
 (use-package! markdown-mode
   :defer t
@@ -373,13 +366,13 @@
 
 
 (after! magit
-    (magit-wip-mode)
-    (setq magit-log-arguments '("--graph" "--decorate" "--color")
-          magit-delete-by-moving-to-trash nil
-          git-commit-summary-max-length 80
-          transient-values '((magit-rebase "--autosquash" "--autostash")
-                             (magit-pull "--rebase" "--autostash")
-                             (magit-revert "--autostash"))))
+  (magit-wip-mode)
+  (setq magit-log-arguments '("--graph" "--decorate" "--color")
+        magit-delete-by-moving-to-trash nil
+        git-commit-summary-max-length 80
+        transient-values '((magit-rebase "--autosquash" "--autostash")
+                           (magit-pull "--rebase" "--autostash")
+                           (magit-revert "--autostash"))))
 (defun bascht/file-string (file)
   "Read the contents of a file and return as a string."
   (with-current-buffer (find-file-noselect file)
