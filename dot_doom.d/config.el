@@ -410,7 +410,7 @@
    org-alert-notify-after-event-cutoff 15)
   (org-alert-enable))
 
-(use-package! spacious-padding :defer t)
+(use-package! spacious-padding)
 
 (after! markdown-mode
   (set-company-backend! 'markdown-mode '(:separate obsidian-tags-backend company-capf company-dabbrev company-yasnippet company-ispell)))
