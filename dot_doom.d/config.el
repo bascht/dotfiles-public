@@ -62,6 +62,8 @@
 (setq doom-modeline-time nil)
 (setq doom-modeline-persp-name t)
 (setq doom-modeline-modal nil)
+
+(nerd-icons-dired-mode -1)
 (setq nerd-icons-font-family  "Symbols Nerd Font Mono")
 (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
@@ -420,7 +422,7 @@
 (use-package! dirvish
   :config
   (dirvish-override-dired-mode)
-  (setq dirvish-attributes '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
+  (setq dirvish-attributes '(vc-state subtree-state nerd-icons collapse git-msg file-time file-size))
   (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
   (setq dirvish-default-layout (list 0 0.4))
   (setq dirvish-hide-details t))
