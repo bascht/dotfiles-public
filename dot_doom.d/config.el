@@ -74,7 +74,7 @@
   )
 
 (defun doom-dashboard-draw-ascii-banner-fn ()
-  (let* ((banner '("""┻━┻ ︵ ¯\(ツ)/¯ ︵ ┻━┻"""))
+  (let* ((banner '("""┻━┻ ︵ ¯\\(ツ)/¯ ︵ ┻━┻"""))
          (longest-line (apply #'max (mapcar #'length banner))))
     (put-text-property
      (point)
