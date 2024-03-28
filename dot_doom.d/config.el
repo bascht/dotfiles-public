@@ -89,6 +89,7 @@
 
 (map! :leader
       :desc "Org capture"    "SPC" #'org-capture
+      :desc "Quick ace window" "w SPC" #'ace-window
       (:prefix-map ("l" . "bascht/personal")
        :desc "Start my daily review"  "d" #'bascht/daily-review
        :desc "Run table formatter"    "tf" #'org-table-calc-current-TBLFM
