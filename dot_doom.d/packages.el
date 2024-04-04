@@ -12,6 +12,7 @@
 (package! ace-window :built-in 'prefer)
 (package! spacious-padding)
 (package! rainbow-mode)
+(package! lab)
 
 (package! ef-themes :built-in 'prefer)
 (package! mingus :built-in 'prefer)
