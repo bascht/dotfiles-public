@@ -22,7 +22,7 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 set $display_teleprompter "Mediatrix Peripherals Inc MPI7002 0x00000001"
 
 ### Output configuration
-output * bg ~/Pictures/Wallpapers/christmas-stockings.jpg fill
+output * bg ~/Pictures/Wallpapers/spring-mountains-colourful.jpg fill
 
 output $display_lg mode 3440x1440@49.987Hz pos 1200 600
 output $display_dell mode 1920x1200@59.950Hz transform 90 pos 0 0
