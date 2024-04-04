@@ -493,9 +493,13 @@
  '(safe-local-variable-values '((buffer-read-only . 1))))
 
 (custom-set-faces
+ '(avy-lead-face ((t (:inherit isearch :background "deep pink" :foreground "snow"))))
  '(mode-line ((t (:family "IBM Plex Mono" :weight normal :height 1.0))))
- '(mode-line-active ((t (:family "IBM Plex Mono" :height 1.0)))) ; For 29+
+ '(mode-line-active ((t (:family "IBM Plex Mono" :height 1.0))))
  '(mode-line-inactive ((t (:family "IBM Plex Mono" :height 1.0))))
+ '(mu4e-unread-face ((t (:weight medium :foreground "gray10"))))
+ '(mu4e-flagged-face ((t (:weight medium :foreground "DeepPink"))))
+ '(mu4e-system-face ((t (:family "IBM Plex Mono" :foreground "gray60"))))
  '(mu4e-header-highlight-face ((t (:background "lemon chiffon"))))
  '(org-document-title ((t (:height 1.5 :underline nil))))
  '(org-level-1 ((t (:height 1.3 :overline nil :weight normal))))
