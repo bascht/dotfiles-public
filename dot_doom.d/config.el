@@ -483,6 +483,12 @@
   (magit-call-git "checkout" (magit-main-branch))
   (magit-run-git-with-editor "pull"))
 
+(after! elfeed
+  (elfeed-org)
+  (use-package! elfeed-link)
+  (setq elfeed-search-filter "@1-month-ago +unread"
+        rmh-elfeed-org-files `(,(expand-file-name "Feeds.org" org-directory))))
+
 (custom-set-variables
  '(safe-local-variable-values '((buffer-read-only . 1))))
 
