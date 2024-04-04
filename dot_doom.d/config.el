@@ -383,8 +383,10 @@
 
 (add-hook! 'mu4e-view-mode-hook (variable-pitch-mode))
 
-(setq +format-on-save-enabled-modules '(terraform-mode
-                                        go-mode))
+(add-hook! 'terraform-mode-hook   #'format-all-mode)
+(setq +format-on-save-enabled-modules
+      '( terraform-mode
+         go-mode))
 
 (use-package! markdown-mode
   :defer t
