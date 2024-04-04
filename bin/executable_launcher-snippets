@@ -14,6 +14,5 @@ if [[ -n "${QUERY}" ]]; then
 else
     SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n"| fzf -q "${QUERY}" --preview-window="top:5" --preview="$0 --preview {}")
 fi;
-    sleep 0.2
 
-swaymsg exec -- "wtype - < ${SNIPPET_DIR}/${SNIPPET}"
+swaymsg exec -- "wl-copy < ${SNIPPET_DIR}/${SNIPPET} && wtype -M ctrl v"
