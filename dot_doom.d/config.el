@@ -308,7 +308,38 @@
    mu4e-index-lazy-check nil
    mu4e-index-cleanup t
    mu4e-use-fancy-chars nil
-   sendmail-program "msmtp")
+   sendmail-program "msmtp"
+
+   mu4e-headers-draft-mark     '("D" . "💈")
+   mu4e-headers-flagged-mark   '("F" . "📍")
+   mu4e-headers-new-mark       '("N" . "🆕")
+   mu4e-headers-passed-mark    '("P" . "➡")
+   mu4e-headers-replied-mark   '("R" . "↩")
+   mu4e-headers-seen-mark      '("S" . "☑")
+   mu4e-headers-trashed-mark   '("T" . "💀")
+   mu4e-headers-attach-mark    '("a" . "📎")
+   mu4e-headers-encrypted-mark '("x" . "🔒")
+   mu4e-headers-signed-mark    '("s" . "🔑")
+   mu4e-headers-unread-mark    '("u" . "✉")
+   mu4e-headers-list-mark      '("l" . "")
+   mu4e-headers-personal-mark  '("p" . "")
+   mu4e-headers-calendar-mark  '("c" . "📅")
+   mu4e-headers-fields '((:human-date . 6)
+                         (:flags . 4)
+                         (:account-stripe . 2)
+                         (:from-or-to . 25)
+                         ;; (:recipnum . 3)
+                         ;; (:list . 20)
+                         (:subject . 100))
+   +mu4e-min-header-frame-width 142
+   mu4e-headers-date-format "%d.%m."
+   mu4e-headers-time-format "%H:%M"
+   mu4e-search-results-limit 1500
+   mu4e-headers-visible-lines 15
+   mu4e-headers-visible-columns 135
+   mu4e-use-fancy-chars t
+   mu4e-index-cleanup t)
+  )
 
   ;; TODO: Until mu 1.10 ~ names are replaced in upstream doom
   ;; (defalias '+mu4e~main-action-str-prettier-mu4e '+a--main-action-str-prettier-a)
