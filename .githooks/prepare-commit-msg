@@ -14,10 +14,11 @@ case "${FIRST_FILE}" in
     .githooks/*|README.org)
         PREFIX="meta"
         ;;
+    .forgejo/*)
+        PREFIX="ci"
+        ;;
     *)
         PREFIX=""
 esac
 
-if [[ -n "${PREFIX}" ]]; then
-    sed -i "1s/^/[${PREFIX}] /" "${COMMIT_MSG_FILE}"
-fi;
+sed -i "1s/^/[${PREFIX}] /" "${COMMIT_MSG_FILE}"
