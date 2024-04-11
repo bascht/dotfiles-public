@@ -5,6 +5,12 @@
   config = {
     networking.hostName = "pierogi";
 
+    # Syncthing + SSH
+    networking.firewall = {
+	    allowedTCPPorts = [ 22 22000 ];
+	    allowedUDPPorts = [ 22000 21027 ];
+    };
+
     boot.initrd.luks.devices = {
       root = {
         device = "/dev/disk/by-uuid/00b9f4c9-396a-4078-9d99-c00e3a0070be";

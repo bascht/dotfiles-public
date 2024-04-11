@@ -11,10 +11,11 @@
     systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
     virtualisation.podman.defaultNetwork.dnsname.enable = true;
 
-    networking = {
-      firewall.allowedTCPPorts = [ 22 53 80 81 443 9100 ];
-      firewall.allowedUDPPorts = [ 53 ];
+    networking.firewall = {
+      allowedTCPPorts = [ 22 53 80 81 443 9100 ];
+      allowedUDPPorts = [ 53 ];
     };
+
     fileSystems."/" =
       {
         device = "/dev/mapper/vg-root";
