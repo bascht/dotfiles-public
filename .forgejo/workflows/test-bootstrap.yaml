@@ -1,0 +1,12 @@
+---
+on: [push]
+jobs:
+  ls:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          id
+          whoami
+          ls -lha
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply bascht
