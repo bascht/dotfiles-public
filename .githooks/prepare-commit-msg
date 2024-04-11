@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+COMMIT_MSG_FILE=$1
+
+FIRST_FILE=$(grep 'Changes to be committed:' -A1 "${COMMIT_MSG_FILE}" | grep -oP '(new file|modified):\s+\K\S+')
+
+case "${FIRST_FILE}" in
+    dot_config/nixos*)
+        PREFIX="nix"
+        ;;
+    dot_doom.d/config.org*)
+        PREFIX="doom"
+        ;;
+    .githooks/*|README.org)
+        PREFIX="meta"
+        ;;
+    *)
+        PREFIX=""
+esac
+
+if [[ -n "${PREFIX}" ]]; then
+    sed -i "1s/^/[${PREFIX}] /" "${COMMIT_MSG_FILE}"
+fi;
