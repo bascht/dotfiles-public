@@ -291,6 +291,10 @@ in {
     pkgs.xdragon
     pkgs.xplr
     pkgs.xwayland
+    pkgs.nodePackages.bash-language-server
+    pkgs.nixd
+    pkgs.terraform-ls
+    pkgs.terraform-lsp
     pkgs.yaml-language-server
     pkgs.ydotool
     pkgs.yq-go
