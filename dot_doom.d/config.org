@@ -5,6 +5,7 @@ First stab at importing and ordering everything that used to live in =~/.doom.d/
 * Global settings
 
 Make sure we can tell comacs (my code editor config) from the rest of the pack.
+
 #+begin_src emacs-lisp
   (defun bascht/is-comacs()
     (string= (car-safe doom-profile) "comacs"))
@@ -67,43 +68,39 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 
 ** Hooks
 #+begin_src emacs-lisp
-(remove-hook 'text-mode-hook #'spell-fu-mode)
+  (remove-hook 'text-mode-hook #'spell-fu-mode)
 
-(add-hook! 'yaml-mode-hook
-  (setq auto-fill-mode -1)
-  (flycheck-select-checker 'yaml-yamllint))
+  (add-hook! 'yaml-mode-hook
+    (setq auto-fill-mode -1)
+    (flycheck-select-checker 'yaml-yamllint))
 
-(add-hook! 'git-commit-mode-hook
-  (end-of-line)
-  (spell-fu-mode)
-  (bascht/switch-spellcheck "en_GB")
-  (evil-insert-state))
+  (add-hook! 'git-commit-mode-hook
+    (end-of-line)
+    (spell-fu-mode)
+    (bascht/switch-spellcheck "en_GB")
+    (evil-insert-state))
 
-(add-hook! 'org-capture-mode-hook
-  (bascht/switch-spellcheck "de_DE")
-  (evil-insert-state))
+  (add-hook! 'org-capture-mode-hook
+    (bascht/switch-spellcheck "de_DE")
+    (evil-insert-state))
 
-(add-hook! 'mu4e-compose-pre-hook
-  (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
-  (spell-fu-mode)
-  (bascht/switch-spellcheck "de_DE")
-  (evil-insert-state))
+  (add-hook! 'mu4e-compose-pre-hook
+    (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
+    (spell-fu-mode)
+    (bascht/switch-spellcheck "de_DE")
+    (evil-insert-state))
 
-(add-hook! 'mu4e-view-mode-hook (variable-pitch-mode))
+  (add-hook! 'mu4e-view-mode-hook (variable-pitch-mode))
 
-(add-hook! 'terraform-mode-hook   #'format-all-mode)
-(add-hook 'prog-mode-hook (lambda () (setq company-idle-delay 0.2)))
-(add-hook! markdown-mode-hook 'spell-fu-mode)
+  (add-hook! 'terraform-mode-hook   #'format-all-mode)
+  (add-hook 'prog-mode-hook (lambda () (setq company-idle-delay 0.2)))
+  (add-hook! markdown-mode-hook 'spell-fu-mode)
 #+end_src
 ** Mode specific settings
 
 #+begin_src emacs-lisp
-
-
-(add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
-
-
+  (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
 #+end_src
 * Package specific options
 #+begin_src emacs-lisp
@@ -147,8 +144,8 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
   (use-package! spacious-padding)
 
   (after! dirvish
-  ;;   (dirvish-override-dired-mode)
-  ;;   (setq dirvish-attributes '(vc-state subtree-state collapse git-msg file-time file-size))
+    ;;   (dirvish-override-dired-mode)
+    ;;   (setq dirvish-attributes '(vc-state subtree-state collapse git-msg file-time file-size))
     (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
     (setq dirvish-default-layout (list 0 0.4))
     (setq dirvish-hide-details t))
@@ -247,24 +244,19 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 
 #+end_src
 * Keys and mappings
-
-
-
-
 ** Global hotkeys
 #+begin_src emacs-lisp
-(map! :leader
-      :desc "Copy URL link"
-      "o U" #'link-hint-copy-link)
-(map! :leader
-      :desc "Open URL link"
-      "o u" #'link-hint-open-link)
-;; https://micro.rousette.org.uk/2021/01/03/a-useful-binding.html
-(map! (:map 'override
-       :v "v" #'er/expand-region
-       :v "V" #'er/contract-region))
+  (map! :leader
+        :desc "Copy URL link"
+        "o U" #'link-hint-copy-link)
+  (map! :leader
+        :desc "Open URL link"
+        "o u" #'link-hint-open-link)
+  ;; https://micro.rousette.org.uk/2021/01/03/a-useful-binding.html
+  (map! (:map 'override
+         :v "v" #'er/expand-region
+         :v "V" #'er/contract-region))
 #+end_src
-
 ** Mode-specific hotkeys
 
 #+begin_src emacs-lisp
@@ -342,8 +334,7 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
   (map! :after mu4e
         :map (mu4e-headers-mode-map mu4e-view-mode-map) :vn
         :desc "Back to last search" "<backspace>" #'mu4e-search-prev
-        :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next
-        )
+        :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next)
 
   (map! :after mu4e
         :map (mu4e-headers-mode-map mu4e-view-mode-map)
@@ -352,13 +343,11 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
                                        (progn (goto-char (point-min))
                                               (search-forward "view it on GitLab")
                                               (backward-word)
-                                              (shr-browse-url))))
-        )
-
+                                              (shr-browse-url)))))
 #+end_src
 * Email
 
-#+begin_src  emacs-lisp
+#+begin_src emacs-lisp
 (after! mu4e
   (setq
    org-msg-signature (with-current-buffer (find-file-noselect "/home/bascht/.signature") (buffer-string))
@@ -366,6 +355,7 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
    message-send-mail-function 'message-send-mail-with-sendmail
    message-sendmail-extra-arguments '("--read-envelope-from")
    message-sendmail-f-is-evil 't
+   sendmail-program "msmtp"
    mu4e-update-interval 600
    mu4e-compose-complete-only-after "2016-01-01"
    mu4e-compose-dont-reply-to-self 't
@@ -376,8 +366,6 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
    mu4e-index-lazy-check nil
    mu4e-index-cleanup t
    mu4e-use-fancy-chars nil
-   sendmail-program "msmtp"
-
    mu4e-headers-draft-mark     '("D" . "💈")
    mu4e-headers-flagged-mark   '("F" . "📍")
    mu4e-headers-new-mark       '("N" . "🆕")
@@ -396,8 +384,6 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
                          (:flags . 4)
                          (:account-stripe . 2)
                          (:from-or-to . 25)
-                         ;; (:recipnum . 3)
-                         ;; (:list . 20)
                          (:subject . 100))
    +mu4e-min-header-frame-width 142
    mu4e-headers-date-format "%d.%m."
@@ -411,56 +397,54 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 
 #+end_src
 * Custom functions
-** The bascht/ namespace
+** The =bascht/= namespace
 
 #+begin_src emacs-lisp
+  (defun bascht/switch-spellcheck (lang)
+    (interactive)
+    (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
+    (ispell-change-dictionary lang) lang)
 
+  (defun bascht/switch-spellcheck-to-english ()
+    (interactive)
+    (bascht/switch-spellcheck "en_GB")
+    (spell-fu-mode))
 
-    (defun bascht/switch-spellcheck (lang)
-      (interactive)
-      (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
-      (ispell-change-dictionary lang) lang)
+  (defun bascht/switch-spellcheck-to-german ()
+    (interactive)
+    (bascht/switch-spellcheck "de_DE")
+    (spell-fu-mode))
+  (defun bascht/switch-to-or-load-workspace (name &optional directory)
+    (interactive)
+    (persp-mode)
+    (if (+workspace-exists-p name)
+        (+workspace-switch name)
+      (progn (+workspace-new name)
+             (+workspace-switch name)
+             (magit-status-setup-buffer))))
 
-    (defun bascht/switch-spellcheck-to-english ()
-      (interactive)
-      (bascht/switch-spellcheck "en_GB")
-      (spell-fu-mode))
+  (defun bascht/move-to-scratchpad()
+    (shell-command "swaymsg move scratchpad"))
 
-    (defun bascht/switch-spellcheck-to-german ()
-      (interactive)
-      (bascht/switch-spellcheck "de_DE")
-      (spell-fu-mode))
-    (defun bascht/switch-to-or-load-workspace (name &optional directory)
-      (interactive)
-      (persp-mode)
-      (if (+workspace-exists-p name)
-          (+workspace-switch name)
-        (progn (+workspace-new name)
-               (+workspace-switch name)
-               (magit-status-setup-buffer))))
+  (defun bascht/worklog ()
+    "Switch to my worklog workspace and append a new log"
+    (interactive)
+    (org-set-frame-title "Worklog")
+    (org-journal-new-entry nil)
+    (setq indicate-empty-lines nil)
+    (evil-append nil))
 
-    (defun bascht/move-to-scratchpad()
-      (shell-command "swaymsg move scratchpad"))
+  (defun bascht/mu4e-change-from-to-catchall (msg)
+    "Set the From address based on the To address of the original message if I reply."
+    (setq user-mail-address
+          (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
+              (plist-get (car-safe (mu4e-message-field msg :to)) :email)
+            (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
 
-    (defun bascht/worklog ()
-      "Switch to my worklog workspace and append a new log"
-      (interactive)
-      (org-set-frame-title "Worklog")
-      (org-journal-new-entry nil)
-      (setq indicate-empty-lines nil)
-      (evil-append nil))
-
-    (defun bascht/mu4e-change-from-to-catchall (msg)
-      "Set the From address based on the To address of the original message if I reply."
-      (setq user-mail-address
-            (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
-                (plist-get (car-safe (mu4e-message-field msg :to)) :email)
-              (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
-
-                                            ; Always open new project with dired
-    (defun bascht/projectile-open-dired (dir)
-      (let ((default-directory (file-truename (expand-file-name dir))))
-        (dirvish)))
+                                          ; Always open new project with dired
+  (defun bascht/projectile-open-dired (dir)
+    (let ((default-directory (file-truename (expand-file-name dir))))
+      (dirvish)))
 
   (defun bascht/file-string (file)
     "Read the contents of a file and return as a string."
@@ -493,33 +477,29 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
     (interactive)
     (magit-call-git "checkout" (magit-main-branch))
     (magit-run-git-with-editor "pull"))
-
-
 #+end_src
 * Looks and Faces
 ** Doom dashboard
 
 #+begin_src emacs-lisp
-(defun doom-dashboard-draw-ascii-banner-fn ()
-  (let* ((banner '("""┻━┻ ︵ ¯\\(ツ)/¯ ︵ ┻━┻"""))
-         (longest-line (apply #'max (mapcar #'length banner))))
-    (put-text-property
-     (point)
-     (dolist (line banner (point))
-       (insert (+doom-dashboard--center
-                +doom-dashboard--width
-                (concat
-                 line (make-string (max 0 (- longest-line (length line)))
-                                   32)))
-               "\n"))
-     'face 'doom-dashboard-banner)))
-
+  (defun doom-dashboard-draw-ascii-banner-fn ()
+    (let* ((banner '("""┻━┻ ︵ ¯\\(ツ)/¯ ︵ ┻━┻"""))
+           (longest-line (apply #'max (mapcar #'length banner))))
+      (put-text-property
+       (point)
+       (dolist (line banner (point))
+         (insert (+doom-dashboard--center
+                  +doom-dashboard--width
+                  (concat
+                   line (make-string (max 0 (- longest-line (length line)))
+                                     32)))
+                 "\n"))
+       'face 'doom-dashboard-banner)))
 #+end_src
 
 ** Custom faces
 
 #+begin_src emacs-lisp
-
   (custom-set-faces!
     '(mode-line :family  "VictorMono Nerd Font" :weight medium)
     '(mode-line-active :family "VictorMono Nerd Font" :weight medium)
@@ -535,12 +515,9 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
     '(mu4e-system-face ((t (:family "IBM Plex Mono" :foreground "gray60"))))
     '(mu4e-header-highlight-face ((t (:background "lemon chiffon"))))
     '(org-document-title ((t (:height 1.5 :underline nil))))
-    '(org-level-1 ((t (:height 1.3 :overline nil :weight normal))))
-    '(org-level-2 ((t (:height 1.2 :overline nil :weight light))))
-    '(org-level-3 ((t (:height 1.1 :overline nil :weight light)))))
-
-
-
+    '(org-level-1 ((t (:family  "IBM Plex Serif" :height 1.3 :overline nil :weight normal))))
+    '(org-level-2 ((t (:family "IBM Plex Serif" :height 1.2 :overline nil :weight normal))))
+    '(org-level-3 ((t (:family "IBM Plex Sans" :height 1.1 :overline nil :weight light)))))
 
 #+end_src
 
@@ -549,9 +526,7 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 #+begin_src emacs-lisp
 (custom-set-variables
  '(safe-local-variable-values '((buffer-read-only . 1))))
-
 #+end_src
-
 
 * Other stuff to load
 
