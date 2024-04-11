@@ -1,6 +1,10 @@
 * Baschts dotfiles
 
-Apart from my [[https://github.com/bascht/dotfiles][Real Dotfiles]], here is some other stuff.
+Apart from my [[https://github.com/bascht/dotfiles][Real Dotfiles]], here is the setup I run since switching back to Linux in 2010-ish.
+
+* My setup
+
+I run NixOS on most of my machines. This repository is home to the Nix config for both system and home-manager.
 
 ** Quick Screenshot
 [[./screenshot.jpg]]
