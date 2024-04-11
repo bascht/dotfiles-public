@@ -12,9 +12,10 @@ I run NixOS on most of my machines. This repository is home to the Nix config fo
 ** Installation via Chezmoi
 
 #+begin_src bash
-curl -sfL https://git.io/chezmoi | sh
-mkdir -p ~/.local/share/
-git clone https://git.bascht.space/bascht/dotfiles.git ~/.local/share/chezmoi
-chmod 0700 ~/.local/share/cezmoi
-~/bin/chezmoi apply
+  curl -sfL https://git.io/chezmoi | sh
+  mkdir -p ~/.local/share/
+  git clone https://git.bascht.space/bascht/dotfiles.git ~/.local/share/chezmoi
+  chmod 0700 ~/.local/share/chezmoi
+  git ~/.local/share/chezmoi config --local core.hooksPath .githooks/
+  ~/bin/chezmoi apply
 #+end_src
