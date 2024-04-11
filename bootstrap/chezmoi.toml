@@ -1,0 +1,16 @@
+[data.me]
+name = "Sebastian Schulze"
+email = "this-is-a-bootstrapped-system@bascht.space"
+
+[data.gpg]
+default_key = "0x08B8010450B2C877"
+
+[data.git]
+email = "this-is-a-bootstrapped-system@bascht.spacem"
+signingkey = "this-is-a-bootstrapped-system@bascht.spacem"
+
+forges = ["github.com", "gitlab.com", "git.bascht.space", "git.sr.ht"]
+
+[[data.bookmarks]]
+name = "sr-ht"
+url = "https://todo.sr.ht/~bascht/"
