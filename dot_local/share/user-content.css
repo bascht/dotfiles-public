@@ -13,14 +13,15 @@ body.channel-view *,
 html[data-app-context="team"] body *,
 /* Mattermost */
 body.mono-as-fuck,
+/* chat.sr.ht */
+body section#buffer div.logline-list *,
 body#appBody.system-theme
-
 /* Slay all other other serif devils. */
   {
   font-family: "JetBrains Mono" !important;
 }
 
-body.channel-view * {
+body section#buffer-header *, body section#buffer-list *, body.channel-view * {
   font-family: "Iosevka Aile" !important;
 }
 
