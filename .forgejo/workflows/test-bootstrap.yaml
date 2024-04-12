@@ -38,3 +38,7 @@ jobs:
           path: |
             /root/.emacs.d
           key: ${{ steps.cache-doom-restore.outputs.cache-primary-key }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: emacs-d
+          path: /root/.emacs.d
