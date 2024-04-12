@@ -39,7 +39,7 @@ jobs:
             /root/.emacs.d
           key: ${{ steps.cache-doom-restore.outputs.cache-primary-key }}
       - run: "tar cfz emacs.d.tar.gz /root/.emacs.d"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: emacs-d
           path: emacs.d.tar.gz
