@@ -99,6 +99,12 @@ in {
     pkgs.any-nix-shell
     pkgs.appimage-run
     pkgs.awscli2
+    pkgs.nodePackages.bash-language-server
+    pkgs.terraform-ls
+    pkgs.terraform-lsp
+    pkgs.clojure-lsp
+    pkgs.marksman
+    pkgs.nixd
     pkgs.bat
     pkgs.bfs
     pkgs.binutils
@@ -291,10 +297,6 @@ in {
     pkgs.xdragon
     pkgs.xplr
     pkgs.xwayland
-    pkgs.nodePackages.bash-language-server
-    pkgs.nixd
-    pkgs.terraform-ls
-    pkgs.terraform-lsp
     pkgs.yaml-language-server
     pkgs.ydotool
     pkgs.yq-go
@@ -633,6 +635,7 @@ in {
         ${pkgs.swayidle}/bin/swayidle -w -d \
                       before-sleep '${config.home.homeDirectory}/bin/blur-lock' \
                       unlock '${config.home.homeDirectory}/bin/thinkpad-dock' \
+                      after-resume '${config.home.homeDirectory}/bin/thinkpad-dock' \
                       timeout 300 '${config.home.homeDirectory}/bin/blur-lock' \
                       timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' resume '${pkgs.sway}/bin/swaymsg "output * dpms on" && /home/bascht/bin/thinkpad-dock' \
                       timeout 900 '${config.home.homeDirectory}/bin/suspend-if-docked' resume '${pkgs.sway}/bin/swaymsg "output * dpms on" && /home/bascht/bin/thinkpad-dock'
