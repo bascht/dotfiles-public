@@ -478,6 +478,26 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
     (magit-call-git "checkout" (magit-main-branch))
     (magit-run-git-with-editor "pull"))
 #+end_src
+** Git and Magit helpers
+
+
+*** Clean up untracked files
+
+#+begin_src emacs-lisp
+(defun bascht/magit-cleanup-untracked ()
+  "Clean up all the untracked files in the current working directory. We're not stashing them but
+rather move them to a =__gitignore= subfolder that is in my global git config."
+  (interactive)
+  (save-excursion
+    (dolist (file (magit-untracked-files))
+      (let* ((dir (file-name-directory file))
+             (ignored-dir (concat (file-name-as-directory "__gitignore") dir))
+             (ignored-file (file-name-nondirectory file)))
+        (if (not (f-directory-p ignored-dir))
+            (make-directory ignored-dir))
+        (rename-file file (concat ignored-dir ignored-file))))))
+#+end_src
+
 * Looks and Faces
 ** Doom dashboard
 
