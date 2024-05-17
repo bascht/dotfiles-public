@@ -46,6 +46,12 @@ body.gl-platform-linux div.related-merge-requests {
   font-size: 0.8em;
 }
 
+/* Make sure jobs are actually readable */
+body.gl-platform-linux div[data-testid="mini-pipeline-graph-dropdown"] div[data-testid="base-dropdown-menu"] {
+  min-width: 26rem;
+  max-width: 36rem;
+}
+
 body.gl-platform-linux div.js-pipeline-graph .gl-text-truncate {
   overflow: unset !important;
   text-overflow: unset !important;
