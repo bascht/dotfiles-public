@@ -1,0 +1,126 @@
+#+title: Guix home configuration
+#+auto_tangle: t
+
+Look at me Guix. It's a fine Guix!
+
+* Guix home configuration
+
+This now essentially replaced my old =home.nix= NixOS home-manager configuration. While it's far from feature-complete, I already feel like I understand what is going on way more than I ever did with Nix.
+
+** Load path and modules
+
+I keep a few modules around but most of the stuff in here should be pretty straightforward for a =(guix home) setup=
+
+#+begin_src scheme :tangle home.scm
+       (add-to-load-path "/var/home/bascht/Code/bascht/dotfiles/guix/modules/")
+       (use-modules (bascht binary-packages)
+                    (bascht home bash)
+                    (bascht home emacs-service)
+                    (bascht home packages)
+                    (bascht home systemd-units)
+                    (gnu home services desktop)
+                    (gnu home services fontutils)
+                    (gnu home services gnupg)
+                    (gnu home services guix)
+                    (gnu home services shells)
+                    (gnu home services shepherd)
+                    (gnu home services sound)
+                    (gnu home services)
+                    (gnu packages admin)
+                    (gnu packages emacs)
+                    (gnu packages gnupg)
+                    (gnu packages shells)
+                    (gnu packages wm)
+                    (gnu packages)
+                    (gnu services security-token)
+                    (gnu services shepherd)
+                    (gnu services)
+                    (guix build-system copy)
+                    (guix channels)
+                    (guix download)
+                    (guix gexp)
+                    (guix licenses )
+                    (guix packages)
+                    (uh packages fonts)
+                    (gnu home))
+#+end_src
+
+** Home environment
+
+#+begin_src scheme :tangle home.scm
+  (home-environment
+   (packages (append (map specification->package+output builtin-packages)
+                     (list gopass
+                           starship
+                           ;; spotify-player ; TODO: Fix file-rename macro
+                           atuin
+                           cliphist
+                           font-victormono-nerd-fonts
+                           font-nerdfontssymbolsonly-nerd-fonts
+                           font-monaspace-nerd-fonts
+                           font-jetbrainsmono-nerd-fonts)))
+
+   (services
+    (list bascht-home-bash-configuration
+          (simple-service 'my-env-vars-service
+                          home-environment-variables-service-type
+                          `(("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
+                            ("PATH" . "${HOME}/bin:${HOME}/.config/emacs/bin:${HOME}/.config/guix/current/bin:${PATH}")
+                            ("GUIX_LOCPATH" . "${HOME}/.guix-home/profile/lib/locale")
+                            ("IBUS_SOCK" . "$XDG_RUNTIME_DIR/ibus.socket")
+                            ("XDG_CURRENT_DESKTOP" . "sway")
+                            ("XDG_SESSION_TYPE" . "wayland")
+                            ("MOZ_ENABLE_WAYLAND" . "1")
+                            ("MOZ_USE_XINPUT2" . "1")
+                            ("EDITOR" . "vim")
+                            ("XKB_DEFAULT_LAYOUT" . "de")
+                            ("XKB_DEFAULT_OPTIONS" . "caps:escape")
+                            ("QT_SCALE_FACTOR" . "1")
+                            ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")
+                            ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
+                            ("_JAVA_AWT_WM_NONREPARENTING" . "1")
+                            ("GNOME_KEYRING_CONTROL" . "/run/user/$(id -u)/keyring")
+                            ("VAGRANT_DEFAULT_PROVIDER" . "libvirt")
+                            ("VAGRANT_DOTFILE_PATH" . ".vagrant-$(hostname)")
+                            ("QT_QPA_PLATFORMTHEME" . "qt5ct")
+                            ("SWAYSOCK" . "/run/user/$(id -u)/sway-ipc.sock")
+                            ("SDL_VIDEODRIVER" . "wayland")
+                            ("QT_QPA_PLATFORM" . "wayland-egl")
+                            ("FZF_DEFAULT_OPTS" . "")))
+
+          (service home-channels-service-type)
+          (simple-service 'variant-packages-service
+                          home-channels-service-type
+                          (list
+                           (channel
+                            (name 'uh)
+                            (url "https://git.sr.ht/~uh/guix-channel")
+                            (branch "trunk")
+                            (introduction
+                             (make-channel-introduction
+                              "66e59621e272b69d155b498cc0d949e58b8568c0"
+                              (openpgp-fingerprint
+                               "9E26 D2DC 55BF 9256 4743  4768 C516 6D9E D689 7893"))))))
+
+          (service home-gpg-agent-service-type
+                   (home-gpg-agent-configuration
+                    (pinentry-program
+                     (file-append pinentry-bemenu "/bin/pinentry-bemenu"))
+                    (ssh-support? #t)))
+
+          (simple-service 'emacs-comacs-systemd
+                          home-xdg-configuration-files-service-type
+                          (list
+                           (generic-emacs-systemd-unit "comacs")
+                           (generic-emacs-systemd-unit "workmacs")
+                           (generic-graphical-systemd-unit "cliphist"
+                                                           "wl-paste --watch cliphist store"
+                                                           "Clipboard manager" )
+                           (generic-graphical-systemd-unit "syncthing"
+                                                           "~/.guix-home/profile/bin/syncthing -no-browser -no-restart -logflags=0"
+                                                           "File sync" )
+                           (generic-graphical-systemd-unit "swayidle"
+                                                           "swayidle -w -d"
+                                                           "Idle Manager for Wayland" )
+                           )))))
+#+end_src

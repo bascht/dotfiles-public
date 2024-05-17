@@ -20,22 +20,21 @@ shopt -s extglob
 shopt -s globstar
 shopt -s checkjobs
 
+~/.guix-home/profile/bin/gpg-connect-agent updatestartuptty /bye > /dev/null
 
-
-
-~/.guix-profile/bin/gpg-connect-agent updatestartuptty /bye > /dev/null
-
-eval "$(~/.guix-profile/bin/zoxide init bash )"
+eval "$(~/.guix-home/profile/bin/zoxide init bash )"
 
 if [[ $TERM != "dumb" ]]; then
-  eval "$(~/.guix-profile/bin/starship init bash --print-full-init)"
+  eval "$(~/.guix-home/profile/bin/starship init bash --print-full-init)"
 fi
 
 if [[ :$SHELLOPTS: =~ :(vi|emacs): ]]; then
-  eval "$(~/.guix-profile/bin/atuin init bash '--disable-up-arrow')"
+  # source ~/.guix-home/profile/share/blesh/ble.sh # This sucks
+  eval "$(~/.guix-home/profile/bin/atuin init bash '--disable-up-arrow')"
 fi
 
 for f in ~/.config/bash/*.sh; do source $f; done
-source /home/bascht/.guix-profile/etc/bash_completion.d/*
+source "${HOME}/.guix-home/profile/etc/bash-completion.d/"*
+source "${HOME}/.guix-home/profile/etc/bash_completion.d/"*
 
 eval "$(direnv hook bash)"
