@@ -33,6 +33,8 @@
 (home-environment
  (packages (append (map specification->package+output builtin-packages)
                    (list gopass
+                         git-credential-gopass
+
                          starship
                          ;; spotify-player ; TODO: Fix file-rename macro
                          atuin

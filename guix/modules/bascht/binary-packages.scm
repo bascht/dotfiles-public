@@ -1,25 +1,3 @@
-;; https://github.com/starship/starship/releases/download/v2.18.2/starship-x86_64-unknown-linux-gnu.tar.gz
-;; gopass
-
-;; (package
-;;  (name "starship")
-;;  (version "1.18.1")
-;;  (source (origin
-;;           (method url-fetch)
-;;           (uri (string-append "https://github.com/starship/starship/releases/download/v"
-;;                               version "/starship-x86_64-unknown-linux-musl.tar.gz" ))
-;;           (sha256
-;;            (base32 "1b0r613wsvvpdxndvv4m6mcxwljafbsklkgxpa56pmiggk8zh4gq"))))
-;;  (build-system copy-build-system)
-;;  (supported-systems '("x86_64-linux" "i686-linux"))
-;;  (arguments
-;;   `(#:install-plan '(("starship" "bin/"))))
-;;  (synopsis "Native, fast starting Clojure interpreter for scripting")
-;;  (description "Starship is a native Clojure interpreter for scripting with fast startup. Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
-;;  (home-page "https://starship.org/")
-;;  (license epl1.0))
-
-;; https://github.com/gopasspw/gopass/releases/download/v1.15.13/gopass-1.15.13-linux-amd64.tar.gz
 (define-module (bascht binary-packages)
   #:use-module (guix packages)
   #:use-module (guix download)
@@ -39,10 +17,28 @@
                        (supported-systems '("x86_64-linux"))
                        (arguments
                         `(#:install-plan '(("gopass" "bin/"))))
-                       (synopsis "Native, fast starting Clojure interpreter for scripting")
-                       (description "Starship is a native Clojure interpreter for scripting with fast startup. Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
-                       (home-page "https://starship.org/")
-                       (license epl1.0)))
+                       (synopsis "The slightly more awesome standard unix password manager for teams")
+                       (description "Manage your credentials with ease. In a globally distributed team, on multiple devices or fully offline on an air gapped machine.")
+                       (home-page "https://www.gopass.pw/")
+                       (license mit1.0)))
+
+(define-public git-credential-gopass (package
+                       (name "git-credential-gopass")
+                       (version "1.15.3")
+                       (source (origin
+                                (method url-fetch)
+                                (uri (string-append "https://github.com/gopasspw/git-credential-gopass/releases/download/v"
+                                                    version "/git-credential-gopass-" version "-linux-amd64.tar.gz" ))
+                                (sha256
+                                 (base32 "02cql9mlni3iwwacd5pcyl64bnwydq24083774pw00dlxzfzdvyn"))))
+                       (build-system copy-build-system)
+                       (supported-systems '("x86_64-linux"))
+                       (arguments
+                        `(#:install-plan '(("git-credential-gopass" "bin/"))))
+                       (synopsis "Gopass git-credentials helper ")
+                       (description "This command allows you to cache your git-credentials with gopass.")
+                       (home-page "https://www.gopass.pw/")
+                       (license mit1.0)))
 
 (define-public cliphist (package
                          (name "cliphist")
@@ -64,9 +60,9 @@
                                                                  (chmod "cliphist" #o755))))
                             #:substitutable? #f
                             #:install-plan '(("cliphist" "bin/cliphist"))))
-                         (synopsis "Native, fast starting Clojure interpreter for scripting")
-                         (description "Starship is a native Clojure interpreter for scripting with fast startup. Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
-                         (home-page "https://starship.org/")
+                         (synopsis "")
+                         (description "")
+                         (home-page "")
                          (license epl1.0)))
 
 (define-public atuin (package
@@ -82,9 +78,9 @@
                       (supported-systems '("x86_64-linux"))
                       (arguments
                        `(#:install-plan '(("atuin" "bin/"))))
-                      (synopsis "Native, fast starting Clojure interpreter for scripting")
-                      (description "Starship is a native Clojure interpreter for scripting with fast startup. Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
-                      (home-page "https://starship.org/")
+                      (synopsis "")
+                      (description "")
+                      (home-page "")
                       (license epl1.0)))
 
 (define-public spotify-player (package
@@ -102,9 +98,9 @@
                                 `(("openssl" ,openssl)))
                                (arguments
                                 `(#:install-plan '(("spotify_player" "bin/"))))
-                               (synopsis "Native, fast starting Clojure interpreter for scripting")
-                               (description "Starship is a native Clojure interpreter for scripting with fast startup. Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
-                               (home-page "https://starship.org/")
+                               (synopsis "")
+                               (description "")
+                               (home-page "")
                                (license epl1.0)))
 
 (define-public starship (package
@@ -120,8 +116,8 @@
                          (supported-systems '("x86_64-linux" "i686-linux"))
                          (arguments
                           `(#:install-plan '(("starship" "bin/"))))
-                         (synopsis "Native, fast starting Clojure interpreter for scripting")
-                         (description "Starship is a native Clojure interpreter for scripting with fast startup. Its main goal is to leverage Clojure in places where you would be using bash otherwise.")
-                         (home-page "https://starship.org/")
+                         (synopsis "")
+                         (description "")
+                         (home-page "")
                          (license epl1.0)))
 
