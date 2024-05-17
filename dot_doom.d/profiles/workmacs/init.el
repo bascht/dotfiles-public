@@ -18,7 +18,7 @@
        (popup +all +defaults)   ; tame sudden yet inevitable temporary windows
        ;; treemacs          ; a project drawer, like neotree but cooler
        ;; (vc-gutter +pretty) ; vcs diff in the fringe
-       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;; vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;; window-select     ; visually switch windows
        ;; workspaces        ; tab emulation, persistence & separate workspaces
        ;; zen               ; distraction-free coding or writing
@@ -69,7 +69,7 @@
        ;; ledger                                                                     ; an accounting system in Emacs
        ;; (markdown +lsp +tree-sitter)                                                                   ; writing docs for people to ignore
        ;; (nix +lsp +tree-sitter)                                                                        ; I hereby declare "nix geht mehr!"
-       ;; (org +gnuplot +dragndrop +journal +pandoc +present +hugo +habit +noter) ; organize your plain life in plain text
+       (org +gnuplot +dragndrop +journal +pandoc +present +hugo +habit +noter) ; organize your plain life in plain text
        ;; (ruby)                                                              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        ;; (sh +lsp +tree-sitter)                                                                 ; she sells {ba,z,fi}sh shells on the C xor
        ;; (yaml +lsp +tree-sitter)                                                   ; JSON, but readable

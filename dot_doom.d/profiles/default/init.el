@@ -69,10 +69,10 @@
        ;; json                                                                       ; At least it ain't XML
        ;; ledger                                                                     ; an accounting system in Emacs
        ;; (markdown +lsp +tree-sitter)                                                                   ; writing docs for people to ignore
-       ;; (nix +lsp +tree-sitter)                                                                        ; I hereby declare "nix geht mehr!"
-       ;; (org +gnuplot +dragndrop +journal +pandoc +present +hugo +habit +noter) ; organize your plain life in plain text
+       (nix +lsp +tree-sitter)                                                                        ; I hereby declare "nix geht mehr!"
+       (org +gnuplot +dragndrop +journal +pandoc +present +hugo +habit +noter) ; organize your plain life in plain text
        ;; (ruby)                                                              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;; (sh +lsp +tree-sitter)                                                                 ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +lsp +tree-sitter)                                                                 ; she sells {ba,z,fi}sh shells on the C xor
        ;; (yaml +lsp +tree-sitter)                                                   ; JSON, but readable
 
        :email
