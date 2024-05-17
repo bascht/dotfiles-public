@@ -28,9 +28,9 @@
       lastTopBarItem.style.marginRight = "20px"
       document.querySelectorAll("ul[data-testid=pinned-nav-items]>li>a").forEach((a) => {
         if(typeof(a) == "object") {
-          a.querySelector("div.gl-truncate-end").innerText = [
+          a.querySelector("div.gl-flex-grow-1").innerText = [
             menuMap[a.dataset.qaSubmenuItem],
-            a.querySelector("div.gl-truncate-end").innerText
+            a.querySelector("div.gl-flex-grow-1").innerText
           ].join(" ")
 
           var newTopBarItem = a.cloneNode(true);
