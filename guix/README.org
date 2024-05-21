@@ -45,84 +45,154 @@ I keep a few modules around but most of the stuff in here should be pretty strai
                     (gnu home))
 #+end_src
 
+
 ** Home environment
+*** Channels
+
+I tried to get by with as few external channels as possible, but I really like my Nerdfonts and ~uh has done all the work already. :D
 
 #+begin_src scheme :tangle home.scm
-  (home-environment
-   (packages (append (map specification->package+output builtin-packages)
-                     (list gopass
-                           git-credential-gopass
+  (define bascht-home-variant-packages-service
+    (simple-service 'variant-packages-service
+                    home-channels-service-type
+                    (list
+                     (channel
+                      (name 'uh)
+                      (url "https://git.sr.ht/~uh/guix-channel")
+                      (branch "trunk")
+                      (introduction
+                       (make-channel-introduction "66e59621e272b69d155b498cc0d949e58b8568c0"
+                        (openpgp-fingerprint "9E26 D2DC 55BF 9256 4743  4768 C516 6D9E D689 7893")))))))
+#+end_src
 
-                           starship
-                           ;; spotify-player ; TODO: Fix file-rename macro
-                           atuin
-                           cliphist
-                           font-victormono-nerd-fonts
-                           font-nerdfontssymbolsonly-nerd-fonts
-                           font-monaspace-nerd-fonts
-                           font-jetbrainsmono-nerd-fonts)))
+*** My packages [0/2]
 
-   (services
-    (list bascht-home-bash-configuration
-          (simple-service 'my-env-vars-service
-                          home-environment-variables-service-type
-                          `(("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
-                            ("PATH" . "${HOME}/bin:${HOME}/.config/emacs/bin:${HOME}/.config/guix/current/bin:${PATH}")
-                            ("GUIX_LOCPATH" . "${HOME}/.guix-home/profile/lib/locale")
-                            ("IBUS_SOCK" . "$XDG_RUNTIME_DIR/ibus.socket")
-                            ("XDG_CURRENT_DESKTOP" . "sway")
-                            ("XDG_SESSION_TYPE" . "wayland")
-                            ("MOZ_ENABLE_WAYLAND" . "1")
-                            ("MOZ_USE_XINPUT2" . "1")
-                            ("EDITOR" . "vim")
-                            ("XKB_DEFAULT_LAYOUT" . "de")
-                            ("XKB_DEFAULT_OPTIONS" . "caps:escape")
-                            ("QT_SCALE_FACTOR" . "1")
-                            ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")
-                            ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
-                            ("_JAVA_AWT_WM_NONREPARENTING" . "1")
-                            ("GNOME_KEYRING_CONTROL" . "/run/user/$(id -u)/keyring")
-                            ("VAGRANT_DEFAULT_PROVIDER" . "libvirt")
-                            ("VAGRANT_DOTFILE_PATH" . ".vagrant-$(hostname)")
-                            ("QT_QPA_PLATFORMTHEME" . "qt5ct")
-                            ("SWAYSOCK" . "/run/user/$(id -u)/sway-ipc.sock")
-                            ("SDL_VIDEODRIVER" . "wayland")
-                            ("QT_QPA_PLATFORM" . "wayland-egl")
-                            ("FZF_DEFAULT_OPTS" . "")))
+Munge together my [[file:modules/bascht/home/packages.scm][own package selection]] as well as [[file:modules/bascht/binary-packages.scm][a small set of binary packages]] I could not find anywhere else. So far it's only a small list of packages that I miss from my old Nix configuration and none of them are mission-critical
 
-          (service home-channels-service-type)
-          (simple-service 'variant-packages-service
-                          home-channels-service-type
-                          (list
-                           (channel
-                            (name 'uh)
-                            (url "https://git.sr.ht/~uh/guix-channel")
-                            (branch "trunk")
-                            (introduction
-                             (make-channel-introduction
-                              "66e59621e272b69d155b498cc0d949e58b8568c0"
-                              (openpgp-fingerprint
-                               "9E26 D2DC 55BF 9256 4743  4768 C516 6D9E D689 7893"))))))
+Still missing from that list:
 
-          (service home-gpg-agent-service-type
-                   (home-gpg-agent-configuration
-                    (pinentry-program
-                     (file-append pinentry-bemenu "/bin/pinentry-bemenu"))
-                    (ssh-support? #t)))
+- [ ] =spotify_player= (Couldn't get the (file-rename) macro to work)
+- [ ] =superslicer= (Might have to use the AppImage or get used to Prusa Slicer)
 
-          (simple-service 'emacs-comacs-systemd
-                          home-xdg-configuration-files-service-type
-                          (list
-                           (generic-emacs-systemd-unit "comacs")
-                           (generic-emacs-systemd-unit "workmacs")
-                           (generic-graphical-systemd-unit "cliphist"
-                                                           "wl-paste --watch cliphist store"
-                                                           "Clipboard manager" )
-                           (generic-graphical-systemd-unit "syncthing"
-                                                           "~/.guix-home/profile/bin/syncthing -no-browser -no-restart -logflags=0"
-                                                           "File sync" )
-                           (generic-graphical-systemd-unit "swayidle"
-                                                           "swayidle -w -d"
-                                                           "Idle Manager for Wayland" )
-                           )))))
+#+begin_src scheme :tangle home.scm
+  (define bascht-packages (append (map specification->package+output builtin-packages)
+                                   (list gopass
+                                         git-credential-gopass
+                                         starship
+                                         atuin
+                                         cliphist
+                                         font-victormono-nerd-fonts
+                                         font-nerdfontssymbolsonly-nerd-fonts
+                                         font-monaspace-nerd-fonts
+                                         font-jetbrainsmono-nerd-fonts)))
+#+end_src
+
+*** Environment variables [0/1]
+
+This list of environment variables is currently sourced by the bash login generated by home-environment-variables-service-type. It's mostly duplicating what I previously had set in my =~/.config/environment.d/10-bascht.conf= and I might go back to that file (or generate it from Guix)
+
+Useful settings that I like to keep in my environment contain:
+
+- Appending Guix to the =PATH=
+- Setting =EDITOR=
+- Making sure all programs behave their best in Wayland
+- Setting all =XDG= variables for my Wayland session
+
+Open tasks:
+
+- [ ] Consolidate with whatever the systemd user session needs to start (or generate from Guix)
+- [ ] Re-evaluate the static =SWAYSOCK= (might no longer be necessary if =sway= is wrapped by =dbus=)
+- [ ] Drop Vagrant? Haven't used it in ages. The hostname was useful when I still synced to my HP workstation
+
+#+begin_src scheme :tangle home.scm
+  (define bascht-home-variable-service (simple-service 'bascht-home-variable-service
+                   home-environment-variables-service-type
+                   `(("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
+                     ("PATH" . "${HOME}/bin:${HOME}/.config/emacs/bin:${HOME}/.config/guix/current/bin:${PATH}")
+                     ("GUIX_LOCPATH" . "${HOME}/.guix-home/profile/lib/locale")
+                     ("IBUS_SOCK" . "$XDG_RUNTIME_DIR/ibus.socket")
+                     ("XDG_CURRENT_DESKTOP" . "sway")
+                     ("XDG_SESSION_TYPE" . "wayland")
+                     ("MOZ_ENABLE_WAYLAND" . "1")
+                     ("MOZ_USE_XINPUT2" . "1")
+                     ("EDITOR" . "vim")
+                     ("XKB_DEFAULT_LAYOUT" . "de")
+                     ("XKB_DEFAULT_OPTIONS" . "caps:escape")
+                     ("QT_SCALE_FACTOR" . "1")
+                     ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")
+                     ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
+                     ("_JAVA_AWT_WM_NONREPARENTING" . "1")
+                     ("GNOME_KEYRING_CONTROL" . "/run/user/$(id -u)/keyring")
+                     ("VAGRANT_DEFAULT_PROVIDER" . "libvirt")
+                     ("VAGRANT_DOTFILE_PATH" . ".vagrant-$(hostname)")
+                     ("QT_QPA_PLATFORMTHEME" . "qt5ct")
+                     ("SWAYSOCK" . "/run/user/$(id -u)/sway-ipc.sock")
+                     ("SDL_VIDEODRIVER" . "wayland")
+                     ("QT_QPA_PLATFORM" . "wayland-egl")
+                     ("FZF_DEFAULT_OPTS" . ""))))
+
+#+end_src
+
+*** GnuPG Agent service
+
+It's neat to have Guix manage the agent for me, even if it means I have to have one shepherd service running. So far I haven't run into any issues. Still it would be nice to have a wrapper around =bemenu= so I can adjust fonts + position.
+
+- [ ] Find a way to wrap =(file-append)= into a proper gexp so I can use =(string-join)=
+      My first attempt didn't work:
+
+      #+begin_src scheme
+        `(string-join '("xargs" "-a" "/home/bascht/.config/bemenu/config" ,(file-append pinentry-bemenu "/bin/pinentry-bemenu"))))
+        #+end_src
+
+#+begin_src scheme :tangle home.scm
+  (define bascht-home-gpg-agent-service
+    (service home-gpg-agent-service-type
+             (home-gpg-agent-configuration
+              (pinentry-program
+               (file-append pinentry-bemenu "/bin/pinentry-bemenu"))
+              (ssh-support? #t))))
+#+end_src
+
+*** Generate systemd services [0/1]
+
+This might be a very unorthodox solution but it worked brilliantly for my use case. I really want to use =systemd= especially in combination with all the =networkd= stuff I got used to during the last years with Nix. So what's happening here is actually pretty simple: I'm using the =home-xdg-configuration-files-service-type= to generate systemd unit files in =~/.config/systemd/user= that then can be picked up by Guix or Chezmoi (haven't yet found out how I can create simple symlinks with Guix).
+
+- [ ] Generate the symlinks for the systemd targets with =Guix=
+      This would be brilliant since in my old system this was a mix of Nix and Chezmoi as well.
+
+#+begin_src scheme :tangle home.scm
+  (define bascht-home-xdg-config
+    (simple-service 'bascht-home-xdg-config
+                   home-xdg-configuration-files-service-type
+                   (list
+                    (generic-emacs-systemd-unit "emacs")
+                    (generic-emacs-systemd-unit "comacs")
+                    (generic-emacs-systemd-unit "workmacs")
+                    (generic-graphical-systemd-unit "cliphist"
+                                                    "wl-paste --watch cliphist store"
+                                                    "Clipboard manager" )
+                    (generic-graphical-systemd-unit "syncthing"
+                                                    "~/.guix-home/profile/bin/syncthing -no-browser -no-restart -logflags=0"
+                                                    "File sync" )
+                    (generic-graphical-systemd-unit "swayidle"
+                                                    "swayidle -w -d"
+                                                    "Idle Manager for Wayland" )
+                    )))
+#+end_src
+
+*** Wrapping all up inside of =(home-environment)=
+
+This is where the magic happens.
+
+#+begin_src scheme :tangle home.scm
+    (home-environment
+     (packages bascht-packages)
+
+     (services
+      (list (service home-channels-service-type)
+            bascht-home-variant-packages-service
+            bascht-home-bash-configuration
+            bascht-home-variable-service
+            bascht-home-gpg-agent-service
+            bascht-home-xdg-config)))
 #+end_src
