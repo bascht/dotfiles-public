@@ -1,5 +1,6 @@
 #+title: Home module
 #+auto_tangle: t
+#+org-export-babel-evaluate: nil
 
 * Shell configuration
 
@@ -119,3 +120,51 @@ if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi
 #+end_src
+
+* Emacs Services
+
+I like having multiple Emacs servers running in the background each with specific modules loaded depending on their workload: They're called:
+
+** =Emacs=
+
+This is the _general purpose_ Emacs, even though it's heavily tailored towards the Desktop workloads like Email, OrgMode, rss and … you know, the occasional file edit.
+
+#+begin_src sh :results output :session test :async yes :eval never-export
+  # swaymsg exec -- emacsclient -s workmacs --create-frame "$(pwd)/README.org"
+  grimshot save window "$(pwd)/screenshot-emacs.png"
+#+end_src
+
+#+RESULTS:
+: /var/home/bascht/Code/bascht/dotfiles/guix/modules/bascht/home/screenshot-emacs.png
+
+#+CAPTION: Screenshot of my current default emacs configuration
+[[./screenshot-emacs.png]]
+
+** =Comacs=
+
+Comacs is the Workhorse. It's where I open work- and private code projects with. It has all the major and minor modes I need for my day-to-day work. It doesn't do Email or even Org Agendas. And it keeps all the language servers at bay. This might become less of an issue in the future, but some of those background NodeJS language servers tend to get leaky after a few days of uptime.
+
+#+begin_src sh :results output :session test :async yes :eval never-export
+  # swaymsg exec -- emacsclient -s comacs --create-frame "$(pwd)/README.org"
+  grimshot save window "$(pwd)/screenshot-comacs.png"
+#+end_src
+
+#+CAPTION: Screenshot of my current comacs configuration
+[[./screenshot-comacs.png]]
+
+** =Workmacs=
+
+Workmacs is the final evolution form of my old =worklogger= script. It started out as a simple Loop, evolved into a [[https://github.com/bascht/worklogger][Python module]] and later into a Zenity bash loop. As all things finally evolve into Emacs, I now keep a separate server with a distinct theme and font style (this might be the only serif font in my UI). I also keep this window open in the Sway scratchpad so it will open in an instant.
+
+This might sound weird but even a 500ms startup time will distract me from what I even wanted to note down, or it annoys me and I will close the window again.
+
+#+begin_src sh :results output :session test :async yes :eval never-export
+  # swaymsg exec -- emacsclient -s workmacs --create-frame "$(pwd)/README.org"
+  grimshot save window "$(pwd)/screenshot-workmacs.png"
+#+end_src
+
+#+RESULTS:
+: /var/home/bascht/Code/bascht/dotfiles/guix/modules/bascht/home/screenshot-workmacs.png
+
+#+CAPTION: Screenshot of my current comacs configuration
+[[./screenshot-workmacs.png]]

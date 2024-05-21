@@ -20,7 +20,7 @@
                        (synopsis "The slightly more awesome standard unix password manager for teams")
                        (description "Manage your credentials with ease. In a globally distributed team, on multiple devices or fully offline on an air gapped machine.")
                        (home-page "https://www.gopass.pw/")
-                       (license mit1.0)))
+                       (license expat)))
 
 (define-public git-credential-gopass (package
                        (name "git-credential-gopass")
@@ -38,7 +38,7 @@
                        (synopsis "Gopass git-credentials helper ")
                        (description "This command allows you to cache your git-credentials with gopass.")
                        (home-page "https://www.gopass.pw/")
-                       (license mit1.0)))
+                       (license expat)))
 
 (define-public cliphist (package
                          (name "cliphist")

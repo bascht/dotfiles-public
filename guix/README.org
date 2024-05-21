@@ -7,6 +7,10 @@ Look at me Guix. It's a fine Guix!
 
 This now essentially replaced my old =home.nix= NixOS home-manager configuration. While it's far from feature-complete, I already feel like I understand what is going on way more than I ever did with Nix.
 
+Other interesting custom modules to look at include:
+
+- [[file:modules/bascht/home/README.org][My custom home module]]
+
 ** Load path and modules
 
 I keep a few modules around but most of the stuff in here should be pretty straightforward for a =(guix home) setup=
