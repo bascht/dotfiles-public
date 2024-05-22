@@ -146,11 +146,6 @@
         "zathura"
         "zathura-pdf-poppler"
         "zoxide"
-        ;; "chezmoi"
-        ;; "freecad" ; Breaks with python-pivy
-        ;; "sway"
-        ;; "swayidle"
-        ;; "swaylock"
-        ;; "terraform"
+        "ungoogled-chromium-wayland"
         )
   )
