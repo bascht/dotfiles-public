@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# export ATUIN_NOBIND=true
-# eval "$(atuin init bash)"
-# bind -x '"\C-r": __atuin_history'
-
 # Old bash habits die hard
 bind '"\ee" edit-and-execute-command'
 bind '"-M" default \cn down-or-search'
