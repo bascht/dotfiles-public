@@ -66,8 +66,10 @@ format = "[  $time ]($style)"
 
 [package]
 disabled = true
+symbol = "󰏗 "
 
 [rust]
+symbol = " "
 disabled = true
 
 [directory]
@@ -76,6 +78,7 @@ truncate_to_repo = false
 truncation_symbol = "…/"
 style = "32"
 home_symbol = "~  "
+read_only = " 󰌾"
 
 [character]
 success_symbol = "[➜](bold green)"
@@ -103,3 +106,11 @@ disabled = false
 [golang]
 format = 'via [🏎💨 $version](bold cyan) '
 #format = 'via [$symbol($version )($mod_version )]($style)'
+symbol = " "
+
+[guix_shell]
+disabled = false
+symbol = " "
+
+[git_branch]
+symbol = " "
