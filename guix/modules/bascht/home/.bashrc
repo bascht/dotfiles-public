@@ -29,7 +29,7 @@ if [[ $TERM != "dumb" ]]; then
 fi
 
 if [[ :$SHELLOPTS: =~ :(vi|emacs): ]]; then
-  # source ~/.guix-home/profile/share/blesh/ble.sh # This sucks
+  source ~/.bash-preexec.sh
   eval "$(~/.guix-home/profile/bin/atuin init bash '--disable-up-arrow')"
 fi
 
