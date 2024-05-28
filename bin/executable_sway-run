@@ -4,4 +4,7 @@ pkill -9 sway
 rm -f /run/user/1000/sway-ipc.*
 
 #exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
-exec sway 1>&1 > /dev/null
+#
+#export XDG_CURRENT_DESKTOP=sway
+#exec dbus-run-session -- sway 1>&1 > /dev/null
+exec /usr/bin/start-sway
