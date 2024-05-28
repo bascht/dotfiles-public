@@ -75,6 +75,10 @@ input "1133:45074:MX_Master" {
     natural_scroll enabled
 }
 
+input "1133:4122:Logitech_Performance_MX" {
+    natural_scroll enabled
+}
+
 input "1133:16449:Logitech_MX_Master" {
     natural_scroll enabled
 }
