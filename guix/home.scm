@@ -100,7 +100,7 @@
                                                   "wl-paste --watch cliphist store"
                                                   "Clipboard manager" )
                   (generic-graphical-systemd-unit "syncthing"
-                                                  "~/.guix-home/profile/bin/syncthing -no-browser -no-restart -logflags=0"
+                                                  "/var/home/bascht/.guix-home/profile/bin/syncthing -no-browser -no-restart -logflags=0"
                                                   "File sync" )
                   (generic-graphical-systemd-unit "swayidle"
                                                   "swayidle -w -d"
