@@ -143,6 +143,18 @@ bindswitch --locked lid:off output $display_laptop enable
 bindsym $mod+shift+b border toggle
 bindsym $mod+shift+s sticky toggle
 
+# Allow switching between workspaces with left and right swipes
+bindgesture swipe:right workspace next
+bindgesture swipe:left workspace prev
+bindgesture swipe:up fullscreen
+
+# Allow container movements by pinching them
+bindgesture pinch:inward+up move up
+bindgesture pinch:inward+down move down
+bindgesture pinch:inward+left move left
+bindgesture pinch:inward+right move right
+
+
 ### Key bindings
 #
 # Mine
@@ -298,7 +310,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+t scratchpad toggle
 
 for_window [title=".*"] title_format %title (class=%class app_id=%app_id instance=%instance shell=%shell)
-for_window [app_id="terminal_scratchpad"] resize set 70ppt 60ppt, move scratchpad, fullscreen disable, border pixel 4, move position center 
+for_window [app_id="terminal_scratchpad"] resize set 70ppt 60ppt, move scratchpad, fullscreen disable, border pixel 4, move position center
 for_window [app_id="launcher"] border pixel 2, move position center
 for_window [title="^qutebrowser-editor.*$"] border pixel 4
 
@@ -340,13 +352,13 @@ mode $mode_resize {
   bindsym $down resize grow height 10px
   bindsym $up resize shrink height 10px
   bindsym $right resize grow width 10px
-  
+
   # ditto, with arrow keys
   bindsym Left resize shrink width 10px
   bindsym Down resize grow height 10px
   bindsym Up resize shrink height 10px
   bindsym Right resize grow width 10px
-  
+
   bindsym 2 resize set width 25ppt; mode "default"
   bindsym 5 resize set width 50ppt; mode "default"
   bindsym 7 resize set width 75ppt; mode "default"
