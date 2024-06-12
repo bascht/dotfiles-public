@@ -1,0 +1,18 @@
+{{ if hasKey . "mail" -}}
+    (setq mu4e-contexts
+{{ range .mail.accounts -}}
+          `( ,(make-mu4e-context
+               :name "{{.name}}"
+               :enter-func (lambda () (mu4e-message "Entering {{.name}} context"))
+               :leave-func (lambda () (mu4e-message "Leaving {{.name}} context"))
+               :match-func (lambda (msg)
+                             (when msg
+                               (string-match-p "^/{{.name}}" (mu4e-message-field msg :maildir))))
+               :vars '( ( user-mail-address	    . "{{.user}}"  )
+                        ( user-full-name	    . "{{.full_name}}" )
+                        (mu4e-sent-folder . "/{{.name}}/{{.sent_folder}}")
+                        (mu4e-drafts-folder . "/{{.name}}/{{.drafts_folder}}")
+                        (mu4e-trash-folder . "/{{.name}}/{{.trash_folder}}")
+                        ( message-user-organization . "{{.name}}" )
+                        )))
+{{- end}}){{- end}}
