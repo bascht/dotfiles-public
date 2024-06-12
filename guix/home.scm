@@ -93,6 +93,9 @@
                   (generic-emacs-systemd-unit "emacs")
                   (generic-emacs-systemd-unit "comacs")
                   (generic-emacs-systemd-unit "workmacs")
+                  (generic-graphical-systemd-unit "wlsunset"
+                                                  "wlsunset -l 50.5 -L 7.4 -d 10"
+                                                  "Dim Screen at sunset" )
                   (generic-graphical-systemd-unit "cliphist"
                                                   "wl-paste --watch cliphist store"
                                                   "Clipboard manager" )
