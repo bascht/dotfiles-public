@@ -83,7 +83,7 @@
   (service home-gpg-agent-service-type
            (home-gpg-agent-configuration
             (pinentry-program
-             (file-append pinentry-bemenu "/bin/pinentry-bemenu"))
+             (file-append pinentry-rofi "/bin/pinentry-rofi"))
             (ssh-support? #t))))
 
 (define bascht-home-xdg-config
