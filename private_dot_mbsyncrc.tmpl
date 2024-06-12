@@ -1,0 +1,30 @@
+{{ if hasKey . "mail" -}}
+{{ range .mail.accounts -}}
+IMAPAccount {{.name}}
+Host {{.host}}
+User {{.user}}
+PassCmd "gopass show communication/{{.host}}/{{.user}}"
+Port {{ .port }}
+SSLType IMAPS
+AuthMechs Login
+CertificateFile ~/.guix-home/profile/etc/ssl/certs/ca-certificates.crt
+
+IMAPStore {{.name}}-remote
+Account {{.name}}
+
+MaildirStore {{.name}}-local
+Path ~/Mail/{{.name}}/
+Inbox ~/Mail/{{.name}}/INBOX
+SubFolders Verbatim
+
+Channel {{.name}}
+Near :{{.name}}-local:
+Far :{{.name}}-remote:
+Patterns {{ range .patterns }}{{.| quote}} {{end}}
+Create Both
+Sync All
+Expunge Both
+Remove Both
+SyncState *
+{{ end }}
+{{ end }}
