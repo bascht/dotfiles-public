@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: lgb
-# key: lgb
-# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
-# --
-Liebe Grüße,
-  Bascht
