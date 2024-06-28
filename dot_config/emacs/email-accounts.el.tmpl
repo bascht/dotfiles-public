@@ -1,7 +1,10 @@
 {{ if hasKey . "mail" -}}
-    (setq mu4e-contexts
+;;; email-accounts --- my mu4e accounts for this computer
+;;; Commentary:
+;;; Code:
+(setq mu4e-contexts `(
 {{ range .mail.accounts -}}
-          `( ,(make-mu4e-context
+           ,(make-mu4e-context
                :name "{{.name}}"
                :enter-func (lambda () (mu4e-message "Entering {{.name}} context"))
                :leave-func (lambda () (mu4e-message "Leaving {{.name}} context"))
@@ -14,5 +17,16 @@
                         (mu4e-drafts-folder . "/{{.name}}/{{.drafts_folder}}")
                         (mu4e-trash-folder . "/{{.name}}/{{.trash_folder}}")
                         ( message-user-organization . "{{.name}}" )
-                        )))
-{{- end}}){{- end}}
+                        ))
+{{ end}}))
+
+{{ if hasKey .mail "bookmarks" -}}
+(setq mu4e-bookmarks '(
+{{ range .mail.bookmarks -}}
+    (:name  {{ .name | quote }} :query {{ .query | quote}} :key ?{{ .key }})
+{{ end }}
+))
+{{ end }}
+(provide 'email-accounts)
+;;; email-accounts.el ends here
+{{- end}}
