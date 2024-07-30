@@ -24,3 +24,6 @@ sleep 0.3
 swaymsg workspace "3 "
 swaymsg layout tabbed
 swaymsg exec start-comms
+
+systemctl --user import-environment
+systemd-notify --ready
