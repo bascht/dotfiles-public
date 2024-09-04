@@ -66,6 +66,11 @@ output $display_coworking pos 2560 0
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
+
+input "type:pointer" {
+    natural_scroll enabled
+}
+
 input "2:7:SynPS/2_Synaptics_TouchPad" {
     tap enabled
     natural_scroll enabled
