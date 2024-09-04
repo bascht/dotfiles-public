@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 FOLDER="${1:-${HOME}}"
 
-COMMAND="(dirvish \"${FOLDER}\")"
+COMMAND="(dired \"${FOLDER}\")"
 exec em -e "${COMMAND}"
