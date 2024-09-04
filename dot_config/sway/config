@@ -382,6 +382,7 @@ bindsym $megamod+p exec $menu gopass;
 bindsym $megamod+s exec $menu snippets;
 bindsym $megamod+m exec $menu emoji;
 bindsym $megamod+e exec em;
+bindsym $megamod+shift+e exec comacs;
 bindsym $megamod+c exec $menu clipboard;
 bindsym $megamod+r exec $menu calc;
 
@@ -410,6 +411,7 @@ mode $mode_run {
   bindsym $mod+w exec chromium-browser; mode "default";
 
   bindsym e exec em; mode "default"
+  bindsym shift+E exec comacs; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
   bindsym r exec $menu calc; mode "default"
