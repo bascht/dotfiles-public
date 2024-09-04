@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-dragon --thumb-size 256 --icon-only --and-exit $(last-screenshot)
+dragon-drop --thumb-size 256 --icon-only --and-exit $(last-screenshot)
