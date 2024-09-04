@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-pkill -9 sway
-rm -f /run/user/1000/sway-ipc.*
+systemctl --user import-environment
+exec systemctl --wait --user start sway.service
+
+
+# pkill -9 sway
+# rm -f /run/user/1000/sway-ipc.*
 
 #exec sway --debug --verbose 2> ~/sway-$(date +%Y-%m-%d-%H%M%S).log
 #
 #export XDG_CURRENT_DESKTOP=sway
 #exec dbus-run-session -- sway 1>&1 > /dev/null
-exec /usr/bin/start-sway
+#exec /usr/bin/start-sway
