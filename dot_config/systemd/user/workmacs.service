@@ -1,0 +1,16 @@
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/emacs --fg-daemon=workmacs
+ExecStop=/usr/bin/emacsclient -s workmacs --no-wait --eval '(progn (setq kill-emacs-hook nil) (kill emacs))'
+Restart=on-failure
+Environment=COLORTERM=truecolor
+Environment=DOOMPROFILE=workmacs
+
+[Unit]
+Description=Emacs workmacs daemon
+After=graphical-session-pre.target
+PartOf=graphical-session.target
+X-RestartIfChanged=false
