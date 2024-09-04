@@ -22,14 +22,14 @@ set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 set $display_teleprompter "Mediatrix Peripherals Inc MPI7002 0x00000001"
 
 # Set the cursor for both Sway & GTK
-seat seat0 xcursor_theme Bibata-Modern-Classic 16
+seat seat0 xcursor_theme Adwaita 16
 set $gnome-schema org.gnome.desktop.interface
 
 exec_always {
-    gsettings set $gnome-schema gtk-theme 'Yaru'
-    gsettings set $gnome-schema icon-theme 'Yaru'
-    gsettings set $gnome-schema cursor-theme 'Bibata-Modern-Classic'
-    gsettings set $gnome-schema font-name 'JetBrains Mono'
+    gsettings set $gnome-schema gtk-theme 'Adwaita'
+    gsettings set $gnome-schema icon-theme 'Adwaita'
+    gsettings set $gnome-schema cursor-theme 'Adwaita'
+    gsettings set $gnome-schema font-name 'JetBrainsMono Nerd Font'
 }
 ### Output configuration
 output * bg ~/Pictures/Wallpapers/spring-mountains-colourful.jpg fill
@@ -453,7 +453,7 @@ bindsym $mod+d mode $mode_run
 bindsym $mod+shift+d mode $mode_run
 bindsym $mod+r mode $mode_resize
 
-font pango:JetBrains Mono 10
+font pango:JetBrainsMono Nerd Font 10
 default_border pixel 2
 workspace_auto_back_and_forth yes
 
@@ -478,7 +478,7 @@ bar {
 	id main
   position top
   status_command i3status-rs  ~/.config/i3status-main.toml
-  font pango:JetBrains Mono, FontAwesome 12
+  font pango:JetBrainsMono Nerd Font, Font Awesome 6 Free 18
 	output $display_laptop
 	output $display_lg
 	output $display_coworking
@@ -500,7 +500,7 @@ bar {
 	id secondary
   position top
   status_command i3status-rs  ~/.config/i3status-secondary.toml
-  font pango:JetBrains Mono, FontAwesome 12
+  font pango:JetBrainsMono Nerd Font, Font Awesome 6 Free 12
 	output $display_dell
 	tray_output none
   colors {
@@ -521,7 +521,7 @@ bar {
 	id teleprompter
   position top
   status_command i3status-rs  ~/.config/i3status-secondary.toml
-  font pango:JetBrains Mono, FontAwesome 12
+  font pango:JetBrainsMono Nerd Font, Font Awesome 6 Free 12
 	output $display_teleprompter
 	tray_output none
   colors {
