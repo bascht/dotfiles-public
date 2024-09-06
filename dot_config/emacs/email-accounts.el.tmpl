@@ -11,20 +11,20 @@
                :match-func (lambda (msg)
                              (when msg
                                (string-match-p "^/{{.name}}" (mu4e-message-field msg :maildir))))
-               :vars '( ( user-mail-address	    . "{{.user}}"  )
+               :vars '( ( user-mail-address	    . "{{.email_address }}"  )
                         ( user-full-name	    . "{{.full_name}}" )
-                        (mu4e-sent-folder . "/{{.name}}/{{.sent_folder}}")
-                        (mu4e-drafts-folder . "/{{.name}}/{{.drafts_folder}}")
-                        (mu4e-trash-folder . "/{{.name}}/{{.trash_folder}}")
+                        (mu4e-sent-folder . "/{{.sent_folder}}")
+                        (mu4e-drafts-folder . "/{{.drafts_folder}}")
+                        (mu4e-trash-folder . "/{{.trash_folder}}")
                         ( message-user-organization . "{{.name}}" )
                         ))
 {{ end}}))
 
 {{ if hasKey .mail "bookmarks" -}}
 (setq mu4e-bookmarks '(
-{{ range .mail.bookmarks -}}
-    (:name  {{ .name | quote }} :query {{ .query | quote}} :key ?{{ .key }})
-{{ end }}
+{{- range .mail.bookmarks }}
+  (:name  {{ .name | quote }} :query {{ .query | quote}} :key ?{{ .key }})
+{{- end }}
 ))
 {{ end }}
 (provide 'email-accounts)
