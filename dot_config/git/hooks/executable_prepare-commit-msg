@@ -1,42 +1,58 @@
 #!/usr/bin/env bash
 
-log_level=${LOG_LEVEL:-}
-log_level=INFO
+log_level=${LOG_LEVEL:-INFO}
 
 if [ -z "$1" ]; then
-  echo "No tempfile given"
-  exit 1
+    echo "No tempfile given"
+    exit 1
 fi
 
 commit_file=$1
 commit_msg=$(<"$commit_file")
 
+if [[ "${PWD}" == "/home/bascht/Code/bascht/dotfiles" ]]; then
+    STAGED_FILES=$(git status --porcelain | sed "s/private_//" | grep -oP '^[MM|M ]  \K[\S/]+' | head -n 1)
+
+    echo "${STAGED_FILES}"
+    case "${STAGED_FILES}" in
+        dotx_config/foot*) COMMIT_COMPONENT="foot" ;;
+    esac
+    echo "Nothing found, checking ${STAGED_FILES}"
+    if [[ -z "${COMMIT_COMPONENT}" ]]; then
+        echo "Searching in component"
+        COMMIT_COMPONENT=$(echo "${STAGED_FILES}" | cut -d "/" -f 2)
+    fi
+fi
+
 if [ -z "$commit_msg" ]; then
-  if [ "$log_level" = "DEBUG" ]; then
-    echo "Nothing given, aborting" >&2
-  fi
-  exit 0
+    if [ "$log_level" = "DEBUG" ]; then
+        echo "Nothing given, aborting" >&2
+    fi
+    exit 0
 fi
 
 first_line=$(echo "$commit_msg" | head -n 1 | tr -d '[:space:]')
 
 if [ -n "$first_line" ]; then
-  if [ "$log_level" = "DEBUG" ]; then
-    echo "Commit message not empty, aborting" >&2
-  fi
-  exit 0
+    if [ "$log_level" = "DEBUG" ]; then
+        echo "Commit message not empty, aborting" >&2
+    fi
+    exit 0
+fi
+
+if [ -n "${COMMIT_COMPONENT}" ]; then
+    echo -e "[${COMMIT_COMPONENT}] \n${commit_msg}" >"$commit_file"
 fi
 
 gitlab_match=$(echo "$commit_msg" | grep -Po '# On branch \K\d+')
 
 if [ -n "$gitlab_match" ]; then
-  ticket="$gitlab_match"
-  new_commit="\n# Refs: #${ticket}\n${commit_msg}"
-  echo -e "$new_commit" > "$commit_file"
+    ticket="$gitlab_match"
+    new_commit="\n# Refs: #${ticket}\n${commit_msg}"
+    echo -e "$new_commit" >"$commit_file"
 else
-  if [ "$log_level" = "DEBUG" ]; then
-	  echo "Could not extract a ticket from the commit message" >&2;
-	  exit 0
-  fi;
+    if [ "$log_level" = "DEBUG" ]; then
+        echo "Could not extract a ticket from the commit message" >&2
+        exit 0
+    fi
 fi
-
