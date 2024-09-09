@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+set -xv
+
+{{ if hasKey . "mail" -}}
+{{ range .mail.accounts -}}
+{{ if hasKey . "certificate" -}}
+echo '{{ .certificate }}' >"${HOME}/.cert/email-cert-{{ .name }}.pem"
+{{ end }}
+{{ end }}
+{{ end }}

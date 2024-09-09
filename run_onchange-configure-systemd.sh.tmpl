@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# systemd-hash: {{ glob "~/.config/systemd/user/*" | join "" | sha256sum }}
+systemctl --user daemon-reload
