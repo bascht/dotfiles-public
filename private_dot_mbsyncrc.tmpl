@@ -5,9 +5,11 @@ Host {{.host}}
 User {{.user}}
 PassCmd "gopass show communication/{{.host}}/{{.user}}"
 Port {{ .port }}
-SSLType IMAPS
+TLSType IMAPS
 AuthMechs Login
-CertificateFile ~/.guix-home/profile/etc/ssl/certs/ca-certificates.crt
+{{ if hasKey . "certificate" -}}
+CertificateFile ~/.cert/email-cert-{{.name}}.pem
+{{ end }}
 
 IMAPStore {{.name}}-remote
 Account {{.name}}
