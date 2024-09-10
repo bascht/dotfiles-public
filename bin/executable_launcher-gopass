@@ -16,9 +16,11 @@ fi
 input=$(gopass list -f | fzf -q "$QUERY")
 
 swaymsg move scratchpad
-gopass show -o "$input" | wl-copy
+PASSWORD=$(gopass show -o "$input")
+echo "${PASSWORD}"| wl-copy
 
 notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
 sleep 10
+cliphist delete-query "${PASSWORD}"
 wl-copy --clear
 notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
