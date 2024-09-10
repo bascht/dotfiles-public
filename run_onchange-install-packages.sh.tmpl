@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-exit 0
+
 ADD=(
     "gopass"
     "git-credential-gopass"
@@ -96,7 +96,7 @@ ADD=(
     "pinentry"
     "playerctl"
     "pngquant"
-    "poppler"
+#    "poppler"
     "prusa-slicer"
     "pwgen"
     "python-mpmath"
@@ -148,7 +148,7 @@ REMOVE=(
 )
 
 LOG=$(mktemp)
-
+yay --sync
 yay -S --needed --noconfirm "${ADD[@]}"
 exit 0
 for PACKAGE in "${ADD[@]}"; do
