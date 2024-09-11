@@ -5,6 +5,11 @@ ADD=(
     "git-credential-gopass"
     "emacs-wayland"
     "ttf-jetbrains-mono-nerd"
+    "ttc-iosevka-aile-super"
+    "ttc-iosevka-etoile-super"
+    "ttc-iosevka-slab-super"
+    "ttc-iosevka-curly-slab-super"
+    "ttc-iosevka-curly-super"
     "otf-font-awesome"
     "sway-dynamic-names"
     "otf-ibm-plex"
@@ -23,7 +28,7 @@ ADD=(
     "borg"
     "borgmatic"
     "clang"
-#    "clang-toolchain"
+    #    "clang-toolchain"
     "clipman"
     "cloc"
     "curl"
@@ -33,7 +38,7 @@ ADD=(
     "dmenu"
     "dragon-drop"
     "editorconfig-core-c"
-    "emacs-pgtk"
+    #    "emacs-pgtk"
     "glibc-locales"
     "libvterm"
     "meson"
@@ -43,9 +48,9 @@ ADD=(
     "fd"
     "ffmpeg"
     "ffmpegthumbnailer"
-    "font-ibm-plex"
-    "font-jetbrains-mono"
-    "font-openmoji"
+    #  "font-ibm-plex"
+    #   "font-jetbrains-mono"
+    #    "font-openmoji"
     "foot"
     "fzf"
     "ghostscript"
@@ -98,7 +103,7 @@ ADD=(
     "pinentry"
     "playerctl"
     "pngquant"
-#    "poppler"
+    #    "poppler"
     "prusa-slicer"
     "pwgen"
     "python-mpmath"
@@ -146,7 +151,7 @@ ADD=(
 )
 
 REMOVE=(
-  firefox
+    firefox
 )
 
 LOG=$(mktemp)
@@ -154,12 +159,12 @@ yay --sync
 yay -S --needed --noconfirm "${ADD[@]}"
 exit 0
 for PACKAGE in "${ADD[@]}"; do
-    if ! yay -Qs "^${PACKAGE}$" > /dev/null; then
+    if ! yay -Qs "^${PACKAGE}$" >/dev/null; then
         echo "Installing: ${PACKAGE}"
-        if ! yay -S --noconfirm "${PACKAGE}" >> "${LOG}" ; then
+        if ! yay -S --noconfirm "${PACKAGE}" >>"${LOG}"; then
             echo "Failed to install ${PACKAGE}"
-            fi;
+        fi
     else
         echo "Already installed: ${PACKAGE}"
-    fi;
+    fi
 done
