@@ -23,7 +23,7 @@
   };
   document.addEventListener('readystatechange', async function onReadyStateChange() {
 
-    var lastTopBarItem = document.querySelector("div.top-bar-container nav ul li:last-child");
+    var lastTopBarItem = document.querySelector("div.top-bar-container nav ol li:last-child");
     if (lastTopBarItem) {
       lastTopBarItem.style.marginRight = "20px"
       document.querySelectorAll("ul[data-testid=pinned-nav-items]>li>a").forEach((a) => {
