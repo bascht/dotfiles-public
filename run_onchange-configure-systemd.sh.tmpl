@@ -2,3 +2,7 @@
 
 # systemd-hash: {{ glob "~/.config/systemd/user/*" | join "" | sha256sum }}
 systemctl --user daemon-reload
+
+{{- if (eq .chezmoi.hostname "apfelstrudel") }}
+sudo systemctl enable --now docker
+{{ end }}
