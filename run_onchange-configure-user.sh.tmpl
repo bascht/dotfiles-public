@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if getent group docker; then
+  sudo usermod -a -G docker bascht
+fi;
