@@ -22,11 +22,11 @@ body#appBody.system-theme
 }
 
 body section#buffer-header *, body section#buffer-list *, body.channel-view * {
-  font-family: "Iosevka Aile" !important;
+  font-family: "Iosevka Curly" !important;
 }
 
 html.ng-csp body#body-user.theme--light * {
-  font-family: "Iosevka Aile" !important;
+  font-family: "Iosevka Curly" !important;
 }
 
 /* Todoist could use a proper font as well */
