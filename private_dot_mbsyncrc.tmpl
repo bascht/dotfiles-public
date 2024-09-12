@@ -7,9 +7,9 @@ PassCmd "gopass show communication/{{.host}}/{{.user}}"
 Port {{ .port }}
 TLSType IMAPS
 AuthMechs Login
-{{ if hasKey . "certificate" -}}
+{{- if hasKey . "certificate" -}}
 CertificateFile ~/.cert/email-cert-{{.name}}.pem
-{{ end }}
+{{- end }}
 
 IMAPStore {{.name}}-remote
 Account {{.name}}
@@ -28,5 +28,6 @@ Sync All
 Expunge Both
 Remove Both
 SyncState *
+
 {{ end }}
 {{ end }}
