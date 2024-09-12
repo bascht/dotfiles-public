@@ -12,442 +12,449 @@ There is still loads to fix but I can move forward with my initial target of fin
 - [ ] Fix up =fontaine= style
 
 #+begin_src emacs-lisp :tangle init.el
-        ;; Bare minimum defaults via https://git.sr.ht/~technomancy/better-defaults/tree/main/item/better-defaults.el
-        (require 'use-package-ensure)
-        (setq save-interprogram-paste-before-kill t
-              initial-major-mode 'emacs-lisp-mode
-              use-package-always-ensure t
-              apropos-do-all t
-              mouse-yank-at-point t
-              require-final-newline t
-              visible-bell t
-              load-prefer-newer t
-              ad-redefinition-action 'accept
-
-              backup-by-copying t
-              frame-inhibit-implied-resize t
-              ediff-window-setup-function 'ediff-setup-windows-plain
-              custom-file (expand-file-name "custom.el" user-emacs-directory)
-              backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-
-        (require 'package)
-        (with-eval-after-load 'package
-          (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-        (package-initialize)
-
-        (use-package emacs
-          :config
-          (winner-mode)
-
-          (tool-bar-mode -1)
-          (menu-bar-mode -1)
-          (if (fboundp 'scroll-bar-mode) (set-scroll-bar-mode nil))
-
-          ;; If you want to turn off the welcome screen, uncomment this
-          (setopt inhibit-splash-screen t)
-
-          (defalias 'yes-or-no-p 'y-or-n-p) ;; life is too short
-
-
-          (setopt initial-major-mode 'emacs-lisp-mode)
-          (setopt initial-scratch-message (format ";; Scratch buffer from session %s" (daemonp)))
-          (setopt display-time-default-load-average nil)
-
-          ;; Make sure to sync the clipboard
-          (setq wl-copy-process nil)
-          (defun wl-copy (text)
-            (setq wl-copy-process (make-process :name "wl-copy"
-                                                :buffer nil
-                                                :command '("wl-copy" "-f" "-n")
-                                                :connection-type 'pipe
-                                                :noquery t))
-            (process-send-string wl-copy-process text)
-            (process-send-eof wl-copy-process))
-          (defun wl-paste ()
-            (if (and wl-copy-process (process-live-p wl-copy-process))
-                nil ; should return nil if we're the current paste owner
-              (shell-command-to-string "wl-paste -n | tr -d \r")))
-          (setq interprogram-cut-function 'wl-copy)
-          (setq interprogram-paste-function 'wl-paste)
-
-          ;; Automatically reread from disk if the underlying file changes
-          (setopt auto-revert-avoid-polling t)
-          ;; Some systems don't do file notifications well; see
-          ;; https://todo.sr.ht/~ashton314/emacs-bedrock/11
-          (setopt auto-revert-interval 5)
-          (setopt auto-revert-check-vc-info t)
-
-          (global-auto-revert-mode)
-
-          (if (string= (daemonp) "workmacs")
-              (add-hook 'emacs-startup-hook #'bascht--setup-workmacs)))
-
-        (defun bascht--setup-workmacs()
-          (interactive)
-          (org-journal-open-current-journal-file)
-          (delete-other-windows)
-          (breadcrumb-mode -1)
-          (setq indicate-empty-lines nil
-                doom-modeline-vcs-icon nil
-                doom-modeline-check-icon nil
-                doom-modeline-workspace-name nil
-                doom-modeline-persp-name nil
-                doom-modeline-persp-icon nil
-                doom-modeline-lsp nil
-                mode-line-format nil
-                server-client-instructions nil )
-          (spacious-padding-mode)
-
-          (add-hook 'org-journal-mode-hook
-
-                    (lambda () (add-hook 'after-save-hook 'delete-frame)))
-                                                ; Somehow my brain mapped this shortcut in org-journal mode
-                                                ; Oh yes, you know why? Because they feel like I finish a "git commit" :D
-          ;; (map! :after org-journal
-          ;;       :map org-journal-mode-map
-          ;;       :n "C-c C-c" #'save-buffer)
-          )
-        (use-package fontaine
-          :ensure t
-          :init
-          (setq fontaine-presets
-                '((regular
-                   :default-family "JetBrains Mono Nerd Font Mono"
-                   :default-height 120
-                   :fixed-pitch-family "MonaspiceAr NF"
-                   :variable-pitch-family "VictorMono Nerd Font Proto"
-                   :italic-family "JetBrains Mono Nerd Font Mono"
-      ;             :italic-family "MonaspiceRn NF"
-                   )
-                  (writing
-                   :default-family "MonaspiceRn NF"
-                   :default-height 140
-                   :fixed-pitch-family "MonaspiceXe NF"
-                   :variable-pitch-family "MonaspiceAr NF"
-                   :italic-family "MonaspiceRn NF")
-                  (input
-                   :default-family "InputMono Nerd Font"
-                   :default-height 140
-                   :fixed-pitch-family "InputSans Nerd Font"
-                   :variable-pitch-family "InputSerif Nerd Font"
-                   )
-                  (worklogger
-                   :default-family "MonaspiceAr NF"
-                   :default-height 140
-                   :fixed-pitch-family "MonaspiceRn NF"
-                   :variable-pitch-family "MonaspiceXe NF"
-                   :italic-family "MonaspiceRn NF")
-                  (pixellove
-                   :default-family "Departure Mono"
-                   :default-height 120
-                   :fixed-pitch-family "Departure Mono"
-                                                ;                      :variable-pitch-family "Departure Mono"
-                                                ;                     :italic-family "MonaspiceRn NF"
-                   )
-                  (large
-                   :default-height 150
-                   )))
-          :config
-
-          (unless (and (not (daemonp)) (not (window-system)))
-              (if (string= (daemonp) "workmacs")
-                  (fontaine-set-preset 'worklogger)
-                (fontaine-set-preset 'regular))))
-
-        (use-package emojify
-          :ensure t
-          :config
-          (setq
-           emojify-display-style 'unicode
-           emojify-download-emojis-p t))
-
-
-        (use-package dired
-          :ensure nil
-          :hook (dired-mode . dired-hide-details-mode)
-          :config (setq dired-dwim-target t))
-
-        (use-package dired-preview
-          :ensure nil
-          :init
-          (defun my-dired-preview-to-the-right ()
-            "My preferred `dired-preview-display-action-alist-function'."
-            '((display-buffer-in-side-window)
-              (side . right)
-              (width . 0.2)))
-          :config
-          (setq dired-preview-delay 0.4)
-          (setq dired-preview-max-size (expt 2 20))
-          (setq dired-preview-display-action-alist-function #'my-dired-preview-to-the-right)
-          (dired-preview-global-mode)
-          )
-                                                ;             (use-package dired-info :ensure nil)
-
-        (use-package dired-sidebar :ensure t)
-        (use-package dired-hacks-utils :ensure t)
-
-        ;; Save history of minibuffer
-        (savehist-mode)
-
-        (recentf-mode)
-
-        ;; Move through windows with Ctrl-<arrow keys>
-
-        (windmove-default-keybindings 'control) ; You can use other modifiers here
-
-        ;; Fix archaic defaults
-        (setopt sentence-end-double-space nil)
-
-        ;; Make right-click do something sensible
-        (when (display-graphic-p)
-          (context-menu-mode))
-
-        ;; Don't litter file system with *~ backup files; put them all inside
-        ;; ~/.emacs.d/backup or wherever
-        (defun bedrock--backup-file-name (fpath)
-          "Return a new file path of a given file path.
-                                                          If the new path's directories does not exist, create them."
-          (let* ((backupRootDir (concat user-emacs-directory "backups"))
-                 (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path
-                 (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
-            (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
-            backupFilePath))
-        (setopt make-backup-file-name-function 'bedrock--backup-file-name)
-
-        (use-package which-key
-          :ensure t
-          :load-path "/home/bascht/Code/wesnel/emacs-which-key/"
-          :config
-          (which-key-mode))
-
-
-        (setopt enable-recursive-minibuffers t)                ; Use the minibuffer whilst in the minibuffer
-        (setopt completion-cycle-threshold 1)                  ; TAB cycles candidates
-        (setopt completions-detailed t)                        ; Show annotations
-        (setopt tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
-        (setopt completion-styles '(basic initials substring)) ; Different styles to match input to candidates
-
-        (setopt completion-auto-help 'always)                  ; Open completion always; `lazy' another option
-        (setopt completions-max-height 20)                     ; This is arbitrary
-        (setopt completions-detailed t)
-        (setopt completions-format 'one-column)
-        (setopt completions-group t)
-        (setopt completion-auto-select 'second-tab)            ; Much more eager
-                                                ;(setopt completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
-
-        (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete) ; TAB acts more like how it does in the shell
-        ;;
-
-        ;; Mode line information
-        (setopt line-number-mode t)                        ; Show current line in modeline
-        (setopt column-number-mode t)                      ; Show column as well
-
-        (setopt x-underline-at-descent-line nil)           ; Prettier underlines
-        (setopt switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
-
-        (setopt show-trailing-whitespace nil)      ; By default, don't underline trailing spaces
-        (setopt indicate-buffer-boundaries 'left)  ; Show buffer top and bottom in the margin
-
-        ;; Enable horizontal scrolling
-        (setopt mouse-wheel-tilt-scroll t)
-        (setopt mouse-wheel-flip-direction t)
-
-        ;; We won't set these, but they're good to know about
-        ;;
-        (setopt indent-tabs-mode nil)
-        (setopt tab-width 2)
-
-        ;; Misc. UI tweaks
-        (blink-cursor-mode -1)                                ; Steady cursor
-        (pixel-scroll-precision-mode)                         ; Smooth scrolling
-
-        ;; Use common keystrokes by default
-                                                ;(cua-mode)
-
-        ;; Display line numbers in programming mode
-        ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-        ;; (setopt display-line-numbers-width 3)           ; Set a minimum width
-
-        ;; Nice line wrapping when working with text
-        (add-hook 'text-mode-hook 'visual-line-mode)
-
-        ;; Modes to highlight the current line with
-        (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
-          (mapc (lambda (hook) (add-hook hook 'hl-line-mode)) hl-line-hooks))
-
-                                                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                          ;;;
-                                                          ;;;   Tab-bar configuration
-                                                          ;;;
-                                                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; Show the tab-bar as soon as tab-bar functions are invoked
-        (setopt tab-bar-show 1)
-
-        ;; Add the time to the tab-bar, if visible
-        (add-to-list 'tab-bar-format 'tab-bar-format-align-right 'append)
-        (add-to-list 'tab-bar-format 'tab-bar-format-global 'append)
-        (setopt display-time-format "%a %F %T")
-        (setopt display-time-interval 1)
-        ;; (display-time-mode nil)
-
-        (use-package exec-path-from-shell
-          :if (memq window-system '(mac ns))
-          :ensure t
-          :config
-          (exec-path-from-shell-initialize))
-
-
-
-        (use-package ef-themes
-          :ensure t
-          ;; :defer t
-          :init
-          :config
-          (setq ef-themes-mixed-fonts t
-                ef-themes-variable-pitch-ui t)
-          (mapc #'disable-theme custom-enabled-themes)
-          (if (string= (daemonp) "workmacs")
-              (ef-themes-select 'ef-cyprus)
-            (ef-themes-select 'ef-light)))
-        ;;             (use-package god-mode
-        ;;       :ensure t
-        ;;     :config (god-mode-all)
-        ;;     (define-key god-local-mode-map (kbd "z") #'repeat)
-        ;;   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
-        ;;   (global-set-key (kbd "C-x C-1") #'delete-other-windows)
-        ;; (global-set-key (kbd "C-x C-2") #'split-window-below)
-        ;; (global-set-key (kbd "C-x C-3") #'split-window-right)
-        ;; (global-set-key (kbd "C-x C-0") #'delete-window)
-        ;; 
-        ;; (define-key god-local-mode-map (kbd "[") #'backward-paragraph)
-        ;; (define-key god-local-mode-map (kbd "]") #'forward-paragraph)
-        ;; 
-        ;;     )
-
-        (use-package casual-suite
-          :config
-          (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
-          (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
-          (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
-          (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-          (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-          (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
-          (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
-          (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
-          (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
-          (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
-          (keymap-global-set "M-g" #'casual-avy-tmenu))
-
-        ;; (use-package devil
-        ;;   :ensure t
-        ;;   :config
-        ;;   (global-devil-mode 1))
-
-    ;;     (use-package general
-    ;;       :ensure t
-    ;;       :demand t
-    ;;       :config
-    ;;       (general-auto-unbind-keys)
-    ;;       (general-create-definer my-leader-def
-    ;;         :prefix "M-SPC")
-
-    ;;       (my-leader-def
-    ;;         "SPC" '(execute-extended-command :which-key "execute command")
-    ;;         "/" '(ripgrep :which-key "")
-    ;;         "m" '(bascht-mu4e-persp :which-key "mu4e")
-    ;;         "a" '(org-agenda :which-key "mu4e")
-
-    ;;         "c" 'org-capture
-    ;;         "x" '(persp-switch-to-scratch-buffer :which-key "")
-
-    ;;         ;; Emacs
-    ;;         "e" '(:ignore t :which-key "emacs")
-    ;;         "e e" '((lambda () (interactive) (find-file user-init-file)) :which-key "open init file")
-    ;;         "e r" '(restart-emacs :whick-key "restart emacs")
-
-    ;;         ;; Toggle
-    ;;         "t" '(:ignore t :which-key "toggle")
-    ;;         "t t" '(vterm-toggle :which-key "Toggle vterm")
-    ;;         "t c" '(comment-or-uncomment-region :which-key "")
-
-    ;;         ;; Emacs
-    ;;         "e" '(:ignore t :which-key "emacs")
-
-    ;;         ;; Windows
-    ;; ;;        "w" '(:ignore t :which-key "windows")
-    ;;   ;;      "w w" '(other-window :which-key "")
-    ;;         ;; "w d" '(evil-window-delete :which-key "")
-    ;;         ;; "w l" '(evil-window-right :which-key "")
-    ;;         ;; "w h" '(evil-window-left :which-key "")
-    ;;         ;; "w k" '(evil-window-up :which-key "")
-    ;;         ;; "w j" '(evil-window-down :which-key "")
-    ;;         ;; "w L" '(evil-window-move-right :which-key "")
-    ;;         ;; "w H" '(evil-window-move-left :which-key "")
-    ;;         ;; "w K" '(evil-window-move-up :which-key "")
-    ;;         ;; "w J" '(evil-window-move-down :which-key "")
-    ;;         ;; "w s" '(evil-window-split :which-key "")
-    ;;         ;; "w v" '(evil-window-vsplit :which-key "")
-    ;;     ;;    "w m m" '(bascht--toggle-window-zoom :which-key "")
-
-    ;;         ;; All sorts of searches
-    ;;         "s" '(:ignore t :which-key "search")
-    ;;         "s s" '(consult-ripgrep :which-key "")
-    ;;         "s l" '(consult-line :which-key "")
-    ;;         "s L" '(consult-line-multi :which-key "")
-    ;;         "s o" '(consult-outline :which-key "")
-    ;;         "s i" '(consult-imenu :which-key "")
-    ;;         "s w" '(eww-search-words :which-key "")
-
-    ;;         ;; Perspective mode
-    ;;         "TAB" '(:ignore t :which-key "windows")
-    ;;         "TAB l" '(persp-switch-last :which-key "")
-    ;;         "TAB ." '(persp-switch :which-key "")
-    ;;         "TAB ," '(persp-rename :which-key "")
-    ;;         "TAB d" '(persp-kill :which-key "")
-    ;;         "TAB n" '(bascht-create-new-persp :which-key "")
-
-    ;;         ;; Buffers
-    ;;         "b" '(:ignore t :which-key "buffers")
-    ;;         "b b" '(consult-buffer :which-key "Find a file in project")
-    ;;         "b B" '(consult-buffer-other-window :which-key "Find a file in project")
-
-    ;;         ;; Files
-    ;;         "f" '(:ignore t :which-key "files")
-    ;;         "f s" '(save-buffer :which-key "")
-    ;;         "f r" '(consult-recent-file :which-key "")
-    ;;         "f f" '(find-file :which-key "Find a file in project")
-    ;;         "f F" '(find-file-other-window :which-key "Find a file in project")
-    ;;         "f d" '(dired-jump :which-key "")
-    ;;         "f D" '(dired-jump-other-window :which-key "")
-
-    ;;         ;; Project
-    ;;         "p" '(:ignore t :which-key "project")
-    ;;         "p f" '(project-find-file :which-key "Find a file in project")
-    ;;         "p F" '(project-find-file-other :which-key "Find a file in project")
-    ;;         "p p" '(project-switch-project :which-key "Switch project")
-
-    ;;         ;; Embark 
-    ;;         "a" '(embark-act :which-key "")
-
-    ;;         ;; Org
-    ;;         "o" '(:ignore t :which-key "emacs")
-    ;;         "o h" '(consult-org-agenda :which-key "Go to agenda heading")
-    ;;         "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
-    ;;         "o c g" '(org-clock-goto :which-key "Go to current clock")
-
-
-    ;;         ;; Eval 
-    ;;         ;; "m e" '(:ignore t :which-key "")
-    ;;         ;; "m e d" '(eval-defun :which-key "Evaluate current defun")
-    ;;         ;; "m e b" '(eval-buffer :which-key "Evaluate current buffer")
-    ;;         ;; "m e r" '(eval-buffer :which-key "Evaluate current region") 
-
-    ;;         ;; Buffer
-    ;;         "b" '(:ignore t :which-key "buffer")
-    ;;         ;; Don't show an error because SPC b ESC is undefined, just abort
-    ;;         "b <escape>" '(keyboard-escape-quit :which-key t) 
-    ;;         "bd"  'kill-current-buffer))
+       ;; Bare minimum defaults via https://git.sr.ht/~technomancy/better-defaults/tree/main/item/better-defaults.el
+       (require 'use-package-ensure)
+       (setq save-interprogram-paste-before-kill t
+             initial-major-mode 'emacs-lisp-mode
+             use-package-always-ensure t
+             apropos-do-all t
+             mouse-yank-at-point t
+             require-final-newline t
+             visible-bell t
+             load-prefer-newer t
+             ad-redefinition-action 'accept
+
+             backup-by-copying t
+             frame-inhibit-implied-resize t
+             ediff-window-setup-function 'ediff-setup-windows-plain
+             custom-file (expand-file-name "custom.el" user-emacs-directory)
+             backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+
+       (require 'package)
+       (with-eval-after-load 'package
+         (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+       (package-initialize)
+
+       (use-package emacs
+         :config
+         (winner-mode)
+
+         (tool-bar-mode -1)
+         (menu-bar-mode -1)
+         (if (fboundp 'scroll-bar-mode) (set-scroll-bar-mode nil))
+
+         ;; If you want to turn off the welcome screen, uncomment this
+         (setopt inhibit-splash-screen t)
+
+         (defalias 'yes-or-no-p 'y-or-n-p) ;; life is too short
+
+
+         (setopt initial-major-mode 'emacs-lisp-mode)
+         (setopt initial-scratch-message (format ";; Scratch buffer from session %s" (daemonp)))
+         (setopt display-time-default-load-average nil)
+
+         ;; Make sure to sync the clipboard
+         (setq wl-copy-process nil)
+         (defun wl-copy (text)
+           (setq wl-copy-process (make-process :name "wl-copy"
+                                               :buffer nil
+                                               :command '("wl-copy" "-f" "-n")
+                                               :connection-type 'pipe
+                                               :noquery t))
+           (process-send-string wl-copy-process text)
+           (process-send-eof wl-copy-process))
+         (defun wl-paste ()
+           (if (and wl-copy-process (process-live-p wl-copy-process))
+               nil ; should return nil if we're the current paste owner
+             (shell-command-to-string "wl-paste -n | tr -d \r")))
+         (setq interprogram-cut-function 'wl-copy)
+         (setq interprogram-paste-function 'wl-paste)
+
+         ;; Automatically reread from disk if the underlying file changes
+         (setopt auto-revert-avoid-polling t)
+         ;; Some systems don't do file notifications well; see
+         ;; https://todo.sr.ht/~ashton314/emacs-bedrock/11
+         (setopt auto-revert-interval 5)
+         (setopt auto-revert-check-vc-info t)
+
+         (global-auto-revert-mode)
+
+         (if (string= (daemonp) "workmacs")
+             (add-hook 'emacs-startup-hook #'bascht--setup-workmacs)))
+
+       (defun bascht--setup-workmacs()
+         (interactive)
+         (org-journal-open-current-journal-file)
+         (delete-other-windows)
+         (breadcrumb-mode -1)
+         (setq indicate-empty-lines nil
+               doom-modeline-vcs-icon nil
+               doom-modeline-check-icon nil
+               doom-modeline-workspace-name nil
+               doom-modeline-persp-name nil
+               doom-modeline-persp-icon nil
+               doom-modeline-lsp nil
+               mode-line-format nil
+               server-client-instructions nil )
+         (spacious-padding-mode)
+
+         (add-hook 'org-journal-mode-hook
+
+                   (lambda () (add-hook 'after-save-hook 'delete-frame)))
+                                               ; Somehow my brain mapped this shortcut in org-journal mode
+                                               ; Oh yes, you know why? Because they feel like I finish a "git commit" :D
+         ;; (map! :after org-journal
+         ;;       :map org-journal-mode-map
+         ;;       :n "C-c C-c" #'save-buffer)
+         )
+       (use-package fontaine
+         :ensure t
+         :init
+         (setq fontaine-presets
+               '((regular
+                  :default-family "JetBrains Mono Nerd Font Mono"
+                  :default-height 120
+                  :fixed-pitch-family "MonaspiceAr NF"
+                  :variable-pitch-family "VictorMono Nerd Font Proto"
+                  :italic-family "JetBrains Mono Nerd Font Mono"
+     ;             :italic-family "MonaspiceRn NF"
+                  )
+                 (writing
+                  :default-family "MonaspiceRn NF"
+                  :default-height 140
+                  :fixed-pitch-family "MonaspiceXe NF"
+                  :variable-pitch-family "MonaspiceAr NF"
+                  :italic-family "MonaspiceRn NF")
+                 (input
+                  :default-family "InputMono Nerd Font"
+                  :default-height 140
+                  :fixed-pitch-family "InputSans Nerd Font"
+                  :variable-pitch-family "InputSerif Nerd Font"
+                  )
+                 (iosevka
+                  :default-family "Iosevka Curly"
+                  :default-height 140
+                  :fixed-pitch-family "Iosevka Fixed Curly"
+                  :variable-pitch-family "Iosevka Curly Slab"
+                  )
+                 (worklogger
+                  :default-family "MonaspiceAr NF"
+                  :default-height 140
+                  :fixed-pitch-family "MonaspiceRn NF"
+                  :variable-pitch-family "MonaspiceXe NF"
+                  :italic-family "MonaspiceRn NF")
+                 (pixellove
+                  :default-family "Departure Mono"
+                  :default-height 120
+                  :fixed-pitch-family "Departure Mono"
+                                               ;                      :variable-pitch-family "Departure Mono"
+                                               ;                     :italic-family "MonaspiceRn NF"
+                  )
+                 (large
+                  :default-height 150
+                  )))
+         :config
+
+         (unless (and (not (daemonp)) (not (window-system)))
+             (if (string= (daemonp) "workmacs")
+                 (fontaine-set-preset 'worklogger)
+               (fontaine-set-preset 'regular))))
+
+       (use-package emojify
+         :ensure t
+         :config
+         (setq
+          emojify-display-style 'unicode
+          emojify-download-emojis-p t))
+
+
+       (use-package dired
+         :ensure nil
+         :hook (dired-mode . dired-hide-details-mode)
+         :config (setq dired-dwim-target t))
+
+       (use-package dired-preview
+         :ensure nil
+         :init
+         (defun my-dired-preview-to-the-right ()
+           "My preferred `dired-preview-display-action-alist-function'."
+           '((display-buffer-in-side-window)
+             (side . right)
+             (width . 0.2)))
+         :config
+         (setq dired-preview-delay 0.4)
+         (setq dired-preview-max-size (expt 2 20))
+         (setq dired-preview-display-action-alist-function #'my-dired-preview-to-the-right)
+         (dired-preview-global-mode)
+         )
+                                               ;             (use-package dired-info :ensure nil)
+
+       (use-package dired-sidebar :ensure t)
+       (use-package dired-hacks-utils :ensure t)
+
+       ;; Save history of minibuffer
+       (savehist-mode)
+
+       (recentf-mode)
+
+       ;; Move through windows with Ctrl-<arrow keys>
+
+       (windmove-default-keybindings 'control) ; You can use other modifiers here
+
+       ;; Fix archaic defaults
+       (setopt sentence-end-double-space nil)
+
+       ;; Make right-click do something sensible
+       (when (display-graphic-p)
+         (context-menu-mode))
+
+       ;; Don't litter file system with *~ backup files; put them all inside
+       ;; ~/.emacs.d/backup or wherever
+       (defun bedrock--backup-file-name (fpath)
+         "Return a new file path of a given file path.
+                                                         If the new path's directories does not exist, create them."
+         (let* ((backupRootDir (concat user-emacs-directory "backups"))
+                (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path
+                (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
+           (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+           backupFilePath))
+       (setopt make-backup-file-name-function 'bedrock--backup-file-name)
+
+       (use-package which-key
+         :ensure t
+         :load-path "/home/bascht/Code/wesnel/emacs-which-key/"
+         :config
+         (which-key-mode))
+
+
+       (setopt enable-recursive-minibuffers t)                ; Use the minibuffer whilst in the minibuffer
+       (setopt completion-cycle-threshold 1)                  ; TAB cycles candidates
+       (setopt completions-detailed t)                        ; Show annotations
+       (setopt tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
+       (setopt completion-styles '(basic initials substring)) ; Different styles to match input to candidates
+
+       (setopt completion-auto-help 'always)                  ; Open completion always; `lazy' another option
+       (setopt completions-max-height 20)                     ; This is arbitrary
+       (setopt completions-detailed t)
+       (setopt completions-format 'one-column)
+       (setopt completions-group t)
+       (setopt completion-auto-select 'second-tab)            ; Much more eager
+                                               ;(setopt completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
+
+       (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete) ; TAB acts more like how it does in the shell
+       ;;
+
+       ;; Mode line information
+       (setopt line-number-mode t)                        ; Show current line in modeline
+       (setopt column-number-mode t)                      ; Show column as well
+
+       (setopt x-underline-at-descent-line nil)           ; Prettier underlines
+       (setopt switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
+
+       (setopt show-trailing-whitespace nil)      ; By default, don't underline trailing spaces
+       (setopt indicate-buffer-boundaries 'left)  ; Show buffer top and bottom in the margin
+
+       ;; Enable horizontal scrolling
+       (setopt mouse-wheel-tilt-scroll t)
+       (setopt mouse-wheel-flip-direction t)
+
+       ;; We won't set these, but they're good to know about
+       ;;
+       (setopt indent-tabs-mode nil)
+       (setopt tab-width 2)
+
+       ;; Misc. UI tweaks
+       (blink-cursor-mode -1)                                ; Steady cursor
+       (pixel-scroll-precision-mode)                         ; Smooth scrolling
+
+       ;; Use common keystrokes by default
+                                               ;(cua-mode)
+
+       ;; Display line numbers in programming mode
+       ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+       ;; (setopt display-line-numbers-width 3)           ; Set a minimum width
+
+       ;; Nice line wrapping when working with text
+       (add-hook 'text-mode-hook 'visual-line-mode)
+
+       ;; Modes to highlight the current line with
+       (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
+         (mapc (lambda (hook) (add-hook hook 'hl-line-mode)) hl-line-hooks))
+
+                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                         ;;;
+                                                         ;;;   Tab-bar configuration
+                                                         ;;;
+                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+       ;; Show the tab-bar as soon as tab-bar functions are invoked
+       (setopt tab-bar-show 1)
+
+       ;; Add the time to the tab-bar, if visible
+       (add-to-list 'tab-bar-format 'tab-bar-format-align-right 'append)
+       (add-to-list 'tab-bar-format 'tab-bar-format-global 'append)
+       (setopt display-time-format "%a %F %T")
+       (setopt display-time-interval 1)
+       ;; (display-time-mode nil)
+
+       (use-package exec-path-from-shell
+         :if (memq window-system '(mac ns))
+         :ensure t
+         :config
+         (exec-path-from-shell-initialize))
+
+
+
+       (use-package ef-themes
+         :ensure t
+         ;; :defer t
+         :init
+         :config
+         (setq ef-themes-mixed-fonts t
+               ef-themes-variable-pitch-ui t)
+         (mapc #'disable-theme custom-enabled-themes)
+         (if (string= (daemonp) "workmacs")
+             (ef-themes-select 'ef-cyprus)
+           (ef-themes-select 'ef-light)))
+       ;;             (use-package god-mode
+       ;;       :ensure t
+       ;;     :config (god-mode-all)
+       ;;     (define-key god-local-mode-map (kbd "z") #'repeat)
+       ;;   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
+       ;;   (global-set-key (kbd "C-x C-1") #'delete-other-windows)
+       ;; (global-set-key (kbd "C-x C-2") #'split-window-below)
+       ;; (global-set-key (kbd "C-x C-3") #'split-window-right)
+       ;; (global-set-key (kbd "C-x C-0") #'delete-window)
+       ;; 
+       ;; (define-key god-local-mode-map (kbd "[") #'backward-paragraph)
+       ;; (define-key god-local-mode-map (kbd "]") #'forward-paragraph)
+       ;; 
+       ;;     )
+
+       (use-package casual-suite
+         :config
+         (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
+         (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
+         (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
+         (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+         (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+         (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
+         (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
+         (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
+         (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
+         (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
+         (keymap-global-set "M-g" #'casual-avy-tmenu))
+
+       ;; (use-package devil
+       ;;   :ensure t
+       ;;   :config
+       ;;   (global-devil-mode 1))
+
+      (use-package general
+        :ensure t
+        :demand t
+        :config
+        (general-auto-unbind-keys)
+        (general-create-definer my-leader-def
+          :prefix "M-SPC")
+
+        
+        (my-leader-def
+          "M-SPC" '(execute-extended-command :which-key "execute command")
+          "/" '(ripgrep :which-key "")
+          "m" '(bascht-mu4e-persp :which-key "mu4e")
+          "a" '(org-agenda :which-key "mu4e")
+
+          "c" 'org-capture
+          "x" '(persp-switch-to-scratch-buffer :which-key "")
+
+          ;; Emacs
+          "e" '(:ignore t :which-key "emacs")
+          "e e" '((lambda () (interactive) (find-file user-init-file)) :which-key "open init file")
+          "e r" '(restart-emacs :whick-key "restart emacs")
+
+          ;; Toggle
+          "t" '(:ignore t :which-key "toggle")
+          "t t" '(vterm-toggle :which-key "Toggle vterm")
+          "t c" '(comment-or-uncomment-region :which-key "")
+
+          ;; Emacs
+          "e" '(:ignore t :which-key "emacs")
+
+          ;; Windows
+  ;;        "w" '(:ignore t :which-key "windows")
+    ;;      "w w" '(other-window :which-key "")
+          ;; "w d" '(evil-window-delete :which-key "")
+          ;; "w l" '(evil-window-right :which-key "")
+          ;; "w h" '(evil-window-left :which-key "")
+          ;; "w k" '(evil-window-up :which-key "")
+          ;; "w j" '(evil-window-down :which-key "")
+          ;; "w L" '(evil-window-move-right :which-key "")
+          ;; "w H" '(evil-window-move-left :which-key "")
+          ;; "w K" '(evil-window-move-up :which-key "")
+          ;; "w J" '(evil-window-move-down :which-key "")
+          ;; "w s" '(evil-window-split :which-key "")
+          ;; "w v" '(evil-window-vsplit :which-key "")
+      ;;    "w m m" '(bascht--toggle-window-zoom :which-key "")
+
+          ;; All sorts of searches
+          "s" '(:ignore t :which-key "search")
+          "s s" '(consult-ripgrep :which-key "")
+          "s l" '(consult-line :which-key "")
+          "s L" '(consult-line-multi :which-key "")
+          "s o" '(consult-outline :which-key "")
+          "s i" '(consult-imenu :which-key "")
+          "s w" '(eww-search-words :which-key "")
+
+          ;; Perspective mode
+          "TAB" '(:ignore t :which-key "windows")
+          "TAB l" '(persp-switch-last :which-key "")
+          "TAB ." '(persp-switch :which-key "")
+          "TAB ," '(persp-rename :which-key "")
+          "TAB d" '(persp-kill :which-key "")
+          "TAB n" '(bascht-create-new-persp :which-key "")
+
+          ;; Buffers
+          "b" '(:ignore t :which-key "buffers")
+          "b b" '(consult-buffer :which-key "Find a file in project")
+          "b B" '(consult-buffer-other-window :which-key "Find a file in project")
+
+          ;; Files
+          "f" '(:ignore t :which-key "files")
+          "f s" '(save-buffer :which-key "")
+          "f r" '(consult-recent-file :which-key "")
+          "f f" '(find-file :which-key "Find a file in project")
+          "f F" '(find-file-other-window :which-key "Find a file in project")
+          "f d" '(dired-jump :which-key "")
+          "f D" '(dired-jump-other-window :which-key "")
+
+          ;; Project
+          "p" '(:ignore t :which-key "project")
+          "p f" '(project-find-file :which-key "Find a file in project")
+          "p F" '(project-find-file-other :which-key "Find a file in project")
+          "p p" '(project-switch-project :which-key "Switch project")
+
+          ;; Embark 
+          "a" '(embark-act :which-key "")
+
+          ;; Org
+          "o" '(:ignore t :which-key "emacs")
+          "o h" '(consult-org-agenda :which-key "Go to agenda heading")
+          "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
+          "o c g" '(org-clock-goto :which-key "Go to current clock")
+
+
+          ;; Eval 
+          ;; "m e" '(:ignore t :which-key "")
+          ;; "m e d" '(eval-defun :which-key "Evaluate current defun")
+          ;; "m e b" '(eval-buffer :which-key "Evaluate current buffer")
+          ;; "m e r" '(eval-buffer :which-key "Evaluate current region") 
+
+          ;; Buffer
+          "b" '(:ignore t :which-key "buffer")
+          ;; Don't show an error because SPC b ESC is undefined, just abort
+          "b <escape>" '(keyboard-escape-quit :which-key t) 
+          "bd"  'kill-current-buffer))
 
         (use-package casual-dired
           :ensure t
@@ -456,7 +463,7 @@ There is still loads to fix but I can move forward with my initial target of fin
           )
 
 
-  .
+
         (use-package flycheck
           :hook (prog-mode . flycheck-mode)
           )
@@ -464,600 +471,602 @@ There is still loads to fix but I can move forward with my initial target of fin
         (use-package format-all
           :commands format-all-mode
           :hook (prog-mode . format-all-mode)
-          :config
-          (setq-default format-all-formatters
-                        '(("C"     (astyle "--mode=c"))
-                          ("Shell" (shfmt "-i" "4" "-ci")))))
-
-        (use-package yasnippet
-          :hook (prog-mode . yas-minor-mode))
-
-        (use-package yasnippet-snippets
-          :after yasnippet)
-
-        (use-package consult-yasnippet)
-
-
-        (use-package avy
-          :ensure t
-          :demand t
-          :bind (("C-c j" . avy-goto-line)
-                 ("s-j"   . avy-goto-char-timer)))
-
-
-        ;; Consult: Misc. enhanced commands
-        (use-package consult
-          :ensure t
-          :general
-
-          :bind (
-                 ;; Drop-in replacements
-                 ("C-x b" . consult-buffer)     ; orig. switch-to-buffer
-                 ("M-y"   . consult-yank-pop)   ; orig. yank-pop
-                 ;; Searching
-                 ("M-s r" . consult-ripgrep)
-                 ("M-s l" . consult-line)       ; Alternative: rebind C-s to use
-                 ("M-s s" . consult-line)       ; consult-line instead of isearch, bind
-                 ("M-s L" . consult-line-multi) ; isearch to M-s s
-                 ("M-s o" . consult-outline)
-                 ;; Isearch integration
-                 :map isearch-mode-map
-                 ("M-e" . consult-isearch-history)   ; orig. isearch-edit-string
-                 ("M-s e" . consult-isearch-history) ; orig. isearch-edit-string
-                 ("M-s l" . consult-line)            ; needed by consult-line to detect isearch
-                 ("M-s L" . consult-line-multi)      ; needed by consult-line to detect isearch
-                 )
-          :config
-          ;; Narrowing lets you restrict results to certain groups of candidates
-          (setq consult-narrow-key "<"))
-
-        (use-package embark
-          :ensure t
-          :demand t
-          :after avy
-          :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
-          :init
-          ;; Add the option to run embark when using avy
-          (defun bedrock/avy-action-embark (pt)
-            (unwind-protect
-                (save-excursion
-                  (goto-char pt)
-                  (embark-act))
-              (select-window
-               (cdr (ring-ref avy-ring 0))))
-            t)
-
-          ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
-          ;; candidate you select
-          (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
-
-        (use-package embark-consult
-          :ensure t)
-
-
-
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Minibuffer and completion
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; Vertico: better vertical completion for minibuffer commands
-        (use-package vertico
-          :ensure t
-          :init
-          ;; You'll want to make sure that e.g. fido-mode isn't enabled
-          (vertico-mode)
-          (setq vertico-cycle t)
-          :config
-          (setq vertico-cycle t)
-          (setq vertico-resize nil)
-          )
-
-        (use-package vertico-directory
-          :ensure nil
-          :after vertico
-          :bind (:map vertico-map
-                      ("M-DEL" . vertico-directory-delete-word)))
-
-        ;; Marginalia: annotations for minibuffer
-        ;; extending Vertico with a ton of rich information.
-        (use-package marginalia
-          :ensure t
-          :after vertico
-          ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the
-          ;; binding available in the *Completions* buffer, add it to the
-          ;; `completion-list-mode-map'.
-          :bind (:map minibuffer-local-map
-                      ("M-A" . marginalia-cycle))
-          :init
-          ;; Marginalia must be activated in the :init section of use-package
-          ;; such that the mode gets enabled right away.  Note that this
-          ;; forces loading the package.
-          (marginalia-mode))
-
-        ;; Popup completion-at-point
-        (use-package corfu
-          :ensure t
-          :init
-          (global-corfu-mode)
-          :bind
-          (:map corfu-map
-                ("SPC" . corfu-insert-separator)
-                ("C-n" . corfu-next)
-                ("C-p" . corfu-previous))
-          :custom
-          (corfu-auto t)
-          (corfu-auto-delay 0.25)
-          (corfu-auto-prefix 2))
-
-        ;; Part of corfu
-        (use-package corfu-popupinfo
-          :ensure nil
-          :after corfu
-          :hook (corfu-mode . corfu-popupinfo-mode)
-          :custom
-          (corfu-popupinfo-delay '(0.25 . 0.1))
-          (corfu-popupinfo-hide nil)
-          :config
-          (corfu-popupinfo-mode))
-
-        ;; Make corfu popup come up in terminal overlay
-        (use-package corfu-terminal
-          :if (not (display-graphic-p))
-          :ensure t
-          :config
-          (corfu-terminal-mode))
-
-        ;; Fancy completion-at-point functions; there's too much in the cape package to
-        ;; configure here; dive in when you're comfortable!
-        (use-package cape
-          :ensure t
-          :init
-          (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-          (add-to-list 'completion-at-point-functions #'cape-file)
-          (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-          )
-
-
-        ;; Pretty icons for corfu
-        (use-package kind-icon
-          :if (display-graphic-p)
-          :ensure t
-          :after corfu
-          :config
-          (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-        ;; (use-package eshell
-        ;;   :ensure t
-        ;;   :init
-        ;;   (defun bedrock/setup-eshell ()
-        ;;     ;; Something funny is going on with how Eshell sets up its keymaps; this is
-        ;;     ;; a work-around to make C-r bound in the keymap
-        ;;     (keymap-set eshell-mode-map "C-r" 'consult-history))
-        ;;   :hook ((eshell-mode . bedrock/setup-eshell)))
-
-        ;; Orderless: powerful completion style
-        (use-package orderless
-          :ensure t
-          :config
-          (setq completion-styles '(orderless basic))
-          (setq orderless-matching-styles '(orderless-prefixes orderless-regexp))
-          (setq completion-category-overrides '((file (styles basic partial-completion))))
-          )
-
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Misc. editing enhancements
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; Modify search results en masse
-        (use-package wgrep
-          :ensure t
-          :config
-          (setq wgrep-auto-save-buffer t))
-
-
-
-        (use-package emacs
-          :bind (("C-." . set-mark-command)
-                 ("M-z" . zap-up-to-char)
-                 ("M-," . beginning-of-buffer)
-                 ("M-." . end-of-buffer)
-                 ("M-p" . backward-paragraph)
-                 ("M-n" . forward-paragraph)
-                 ( "C-c w h" . 'windmove-left)
-                 ( "C-c w j" . windmove-down)
-                 ( "C-c w k" . windmove-up)
-                 ( "C-c w l" . windmove-right)           )
-
-          :config
-          (defvar-keymap windmove-repeat-map
-            :repeat t
-            "h" #'windmove-left
-            "j" #'windmove-down
-            "k" #'windmove-up
-            "l" #'windmove-right)
-          ;; Treesitter config
-
-          ;; Tell Emacs to prefer the treesitter mode
-          ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
-
-
-          (setq major-mode-remap-alist
-                '((yaml-mode . yaml-ts-mode)
-                  (bash-mode . bash-ts-mode)
-                  (js2-mode . js-ts-mode)
-                  (typescript-mode . typescript-ts-mode)
-                  (json-mode . json-ts-mode)
-                  (css-mode . css-ts-mode)
-                  (python-mode . python-ts-mode)))
-          :hook
-          ;; Auto parenthesis matching
-          ((prog-mode . electric-pair-mode)))
-
-        (use-package magit
-          :general
-          (leader-keys
-           "g" '(:ignore t :which-key "git")
-           "g <escape>" '(keyboard-escape-quit :which-key t)
-           "g g" '(magit-status :which-key "status")
-           "g l" '(magit-log :which-key "log"))
-          (general-nmap
-           "<escape>" #'transient-quit-one))
-
-        (add-hook 'git-commit-mode-hook
-                  (lambda () (end-of-line)))
-
-
-        (use-package diff-hl
-          :init
-          (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-          (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-          :config
-          (global-diff-hl-mode))
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Common file types
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        (use-package markdown-mode
-          :ensure t
-          :hook ((markdown-mode . visual-line-mode)))
-
-        (use-package yaml-mode
-          :ensure t)
-
-        (use-package json-mode
-          :ensure t)
-
-        ;; Emacs ships with a lot of popular programming language modes. If it's not
-        ;; built in, you're almost certain to find a mode for the language you're
-        ;; looking for with a quick Internet search.
-
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Eglot, the built-in LSP client for Emacs
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; Helpful resources:
-        ;;
-        ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-
-        ;; Emacs includes Tree-sitter support as of version 29, but does not
-        ;; bundle Tree-sitter grammars via the usual installation methods.
-        ;; That means that if you want to use a Tree-sitter major mode, you
-        ;; must first install the respective language grammar.  `treesit-auto'
-        ;; is a handy package that manages this extra step for you, prompting
-        ;; the installation of Tree-sitter grammars when necessary.
-        (use-package treesit-auto
-          :ensure t
-          :custom
-          (treesit-auto-install 'prompt)
-          :config
-          (treesit-auto-add-to-auto-mode-alist 'all)
-          (global-treesit-auto-mode))
-
-
-        (use-package eglot
-
-          ;; no :ensure t here because it's built-in
-
-          ;; Configure hooks to automatically turn-on eglot for selected modes
-                                                ; :hook
-                                                ; (((python-mode ruby-mode elixir-mode) . eglot))
-
-          :custom
-          (eglot-send-changes-idle-time 0.1)
-          (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
-
-          :config
-          (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-          ;; Sometimes you need to tell Eglot where to find the language server
-                                                ; (add-to-list 'eglot-server-programs
-                                                ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-          )
-
-        ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
-        (use-package breadcrumb
-          :ensure t
-          :config
-
-          ;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
-          (breadcrumb-mode))
-
-
-
-        ;; ;; Evil: vi emulation
-        ;; (use-package evil
-        ;;   :ensure t
-        ;;   :demand
-        ;;   :init
-        ;;   (setq evil-respect-visual-line-mode t)
-        ;;   (setq evil-undo-system 'undo-redo)
-        ;;   (setq evil-want-keybinding nil)
-
-        ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
-        ;;   (setq evil-want-C-u-scroll t)
-
-        ;;   :config
-        ;;   (evil-mode)
-
-        ;;   ;; Configuring initial major mode for some modes
-        ;;   (evil-set-initial-state 'vterm-mode 'emacs))
-
-        ;; (use-package evil-collection
-        ;;   :ensure t
-        ;;   :after evil
-        ;;   :demand
-        ;;   :config
-        ;;   (setq evil-collection-mode-list
-        ;;         '(ag dired magit mu4e which-key)
-        ;;         evil-collection-want-unimpaired-p nil)
-        ;;   (evil-collection-init))
-
-        ;; (use-package evil-nerd-commenter
-        ;;   :after evil
-        ;;   :general
-        ;;   (general-nvmap
-        ;;     "gc" 'evilnc-comment-operator))
-
-        ;; (use-package evil-surround
-        ;;   :ensure t
-        ;;   :after evil
-        ;;   :config
-        ;;   (global-evil-surround-mode 1))
-
-
-        ;; Default tags
-        (setq org-tag-alist '(
-                              ;; locale
-                              (:startgroup)
-                              ("home" . ?h)
-                              ("work" . ?w)
-                              ("school" . ?s)
-                              (:endgroup)
-                              (:newline)
-                              ;; scale
-                              (:startgroup)
-                              ("one-shot" . ?o)
-                              ("project" . ?j)
-                              ("tiny" . ?t)
-                              (:endgroup)
-                              ;; misc
-                              ("meta")
-                              ("review")
-                              ("reading")))
-
-        ;; Org-refile: where should org-refile look?
-        (setq org-refile-targets 'FIXME)
-
-                                               ;;; Phase 3 variables
-
-        ;; Org-roam variables
-        ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
-        ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
-
-                                               ;;; Optional variables
-
-        ;; Advanced: Custom link types
-        ;; This example is for linking a person's 7-character ID to their page on the
-        ;; free genealogy website Family Search.
-        (setq org-link-abbrev-alist
-              '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
-
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Phase 1: editing and exporting files
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Phase 2: todos, agenda generation, and task tracking
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; Yes, you can have multiple use-package declarations. It's best if their
-        ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
-        ;; config from Phase 1. I've broken it up here for the sake of clarity.
-        (use-package org
-          :config
-          ;; Instead of just two states (TODO, DONE) we set up a few different states
-          ;; that a task can be in.
-
-          (org-babel-do-load-languages
-           'org-babel-load-languages
-           '((shell . t)))
-
-          (setq org-todo-keywords
-                '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
-
-          ;; Refile configuration
-          (setq org-outline-path-complete-in-steps nil)
-          (setq org-refile-use-outline-path 'file)
-
-          (setq org-capture-templates
-                '(("c" "Default Capture" entry (file "inbox.org")
-                   "* TODO %?\n%U\n%i")
-                  ;; Capture and keep an org-link to the thing we're currently working with
-                  ("r" "Capture with Reference" entry (file "inbox.org")
-                   "* TODO %?\n%U\n%i\n%a")
-                  ;; Define a section
-                  ("w" "Work")
-                  ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
-                   "** TODO %?\n%U\n%i\n%a")
-                  ("wr" "Work report" entry (file+headline "work.org" "Reports")
-                   "** TODO %?\n%U\n%i\n%a")))
-
-          (setq org-agenda-custom-commands
-                '(("n" "Agenda and All Todos"
-                   ((agenda)
-                    (todo)))
-                  ("w" "Work" agenda ""
-                   ((org-agenda-files '("work.org")))))))
-
-
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                               ;;;
-                                               ;;;   Phase 3: extensions (org-roam, etc.)
-                                               ;;;
-                                               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; (use-package org-roam
-        ;;   :ensure t
-        ;;   :config
-        ;;   (org-roam-db-autosync-mode)
-        ;;   ;; Dedicated side window for backlinks
-        ;;   (add-to-list 'display-buffer-alist
-        ;;                '("\\*org-roam\\*"
-        ;;                  (display-buffer-in-side-window)
-        ;;                  (side . right)
-        ;;                  (window-width . 0.4)
-        ;;                  (window-height . fit-window-to-buffer))))
-
-        ;; Pretty web interface for org-roam
-                                                ;(use-package org-roam-ui
-                                                ;  :ensure t
-                                                ;  :after org-roam
-                                                ;  :config
-                                                ;  (setq org-roam-ui-sync-theme t
-                                                ;        org-roam-ui-follow t
-                                                ;        org-roam-ui-update-on-save t
-                                                ;        org-roam-ui-open-on-start t))
-
-
-
-        (use-package nerd-icons )
-        (use-package nerd-icons-dired
-          :ensure t
-          :hook
-          (dired-mode . nerd-icons-dired-mode))
-
-        (use-package mastodon
-          :config
-          (setq mastodon-instance-url "https://social.yakshed.org"
-                mastodon-active-user "bascht"
-                mastodon-tl--horiz-bar "———————————"
+         :config
+         (setq-default format-all-formatters
+                       '(("C"     (astyle "--mode=c"))
+                         ("Shell" (shfmt "-i" "4" "-ci")))))
+
+       (use-package yasnippet
+         :hook (prog-mode . yas-minor-mode))
+
+       (use-package yasnippet-snippets
+         :after yasnippet)
+
+       (use-package consult-yasnippet)
+
+
+       (use-package avy
+         :ensure t
+         :demand t
+         :bind (("C-c j" . avy-goto-line)
+                ("s-j"   . avy-goto-char-timer)))
+
+
+       ;; Consult: Misc. enhanced commands
+       (use-package consult
+         :ensure t
+         :general
+
+         :bind (
+                ;; Drop-in replacements
+                ("C-x b" . consult-buffer)     ; orig. switch-to-buffer
+                ("M-y"   . consult-yank-pop)   ; orig. yank-pop
+                ;; Searching
+                ("M-s r" . consult-ripgrep)
+                ("M-s l" . consult-line)       ; Alternative: rebind C-s to use
+                ("M-s s" . consult-line)       ; consult-line instead of isearch, bind
+                ("M-s L" . consult-line-multi) ; isearch to M-s s
+
+                ("M-s i" . consult-imenu)
+                ("M-s o" . consult-outline)
+                ;; Isearch integration
+                :map isearch-mode-map
+                ("M-e" . consult-isearch-history)   ; orig. isearch-edit-string
+                ("M-s e" . consult-isearch-history) ; orig. isearch-edit-string
+                ("M-s l" . consult-line)            ; needed by consult-line to detect isearch
+                ("M-s L" . consult-line-multi)      ; needed by consult-line to detect isearch
                 )
+         :config
+         ;; Narrowing lets you restrict results to certain groups of candidates
+         (setq consult-narrow-key "<"))
 
-          )
-        (use-package vterm)
-        (use-package vterm-toggle
-          ;;  :ensure t
-          :general
-          (leader-keys
-           "'" '(vterm-toggle :which-key "terminal"))
-          )
+       (use-package embark
+         :ensure t
+         :demand t
+         :after avy
+         :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
+         :init
+         ;; Add the option to run embark when using avy
+         (defun bedrock/avy-action-embark (pt)
+           (unwind-protect
+               (save-excursion
+                 (goto-char pt)
+                 (embark-act))
+             (select-window
+              (cdr (ring-ref avy-ring 0))))
+           t)
 
-        ;; (use-package nano-modeline
-        ;;   :init
-        ;;   (nano-modeline-pdf-mode t)
-        ;;   :custom
-        ;;   (nano-modeline-position 'nano-modeline-footer)
-        ;;   :hook
-        ;;   (prog-mode-hook            . nano-modeline-prog-mode)
-        ;;   (text-mode-hook            . nano-modeline-text-mode)
-        ;;   (org-mode-hook             . nano-modeline-org-mode)
-        ;;   (pdf-view-mode-hook        . nano-modeline-pdf-mode)
-        ;;   (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
-        ;;   (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
-        ;;   (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
-        ;;   (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
-        ;;   (term-mode-hook            . nano-modeline-term-mode)
-        ;;   (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
-        ;;   (messages-buffer-mode-hook . nano-modeline-message-mode)
-        ;;   (org-capture-mode-hook     . nano-modeline-org-capture-mode)
-        ;;   (org-agenda-mode-hook      . nano-modeline-org-agenda-mode))
+         ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
+         ;; candidate you select
+         (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
+
+       (use-package embark-consult
+         :ensure t)
 
 
-        (use-package doom-modeline
-          :ensure t
-          :init (doom-modeline-mode 1)
-          :config
-          (setq doom-modeline-time nil
-                doom-modeline-height 30
-                doom-modeline-persp-name t
-                doom-modeline-buffer-encoding nil
-                doom-modeline-buffer-coding nil
-                doom-modeline-battery nil
-                doom-modeline-modal nil)
 
-          ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
-          ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
-          )
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Minibuffer and completion
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-        (use-package perspective
-          :bind
-          ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
-          :custom
-          (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
-          :init
-          (persp-mode))
+       ;; Vertico: better vertical completion for minibuffer commands
+       (use-package vertico
+         :ensure t
+         :init
+         ;; You'll want to make sure that e.g. fido-mode isn't enabled
+         (vertico-mode)
+         (setq vertico-cycle t)
+         :config
+         (setq vertico-cycle t)
+         (setq vertico-resize nil)
+         )
 
-        (use-package activities
-          :init
-          (activities-mode)
+       (use-package vertico-directory
+         :ensure nil
+         :after vertico
+         :bind (:map vertico-map
+                     ("M-DEL" . vertico-directory-delete-word)))
 
-          ;; Prevent `edebug' default bindings from interfering.
-          (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+       ;; Marginalia: annotations for minibuffer
+       ;; extending Vertico with a ton of rich information.
+       (use-package marginalia
+         :ensure t
+         :after vertico
+         ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the
+         ;; binding available in the *Completions* buffer, add it to the
+         ;; `completion-list-mode-map'.
+         :bind (:map minibuffer-local-map
+                     ("M-A" . marginalia-cycle))
+         :init
+         ;; Marginalia must be activated in the :init section of use-package
+         ;; such that the mode gets enabled right away.  Note that this
+         ;; forces loading the package.
+         (marginalia-mode))
 
-          :bind
-          (("C-x C-a C-n" . activities-new)
-           ("C-x C-a C-d" . activities-define)
-           ("C-x C-a C-a" . activities-resume)
-           ("C-x C-a C-s" . activities-suspend)
-           ("C-x C-a C-k" . activities-kill)
-           ("C-x C-a RET" . activities-switch)
-           ("C-x C-a b" . activities-switch-buffer)
-           ("C-x C-a g" . activities-revert)
-           ("C-x C-a l" . activities-list)))
+       ;; Popup completion-at-point
+       (use-package corfu
+         :ensure t
+         :init
+         (global-corfu-mode)
+         :bind
+         (:map corfu-map
+               ("SPC" . corfu-insert-separator)
+               ("C-n" . corfu-next)
+               ("C-p" . corfu-previous))
+         :custom
+         (corfu-auto t)
+         (corfu-auto-delay 0.25)
+         (corfu-auto-prefix 2))
 
-        (use-package kele
-          :defer t
-          :config
-          (bind-key (kbd "s-k") kele-command-map kele-mode-map))
+       ;; Part of corfu
+       (use-package corfu-popupinfo
+         :ensure nil
+         :after corfu
+         :hook (corfu-mode . corfu-popupinfo-mode)
+         :custom
+         (corfu-popupinfo-delay '(0.25 . 0.1))
+         (corfu-popupinfo-hide nil)
+         :config
+         (corfu-popupinfo-mode))
 
-        (use-package project
+       ;; Make corfu popup come up in terminal overlay
+       (use-package corfu-terminal
+         :if (not (display-graphic-p))
+         :ensure t
+         :config
+         (corfu-terminal-mode))
 
-          :config
-          (setq project-switch-commands 'project-dired)
+       ;; Fancy completion-at-point functions; there's too much in the cape package to
+       ;; configure here; dive in when you're comfortable!
+       (use-package cape
+         :ensure t
+         :init
+         (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+         (add-to-list 'completion-at-point-functions #'cape-file)
+         (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+         )
 
-          )
 
-        (use-package jinx
-          :hook (text-mode-hook . jinx-mode)
-          (prog-mode-hook . jinx-mode)
-          (conf-mode-hook . jinx-mode)
-          :general (leader-keys
-                    "m s c" '(jinx-correct :which-key "")
-                    "m s l" '(jinx-languages :which-key ""))
-          :config
-          (setq jinx-languages "de_DE en_GB"))
+       ;; Pretty icons for corfu
+       (use-package kind-icon
+         :if (display-graphic-p)
+         :ensure t
+         :after corfu
+         :config
+         (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+       ;; (use-package eshell
+       ;;   :ensure t
+       ;;   :init
+       ;;   (defun bedrock/setup-eshell ()
+       ;;     ;; Something funny is going on with how Eshell sets up its keymaps; this is
+       ;;     ;; a work-around to make C-r bound in the keymap
+       ;;     (keymap-set eshell-mode-map "C-r" 'consult-history))
+       ;;   :hook ((eshell-mode . bedrock/setup-eshell)))
+
+       ;; Orderless: powerful completion style
+       (use-package orderless
+         :ensure t
+         :config
+         (setq completion-styles '(orderless basic))
+         (setq orderless-matching-styles '(orderless-prefixes orderless-regexp))
+         (setq completion-category-overrides '((file (styles basic partial-completion))))
+         )
+
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Misc. editing enhancements
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+       ;; Modify search results en masse
+       (use-package wgrep
+         :ensure t
+         :config
+         (setq wgrep-auto-save-buffer t))
+
+
+
+       (use-package emacs
+         :bind (("C-." . set-mark-command)
+                ("M-z" . zap-up-to-char)
+                ("M-," . beginning-of-buffer)
+                ("M-." . end-of-buffer)
+                ("M-p" . backward-paragraph)
+                ("M-n" . forward-paragraph)
+                ( "C-c w h" . 'windmove-left)
+                ( "C-c w j" . windmove-down)
+                ( "C-c w k" . windmove-up)
+                ( "C-c w l" . windmove-right)           )
+
+         :config
+         (defvar-keymap windmove-repeat-map
+           :repeat t
+           "h" #'windmove-left
+           "j" #'windmove-down
+           "k" #'windmove-up
+           "l" #'windmove-right)
+         ;; Treesitter config
+
+         ;; Tell Emacs to prefer the treesitter mode
+         ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
+
+
+         (setq major-mode-remap-alist
+               '((yaml-mode . yaml-ts-mode)
+                 (bash-mode . bash-ts-mode)
+                 (js2-mode . js-ts-mode)
+                 (typescript-mode . typescript-ts-mode)
+                 (json-mode . json-ts-mode)
+                 (css-mode . css-ts-mode)
+                 (python-mode . python-ts-mode)))
+         :hook
+         ;; Auto parenthesis matching
+         ((prog-mode . electric-pair-mode)))
+
+       (use-package magit
+         :general
+         (leader-keys
+          "g" '(:ignore t :which-key "git")
+          "g <escape>" '(keyboard-escape-quit :which-key t)
+          "g g" '(magit-status :which-key "status")
+          "g l" '(magit-log :which-key "log"))
+         (general-nmap
+          "<escape>" #'transient-quit-one))
+
+       (add-hook 'git-commit-mode-hook
+                 (lambda () (end-of-line)))
+
+
+       (use-package diff-hl
+         :init
+         (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+         (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+         :config
+         (global-diff-hl-mode))
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Common file types
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+       (use-package markdown-mode
+         :ensure t
+         :hook ((markdown-mode . visual-line-mode)))
+
+       (use-package yaml-mode
+         :ensure t)
+
+       (use-package json-mode
+         :ensure t)
+
+       ;; Emacs ships with a lot of popular programming language modes. If it's not
+       ;; built in, you're almost certain to find a mode for the language you're
+       ;; looking for with a quick Internet search.
+
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Eglot, the built-in LSP client for Emacs
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+       ;; Helpful resources:
+       ;;
+       ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+
+       ;; Emacs includes Tree-sitter support as of version 29, but does not
+       ;; bundle Tree-sitter grammars via the usual installation methods.
+       ;; That means that if you want to use a Tree-sitter major mode, you
+       ;; must first install the respective language grammar.  `treesit-auto'
+       ;; is a handy package that manages this extra step for you, prompting
+       ;; the installation of Tree-sitter grammars when necessary.
+       (use-package treesit-auto
+         :ensure t
+         :custom
+         (treesit-auto-install 'prompt)
+         :config
+         (treesit-auto-add-to-auto-mode-alist 'all)
+         (global-treesit-auto-mode))
+
+
+       (use-package eglot
+
+         ;; no :ensure t here because it's built-in
+
+         ;; Configure hooks to automatically turn-on eglot for selected modes
+                                               ; :hook
+                                               ; (((python-mode ruby-mode elixir-mode) . eglot))
+
+         :custom
+         (eglot-send-changes-idle-time 0.1)
+         (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
+
+         :config
+         (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
+         ;; Sometimes you need to tell Eglot where to find the language server
+                                               ; (add-to-list 'eglot-server-programs
+                                               ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+         )
+
+       ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
+       (use-package breadcrumb
+         :ensure t
+         :config
+
+         ;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
+         (breadcrumb-mode))
+
+
+
+       ;; ;; Evil: vi emulation
+       ;; (use-package evil
+       ;;   :ensure t
+       ;;   :demand
+       ;;   :init
+       ;;   (setq evil-respect-visual-line-mode t)
+       ;;   (setq evil-undo-system 'undo-redo)
+       ;;   (setq evil-want-keybinding nil)
+
+       ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
+       ;;   (setq evil-want-C-u-scroll t)
+
+       ;;   :config
+       ;;   (evil-mode)
+
+       ;;   ;; Configuring initial major mode for some modes
+       ;;   (evil-set-initial-state 'vterm-mode 'emacs))
+
+       ;; (use-package evil-collection
+       ;;   :ensure t
+       ;;   :after evil
+       ;;   :demand
+       ;;   :config
+       ;;   (setq evil-collection-mode-list
+       ;;         '(ag dired magit mu4e which-key)
+       ;;         evil-collection-want-unimpaired-p nil)
+       ;;   (evil-collection-init))
+
+       ;; (use-package evil-nerd-commenter
+       ;;   :after evil
+       ;;   :general
+       ;;   (general-nvmap
+       ;;     "gc" 'evilnc-comment-operator))
+
+       ;; (use-package evil-surround
+       ;;   :ensure t
+       ;;   :after evil
+       ;;   :config
+       ;;   (global-evil-surround-mode 1))
+
+
+       ;; Default tags
+       (setq org-tag-alist '(
+                             ;; locale
+                             (:startgroup)
+                             ("home" . ?h)
+                             ("work" . ?w)
+                             ("school" . ?s)
+                             (:endgroup)
+                             (:newline)
+                             ;; scale
+                             (:startgroup)
+                             ("one-shot" . ?o)
+                             ("project" . ?j)
+                             ("tiny" . ?t)
+                             (:endgroup)
+                             ;; misc
+                             ("meta")
+                             ("review")
+                             ("reading")))
+
+       ;; Org-refile: where should org-refile look?
+       (setq org-refile-targets 'FIXME)
+
+                                              ;;; Phase 3 variables
+
+       ;; Org-roam variables
+       ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
+       ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
+
+                                              ;;; Optional variables
+
+       ;; Advanced: Custom link types
+       ;; This example is for linking a person's 7-character ID to their page on the
+       ;; free genealogy website Family Search.
+       (setq org-link-abbrev-alist
+             '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
+
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Phase 1: editing and exporting files
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Phase 2: todos, agenda generation, and task tracking
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+       ;; Yes, you can have multiple use-package declarations. It's best if their
+       ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
+       ;; config from Phase 1. I've broken it up here for the sake of clarity.
+       (use-package org
+         :config
+         ;; Instead of just two states (TODO, DONE) we set up a few different states
+         ;; that a task can be in.
+
+         (org-babel-do-load-languages
+          'org-babel-load-languages
+          '((shell . t)))
+
+         (setq org-todo-keywords
+               '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+
+         ;; Refile configuration
+         (setq org-outline-path-complete-in-steps nil)
+         (setq org-refile-use-outline-path 'file)
+
+         (setq org-capture-templates
+               '(("c" "Default Capture" entry (file "inbox.org")
+                  "* TODO %?\n%U\n%i")
+                 ;; Capture and keep an org-link to the thing we're currently working with
+                 ("r" "Capture with Reference" entry (file "inbox.org")
+                  "* TODO %?\n%U\n%i\n%a")
+                 ;; Define a section
+                 ("w" "Work")
+                 ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
+                  "** TODO %?\n%U\n%i\n%a")
+                 ("wr" "Work report" entry (file+headline "work.org" "Reports")
+                  "** TODO %?\n%U\n%i\n%a")))
+
+         (setq org-agenda-custom-commands
+               '(("n" "Agenda and All Todos"
+                  ((agenda)
+                   (todo)))
+                 ("w" "Work" agenda ""
+                  ((org-agenda-files '("work.org")))))))
+
+
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              ;;;
+                                              ;;;   Phase 3: extensions (org-roam, etc.)
+                                              ;;;
+                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+       ;; (use-package org-roam
+       ;;   :ensure t
+       ;;   :config
+       ;;   (org-roam-db-autosync-mode)
+       ;;   ;; Dedicated side window for backlinks
+       ;;   (add-to-list 'display-buffer-alist
+       ;;                '("\\*org-roam\\*"
+       ;;                  (display-buffer-in-side-window)
+       ;;                  (side . right)
+       ;;                  (window-width . 0.4)
+       ;;                  (window-height . fit-window-to-buffer))))
+
+       ;; Pretty web interface for org-roam
+                                               ;(use-package org-roam-ui
+                                               ;  :ensure t
+                                               ;  :after org-roam
+                                               ;  :config
+                                               ;  (setq org-roam-ui-sync-theme t
+                                               ;        org-roam-ui-follow t
+                                               ;        org-roam-ui-update-on-save t
+                                               ;        org-roam-ui-open-on-start t))
+
+
+
+       (use-package nerd-icons )
+       (use-package nerd-icons-dired
+         :ensure t
+         :hook
+         (dired-mode . nerd-icons-dired-mode))
+
+       (use-package mastodon
+         :config
+         (setq mastodon-instance-url "https://social.yakshed.org"
+               mastodon-active-user "bascht"
+               mastodon-tl--horiz-bar "———————————"
+               )
+
+         )
+       (use-package vterm)
+       (use-package vterm-toggle
+         ;;  :ensure t
+         :general
+         (leader-keys
+          "'" '(vterm-toggle :which-key "terminal"))
+         )
+
+       ;; (use-package nano-modeline
+       ;;   :init
+       ;;   (nano-modeline-pdf-mode t)
+       ;;   :custom
+       ;;   (nano-modeline-position 'nano-modeline-footer)
+       ;;   :hook
+       ;;   (prog-mode-hook            . nano-modeline-prog-mode)
+       ;;   (text-mode-hook            . nano-modeline-text-mode)
+       ;;   (org-mode-hook             . nano-modeline-org-mode)
+       ;;   (pdf-view-mode-hook        . nano-modeline-pdf-mode)
+       ;;   (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
+       ;;   (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
+       ;;   (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
+       ;;   (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
+       ;;   (term-mode-hook            . nano-modeline-term-mode)
+       ;;   (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
+       ;;   (messages-buffer-mode-hook . nano-modeline-message-mode)
+       ;;   (org-capture-mode-hook     . nano-modeline-org-capture-mode)
+       ;;   (org-agenda-mode-hook      . nano-modeline-org-agenda-mode))
+
+
+       (use-package doom-modeline
+         :ensure t
+         :init (doom-modeline-mode 1)
+         :config
+         (setq doom-modeline-time nil
+               doom-modeline-height 30
+               doom-modeline-persp-name t
+               doom-modeline-buffer-encoding nil
+               doom-modeline-buffer-coding nil
+               doom-modeline-battery nil
+               doom-modeline-modal nil)
+
+         ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
+         ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
+         )
+
+       (use-package perspective
+         :bind
+         ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
+         :custom
+         (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
+         :init
+         (persp-mode))
+
+       ;; (use-package activities
+       ;;   :init
+       ;;   (activities-mode)
+
+       ;;   ;; Prevent `edebug' default bindings from interfering.
+       ;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+
+       ;;   :bind
+       ;;   (("C-x C-a C-n" . activities-new)
+       ;;    ("C-x C-a C-d" . activities-define)
+       ;;    ("C-x C-a C-a" . activities-resume)
+       ;;    ("C-x C-a C-s" . activities-suspend)
+       ;;    ("C-x C-a C-k" . activities-kill)
+       ;;    ("C-x C-a RET" . activities-switch)
+       ;;    ("C-x C-a b" . activities-switch-buffer)
+       ;;    ("C-x C-a g" . activities-revert)
+       ;;    ("C-x C-a l" . activities-list)))
+
+  (use-package kele
+         :defer t
+         :config
+         (bind-key (kbd "s-k") kele-command-map kele-mode-map))
+
+       (use-package project
+
+         :config
+         (setq project-switch-commands 'project-dired)
+
+         )
+
+       (use-package jinx
+         :hook (text-mode-hook . jinx-mode)
+         (prog-mode-hook . jinx-mode)
+         (conf-mode-hook . jinx-mode)
+         :general (leader-keys
+                   "m s c" '(jinx-correct :which-key "")
+                   "m s l" '(jinx-languages :which-key ""))
+         :config
+         (setq jinx-languages "de_DE en_GB"))
 
 #+end_src
 
@@ -1244,31 +1253,36 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 #+end_src
 * TODO Keys
 
-#+begin_src emacs-lisp :tangle init.el
-    ;; Reclaim M-SPC
-    (global-unset-key (kbd "M-SPC"))
+#+begin_src emacs-lisp :tangle init-deactivated.el
+  ;; Reclaim M-SPC
+  (global-unset-key (kbd "M-SPC"))
 
-    (defvar-keymap bascht-emacs-prefix-map
-          :doc "Anything emacs (internal)"
-          "e" #'(lambda () (interactive) (find-file user-init-file))
-          "c" #'org-capture)
+  (defvar-keymap bascht-emacs-prefix-map
+        :doc "Anything emacs (internal)"
+        "e" #'(lambda () (interactive) (find-file user-init-file))
+        "c" #'org-capture)
 
-    (defvar-keymap bascht-org-prefix-map
-      :doc "Anything org-related"
-      "a" #'org-agenda
-      "c" #'org-capture)
+  (defvar-keymap bascht-org-prefix-map
+    :doc "Anything org-related"
+    "a" #'org-agenda
+    "c" #'org-capture)
 
-    (defvar-keymap bascht-prefix-map
-      :doc "Baschts own prefixes"
-      "d" 'dired
-      "e" bascht-emacs-prefix-map
-      "o" bascht-org-prefix-map)
+  (defvar-keymap bascht-line-prefix-map
+    :doc "Do something with the current line"
+    "d" #'duplicate-dwim
+    "c" #'comment-or-uncomment-region)
 
-    (keymap-set global-map "M-SPC" bascht-prefix-map)
-    (which-key-add-keymap-based-replacements bascht-prefix-map
-      "o" `("Org" . ,bascht-org-prefix-map)
-      "e" `("Emacs" . ,bascht-emacs-prefix-map)
-      )
+  (defvar-keymap bascht-prefix-map
+    :doc "Baschts own prefixes"
+    "d" 'dired
+    "e" bascht-emacs-prefix-map
+    "o" bascht-org-prefix-map)
+
+  (keymap-set global-map "M-SPC" bascht-prefix-map)
+  (which-key-add-keymap-based-replacements bascht-prefix-map
+    "o" `("Org" . ,bascht-org-prefix-map)
+    "e" `("Emacs" . ,bascht-emacs-prefix-map)
+    )
 
 
 #+end_src
@@ -1583,14 +1597,7 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
         :desc "Back to last search" "<backspace>" #'mu4e-search-prev
         :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next)
 
-  (map! :after mu4e
-        :map (mu4e-headers-mode-map mu4e-view-mode-map)
-        :localleader
-        "g" (lambda () (interactive) (save-excursion
-                                       (progn (goto-char (point-min))
-                                              (search-forward "view it on GitLab")
-                                              (backward-word)
-                                              (shr-browse-url)))))
+
 #+end_src
 * TODO Email
 
@@ -1663,163 +1670,182 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 #+end_src
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package mu4e
-    :ensure nil
-    :config
+      (use-package mu4e
+        :ensure nil
+        :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map)
+                           "C-<return>" 'bascht-mu4e-view-it-on-gitlab
+                           "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
+
+        :config
 
 
-    ;;  (setq mu4e-contexts
-    ;;     `( ,(make-mu4e-context
-    ;;           :name "bascht.com"
-    ;;           :enter-func (lambda () (mu4e-message "Entering bascht.com context"))
-    ;;           :leave-func (lambda () (mu4e-message "Leaving bascht.com context"))
-    ;;           :match-func (lambda (msg)
-    ;;                         (when msg
-    ;;                           (string-match-p "^/bascht.com" (mu4e-message-field msg :maildir))))
-    ;;           :vars '( ( user-mail-address	    . "mail@bascht.com"  )
-    ;;                    ( user-full-name	    . "Sebastian Schulze" )
-    ;; (mu4e-sent-folder . "/bascht.com/Sent")
-    ;; (mu4e-drafts-folder . "/bascht.com/Drafts")
-    ;; (mu4e-trash-folder . "/bascht.com/Trash")
-    ;;                    ( message-user-organization . "bascht.com" )
-    ;;                    ))
-    ;;        ,(make-mu4e-context
-    ;;           :name "Work"
-    ;;           :enter-func (lambda () (mu4e-message "Switch to the Work context"))
-    ;;           ;; no leave-func
-    ;;           ;; we match based on the maildir of the message
-    ;;           ;; this matches maildir /Arkham and its sub-directories
-    ;;           :match-func (lambda (msg)
-    ;;                         (when msg
-    ;;                           (string-match-p "^/Arkham" (mu4e-message-field msg :maildir))))
-    ;;           :vars '( ( user-mail-address	       . "aderleth@miskatonic.example.com" )
-    ;;                    ( user-full-name	       . "Alice Derleth" )
-    ;;                    ( message-user-organization . "Miskatonic University" )
-    ;;                    ))
+        ;;  (setq mu4e-contexts
+        ;;     `( ,(make-mu4e-context
+        ;;           :name "bascht.com"
+        ;;           :enter-func (lambda () (mu4e-message "Entering bascht.com context"))
+        ;;           :leave-func (lambda () (mu4e-message "Leaving bascht.com context"))
+        ;;           :match-func (lambda (msg)
+        ;;                         (when msg
+        ;;                           (string-match-p "^/bascht.com" (mu4e-message-field msg :maildir))))
+        ;;           :vars '( ( user-mail-address	    . "mail@bascht.com"  )
+        ;;                    ( user-full-name	    . "Sebastian Schulze" )
+        ;; (mu4e-sent-folder . "/bascht.com/Sent")
+        ;; (mu4e-drafts-folder . "/bascht.com/Drafts")
+        ;; (mu4e-trash-folder . "/bascht.com/Trash")
+        ;;                    ( message-user-organization . "bascht.com" )
+        ;;                    ))
+        ;;        ,(make-mu4e-context
+        ;;           :name "Work"
+        ;;           :enter-func (lambda () (mu4e-message "Switch to the Work context"))
+        ;;           ;; no leave-func
+        ;;           ;; we match based on the maildir of the message
+        ;;           ;; this matches maildir /Arkham and its sub-directories
+        ;;           :match-func (lambda (msg)
+        ;;                         (when msg
+        ;;                           (string-match-p "^/Arkham" (mu4e-message-field msg :maildir))))
+        ;;           :vars '( ( user-mail-address	       . "aderleth@miskatonic.example.com" )
+        ;;                    ( user-full-name	       . "Alice Derleth" )
+        ;;                    ( message-user-organization . "Miskatonic University" )
+        ;;                    ))
 
-    ;;        ))
+        ;;        ))
 
-    (load-file (expand-file-name "email-accounts.el" "/home/bascht/.config/emacs"))
-
-
-    
-    ;; set `mu4e-context-policy` and `mu4e-compose-policy` to tweak when mu4e should
-
-    ;; guess or ask the correct context, e.g.
-
-    ;; start with the first (default) context;
-    ;; default is to ask-if-none (ask when there's no context yet, and none match)
-    (setq mu4e-context-policy 'pick-first)
-
-    ;; compose with the current context is no context matches;
-    ;; default is to ask
-
-    (setq mu4e-compose-context-policy nil)
+        (load-file (expand-file-name "email-accounts.el" "/home/bascht/.config/emacs"))
 
 
-    ;; Always refile to my archive/year structure
-    (setq mu4e-refile-folder (format-time-string "/Archiv/%Y"))
-    
-    (setq
+        
+        ;; set `mu4e-context-policy` and `mu4e-compose-policy` to tweak when mu4e should
+
+        ;; guess or ask the correct context, e.g.
+
+        ;; start with the first (default) context;
+        ;; default is to ask-if-none (ask when there's no context yet, and none match)
+        (setq mu4e-context-policy 'pick-first)
+
+        ;; compose with the current context is no context matches;
+        ;; default is to ask
+
+        (setq mu4e-compose-context-policy nil)
 
 
-     ;; mu4e-sent-folder   "/Sent"
-     ;; mu4e-drafts-folder "/Drafts"
-     ;; mu4e-trash-folder  "/Trash"
+        ;; Always refile to my archive/year structure
+        (setq mu4e-refile-folder (format-time-string "/Archiv/%Y"))
+        
+        (setq
 
-     mail-user-agent 'mu4e-user-agent
-     mail-signature nil
-     mail-signature-file nil
-     message-signature nil
-     message-signature-file nil
-     org-msg-signature (with-current-buffer (find-file-noselect (string-join (list "/home/bascht/.signature" (if (string= (system-name) "apfelstrudel") ".alfatraining")))) (buffer-string))
-     mu4e-change-filenames-when-moving t
-     message-send-mail-function 'message-send-mail-with-sendmail
-     message-sendmail-extra-arguments '("--read-envelope-from")
-     message-sendmail-f-is-evil 't
-     sendmail-program "msmtp"
-     mu4e-update-interval 600
-     mu4e-compose-complete-only-after "2016-01-01"
-     mu4e-compose-dont-reply-to-self 't
-     mu4e-compose-format-flowed t
-     mu4e-compose-in-new-frame t
-     mu4e-get-mail-command "mbsync -a"
-     mu4e-search-include-related t
-     mu4e-index-lazy-check nil
-     mu4e-index-cleanup t
-     mu4e-use-fancy-chars nil
-     mu4e-headers-draft-mark     '("D" . "💈")
-     mu4e-headers-flagged-mark   '("F" . "📍")
-     mu4e-headers-new-mark       '("N" . "📨")
-     mu4e-headers-passed-mark    '("P" . "➡")
-     mu4e-headers-replied-mark   '("R" . "↩")
-     mu4e-headers-seen-mark      '("S" . "☑")
-     mu4e-headers-trashed-mark   '("T" . "💀")
-     mu4e-headers-attach-mark    '("a" . "📎")
-     mu4e-headers-encrypted-mark '("x" . "🔒")
-     mu4e-headers-signed-mark    '("s" . "🔑")
-     mu4e-headers-unread-mark    '("u" . "✉️")
-     mu4e-headers-list-mark      '("l" . "")
-     mu4e-headers-personal-mark  '("p" . "")
-     mu4e-headers-calendar-mark  '("c" . "📅")
-     mu4e-headers-fields '((:human-date . 6)
-                           (:flags . 4)
-                           ;; (:account-stripe . 2)
-                           (:from-or-to . 25)
-                           (:subject . 100))
 
-     ;; stolen from doom
-     mu4e-header-info-custom
-     '((:account .
-                 (:name "Account"
-                        :shortname "Account"
-                        :help "which account/maildir this email belongs to"
-                        :function
-                        (lambda (msg)
-                          (let ((maildir (replace-regexp-in-string
-                                          "\\`/?\\([^/]+\\)/.*\\'" "\\1"
-                                          (mu4e-message-field msg :maildir))))
-                            (+mu4e-colorize-str
-                             (replace-regexp-in-string
-                              "^gmail"
-                              (propertize "g" 'face 'bold-italic)
-                              maildir)
-                             '+mu4e-header--maildir-colors
-                             maildir)))))
-       (:account-stripe .
-                        (:name "Account"
-                               :shortname "▐"
-                               :help "Which account/maildir this email belongs to"
-                               :function
-                               (lambda (msg)
-                                 (let ((account
-                                        (replace-regexp-in-string
-                                         "\\`/?\\([^/]+\\)/.*\\'" "\\1"
-                                         (mu4e-message-field msg :maildir))))
-                                   (propertize
-                                    (+mu4e-colorize-str "▌" '+mu4e-header--maildir-colors account)
-                                    'help-echo account)))))
-       (:recipnum .
-                  (:name "Number of recipients"
-                         :shortname " ⭷"
-                         :help "Number of recipients for this message"
-                         :function
-                         (lambda (msg)
-                           (propertize (format "%2d"
-                                               (+ (length (mu4e-message-field msg :to))
-                                                  (length (mu4e-message-field msg :cc))))
-                                       'face 'mu4e-footer-face)))))
-     +mu4e-min-header-frame-width 142
-     mu4e-headers-date-format "%d.%m."
-     mu4e-headers-time-format "%H:%M"
-     mu4e-search-results-limit 1500
-     mu4e-headers-visible-lines 15
-     mu4e-headers-visible-columns 135
-     mu4e-use-fancy-chars t
-     mu4e-index-cleanup t)
-    )
+         ;; mu4e-sent-folder   "/Sent"
+         ;; mu4e-drafts-folder "/Drafts"
+         ;; mu4e-trash-folder  "/Trash"
+
+         mail-user-agent 'mu4e-user-agent
+         mail-signature nil
+         mail-signature-file nil
+         message-signature nil
+         message-signature-file nil
+         org-msg-signature (with-current-buffer (find-file-noselect (string-join (list "/home/bascht/.signature" (if (string= (system-name) "apfelstrudel") ".alfatraining")))) (buffer-string))
+         mu4e-change-filenames-when-moving t
+         message-send-mail-function 'message-send-mail-with-sendmail
+         message-sendmail-extra-arguments '("--read-envelope-from")
+         message-sendmail-f-is-evil 't
+         sendmail-program "msmtp"
+         mu4e-update-interval 600
+         mu4e-compose-complete-only-after "2016-01-01"
+         mu4e-compose-dont-reply-to-self 't
+         mu4e-compose-format-flowed t
+         mu4e-compose-in-new-frame t
+         mu4e-get-mail-command "mbsync -a"
+         mu4e-search-include-related t
+         mu4e-index-lazy-check nil
+         mu4e-index-cleanup t
+         mu4e-use-fancy-chars nil
+         mu4e-headers-draft-mark     '("D" . "💈")
+         mu4e-headers-flagged-mark   '("F" . "📍")
+         mu4e-headers-new-mark       '("N" . "📨")
+         mu4e-headers-passed-mark    '("P" . "➡")
+         mu4e-headers-replied-mark   '("R" . "↩")
+         mu4e-headers-seen-mark      '("S" . "☑")
+         mu4e-headers-trashed-mark   '("T" . "💀")
+         mu4e-headers-attach-mark    '("a" . "📎")
+         mu4e-headers-encrypted-mark '("x" . "🔒")
+         mu4e-headers-signed-mark    '("s" . "🔑")
+         mu4e-headers-unread-mark    '("u" . "✉️")
+         mu4e-headers-list-mark      '("l" . "")
+         mu4e-headers-personal-mark  '("p" . "")
+         mu4e-headers-calendar-mark  '("c" . "📅")
+         mu4e-headers-fields '((:human-date . 6)
+                               (:flags . 4)
+                               ;; (:account-stripe . 2)
+                               (:from-or-to . 25)
+                               (:subject . 100))
+
+         ;; stolen from doom
+         mu4e-header-info-custom
+         '((:account .
+                     (:name "Account"
+                            :shortname "Account"
+                            :help "which account/maildir this email belongs to"
+                            :function
+                            (lambda (msg)
+                              (let ((maildir (replace-regexp-in-string
+                                              "\\`/?\\([^/]+\\)/.*\\'" "\\1"
+                                              (mu4e-message-field msg :maildir))))
+                                (+mu4e-colorize-str
+                                 (replace-regexp-in-string
+                                  "^gmail"
+                                  (propertize "g" 'face 'bold-italic)
+                                  maildir)
+                                 '+mu4e-header--maildir-colors
+                                 maildir)))))
+           (:account-stripe .
+                            (:name "Account"
+                                   :shortname "▐"
+                                   :help "Which account/maildir this email belongs to"
+                                   :function
+                                   (lambda (msg)
+                                     (let ((account
+                                            (replace-regexp-in-string
+                                             "\\`/?\\([^/]+\\)/.*\\'" "\\1"
+                                             (mu4e-message-field msg :maildir))))
+                                       (propertize
+                                        (+mu4e-colorize-str "▌" '+mu4e-header--maildir-colors account)
+                                        'help-echo account)))))
+           (:recipnum .
+                      (:name "Number of recipients"
+                             :shortname " ⭷"
+                             :help "Number of recipients for this message"
+                             :function
+                             (lambda (msg)
+                               (propertize (format "%2d"
+                                                   (+ (length (mu4e-message-field msg :to))
+                                                      (length (mu4e-message-field msg :cc))))
+                                           'face 'mu4e-footer-face)))))
+         +mu4e-min-header-frame-width 142
+         mu4e-headers-date-format "%d.%m."
+         mu4e-headers-time-format "%H:%M"
+         mu4e-search-results-limit 1500
+         mu4e-headers-visible-lines 15
+         mu4e-headers-visible-columns 135
+         mu4e-use-fancy-chars t
+         mu4e-index-cleanup t)
+        )
 
 #+end_src
+** GitLab Email helpers
+
+#+begin_src emacs-lisp :tangle init.el
+
+;        :map (mu4e-headers-mode-map mu4e-view-mode-map)
+        (defun bascht-mu4e-view-it-on-gitlab ()
+          (interactive) (save-excursion
+                          (progn (goto-char (point-min))
+                                 (search-forward "view it on GitLab")
+                                 (backward-word)
+                                 (shr-browse-url))))
+#+end_src
+
+
+
 * TODO Work
 
 #+begin_src emacs-lisp :tangle init.el
