@@ -1,0 +1,52 @@
+# Bash initialization for interactive non-login shells and
+# for remote shells (info "(bash) Bash Startup Files").
+
+# Export 'SHELL' to child processes.  Programs such as 'screen'
+# honor it and otherwise use /bin/sh.
+export SHELL
+
+if [[ $- != *i* ]]
+then
+    # We are being invoked from a non-interactive shell.  If this
+    # is an SSH session (as in "ssh host command"), source
+    # /etc/profile so we get PATH and other essential variables.
+    [[ -n "$SSH_CLIENT" ]] && source /etc/profile
+
+    # Don't do anything else.
+    return
+fi
+
+# Source the system-wide file.
+[ -f /etc/bashrc ] && source /etc/bashrc
+
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+HISTCONTROL=ignoredups:ignorespace
+HISTFILESIZE=80000
+HISTSIZE=10000
+GPG_TTY="$(tty)"
+export GPG_TTY
+
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s extglob
+shopt -s globstar
+shopt -s checkjobs
+
+eval "$(zoxide init bash)"
+
+if [[ $TERM != "dumb" ]]; then
+  eval "$(starship init bash --print-full-init)"
+fi
+
+for f in ~/.config/bash/*.sh; do source $f; done
+
+eval "$(direnv hook bash)"
