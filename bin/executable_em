@@ -10,7 +10,7 @@ name="${raw_name//./_}"
 if [ "${PARENT_COMMAND}" == "$(basename "$SHELL")" ] || [ "${PARENT_COMMAND}" == "tmux: server" ]; then
     if [[ $(tmux display-message -p '#S' | grep -E "^\w+/\w+$") == "${name}" ]] && [[ -z ${1} ]]; then
         echo "Detected tmux project session. (Re)-attaching"
-        exec emacsclient -s comacs --create-frame --tty -e "(bascht/switch-to-or-load-workspace \"${name}\" \"${PWD}\")"
+        exec emacsclient -s comacs --create-frame --tty -e "(bascht-switch-to-or-load-perspective \"${name}\" \"${PWD}\")"
     else
         exec emacsclient -s comacs --create-frame --tty "$@"
     fi
