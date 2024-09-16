@@ -1305,9 +1305,18 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 #+end_src
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package expand-region
+  (use-package terraform-mode
     :ensure t
-    :general ("C-." 'er/expand-region))
+    :config
+    (add-hook 'terraform-mode-hook #'outline-minor-mode)
+    (setq terraform-format-on-save t))
+  #+end_src
+
+
+#+begin_src emacs-lisp :tangle init.el
+    (use-package expand-region
+      :ensure t
+      :general ("C-." 'er/expand-region))
 #+end_src
 
   #+begin_src emacs-lisp :tangle packages.el
