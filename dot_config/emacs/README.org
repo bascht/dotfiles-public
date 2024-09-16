@@ -442,6 +442,7 @@ There is still loads to fix but I can move forward with my initial target of fin
           "o h" '(consult-org-agenda :which-key "Go to agenda heading")
           "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
           "o c g" '(org-clock-goto :which-key "Go to current clock")
+          "o c o" '(org-clock-out :which-key "Go to current clock")
 
 
           ;; Eval 
