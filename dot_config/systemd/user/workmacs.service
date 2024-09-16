@@ -11,6 +11,7 @@ Environment=DOOMPROFILE=workmacs
 
 [Unit]
 Description=Emacs workmacs daemon
-After=graphical-session-pre.target
+After=graphical-session.target
+Requires=graphical-session.target
 PartOf=graphical-session.target
 X-RestartIfChanged=false

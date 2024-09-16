@@ -1,0 +1,15 @@
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/emacs --fg-daemon=emacs
+Restart=on-failure
+Environment=COLORTERM=truecolor
+
+[Unit]
+Description=Emacs emacs daemon
+After=graphical-session.target
+Requires=graphical-session.target
+PartOf=graphical-session.target
+X-RestartIfChanged=false
