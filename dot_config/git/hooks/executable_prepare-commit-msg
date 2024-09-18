@@ -16,6 +16,8 @@ if [[ "${PWD}" == "/home/bascht/Code/bascht/dotfiles" ]]; then
     echo "${STAGED_FILES}"
     case "${STAGED_FILES}" in
         dot_config/foot*) COMMIT_COMPONENT="foot" ;;
+        bin/executable*) COMMIT_COMPONENT="bin" ;;
+        dot_config/emacs/README.org) COMMIT_COMPONENT="emacs" ;;
         dot_local/share/user*css) COMMIT_COMPONENT="css" ;;
     esac
     echo "Nothing found, checking ${STAGED_FILES}"
