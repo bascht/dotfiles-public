@@ -4,109 +4,110 @@ set -eo pipefail
 
 export SWAYSOCK=/run/user/1000/sway-ipc.sock
 
-
 # Kudos: https://stackoverflow.com/a/37840948
-function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+function urldecode() {
+    : "${*//+/ }"
+    echo -e "${_//%/\\x}"
+}
 
 # Strip file:// protocol as file -b will handle this
 argument=$(urldecode "${1}" | sed "s|file://||")
 url_regex='^(https?|alfaview|mailto|ftp):/?/?.*'
 
 if [[ $argument =~ $url_regex ]]; then
-	match=$argument
+    match=$argument
 else
-	match=$(file -b --mime-type "${argument}")
-	# Try to match broader if it's just a generic stream
-	# (This e.g. happens with Microsoft .docx files)
-	if [[ $match == "application/octet-stream" ]]; then
-		match=$(file -b "${argument}")
-	fi;
-fi;
+    match=$(file -b --mime-type "${argument}")
+    # Try to match broader if it's just a generic stream
+    # (This e.g. happens with Microsoft .docx files)
+    if [[ $match == "application/octet-stream" ]]; then
+        match=$(file -b "${argument}")
+    fi
+fi
 
 # echo "Searching ${*} as argument ${argument} for ${match} in handlers" |wl-copy
 
 case "${match}" in
-	*.slack.*)
-		exec qutebrowser-comms "$1"
-		;;
-	https://staging-app*)
-		exec chromium "$1"
-		;;
-	inode/directory)
-		exec browse-folder "${argument}"
-		;;
-	alfaview:*)
-		exec alfaview "${argument}"
-		;;
-	alfastaging:*)
-		exec alfaview-staging "${argument}"
-		;;
-        application/vnd.debian.binary-package)
-		if [[ "${argument}" == ${XDG_RUNTIME_DIR}/alfaview* ]]; then
-			cd ~/.opt
-			make
-			killall -15 alfaview || echo "Nothing to kill"
-		else
-			notify-send "Nothing to do for ${argument}"
+    *.slack.*)
+        exec qutebrowser-comms "$1"
+        ;;
+    https://staging-app*)
+        exec chromium "$1"
+        ;;
+    inode/directory)
+        exec browse-folder "${argument}"
+        ;;
+    alfaview:*)
+        exec alfaview "${argument}"
+        ;;
+    alfastaging:*)
+        exec alfaview-staging "${argument}"
+        ;;
+    application/vnd.debian.binary-package)
+        if [[ "${argument}" == ${XDG_RUNTIME_DIR}/alfaview* ]]; then
+            cd ~/.opt
+            make
+            killall -15 alfaview || echo "Nothing to kill"
+        else
+            notify-send "Nothing to do for ${argument}"
 
-		fi;
-		;;
-	ssh:*)
-		host=$(echo $1 | cut -d "/" -f 3)
-		exec foot ssh "$host"
-		;;
-	text/html|http://*|https://*)
-		exec browser "$1"
-		;;
-	application/x-postscript|image/x-eps|application/pdf)
-		PDF="${1}"
-		if [[ $argument =~ Hetzner_[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_R ]]; then
-			notify-send "Fixing up Hetzner invoice at ${argument}"
-			PDF=$(fixup-hetzner-invoice "${argument}")
-		fi;
-		exec zathura "${PDF}"
-		;;
-	text/calendar)
-		echo $1 | wl-copy --trim-newline
-		exec notify-send -i x-office-calendar "Calendar Event" "Copied path ${@} to clipboard" >&2
-		;;
-	image/gif|video/*)
-		exec mpv --loop=inf "$1"
-		;;
-	image/*)
-		exec imv "${argument}"
-		;;
-	atom://*)
-		exec nix-shell -p atom --command "$1"
-		;;
-	application/vnd.openxmlformats-officedocument*|application/vnd.oasis.opendocument*|"Microsoft OOXML")
-		exec libreoffice "$1"
-		;;
-	mailto:*)
-		exec em --eval "(browse-url--mailto \"${argument}\")"
-		;;
-	application/zip)
-		TEMPDIR=$(mktemp -d)
-		unzip -d "${TEMPDIR}" "${argument}"
-		exec xdg-open "${TEMPDIR}"
-		;;
-	application/gzip)
-		TEMPDIR=$(mktemp -d)
-		if [[ $argument =~ .tar.gz$ ]]; then
-			tar xvf "${argument}" -C "${TEMPDIR}"
-		else
-			cp "${argument}" "${TEMPDIR}"
-			gunzip "${TEMPDIR}/"*
+        fi
+        ;;
+    ssh:*)
+        host=$(echo $1 | cut -d "/" -f 3)
+        exec foot ssh "$host"
+        ;;
+    text/html | http://* | https://*)
+        exec browser "$1"
+        ;;
+    application/x-postscript | image/x-eps | application/pdf)
+        PDF="${1}"
+        if [[ $argument =~ Hetzner_[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_R ]]; then
+            notify-send "Fixing up Hetzner invoice at ${argument}"
+            PDF=$(fixup-hetzner-invoice "${argument}")
+        fi
+        exec zathura "${PDF}"
+        ;;
+    text/calendar)
+        echo $1 | wl-copy --trim-newline
+        exec notify-send -i x-office-calendar "Calendar Event" "Copied path ${@} to clipboard" >&2
+        ;;
+    image/gif | video/*)
+        exec mpv --loop=inf "$1"
+        ;;
+    image/*)
+        exec imv "${argument}"
+        ;;
+    atom://*)
+        exec nix-shell -p atom --command "$1"
+        ;;
+    application/vnd.openxmlformats-officedocument* | application/vnd.oasis.opendocument* | "Microsoft OOXML")
+        exec libreoffice "$1"
+        ;;
+    mailto:*)
+        exec em --eval "(browse-url--mailto \"${argument}\")"
+        ;;
+    application/zip)
+        TEMPDIR=$(mktemp -d)
+        unzip -d "${TEMPDIR}" "${argument}"
+        exec xdg-open "${TEMPDIR}"
+        ;;
+    application/gzip)
+        TEMPDIR=$(mktemp -d)
+        if [[ $argument =~ .tar.gz$ ]]; then
+            tar xvf "${argument}" -C "${TEMPDIR}"
+        else
+            cp "${argument}" "${TEMPDIR}"
+            gunzip "${TEMPDIR}/"*
 
-		fi;
-		exec xdg-open "${TEMPDIR}"
-		;;
-	text/x-tex|application/json|text/plain|text/xml)
-		exec em "${argument}"
-		;;
-	*)
-		notify-send "${0}" "Don't know how to open ${@} of type ${match}" -t 2500 >&2
-		exec foot --app-id 'files' ranger $@
-		;;
+        fi
+        exec xdg-open "${TEMPDIR}"
+        ;;
+    text/x-tex | application/json | text/plain | text/xml | text/x-shellscript)
+        exec em "${argument}"
+        ;;
+    *)
+        notify-send "Cannot open ${match}" "Unknown type ${@}" -t 2500 >&2
+        exec foot --app-id 'files' ranger $@
+        ;;
 esac
-
