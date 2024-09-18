@@ -55,31 +55,30 @@ alias baml="|bat -l yaml"
 
 fzf-bash-aliases-widget() {
     set -xv
-  local selected="$(launcher-bash-aliases "$@")"
-  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-  notify-send "Readline" "${READLINE_LINE}"
-  READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
-  notify-send "Readline Point" "${READLINE_POINT}"
+    local selected="$(launcher-bash-aliases "$@")"
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+    notify-send "Readline" "${READLINE_LINE}"
+    READLINE_POINT=$((READLINE_POINT + ${#selected}))
+    notify-send "Readline Point" "${READLINE_POINT}"
 }
 
 __fzf_bash_aliases__() {
-  local output opts script
-  opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore ${FZF_DEFAULT_OPTS-} -n2..,.. --scheme=history --bind=ctrl-r:toggle-sort ${FZF_CTRL_R_OPTS-} +m --read0"
-  script='BEGIN { getc; $/ = "\n\t"; $HISTCOUNT = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCOUNT - $. . "\t$_" if !$seen{$_}++'
-  match=$(echo "$READLINE_LINE" | awk '{ print $NF }')
-  previous_line=$(echo "$READLINE_LINE" | sed s/'\w*$'//)
-  echo "${READLINE_LINE}"
-  echo $match
-  echo $previous_line
-  output=$(launcher-bash-aliases $(echo "$READLINE_LINE" | awk '{print $NF }')) || return
-  READLINE_LINE=$previous_line${output#*$'\t'}
-  if [[ -z "$READLINE_POINT" ]]; then
-    echo "$READLINE_LINE"
-  else
-    READLINE_POINT=0x7fffffff
-  fi
+    local output opts script
+    opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore ${FZF_DEFAULT_OPTS-} -n2..,.. --scheme=history --bind=ctrl-r:toggle-sort ${FZF_CTRL_R_OPTS-} +m --read0"
+    script='BEGIN { getc; $/ = "\n\t"; $HISTCOUNT = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCOUNT - $. . "\t$_" if !$seen{$_}++'
+    match=$(echo "$READLINE_LINE" | awk '{ print $NF }')
+    previous_line=$(echo "$READLINE_LINE" | sed s/'\w*$'//)
+    echo "${READLINE_LINE}"
+    echo $match
+    echo $previous_line
+    output=$(launcher-bash-aliases $(echo "$READLINE_LINE" | awk '{print $NF }')) || return
+    READLINE_LINE=$previous_line${output#*$'\t'}
+    if [[ -z "$READLINE_POINT" ]]; then
+        echo "$READLINE_LINE"
+    else
+        READLINE_POINT=0x7fffffff
+    fi
 }
-
 
 # Create & enter folder (borrowed from zsh's take)
 function take {
@@ -129,7 +128,7 @@ function kgc {
 }
 
 function kgl {
-    kubectl logs -f $(kfp $(k_app)) $(kgc|fzf)
+    kubectl logs -f $(kfp $(k_app)) $(kgc | fzf)
 }
 
 function cm-add-changed-file {
@@ -144,10 +143,10 @@ function cm-add-changed-file {
 }
 
 function ddir {
-  take "$(datestamp)-${*}"
+    take "$(datestamp)-${*}"
 }
 
 function letter {
     base=$(basename "${1}" ".tex")
-    podman run -e VERBOSE=false -i --rm letter < "${1}" > "${base}.pdf"
+    podman run -e VERBOSE=false -i --rm letter <"${1}" >"${base}.pdf"
 }
