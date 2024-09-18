@@ -1060,9 +1060,7 @@ There is still loads to fix but I can move forward with my initial target of fin
          )
 
        (use-package jinx
-         :hook (text-mode-hook . jinx-mode)
-         (prog-mode-hook . jinx-mode)
-         (conf-mode-hook . jinx-mode)
+         :hook text-mode prog-mode conf-mode mu4e-compose-mode
          :general (leader-keys
                    "m s c" '(jinx-correct :which-key "")
                    "m s l" '(jinx-languages :which-key ""))
