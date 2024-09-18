@@ -133,14 +133,14 @@ function kgl {
 }
 
 function cm-add-changed-file {
-for file in $(chezmoi status|awk '{ print $2 }'); do
-	chezmoi --no-pager diff ~/$file
-	a=$(echo -e "yes\nno" | fzf --height=3)
-	if [ "$a" == "yes" ]; then
-		chezmoi add "~/$file"
-	fi
-	clear
-done
+    for file in $(chezmoi status | awk '{ print $2 }'); do
+        chezmoi diff --pager=delta --reverse "${HOME}/${file}"
+        a=$(echo -e "yes\nno" | fzf --height=3)
+        if [ "$a" == "yes" ]; then
+            chezmoi add "~/$file"
+        fi
+        clear
+    done
 }
 
 function ddir {
