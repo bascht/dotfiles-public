@@ -970,7 +970,10 @@ There is still loads to fix but I can move forward with my initial target of fin
 
 
 
-       (use-package nerd-icons )
+       (use-package nerd-icons
+         :config (setq nerd-icons-color-icons t
+                       nerd-icons-scale-factor 1.0
+                       nerd-icons-font-family  "Symbols Nerd Font"))
        (use-package nerd-icons-dired
          :ensure t
          :hook
@@ -1213,8 +1216,6 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
         )
 
 
-  (setq nerd-icons-font-family  "Symbols Nerd Font Mono")
-  (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
 
   (setq +workspaces-switch-project-function #'bascht/projectile-open-dired)
