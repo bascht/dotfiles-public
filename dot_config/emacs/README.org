@@ -990,10 +990,8 @@ There is still loads to fix but I can move forward with my initial target of fin
        (use-package vterm)
        (use-package vterm-toggle
          ;;  :ensure t
-         :general
-         (leader-keys
-          "'" '(vterm-toggle :which-key "terminal"))
-         )
+         :general ("C-c t" 'vterm-toggle :which-key "terminal"))
+
 
        ;; (use-package nano-modeline
        ;;   :init
