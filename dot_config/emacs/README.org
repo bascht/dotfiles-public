@@ -10,6 +10,10 @@ There is still loads to fix but I can move forward with my initial target of fin
 - [ ] Group up this huge chapter into sections
 - [ ] Remove all the obsolete doom-references
 - [ ] Fix up =fontaine= style
+** Package manager
+
+#+begin_src emacs-lisp :tangle init.el
+#+end_src
 
 #+begin_src emacs-lisp :tangle init.el
        ;; Bare minimum defaults via https://git.sr.ht/~technomancy/better-defaults/tree/main/item/better-defaults.el
@@ -37,6 +41,7 @@ There is still loads to fix but I can move forward with my initial target of fin
        (package-initialize)
 
        (use-package emacs
+         :ensure nil
          :config
          (winner-mode)
 
@@ -85,23 +90,39 @@ There is still loads to fix but I can move forward with my initial target of fin
 
        (defun bascht--setup-workmacs()
          (interactive)
-         (org-journal-open-current-journal-file)
-         (delete-other-windows)
-         (breadcrumb-mode -1)
+         ;;         (kill-buffer "*scratch*")
          (setq indicate-empty-lines nil
+               inhibit-startup-screen t
+               initial-buffer-choice t
+               initial-scratch-message nil
                doom-modeline-vcs-icon nil
                doom-modeline-check-icon nil
                doom-modeline-workspace-name nil
                doom-modeline-persp-name nil
                doom-modeline-persp-icon nil
                doom-modeline-lsp nil
-               mode-line-format nil
-               server-client-instructions nil )
-         (spacious-padding-mode)
+               org-journal-find-file-fn 'find-file
+               mode-line-format nil)
 
          (add-hook 'org-journal-mode-hook
+                   (lambda ()
+                     (setq mode-line-format nil)
+                     (add-hook 'after-save-hook 'bascht--move-to-scratchpad))) 
 
-                   (lambda () (add-hook 'after-save-hook 'delete-frame)))
+         (spacious-padding-mode)
+         (breadcrumb-mode -1)
+         (doom-modeline-mode -1)
+
+
+
+         (org-journal-open-current-journal-file)
+         (shell-command "swaymsg floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center")
+
+
+
+
+
+
                                                ; Somehow my brain mapped this shortcut in org-journal mode
                                                ; Oh yes, you know why? Because they feel like I finish a "git commit" :D
          ;; (map! :after org-journal
@@ -116,9 +137,11 @@ There is still loads to fix but I can move forward with my initial target of fin
                   :default-family "JetBrains Mono Nerd Font Mono"
                   :default-height 120
                   :fixed-pitch-family "MonaspiceAr NF"
+                  :mode-line-active-family "Iosevka Curly" ;
+                  :mode-line-inactive-family "Iosevka Curly"
                   :variable-pitch-family "VictorMono Nerd Font Proto"
                   :italic-family "JetBrains Mono Nerd Font Mono"
-     ;             :italic-family "MonaspiceRn NF"
+                                               ;             :italic-family "MonaspiceRn NF"
                   )
                  (writing
                   :default-family "MonaspiceRn NF"
@@ -157,9 +180,9 @@ There is still loads to fix but I can move forward with my initial target of fin
          :config
 
          (unless (and (not (daemonp)) (not (window-system)))
-             (if (string= (daemonp) "workmacs")
-                 (fontaine-set-preset 'worklogger)
-               (fontaine-set-preset 'regular))))
+           (if (string= (daemonp) "workmacs")
+               (fontaine-set-preset 'worklogger)
+             (fontaine-set-preset 'regular))))
 
        (use-package emojify
          :ensure t
@@ -181,7 +204,7 @@ There is still loads to fix but I can move forward with my initial target of fin
          :config (setq dired-dwim-target t))
 
        (use-package dired-preview
-         :ensure nil
+         :ensure t
          :init
          (defun my-dired-preview-to-the-right ()
            "My preferred `dired-preview-display-action-alist-function'."
@@ -220,7 +243,7 @@ There is still loads to fix but I can move forward with my initial target of fin
        ;; ~/.emacs.d/backup or wherever
        (defun bedrock--backup-file-name (fpath)
          "Return a new file path of a given file path.
-                                                         If the new path's directories does not exist, create them."
+                                                                            If the new path's directories does not exist, create them."
          (let* ((backupRootDir (concat user-emacs-directory "backups"))
                 (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path
                 (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
@@ -289,11 +312,11 @@ There is still loads to fix but I can move forward with my initial target of fin
        (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
          (mapc (lambda (hook) (add-hook hook 'hl-line-mode)) hl-line-hooks))
 
-                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                         ;;;
-                                                         ;;;   Tab-bar configuration
-                                                         ;;;
-                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                            ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                            ;;;
+                                                                            ;;;   Tab-bar configuration
+                                                                            ;;;
+                                                                            ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
        ;; Show the tab-bar as soon as tab-bar functions are invoked
        (setopt tab-bar-show 1)
@@ -339,147 +362,191 @@ There is still loads to fix but I can move forward with my initial target of fin
        ;; 
        ;;     )
 
-       (use-package casual-suite
-         :config
-         (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
-         (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
-         (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
-         (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-         (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-         (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
-         (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
-         (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
-         (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
-         (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
-         (keymap-global-set "M-g" #'casual-avy-tmenu))
+       (use-package catppuccin-theme
+         :ensure t
+         :config (setq catppuccin-flavor 'latte))
+
+       ;; (use-package casual-suite
+       ;;   :ensure t
+       ;;   :after (magit org dired-preview)
+       ;;   :config
+       ;;   (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
+       ;;   (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
+       ;;   (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
+       ;;   (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+       ;;   (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+       ;;   (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
+       ;;   (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
+       ;;   (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
+       ;;   (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
+       ;;   (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
+       ;;   (keymap-global-set "M-g" #'casual-avy-tmenu))
 
        ;; (use-package devil
        ;;   :ensure t
        ;;   :config
        ;;   (global-devil-mode 1))
 
-      (use-package general
-        :ensure t
-        :demand t
-        :config
-        (general-auto-unbind-keys)
-        (general-create-definer my-leader-def
-          :prefix "M-SPC")
+       (use-package general
+         :ensure t
+         :demand t
+         :config
+         (general-auto-unbind-keys)
 
-        
-        (my-leader-def
-          "M-SPC" '(execute-extended-command :which-key "execute command")
-          "/" '(ripgrep :which-key "")
-          "m" '(bascht-mu4e-persp :which-key "mu4e")
-          "a" '(org-agenda :which-key "mu4e")
-
+         (general-define-key
+          :prefix "C-c"
+          "m" 'mu4e
           "c" 'org-capture
-          "x" '(persp-switch-to-scratch-buffer :which-key "")
-
-          ;; Emacs
-          "e" '(:ignore t :which-key "emacs")
-          "e e" '((lambda () (interactive) (find-file user-init-file)) :which-key "open init file")
-          "e r" '(restart-emacs :whick-key "restart emacs")
-
-          ;; Toggle
-          "t" '(:ignore t :which-key "toggle")
-          "t t" '(vterm-toggle :which-key "Toggle vterm")
-          "t c" '(comment-or-uncomment-region :which-key "")
-
-          ;; Emacs
-          "e" '(:ignore t :which-key "emacs")
-
-          ;; Windows
-  ;;        "w" '(:ignore t :which-key "windows")
-    ;;      "w w" '(other-window :which-key "")
-          ;; "w d" '(evil-window-delete :which-key "")
-          ;; "w l" '(evil-window-right :which-key "")
-          ;; "w h" '(evil-window-left :which-key "")
-          ;; "w k" '(evil-window-up :which-key "")
-          ;; "w j" '(evil-window-down :which-key "")
-          ;; "w L" '(evil-window-move-right :which-key "")
-          ;; "w H" '(evil-window-move-left :which-key "")
-          ;; "w K" '(evil-window-move-up :which-key "")
-          ;; "w J" '(evil-window-move-down :which-key "")
-          ;; "w s" '(evil-window-split :which-key "")
-          ;; "w v" '(evil-window-vsplit :which-key "")
-      ;;    "w m m" '(bascht--toggle-window-zoom :which-key "")
-
-          ;; All sorts of searches
-          "s" '(:ignore t :which-key "search")
-          "s s" '(consult-ripgrep :which-key "")
-          "s l" '(consult-line :which-key "")
-          "s L" '(consult-line-multi :which-key "")
-          "s o" '(consult-outline :which-key "")
-          "s i" '(consult-imenu :which-key "")
-          "s w" '(eww-search-words :which-key "")
-
-          ;; Perspective mode
-          "TAB" '(:ignore t :which-key "windows")
-          "TAB l" '(persp-switch-last :which-key "")
-          "TAB ." '(persp-switch :which-key "")
-          "TAB ," '(persp-rename :which-key "")
-          "TAB d" '(persp-kill :which-key "")
-          "TAB n" '(bascht-create-new-persp :which-key "")
-
-          ;; Buffers
-          "b" '(:ignore t :which-key "buffers")
-          "b b" '(consult-buffer :which-key "Find a file in project")
-          "b B" '(consult-buffer-other-window :which-key "Find a file in project")
-
-          ;; Files
-          "f" '(:ignore t :which-key "files")
-          "f s" '(save-buffer :which-key "")
-          "f r" '(consult-recent-file :which-key "")
-          "f f" '(find-file :which-key "Find a file in project")
-          "f F" '(find-file-other-window :which-key "Find a file in project")
-          "f d" '(dired-jump :which-key "")
-          "f D" '(dired-jump-other-window :which-key "")
-
-          ;; Project
-          "p" '(:ignore t :which-key "project")
-          "p f" '(project-find-file :which-key "Find a file in project")
-          "p F" '(project-find-file-other :which-key "Find a file in project")
-          "p p" '(project-switch-project :which-key "Switch project")
-
-          ;; Embark 
-          "a" '(embark-act :which-key "")
-
-          ;; Org
           "o" '(:ignore t :which-key "emacs")
           "o h" '(consult-org-agenda :which-key "Go to agenda heading")
+          "o a" '(org-agenda :which-key "Open agenda")
           "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
           "o c g" '(org-clock-goto :which-key "Go to current clock")
-          "o c o" '(org-clock-out :which-key "Go to current clock")
+          "o c o" '(org-clock-out :which-key "Clock out current clock")
 
+          "p" '(:ignore t :which-key "persp")
+          "p o" '(persp-switch-last :which-key "")
+          "p p" '(persp-switch :which-key "")
+          "p ," '(persp-rename :which-key "")
+          "p k" '(persp-kill :which-key "")
+          "p c" '(bascht-create-new-persp :which-key "")
 
-          ;; Eval 
-          ;; "m e" '(:ignore t :which-key "")
-          ;; "m e d" '(eval-defun :which-key "Evaluate current defun")
-          ;; "m e b" '(eval-buffer :which-key "Evaluate current buffer")
-          ;; "m e r" '(eval-buffer :which-key "Evaluate current region") 
-
-          ;; Buffer
-          "b" '(:ignore t :which-key "buffer")
-          ;; Don't show an error because SPC b ESC is undefined, just abort
-          "b <escape>" '(keyboard-escape-quit :which-key t) 
-          "bd"  'kill-current-buffer))
-
-        (use-package casual-dired
-          :ensure t
-          :general (leader-keys :keymaps 'dired-mode-map
-                               "m c" '(casual-dired-tmenu :which-key "  "))
           )
 
+         
+         (general-create-definer my-leader-def
+           :prefix "M-SPC")
 
 
-        (use-package flycheck
-          :hook (prog-mode . flycheck-mode)
-          )
+         (my-leader-def
+           "M-SPC" '(execute-extended-command :which-key "execute command")
+           "/" '(ripgrep :which-key "")
+           "m" '(bascht-mu4e-persp :which-key "mu4e")
+           "a" '(org-agenda :which-key "mu4e")
 
-        (use-package format-all
-          :commands format-all-mode
-          :hook (prog-mode . format-all-mode)
+           "c" 'org-capture
+           "x" '(persp-switch-to-scratch-buffer :which-key "")
+
+           ;; Emacs
+           "e" '(:ignore t :which-key "emacs")
+           "e e" '((lambda () (interactive) (find-file user-init-file)) :which-key "open init file")
+           "e r" '(restart-emacs :whick-key "restart emacs")
+
+           ;; Toggle
+           "t" '(:ignore t :which-key "toggle")
+           "t t" '(vterm-toggle :which-key "Toggle vterm")
+           "t c" '(comment-or-uncomment-region :which-key "")
+
+           ;; Emacs
+           "e" '(:ignore t :which-key "emacs")
+
+           ;; Windows
+           ;;        "w" '(:ignore t :which-key "windows")
+           ;;      "w w" '(other-window :which-key "")
+           ;; "w d" '(evil-window-delete :which-key "")
+           ;; "w l" '(evil-window-right :which-key "")
+           ;; "w h" '(evil-window-left :which-key "")
+           ;; "w k" '(evil-window-up :which-key "")
+           ;; "w j" '(evil-window-down :which-key "")
+           ;; "w L" '(evil-window-move-right :which-key "")
+           ;; "w H" '(evil-window-move-left :which-key "")
+           ;; "w K" '(evil-window-move-up :which-key "")
+           ;; "w J" '(evil-window-move-down :which-key "")
+           ;; "w s" '(evil-window-split :which-key "")
+           ;; "w v" '(evil-window-vsplit :which-key "")
+           ;;    "w m m" '(bascht--toggle-window-zoom :which-key "")
+
+           ;; All sorts of searches
+           "s" '(:ignore t :which-key "search")
+           "s s" '(consult-ripgrep :which-key "")
+           "s l" '(consult-line :which-key "")
+           "s L" '(consult-line-multi :which-key "")
+           "s o" '(consult-outline :which-key "")
+           "s i" '(consult-imenu :which-key "")
+           "s w" '(eww-search-words :which-key "")
+
+           ;; Perspective mode
+           "TAB" '(:ignore t :which-key "windows")
+           "TAB l" '(persp-switch-last :which-key "")
+           "TAB ." '(persp-switch :which-key "")
+           "TAB ," '(persp-rename :which-key "")
+           "TAB d" '(persp-kill :which-key "")
+           "TAB n" '(bascht-create-new-persp :which-key "")
+
+           ;; Buffers
+           "b" '(:ignore t :which-key "buffers")
+           "b b" '(consult-buffer :which-key "Find a file in project")
+           "b B" '(consult-buffer-other-window :which-key "Find a file in project")
+
+           ;; Files
+           "f" '(:ignore t :which-key "files")
+           "f s" '(save-buffer :which-key "")
+           "f r" '(consult-recent-file :which-key "")
+           "f f" '(find-file :which-key "Find a file in project")
+           "f F" '(find-file-other-window :which-key "Find a file in project")
+           "f d" '(dired-jump :which-key "")
+           "f D" '(dired-jump-other-window :which-key "")
+
+           ;; Project
+           "p" '(:ignore t :which-key "project")
+           "p f" '(project-find-file :which-key "Find a file in project")
+           "p F" '(project-find-file-other :which-key "Find a file in project")
+           "p p" '(project-switch-project :which-key "Switch project")
+
+           ;; Embark 
+                                               ;                "a" '(embark-act :which-key "")
+
+           ;; Org
+           "o" '(:ignore t :which-key "emacs")
+           "o h" '(consult-org-agenda :which-key "Go to agenda heading")
+           "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
+           "o c g" '(org-clock-goto :which-key "Go to current clock")
+           "o c o" '(org-clock-out :which-key "Go to current clock")
+
+
+           ;; Eval 
+           ;; "m e" '(:ignore t :which-key "")
+           ;; "m e d" '(eval-defun :which-key "Evaluate current defun")
+           ;; "m e b" '(eval-buffer :which-key "Evaluate current buffer")
+           ;; "m e r" '(eval-buffer :which-key "Evaluate current region") 
+
+           ;; Buffer
+           "b" '(:ignore t :which-key "buffer")
+           ;; Don't show an error because SPC b ESC is undefined, just abort
+           "b <escape>" '(keyboard-escape-quit :which-key t) 
+           "bd"  'kill-current-buffer)
+         )
+
+
+       ;;         (use-package casual-dired
+       ;;           :after magit dired-preview
+       ;;           :ensure t
+       ;;           :general (leader-keys :keymaps 'dired-mode-map
+       ;;                                 "m c" '(casual-dired-tmenu :which-key "  "))
+       ;;           )
+
+       ;;         (use-package casual-lib
+       ;;           :ensure t
+       ;;           :after magit
+       ;;           )
+
+
+       ;; (use-package casual-avy
+       ;;           :ensure t
+       ;;           :after magit
+       ;;           )
+
+       ;; (use-package casual-symbol-overlay
+       ;;   :ensure t
+       ;;   :after magit)
+
+       (use-package flycheck
+         :hook (prog-mode . flycheck-mode)
+         )
+
+       (use-package format-all
+         :commands format-all-mode
+         :hook (prog-mode . format-all-mode)
          :config
          (setq-default format-all-formatters
                        '(("C"     (astyle "--mode=c"))
@@ -533,7 +600,8 @@ There is still loads to fix but I can move forward with my initial target of fin
          :ensure t
          :demand t
          :after avy
-         :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
+         :bind (("C-." . embark-act)
+                ("C-,". embark-dwim))
          :init
          ;; Add the option to run embark when using avy
          (defun bedrock/avy-action-embark (pt)
@@ -547,18 +615,49 @@ There is still loads to fix but I can move forward with my initial target of fin
 
          ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
          ;; candidate you select
-         (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
+         (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark)
+
+           (setq prefix-help-command #'embark-prefix-help-command)
+
+   ;; Show the Embark target at point via Eldoc. You may adjust the
+   ;; Eldoc strategy, if you want to see the documentation from
+   ;; multiple providers. Beware that using this can be a little
+   ;; jarring since the message shown in the minibuffer can be more
+   ;; than one line, causing the modeline to move up and down:
+
+   (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+   (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  :config
+
+   ;; Hide the mode line of the Embark live/completions buffers
+   (add-to-list 'display-buffer-alist
+                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                  nil
+                  (window-parameters (mode-line-format . none)))
+
+         ))
+
+
+   (use-package consult-dir
+     :ensure t
+     :bind (("C-x C-d" . consult-dir)
+        :map minibuffer-local-completion-map
+        ("C-x C-d" . consult-dir)
+        ("C-x C-j" . consult-dir-jump-file)))
 
        (use-package embark-consult
-         :ensure t)
+         :ensure t
+         :hook
+  (embark-collect-mode . consult-preview-at-point-mode)
+         )
 
 
 
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Minibuffer and completion
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Minibuffer and completion
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
        ;; Vertico: better vertical completion for minibuffer commands
        (use-package vertico
@@ -664,11 +763,11 @@ There is still loads to fix but I can move forward with my initial target of fin
          (setq completion-category-overrides '((file (styles basic partial-completion))))
          )
 
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Misc. editing enhancements
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Misc. editing enhancements
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
        ;; Modify search results en masse
        (use-package wgrep
@@ -679,16 +778,18 @@ There is still loads to fix but I can move forward with my initial target of fin
 
 
        (use-package emacs
-         :bind (("C-." . set-mark-command)
+         :ensure nil
+         :bind (;;("C-." . set-mark-command)
                 ("M-z" . zap-up-to-char)
                 ("M-," . beginning-of-buffer)
                 ("M-." . end-of-buffer)
                 ("M-p" . backward-paragraph)
                 ("M-n" . forward-paragraph)
-                ( "C-c w h" . 'windmove-left)
-                ( "C-c w j" . windmove-down)
-                ( "C-c w k" . windmove-up)
-                ( "C-c w l" . windmove-right)           )
+   ;;             ( "C-c;;  w h" . 'windmove-left)
+                ;; ( "C-c w j" . windmove-down)
+                ;; ( "C-c w k" . windmove-up)
+                ;; ( "C-c w l" . windmove-right)
+         )
 
          :config
          (defvar-keymap windmove-repeat-map
@@ -716,6 +817,8 @@ There is still loads to fix but I can move forward with my initial target of fin
          ((prog-mode . electric-pair-mode)))
 
        (use-package magit
+         :ensure t
+
          :general
          (leader-keys
           "g" '(:ignore t :which-key "git")
@@ -735,11 +838,11 @@ There is still loads to fix but I can move forward with my initial target of fin
          (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
          :config
          (global-diff-hl-mode))
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Common file types
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Common file types
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
        (use-package markdown-mode
          :ensure t
@@ -755,11 +858,11 @@ There is still loads to fix but I can move forward with my initial target of fin
        ;; built in, you're almost certain to find a mode for the language you're
        ;; looking for with a quick Internet search.
 
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Eglot, the built-in LSP client for Emacs
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Eglot, the built-in LSP client for Emacs
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
        ;; Helpful resources:
        ;;
@@ -779,7 +882,7 @@ There is still loads to fix but I can move forward with my initial target of fin
          (treesit-auto-add-to-auto-mode-alist 'all)
          (global-treesit-auto-mode))
 
-
+       (use-package jsonrpc :ensure t)
        (use-package eglot
 
          ;; no :ensure t here because it's built-in
@@ -873,13 +976,13 @@ There is still loads to fix but I can move forward with my initial target of fin
        ;; Org-refile: where should org-refile look?
        (setq org-refile-targets 'FIXME)
 
-                                              ;;; Phase 3 variables
+                                                                 ;;; Phase 3 variables
 
        ;; Org-roam variables
        ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
        ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
 
-                                              ;;; Optional variables
+                                                                 ;;; Optional variables
 
        ;; Advanced: Custom link types
        ;; This example is for linking a person's 7-character ID to their page on the
@@ -887,23 +990,25 @@ There is still loads to fix but I can move forward with my initial target of fin
        (setq org-link-abbrev-alist
              '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
 
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Phase 1: editing and exporting files
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Phase 1: editing and exporting files
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Phase 2: todos, agenda generation, and task tracking
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Phase 2: todos, agenda generation, and task tracking
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
        ;; Yes, you can have multiple use-package declarations. It's best if their
        ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
        ;; config from Phase 1. I've broken it up here for the sake of clarity.
        (use-package org
+         :ensure t
          :config
          ;; Instead of just two states (TODO, DONE) we set up a few different states
          ;; that a task can be in.
@@ -940,11 +1045,11 @@ There is still loads to fix but I can move forward with my initial target of fin
                   ((org-agenda-files '("work.org")))))))
 
 
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                              ;;;
-                                              ;;;   Phase 3: extensions (org-roam, etc.)
-                                              ;;;
-                                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                 ;;;
+                                                                 ;;;   Phase 3: extensions (org-roam, etc.)
+                                                                 ;;;
+                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
        ;; (use-package org-roam
        ;;   :ensure t
@@ -1019,11 +1124,14 @@ There is still loads to fix but I can move forward with my initial target of fin
          :init (doom-modeline-mode 1)
          :config
          (setq doom-modeline-time nil
-               doom-modeline-height 30
+               doom-modeline-height 28
                doom-modeline-persp-name t
                doom-modeline-buffer-encoding nil
                doom-modeline-buffer-coding nil
+               doom-modeline-check-simple-format t
                doom-modeline-battery nil
+               doom-modeline-unicode-fallback nil
+               
                doom-modeline-modal nil)
 
          ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
@@ -1056,22 +1164,20 @@ There is still loads to fix but I can move forward with my initial target of fin
        ;;    ("C-x C-a g" . activities-revert)
        ;;    ("C-x C-a l" . activities-list)))
 
-  (use-package kele
+       (use-package kele
          :defer t
          :config
          (bind-key (kbd "s-k") kele-command-map kele-mode-map))
 
        (use-package project
-
+         :after xref
          :config
          (setq project-switch-commands 'project-dired)
 
          )
 
        (use-package jinx
-         :hook (text-mode-hook . jinx-mode)
-         (prog-mode-hook . jinx-mode)
-         (conf-mode-hook . jinx-mode)
+         :hook text-mode prog-mode conf-mode mu4e-compose-mode
          :general (leader-keys
                    "m s c" '(jinx-correct :which-key "")
                    "m s l" '(jinx-languages :which-key ""))
@@ -1094,48 +1200,48 @@ There is still loads to fix but I can move forward with my initial target of fin
 
 
 
-  (use-package org
-    :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
-           (org-mode . jinx-mode))    ; spell checking!
+  ;; (use-package org
+  ;;   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
+  ;;          (org-mode . jinx-mode))    ; spell checking!
 
-    :bind (:map global-map
-                ("C-c l s" . org-store-link)          ; Mnemonic: link → store
-                ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
-    :config
-    (require 'oc-csl)                     ; citation support
-    (add-to-list 'org-export-backends 'md)
+  ;;   :bind (:map global-map
+  ;;               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
+  ;;               ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
+  ;;   :config
+  ;;   (require 'oc-csl)                     ; citation support
+  ;;   (add-to-list 'org-export-backends 'md)
 
-    ;; Make org-open-at-point follow file links in the same window
-    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+  ;;   ;; Make org-open-at-point follow file links in the same window
+  ;;   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
 
-    ;; Make exporting quotes better
-    (setq org-export-with-smart-quotes t)
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+  ;;   ;; Make exporting quotes better
+  ;;   (setq org-export-with-smart-quotes t)
+  ;;   (setq org-todo-keywords
+  ;;         '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
 
-    ;; Refile configuration
-    (setq org-outline-path-complete-in-steps nil)
-    (setq org-refile-use-outline-path 'file)
+  ;;   ;; Refile configuration
+  ;;   (setq org-outline-path-complete-in-steps nil)
+  ;;   (setq org-refile-use-outline-path 'file)
 
-    (setq org-capture-templates
-          '(("c" "Default Capture" entry (file "inbox.org")
-             "* TODO %?\n%U\n%i")
-            ;; Capture and keep an org-link to the thing we're currently working with
-            ("r" "Capture with Reference" entry (file "inbox.org")
-             "* TODO %?\n%U\n%i\n%a")
-            ;; Define a section
-            ("w" "Work")
-            ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
-             "** TODO %?\n%U\n%i\n%a")
-            ("wr" "Work report" entry (file+headline "work.org" "Reports")
-             "** TODO %?\n%U\n%i\n%a")))
+  ;;   (setq org-capture-templates
+  ;;         '(("c" "Default Capture" entry (file "inbox.org")
+  ;;            "* TODO %?\n%U\n%i")
+  ;;           ;; Capture and keep an org-link to the thing we're currently working with
+  ;;           ("r" "Capture with Reference" entry (file "inbox.org")
+  ;;            "* TODO %?\n%U\n%i\n%a")
+  ;;           ;; Define a section
+  ;;           ("w" "Work")
+  ;;           ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
+  ;;            "** TODO %?\n%U\n%i\n%a")
+  ;;           ("wr" "Work report" entry (file+headline "work.org" "Reports")
+  ;;            "** TODO %?\n%U\n%i\n%a")))
 
-    (setq org-agenda-custom-commands
-          '(("n" "Agenda and All Todos"
-             ((agenda)
-              (todo)))
-            ("w" "Work" agenda ""
-             ((org-agenda-files '("work.org")))))))
+  ;;   (setq org-agenda-custom-commands
+  ;;         '(("n" "Agenda and All Todos"
+  ;;            ((agenda)
+  ;;             (todo)))
+  ;;           ("w" "Work" agenda ""
+  ;;            ((org-agenda-files '("work.org")))))))
 
   (use-package org-auto-tangle
     :defer t
@@ -1323,10 +1429,19 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 #+begin_src emacs-lisp :tangle init.el
     (use-package expand-region
       :ensure t
-      :general ("C-." 'er/expand-region))
+      :general ("C-+" 'er/expand-region))
 #+end_src
 
-  #+begin_src emacs-lisp :tangle packages.el
+
+#+begin_src emacs-lisp :tangle init.el
+
+  (use-package dictcc
+    :ensure t)
+
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle packages.el
   ;; -*- no-byte-compile: t; -*-
   ;;; $DOOMDIR/packages.el
   ;; ohai
@@ -1629,17 +1744,6 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 
     :config
 
-    (setq mail-user-agent 'mu4e-user-agent)
-    (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-          org-msg-startup "hidestars indent inlineimages"
-          org-msg-greeting-fmt "\nHallo %s,\n\n"
-          org-msg-greeting-name-limit 3
-          org-msg-default-alternatives '((new		. (text html))
-                                         (reply-to-html	. (text html))
-                                         (reply-to-text	. (text)))
-          org-msg-convert-citation t)
-
-
     ;; TODO until https://github.com/jeremy-compostella/org-msg/pull/183/files is merged
 
     (defun org-msg--mu4e-fun (name)
@@ -1698,165 +1802,174 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 #+end_src
 
 #+begin_src emacs-lisp :tangle init.el
-      (use-package mu4e
-        :ensure nil
-        :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map)
-                           "C-<return>" 'bascht-mu4e-view-it-on-gitlab
-                           "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
+    (use-package mu4e
+      :ensure nil
+      :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map)
+                         "C-<return>" 'bascht-mu4e-view-it-on-gitlab
+                         "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
+      :config
 
-        :config
-
-
-        ;;  (setq mu4e-contexts
-        ;;     `( ,(make-mu4e-context
-        ;;           :name "bascht.com"
-        ;;           :enter-func (lambda () (mu4e-message "Entering bascht.com context"))
-        ;;           :leave-func (lambda () (mu4e-message "Leaving bascht.com context"))
-        ;;           :match-func (lambda (msg)
-        ;;                         (when msg
-        ;;                           (string-match-p "^/bascht.com" (mu4e-message-field msg :maildir))))
-        ;;           :vars '( ( user-mail-address	    . "mail@bascht.com"  )
-        ;;                    ( user-full-name	    . "Sebastian Schulze" )
-        ;; (mu4e-sent-folder . "/bascht.com/Sent")
-        ;; (mu4e-drafts-folder . "/bascht.com/Drafts")
-        ;; (mu4e-trash-folder . "/bascht.com/Trash")
-        ;;                    ( message-user-organization . "bascht.com" )
-        ;;                    ))
-        ;;        ,(make-mu4e-context
-        ;;           :name "Work"
-        ;;           :enter-func (lambda () (mu4e-message "Switch to the Work context"))
-        ;;           ;; no leave-func
-        ;;           ;; we match based on the maildir of the message
-        ;;           ;; this matches maildir /Arkham and its sub-directories
-        ;;           :match-func (lambda (msg)
-        ;;                         (when msg
-        ;;                           (string-match-p "^/Arkham" (mu4e-message-field msg :maildir))))
-        ;;           :vars '( ( user-mail-address	       . "aderleth@miskatonic.example.com" )
-        ;;                    ( user-full-name	       . "Alice Derleth" )
-        ;;                    ( message-user-organization . "Miskatonic University" )
-        ;;                    ))
-
-        ;;        ))
-
-        (load-file (expand-file-name "email-accounts.el" "/home/bascht/.config/emacs"))
-
-
-        
-        ;; set `mu4e-context-policy` and `mu4e-compose-policy` to tweak when mu4e should
-
-        ;; guess or ask the correct context, e.g.
-
-        ;; start with the first (default) context;
-        ;; default is to ask-if-none (ask when there's no context yet, and none match)
-        (setq mu4e-context-policy 'pick-first)
-
-        ;; compose with the current context is no context matches;
-        ;; default is to ask
-
-        (setq mu4e-compose-context-policy nil)
-
-
-        ;; Always refile to my archive/year structure
-        (setq mu4e-refile-folder (format-time-string "/Archiv/%Y"))
-        
-        (setq
-
-
-         ;; mu4e-sent-folder   "/Sent"
-         ;; mu4e-drafts-folder "/Drafts"
-         ;; mu4e-trash-folder  "/Trash"
-
-         mail-user-agent 'mu4e-user-agent
-         mail-signature nil
-         mail-signature-file nil
-         message-signature nil
-         message-signature-file nil
-         org-msg-signature (with-current-buffer (find-file-noselect (string-join (list "/home/bascht/.signature" (if (string= (system-name) "apfelstrudel") ".alfatraining")))) (buffer-string))
-         mu4e-change-filenames-when-moving t
-         message-send-mail-function 'message-send-mail-with-sendmail
-         message-sendmail-extra-arguments '("--read-envelope-from")
-         message-sendmail-f-is-evil 't
-         sendmail-program "msmtp"
-         mu4e-update-interval 600
-         mu4e-compose-complete-only-after "2016-01-01"
-         mu4e-compose-dont-reply-to-self 't
-         mu4e-compose-format-flowed t
-         mu4e-compose-in-new-frame t
-         mu4e-get-mail-command "mbsync -a"
-         mu4e-search-include-related t
-         mu4e-index-lazy-check nil
-         mu4e-index-cleanup t
-         mu4e-use-fancy-chars nil
-         mu4e-headers-draft-mark     '("D" . "💈")
-         mu4e-headers-flagged-mark   '("F" . "📍")
-         mu4e-headers-new-mark       '("N" . "📨")
-         mu4e-headers-passed-mark    '("P" . "➡")
-         mu4e-headers-replied-mark   '("R" . "↩")
-         mu4e-headers-seen-mark      '("S" . "☑")
-         mu4e-headers-trashed-mark   '("T" . "💀")
-         mu4e-headers-attach-mark    '("a" . "📎")
-         mu4e-headers-encrypted-mark '("x" . "🔒")
-         mu4e-headers-signed-mark    '("s" . "🔑")
-         mu4e-headers-unread-mark    '("u" . "✉️")
-         mu4e-headers-list-mark      '("l" . "")
-         mu4e-headers-personal-mark  '("p" . "")
-         mu4e-headers-calendar-mark  '("c" . "📅")
-         mu4e-headers-fields '((:human-date . 6)
-                               (:flags . 4)
-                               ;; (:account-stripe . 2)
-                               (:from-or-to . 25)
-                               (:subject . 100))
-
-         ;; stolen from doom
-         mu4e-header-info-custom
-         '((:account .
-                     (:name "Account"
-                            :shortname "Account"
-                            :help "which account/maildir this email belongs to"
-                            :function
-                            (lambda (msg)
-                              (let ((maildir (replace-regexp-in-string
-                                              "\\`/?\\([^/]+\\)/.*\\'" "\\1"
-                                              (mu4e-message-field msg :maildir))))
-                                (+mu4e-colorize-str
-                                 (replace-regexp-in-string
-                                  "^gmail"
-                                  (propertize "g" 'face 'bold-italic)
-                                  maildir)
-                                 '+mu4e-header--maildir-colors
-                                 maildir)))))
-           (:account-stripe .
-                            (:name "Account"
-                                   :shortname "▐"
-                                   :help "Which account/maildir this email belongs to"
-                                   :function
-                                   (lambda (msg)
-                                     (let ((account
-                                            (replace-regexp-in-string
-                                             "\\`/?\\([^/]+\\)/.*\\'" "\\1"
-                                             (mu4e-message-field msg :maildir))))
-                                       (propertize
-                                        (+mu4e-colorize-str "▌" '+mu4e-header--maildir-colors account)
-                                        'help-echo account)))))
-           (:recipnum .
-                      (:name "Number of recipients"
-                             :shortname " ⭷"
-                             :help "Number of recipients for this message"
-                             :function
-                             (lambda (msg)
-                               (propertize (format "%2d"
-                                                   (+ (length (mu4e-message-field msg :to))
-                                                      (length (mu4e-message-field msg :cc))))
-                                           'face 'mu4e-footer-face)))))
-         +mu4e-min-header-frame-width 142
-         mu4e-headers-date-format "%d.%m."
-         mu4e-headers-time-format "%H:%M"
-         mu4e-search-results-limit 1500
-         mu4e-headers-visible-lines 15
-         mu4e-headers-visible-columns 135
-         mu4e-use-fancy-chars t
-         mu4e-index-cleanup t)
+      (defun bascht--mu4e-view-in-gitlab (msg)
+        "Search for a clickable »view in GitLab« link in the message"
+        (pp msg)
         )
+      (add-to-list 'mu4e-headers-actions '("view in GitLab" . bascht--mu4e-view-in-gitlab) t)
+
+      (add-to-list 'mu4e-view-mime-part-actions
+      ;; draggety drag drag
+      '(:name "drag" :handler "drag" :receives temp))
+
+      
+      ;;  (setq mu4e-contexts
+      ;;     `( ,(make-mu4e-context
+      ;;           :name "bascht.com"
+      ;;           :enter-func (lambda () (mu4e-message "Entering bascht.com context"))
+      ;;           :leave-func (lambda () (mu4e-message "Leaving bascht.com context"))
+      ;;           :match-func (lambda (msg)
+      ;;                         (when msg
+      ;;                           (string-match-p "^/bascht.com" (mu4e-message-field msg :maildir))))
+      ;;           :vars '( ( user-mail-address	    . "mail@bascht.com"  )
+      ;;                    ( user-full-name	    . "Sebastian Schulze" )
+      ;; (mu4e-sent-folder . "/bascht.com/Sent")
+      ;; (mu4e-drafts-folder . "/bascht.com/Drafts")
+      ;; (mu4e-trash-folder . "/bascht.com/Trash")
+      ;;                    ( message-user-organization . "bascht.com" )
+      ;;                    ))
+      ;;        ,(make-mu4e-context
+      ;;           :name "Work"
+      ;;           :enter-func (lambda () (mu4e-message "Switch to the Work context"))
+      ;;           ;; no leave-func
+      ;;           ;; we match based on the maildir of the message
+      ;;           ;; this matches maildir /Arkham and its sub-directories
+      ;;           :match-func (lambda (msg)
+      ;;                         (when msg
+      ;;                           (string-match-p "^/Arkham" (mu4e-message-field msg :maildir))))
+      ;;           :vars '( ( user-mail-address	       . "aderleth@miskatonic.example.com" )
+      ;;                    ( user-full-name	       . "Alice Derleth" )
+      ;;                    ( message-user-organization . "Miskatonic University" )
+      ;;                    ))
+
+      ;;        ))
+
+      (load-file (expand-file-name "email-accounts.el" "/home/bascht/.config/emacs"))
+
+
+      
+      ;; set `mu4e-context-policy` and `mu4e-compose-policy` to tweak when mu4e should
+
+      ;; guess or ask the correct context, e.g.
+
+      ;; start with the first (default) context;
+      ;; default is to ask-if-none (ask when there's no context yet, and none match)
+      (setq mu4e-context-policy 'pick-first)
+
+      ;; compose with the current context is no context matches;
+      ;; default is to ask
+
+      (setq mu4e-compose-context-policy nil)
+
+
+      ;; Always refile to my archive/year structure
+      (setq mu4e-refile-folder (format-time-string "/Archiv/%Y"))
+      
+      (setq
+
+
+       ;; mu4e-sent-folder   "/Sent"
+       ;; mu4e-drafts-folder "/Drafts"
+       ;; mu4e-trash-folder  "/Trash"
+
+       mail-user-agent 'mu4e-user-agent
+       mail-signature nil
+       mail-signature-file nil
+       message-signature nil
+       message-signature-file nil
+       org-msg-signature (with-current-buffer (find-file-noselect (string-join (list "/home/bascht/.signature" (if (string= (system-name) "apfelstrudel") ".alfatraining")))) (buffer-string))
+       mu4e-change-filenames-when-moving t
+       message-send-mail-function 'message-send-mail-with-sendmail
+       message-sendmail-extra-arguments '("--read-envelope-from")
+       message-sendmail-f-is-evil 't
+       sendmail-program "msmtp"
+       mu4e-update-interval 600
+       mu4e-compose-complete-only-after "2016-01-01"
+       mu4e-compose-dont-reply-to-self 't
+       mu4e-compose-format-flowed t
+       mu4e-compose-in-new-frame t
+       mu4e-get-mail-command "mbsync -a"
+       mu4e-search-include-related t
+       mu4e-index-lazy-check nil
+       mu4e-index-cleanup t
+       mu4e-use-fancy-chars nil
+       mu4e-headers-draft-mark     '("D" . "💈")
+       mu4e-headers-flagged-mark   '("F" . "📍")
+       mu4e-headers-new-mark       '("N" . "📨")
+       mu4e-headers-passed-mark    '("P" . "➡")
+       mu4e-headers-replied-mark   '("R" . "↩")
+       mu4e-headers-seen-mark      '("S" . "☑")
+       mu4e-headers-trashed-mark   '("T" . "💀")
+       mu4e-headers-attach-mark    '("a" . "📎")
+       mu4e-headers-encrypted-mark '("x" . "🔒")
+       mu4e-headers-signed-mark    '("s" . "🔑")
+       mu4e-headers-unread-mark    '("u" . "✉️")
+       mu4e-headers-list-mark      '("l" . "")
+       mu4e-headers-personal-mark  '("p" . "")
+       mu4e-headers-calendar-mark  '("c" . "📅")
+       mu4e-headers-fields '((:human-date . 6)
+                             (:flags . 4)
+                             ;; (:account-stripe . 2)
+                             (:from-or-to . 25)
+                             (:subject . 100))
+
+       ;; stolen from doom
+       mu4e-header-info-custom
+       '((:account .
+                   (:name "Account"
+                          :shortname "Account"
+                          :help "which account/maildir this email belongs to"
+                          :function
+                          (lambda (msg)
+                            (let ((maildir (replace-regexp-in-string
+                                            "\\`/?\\([^/]+\\)/.*\\'" "\\1"
+                                            (mu4e-message-field msg :maildir))))
+                              (+mu4e-colorize-str
+                               (replace-regexp-in-string
+                                "^gmail"
+                                (propertize "g" 'face 'bold-italic)
+                                maildir)
+                               '+mu4e-header--maildir-colors
+                               maildir)))))
+         (:account-stripe .
+                          (:name "Account"
+                                 :shortname "▐"
+                                 :help "Which account/maildir this email belongs to"
+                                 :function
+                                 (lambda (msg)
+                                   (let ((account
+                                          (replace-regexp-in-string
+                                           "\\`/?\\([^/]+\\)/.*\\'" "\\1"
+                                           (mu4e-message-field msg :maildir))))
+                                     (propertize
+                                      (+mu4e-colorize-str "▌" '+mu4e-header--maildir-colors account)
+                                      'help-echo account)))))
+         (:recipnum .
+                    (:name "Number of recipients"
+                           :shortname " ⭷"
+                           :help "Number of recipients for this message"
+                           :function
+                           (lambda (msg)
+                             (propertize (format "%2d"
+                                                 (+ (length (mu4e-message-field msg :to))
+                                                    (length (mu4e-message-field msg :cc))))
+                                         'face 'mu4e-footer-face)))))
+       +mu4e-min-header-frame-width 142
+       mu4e-headers-date-format "%d.%m."
+       mu4e-headers-time-format "%H:%M"
+       mu4e-search-results-limit 1500
+       mu4e-headers-visible-lines 15
+       mu4e-headers-visible-columns 135
+       mu4e-use-fancy-chars t
+       mu4e-index-cleanup t)
+      )
 
 #+end_src
 ** GitLab Email helpers
