@@ -139,10 +139,10 @@ There is still loads to fix but I can move forward with my initial target of fin
                   :variable-pitch-family "Iosevka Curly Slab"
                   )
                  (worklogger
-                  :default-family "MonaspiceAr NF"
+                  :default-family "InputMono Nerd Font"
                   :default-height 140
-                  :fixed-pitch-family "MonaspiceRn NF"
-                  :variable-pitch-family "MonaspiceXe NF"
+                  :fixed-pitch-family "InputSans Nerd Font"
+                  :variable-pitch-family "InputSerif Nerd Font"
                   :italic-family "MonaspiceRn NF")
                  (pixellove
                   :default-family "Departure Mono"
