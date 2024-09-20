@@ -21,6 +21,19 @@ set $display_lg "LG Electronics 34UM95 0x01010101"
 set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
 set $display_teleprompter "Mediatrix Peripherals Inc MPI7002 0x00000001"
 
+# deduplicate up workspace names
+
+set $workspace_name_1 '1'
+set $workspace_name_2 '2'
+set $workspace_name_3 '3'
+set $workspace_name_4 '4'
+set $workspace_name_5 '5'
+set $workspace_name_6 '6'
+set $workspace_name_7 '7'
+set $workspace_name_8 '8'
+set $workspace_name_9 '9'
+set $workspace_name_10 '10'
+
 # Set the cursor for both Sway & GTK
 seat seat0 xcursor_theme Adwaita 16
 set $gnome-schema org.gnome.desktop.interface
@@ -244,31 +257,31 @@ bindsym $mod+Shift+Right move right
 # Workspaces:
 #
 # switch to workspace
-workspace '1  ' output $display_lg
-workspace '2  ' output $display_lg
-workspace '3  ' output $display_dell
-workspace '5  ' output $display_dell
-bindsym $mod+1 workspace '1  '
-bindsym $mod+2 workspace '2  '
-bindsym $mod+3 workspace '3  '
-bindsym $mod+4 workspace '4  '
-bindsym $mod+5 workspace '5  '
-bindsym $mod+6 workspace '6  '
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+workspace $workspace_name_1 output $display_lg
+workspace $workspace_name_2 output $display_lg
+workspace $workspace_name_3 output $display_dell
+workspace $workspace_name_4 output $display_dell
+bindsym $mod+1 workspace $workspace_name_1
+bindsym $mod+2 workspace $workspace_name_2
+bindsym $mod+3 workspace $workspace_name_3
+bindsym $mod+4 workspace $workspace_name_4
+bindsym $mod+5 workspace $workspace_name_5
+bindsym $mod+6 workspace $workspace_name_6
+bindsym $mod+7 workspace $workspace_name_7
+bindsym $mod+8 workspace $workspace_name_8
+bindsym $mod+9 workspace $workspace_name_9
+bindsym $mod+0 workspace $workspace_name_10
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace '1  '
-bindsym $mod+Shift+2 move container to workspace '2  '
-bindsym $mod+Shift+3 move container to workspace '3  '
-bindsym $mod+Shift+4 move container to workspace '4  '
-bindsym $mod+Shift+5 move container to workspace '5  '
-bindsym $mod+Shift+6 move container to workspace '6  '
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace $workspace_name_1
+bindsym $mod+Shift+2 move container to workspace $workspace_name_2
+bindsym $mod+Shift+3 move container to workspace $workspace_name_3
+bindsym $mod+Shift+4 move container to workspace $workspace_name_4
+bindsym $mod+Shift+5 move container to workspace $workspace_name_5
+bindsym $mod+Shift+6 move container to workspace $workspace_name_6
+bindsym $mod+Shift+7 move container to workspace $workspace_name_7
+bindsym $mod+Shift+8 move container to workspace $workspace_name_8
+bindsym $mod+Shift+9 move container to workspace $workspace_name_9
+bindsym $mod+Shift+0 move container to workspace $workspace_name_10
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 #
