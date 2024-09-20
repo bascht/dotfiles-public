@@ -2206,8 +2206,8 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
       (persp-new name)
       (persp-switch name)))
 
-  (defun bascht/move-to-scratchpad()
-    (shell-command "swaymsg move scratchpad"))
+  (defun bascht--move-to-scratchpad()
+    (call-process "swaymsg" nil nil nil "--quiet" "move" "scratchpad"))
 
   (defun bascht--worklog ()
     "Switch to my worklog workspace and append a new log"
