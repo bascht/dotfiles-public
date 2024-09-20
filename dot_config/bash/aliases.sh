@@ -8,6 +8,7 @@ alias e=$EDITOR
 alias vim=em
 alias ssh-yop="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 alias scp-yop="scp -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+alias docker-stop-all="docker stop \$(docker ps -a -q)"
 alias docker-rm-stopped="docker rm \$(docker ps -a -q)"
 alias docker-rm-dangling="docker rmi \$(docker images -q -f dangling=true)"
 alias dcorrm="docker-compose run --rm"
