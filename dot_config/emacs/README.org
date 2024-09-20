@@ -15,6 +15,7 @@ There is still loads to fix but I can move forward with my initial target of fin
        ;; Bare minimum defaults via https://git.sr.ht/~technomancy/better-defaults/tree/main/item/better-defaults.el
        (require 'use-package-ensure)
        (setq save-interprogram-paste-before-kill t
+             package-install-upgrade-built-in t
              initial-major-mode 'emacs-lisp-mode
              use-package-always-ensure t
              apropos-do-all t
