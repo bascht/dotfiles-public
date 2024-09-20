@@ -2209,12 +2209,11 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
   (defun bascht/move-to-scratchpad()
     (shell-command "swaymsg move scratchpad"))
 
-  (defun bascht/worklog ()
+  (defun bascht--worklog ()
     "Switch to my worklog workspace and append a new log"
     (interactive)
     (org-set-frame-title "Worklog")
-    (org-journal-new-entry nil)
-    (setq indicate-empty-lines nil))
+    (org-journal-new-entry nil))
 
   (defun bascht/mu4e-change-from-to-catchall (msg)
     "Set the From address based on the To address of the original message if I reply."
