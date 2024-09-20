@@ -327,7 +327,8 @@ bindsym $mod+minus scratchpad show
 
 bindsym $mod+t scratchpad toggle
 
-for_window [title=".*"] title_format %title (class=%class app_id=%app_id instance=%instance shell=%shell)
+# debug: (class=%class app_id=%app_id instance=%instance shell=%shell)
+for_window [title=".*"] title_format %title
 for_window [app_id="terminal_scratchpad"] resize set 70ppt 60ppt, move scratchpad, fullscreen disable, border pixel 4, move position center
 for_window [app_id="launcher"] border pixel 2, move position center
 for_window [title="^qutebrowser-editor.*$"] border pixel 4
@@ -498,7 +499,7 @@ bar {
 	id main
   position top
   status_command i3status-rs  ~/.config/i3status-main.toml
-  workspace_min_width 50px
+  workspace_min_width 40px
   status_padding 0
   status_edge_padding 8
   strip_workspace_numbers yes
