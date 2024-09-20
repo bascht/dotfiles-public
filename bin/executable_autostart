@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-systemctl --user import-environment WAYLAND_DISPLAY DISPLAY PATH SWAYSOCK
+while read -r l; do
+    eval export $l
+done < <(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
 
 #dbus-sway-environment
 #configure-gtk
