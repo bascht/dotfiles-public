@@ -169,6 +169,12 @@ There is still loads to fix but I can move forward with my initial target of fin
           emojify-download-emojis-p t))
 
 
+   (use-package ace-window
+     :bind (("M-o" . 'ace-window)))
+
+       (use-package olivetti
+         :bind (("C-x w o" . 'olivetti-mode)))
+
        (use-package dired
          :ensure nil
          :hook (dired-mode . dired-hide-details-mode)
