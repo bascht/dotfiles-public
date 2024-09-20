@@ -6,19 +6,19 @@ systemctl --user import-environment WAYLAND_DISPLAY DISPLAY PATH SWAYSOCK
 #configure-gtk
 thinkpad-dock
 
-swaymsg workspace "4  "
+swaymsg workspace "4"
 swaymsg exec -- "emacsclient --create-frame -e '(org-agenda-list)'"
 sleep 0.5
-swaymsg workspace "2  "
+swaymsg workspace "2"
 swaymsg exec browser
 sleep 2
-swaymsg workspace "5  "
+swaymsg workspace "5"
 swaymsg exec foot -- bash -c "~/bin/somafm-picker"
 sleep 0.3
-swaymsg workspace "1  "
+swaymsg workspace "1"
 swaymsg exec foot
 sleep 0.3
-swaymsg workspace "3  "
+swaymsg workspace "3"
 swaymsg layout tabbed
 swaymsg exec start-comms
 
