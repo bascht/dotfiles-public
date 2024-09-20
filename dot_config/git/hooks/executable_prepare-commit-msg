@@ -19,6 +19,7 @@ if [[ "${PWD}" == "/home/bascht/Code/bascht/dotfiles" ]]; then
         bin/executable*) COMMIT_COMPONENT="bin" ;;
         dot_config/emacs/README.org) COMMIT_COMPONENT="emacs" ;;
         dot_local/share/user*css) COMMIT_COMPONENT="css" ;;
+        dot_git*) COMMIT_COMPONENT="git" ;;
     esac
     echo "Nothing found, checking ${STAGED_FILES}"
     if [[ -z "${COMMIT_COMPONENT}" ]]; then
