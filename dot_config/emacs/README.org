@@ -213,7 +213,8 @@ There is still loads to fix but I can move forward with my initial target of fin
 
        ;; Make right-click do something sensible
        (when (display-graphic-p)
-         (context-menu-mode))
+         (context-menu-mode)
+         (xterm-mouse-mode))
 
        ;; Don't litter file system with *~ backup files; put them all inside
        ;; ~/.emacs.d/backup or wherever
