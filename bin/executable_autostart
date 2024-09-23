@@ -1,21 +1,24 @@
 #!/usr/bin/env bash
 
-while read -r l; do
-    eval export $l
-done < <(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
+systemctl --user import-environment SWAYSOCK \
+    DISPLAY \
+    I3SOCK \
+    WAYLAND_DISPLAY \
+    XCURSOR_SIZE \
+    XCURSOR_THEME
 
 #dbus-sway-environment
 #configure-gtk
 thinkpad-dock
 
 swaymsg workspace "4"
-swaymsg exec -- "emacsclient --create-frame -e '(org-agenda-list)'"
+swaymsg exec -- "emacsclient -s emacs --create-frame -e '(org-agenda-list)'"
 sleep 0.5
 swaymsg workspace "2"
 swaymsg exec browser
 sleep 2
 swaymsg workspace "5"
-swaymsg exec foot -- bash -c "~/bin/somafm-picker"
+swaymsg exec foot -- bash -c "${HOME}/bin/somafm-picker"
 sleep 0.3
 swaymsg workspace "1"
 swaymsg exec foot
