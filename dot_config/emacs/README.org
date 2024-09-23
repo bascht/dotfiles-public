@@ -1403,6 +1403,14 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 #+end_src
 
 
+** Kubernetes
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package kubed
+    :ensure t
+    :general ("C-c k" 'kubed-prefix-map :which-key "Kubed"))
+#+end_src
+
 * Languages / Syntax
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package clojure-mode
