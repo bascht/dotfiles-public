@@ -524,6 +524,10 @@ bar {
 	id secondary
   position top
   status_command i3status-rs  ~/.config/i3status-secondary.toml
+  workspace_min_width 40px
+  status_padding 0
+  status_edge_padding 8
+  strip_workspace_numbers yes
 	output $display_dell
 	tray_output none
   colors {
@@ -545,6 +549,10 @@ bar {
   position top
   status_command i3status-rs  ~/.config/i3status-secondary.toml
   font pango:JetBrainsMono Nerd Font, Light 8
+  workspace_min_width 40px
+  status_padding 0
+  status_edge_padding 8
+  strip_workspace_numbers yes
 	output $display_teleprompter
 	tray_output none
   colors {
@@ -560,6 +568,5 @@ bar {
       binding_mode $base00 $base0A $base00
   }
 }
-
 
 exec autostart
