@@ -497,21 +497,7 @@ Orderless: powerful completion style
       (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
       (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
       (keymap-global-set "M-g" #'casual-avy-tmenu))
-                                                                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                   ;;;
-                                                                   ;;;   Minibuffer and completion
-                                                                   ;;;
-                                                                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
-                                                                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                   ;;;
-                                                                   ;;;   Misc. editing enhancements
-                                                                   ;;;
-                                                                   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+                                                                   
     ;; Modify search results en masse
     (use-package wgrep
       :ensure t
@@ -1164,9 +1150,7 @@ General is one of those packages where I'm not even sure if I still need it afte
      "p p" '(persp-switch :which-key "")
      "p ," '(persp-rename :which-key "")
      "p k" '(persp-kill :which-key "")
-     "p c" '(bascht-create-new-persp :which-key "")
-
-     )
+     "p n" '(bascht-create-new-persp :which-key ""))
 
 
     (general-create-definer my-leader-def
@@ -1308,7 +1292,8 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
       "My preferred `dired-preview-display-action-alist-function'."
       '((display-buffer-in-side-window)
         (side . right)
-        (width . 0.2)))
+        (width . 0.5)))
+  
     :config
     (setq dired-preview-delay 0.4)
     (setq dired-preview-max-size (expt 2 20))
