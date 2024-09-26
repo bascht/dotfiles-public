@@ -1,6 +1,38 @@
 #+startup: fold
 #+auto_tangle: t
 
+* TODO Early init settings
+
+#+begin_src emacs-lisp :tangle early-init.el
+      (setq gc-cons-threshold most-positive-fixnum)
+
+    ;; In Emacs 27+, package initialization occurs before `user-init-file' is
+    ;; loaded, but after `early-init-file'.
+    (setq package-enable-at-startup nil
+          package-quickstart nil
+          load-prefer-newer t)
+
+    (setq-default inhibit-redisplay t
+                  inhibit-message t)
+    (add-hook 'window-setup-hook
+              (lambda ()
+                (setq-default inhibit-redisplay nil
+                              inhibit-message nil)
+                (redisplay)))
+
+    (push '(menu-bar-lines . 0) default-frame-alist)
+  (push '(tool-bar-lines . 0) default-frame-alist)
+  (push '(vertical-scroll-bars) default-frame-alist)
+
+  (setq frame-inhibit-implied-resize t)
+
+   (add-to-list 'native-comp-eln-load-path
+                 (concat "~/.cache/emacs/" "eln-cache/"))
+    (setq native-comp-async-report-warnings-errors 'silent
+          native-comp-deferred-compilation t)
+#+end_src
+
+
 * TODO Hypergalactic new =init.el= [0/1]
 
 This is where I'm at after a few evenings of porting my existing doomemacs configuration over to a bare bones from scratch Emacs (with a little help and inspiration from the [[https://codeberg.org/ashton314/emacs-bedrock][emacs-bedrock]] project).
@@ -347,8 +379,10 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
              :default-family "JetBrains Mono Nerd Font Mono"
              :default-height 120
              :fixed-pitch-family "MonaspiceAr NF"
-             :mode-line-active-family "Iosevka Curly" ;
+             :mode-line-active-family "Iosevka Curly"
              :mode-line-inactive-family "Iosevka Curly"
+             :mode-line-active-height 110
+             :mode-line-inactive-height 110
              :variable-pitch-family "VictorMono Nerd Font Proto"
              :italic-family "JetBrains Mono Nerd Font Mono"
                                           ;             :italic-family "MonaspiceRn NF"
@@ -627,438 +661,459 @@ Orderless: powerful completion style
 
 * Casual menus
 #+begin_src emacs-lisp :tangle init.el
-  (use-package casual-suite
+         (use-package casual-suite
+            :ensure t
+            :after (magit org dired-preview)
+            :config
+            (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
+            (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
+            (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
+            (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+            (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+            (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
+            (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
+            (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
+            (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
+            (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
+            (keymap-global-set "M-g" #'casual-avy-tmenu))
+                                                                         
+          ;; Modify search results en masse
+          (use-package wgrep
+            :ensure t
+            :config
+            (setq wgrep-auto-save-buffer t))
+
+
+
+          (use-package emacs
+            :ensure nil
+            :bind (;;("C-." . set-mark-command)
+                   ("M-z" . zap-up-to-char)
+                   ("M-," . beginning-of-buffer)
+                   ("M-." . end-of-buffer)
+                   ("M-p" . backward-paragraph)
+                   ("M-n" . forward-paragraph)
+                   ;;             ( "C-c;;  w h" . 'windmove-left)
+                   ;; ( "C-c w j" . windmove-down)
+                   ;; ( "C-c w k" . windmove-up)
+                   ;; ( "C-c w l" . windmove-right)
+                   )
+
+            :config
+            (defvar-keymap windmove-repeat-map
+              :repeat t
+              "h" #'windmove-left
+              "j" #'windmove-down
+              "k" #'windmove-up
+              "l" #'windmove-right)
+            ;; Treesitter config
+
+            ;; Tell Emacs to prefer the treesitter mode
+            ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
+
+
+            (setq major-mode-remap-alist
+                  '((yaml-mode . yaml-ts-mode)
+                    (bash-mode . bash-ts-mode)
+                    (js2-mode . js-ts-mode)
+                    (typescript-mode . typescript-ts-mode)
+                    (json-mode . json-ts-mode)
+                    (css-mode . css-ts-mode)
+                    (python-mode . python-ts-mode)))
+            :hook
+            ;; Auto parenthesis matching
+            ((prog-mode . electric-pair-mode)))
+
+          (use-package magit
+            :ensure t
+            :after general
+            :general
+            (leader-keys
+             "g" '(:ignore t :which-key "git")
+             "g <escape>" '(keyboard-escape-quit :which-key t)
+             "g g" '(magit-status :which-key "status")
+             "g l" '(magit-log :which-key "log"))
+            (general-nmap
+             "<escape>" #'transient-quit-one))
+
+          (add-hook 'git-commit-mode-hook
+                    (lambda () (end-of-line)))
+
+
+          (use-package diff-hl
+            :init
+            (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+            (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+            :config
+            (global-diff-hl-mode))
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                         ;;;
+                                                                         ;;;   Common file types
+                                                                         ;;;
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+          (use-package markdown-mode
+            :ensure t
+            :hook ((markdown-mode . visual-line-mode)))
+
+          (use-package yaml-mode
+            :ensure t)
+
+          (use-package json-mode
+            :ensure t)
+
+          ;; Emacs ships with a lot of popular programming language modes. If it's not
+          ;; built in, you're almost certain to find a mode for the language you're
+          ;; looking for with a quick Internet search.
+
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                         ;;;
+                                                                         ;;;   Eglot, the built-in LSP client for Emacs
+                                                                         ;;;
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+          ;; Helpful resources:
+          ;;
+          ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+
+          ;; Emacs includes Tree-sitter support as of version 29, but does not
+          ;; bundle Tree-sitter grammars via the usual installation methods.
+          ;; That means that if you want to use a Tree-sitter major mode, you
+          ;; must first install the respective language grammar.  `treesit-auto'
+          ;; is a handy package that manages this extra step for you, prompting
+          ;; the installation of Tree-sitter grammars when necessary.
+          (use-package treesit-auto
+            :ensure t
+            :custom
+            (treesit-auto-install 'prompt)
+            :config
+            (treesit-auto-add-to-auto-mode-alist 'all)
+            (global-treesit-auto-mode))
+
+          (use-package jsonrpc :ensure t)
+          (use-package eglot
+
+            ;; no :ensure t here because it's built-in
+
+            ;; Configure hooks to automatically turn-on eglot for selected modes
+                                                  ; :hook
+                                                  ; (((python-mode ruby-mode elixir-mode) . eglot))
+
+            :custom
+            (eglot-send-changes-idle-time 0.1)
+            (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
+
+            :config
+            (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
+            ;; Sometimes you need to tell Eglot where to find the language server
+                                                  ; (add-to-list 'eglot-server-programs
+                                                  ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+            )
+
+          ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
+          (use-package breadcrumb
+            :ensure t
+            :config
+
+            ;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
+            (breadcrumb-mode))
+
+
+
+          (use-package forge
+            :ensure t
+            :after magit
+            :config (push '("git.alfa.sx" "git.alfa.sx/api/v4" "git.alfa.sx" forge-gitlab-repository) forge-alist)
+            )
+
+
+          ;; ;; Evil: vi emulation
+          ;; (use-package evil
+          ;;   :ensure t
+          ;;   :demand
+          ;;   :init
+          ;;   (setq evil-respect-visual-line-mode t)
+          ;;   (setq evil-undo-system 'undo-redo)
+          ;;   (setq evil-want-keybinding nil)
+
+          ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
+          ;;   (setq evil-want-C-u-scroll t)
+
+          ;;   :config
+          ;;   (evil-mode)
+
+          ;;   ;; Configuring initial major mode for some modes
+          ;;   (evil-set-initial-state 'vterm-mode 'emacs))
+
+          ;; (use-package evil-collection
+          ;;   :ensure t
+          ;;   :after evil
+          ;;   :demand
+          ;;   :config
+          ;;   (setq evil-collection-mode-list
+          ;;         '(ag dired magit mu4e which-key)
+          ;;         evil-collection-want-unimpaired-p nil)
+          ;;   (evil-collection-init))
+
+          ;; (use-package evil-nerd-commenter
+          ;;   :after evil
+          ;;   :general
+          ;;   (general-nvmap
+          ;;     "gc" 'evilnc-comment-operator))
+
+          ;; (use-package evil-surround
+          ;;   :ensure t
+          ;;   :after evil
+          ;;   :config
+          ;;   (global-evil-surround-mode 1))
+
+
+          ;; Default tags
+          (setq org-tag-alist '(
+                                ;; locale
+                                (:startgroup)
+                                ("home" . ?h)
+                                ("work" . ?w)
+                                ("school" . ?s)
+                                (:endgroup)
+                                (:newline)
+                                ;; scale
+                                (:startgroup)
+                                ("one-shot" . ?o)
+                                ("project" . ?j)
+                                ("tiny" . ?t)
+                                (:endgroup)
+                                ;; misc
+                                ("meta")
+                                ("review")
+                                ("reading")))
+
+          ;; Org-refile: where should org-refile look?
+          (setq org-refile-targets 'FIXME)
+
+                                                                         ;;; Phase 3 variables
+
+          ;; Org-roam variables
+          ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
+          ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
+
+                                                                         ;;; Optional variables
+
+          ;; Advanced: Custom link types
+          ;; This example is for linking a person's 7-character ID to their page on the
+          ;; free genealogy website Family Search.
+          (setq org-link-abbrev-alist
+                '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
+
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                         ;;;
+                                                                         ;;;   Phase 1: editing and exporting files
+                                                                         ;;;
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                         ;;;
+                                                                         ;;;   Phase 2: todos, agenda generation, and task tracking
+                                                                         ;;;
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+          ;; Yes, you can have multiple use-package declarations. It's best if their
+          ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
+          ;; config from Phase 1. I've broken it up here for the sake of clarity.
+          (use-package org
+            :ensure t
+            :config
+            ;; Instead of just two states (TODO, DONE) we set up a few different states
+            ;; that a task can be in.
+
+            (org-babel-do-load-languages
+             'org-babel-load-languages
+             '((shell . t)))
+
+            (setq org-todo-keywords
+                  '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+
+            ;; Refile configuration
+            (setq org-outline-path-complete-in-steps nil)
+            (setq org-refile-use-outline-path 'file)
+
+            (setq org-capture-templates
+                  '(("c" "Default Capture" entry (file "inbox.org")
+                     "* TODO %?\n%U\n%i")
+                    ;; Capture and keep an org-link to the thing we're currently working with
+                    ("r" "Capture with Reference" entry (file "inbox.org")
+                     "* TODO %?\n%U\n%i\n%a")
+                    ;; Define a section
+                    ("w" "Work")
+                    ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
+                     "** TODO %?\n%U\n%i\n%a")
+                    ("wr" "Work report" entry (file+headline "work.org" "Reports")
+                     "** TODO %?\n%U\n%i\n%a")))
+
+            (setq org-agenda-custom-commands
+                  '(("n" "Agenda and All Todos"
+                     ((agenda)
+                      (todo)))
+                    ("w" "Work" agenda ""
+                     ((org-agenda-files '("work.org")))))))
+
+
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                                                         ;;;
+                                                                         ;;;   Phase 3: extensions (org-roam, etc.)
+                                                                         ;;;
+                                                                         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+          ;; (use-package org-roam
+          ;;   :ensure t
+          ;;   :config
+          ;;   (org-roam-db-autosync-mode)
+          ;;   ;; Dedicated side window for backlinks
+          ;;   (add-to-list 'display-buffer-alist
+          ;;                '("\\*org-roam\\*"
+          ;;                  (display-buffer-in-side-window)
+          ;;                  (side . right)
+          ;;                  (window-width . 0.4)
+          ;;                  (window-height . fit-window-to-buffer))))
+
+          ;; Pretty web interface for org-roam
+                                                  ;(use-package org-roam-ui
+                                                  ;  :ensure t
+                                                  ;  :after org-roam
+                                                  ;  :config
+                                                  ;  (setq org-roam-ui-sync-theme t
+                                                  ;        org-roam-ui-follow t
+                                                  ;        org-roam-ui-update-on-save t
+                                                  ;        org-roam-ui-open-on-start t))
+
+
+
+          (use-package nerd-icons
+            :config (setq nerd-icons-color-icons t
+                          nerd-icons-scale-factor 1.0
+                          nerd-icons-font-family  "Symbols Nerd Font"))
+          (use-package nerd-icons-dired
+            :ensure t
+            :hook
+            (dired-mode . nerd-icons-dired-mode))
+
+          (use-package mastodon
+            :config
+            (setq mastodon-instance-url "https://social.yakshed.org"
+                  mastodon-active-user "bascht"
+                  mastodon-tl--horiz-bar "———————————"
+                  )
+
+            )
+          (use-package vterm)
+          (use-package vterm-toggle
+            :after general
+            ;;  :ensure t
+            :general ("C-c t" 'vterm-toggle :which-key "terminal"))
+
+
+         (use-package smart-mode-line
+           :ensure t
+           :config
+
+           (setq sml/theme 'light)
+           (setq sml/no-confirm-load-theme t)
+
+           (sml/setup))
+  (use-package vundo
     :ensure t
-    :after (magit org dired-preview)
-    :config
-    (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
-    (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
-    (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
-    (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-    (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-    (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
-    (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
-    (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
-    (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
-    (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
-    (keymap-global-set "M-g" #'casual-avy-tmenu))
-                                                                 
-  ;; Modify search results en masse
-  (use-package wgrep
-    :ensure t
-    :config
-    (setq wgrep-auto-save-buffer t))
-
-
-
-  (use-package emacs
-    :ensure nil
-    :bind (;;("C-." . set-mark-command)
-           ("M-z" . zap-up-to-char)
-           ("M-," . beginning-of-buffer)
-           ("M-." . end-of-buffer)
-           ("M-p" . backward-paragraph)
-           ("M-n" . forward-paragraph)
-           ;;             ( "C-c;;  w h" . 'windmove-left)
-           ;; ( "C-c w j" . windmove-down)
-           ;; ( "C-c w k" . windmove-up)
-           ;; ( "C-c w l" . windmove-right)
-           )
-
-    :config
-    (defvar-keymap windmove-repeat-map
-      :repeat t
-      "h" #'windmove-left
-      "j" #'windmove-down
-      "k" #'windmove-up
-      "l" #'windmove-right)
-    ;; Treesitter config
-
-    ;; Tell Emacs to prefer the treesitter mode
-    ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
-
-
-    (setq major-mode-remap-alist
-          '((yaml-mode . yaml-ts-mode)
-            (bash-mode . bash-ts-mode)
-            (js2-mode . js-ts-mode)
-            (typescript-mode . typescript-ts-mode)
-            (json-mode . json-ts-mode)
-            (css-mode . css-ts-mode)
-            (python-mode . python-ts-mode)))
-    :hook
-    ;; Auto parenthesis matching
-    ((prog-mode . electric-pair-mode)))
-
-  (use-package magit
-    :ensure t
-    :after general
-    :general
-    (leader-keys
-     "g" '(:ignore t :which-key "git")
-     "g <escape>" '(keyboard-escape-quit :which-key t)
-     "g g" '(magit-status :which-key "status")
-     "g l" '(magit-log :which-key "log"))
-    (general-nmap
-     "<escape>" #'transient-quit-one))
-
-  (add-hook 'git-commit-mode-hook
-            (lambda () (end-of-line)))
-
-
-  (use-package diff-hl
-    :init
-    (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-    :config
-    (global-diff-hl-mode))
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                 ;;;
-                                                                 ;;;   Common file types
-                                                                 ;;;
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (use-package markdown-mode
-    :ensure t
-    :hook ((markdown-mode . visual-line-mode)))
-
-  (use-package yaml-mode
-    :ensure t)
-
-  (use-package json-mode
-    :ensure t)
-
-  ;; Emacs ships with a lot of popular programming language modes. If it's not
-  ;; built in, you're almost certain to find a mode for the language you're
-  ;; looking for with a quick Internet search.
-
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                 ;;;
-                                                                 ;;;   Eglot, the built-in LSP client for Emacs
-                                                                 ;;;
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ;; Helpful resources:
-  ;;
-  ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-
-  ;; Emacs includes Tree-sitter support as of version 29, but does not
-  ;; bundle Tree-sitter grammars via the usual installation methods.
-  ;; That means that if you want to use a Tree-sitter major mode, you
-  ;; must first install the respective language grammar.  `treesit-auto'
-  ;; is a handy package that manages this extra step for you, prompting
-  ;; the installation of Tree-sitter grammars when necessary.
-  (use-package treesit-auto
-    :ensure t
-    :custom
-    (treesit-auto-install 'prompt)
-    :config
-    (treesit-auto-add-to-auto-mode-alist 'all)
-    (global-treesit-auto-mode))
-
-  (use-package jsonrpc :ensure t)
-  (use-package eglot
-
-    ;; no :ensure t here because it's built-in
-
-    ;; Configure hooks to automatically turn-on eglot for selected modes
-                                          ; :hook
-                                          ; (((python-mode ruby-mode elixir-mode) . eglot))
-
-    :custom
-    (eglot-send-changes-idle-time 0.1)
-    (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
-
-    :config
-    (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-    ;; Sometimes you need to tell Eglot where to find the language server
-                                          ; (add-to-list 'eglot-server-programs
-                                          ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
     )
-
-  ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
-  (use-package breadcrumb
-    :ensure t
-    :config
-
-    ;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
-    (breadcrumb-mode))
-
-
-
-  ;; ;; Evil: vi emulation
-  ;; (use-package evil
-  ;;   :ensure t
-  ;;   :demand
-  ;;   :init
-  ;;   (setq evil-respect-visual-line-mode t)
-  ;;   (setq evil-undo-system 'undo-redo)
-  ;;   (setq evil-want-keybinding nil)
-
-  ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
-  ;;   (setq evil-want-C-u-scroll t)
-
-  ;;   :config
-  ;;   (evil-mode)
-
-  ;;   ;; Configuring initial major mode for some modes
-  ;;   (evil-set-initial-state 'vterm-mode 'emacs))
-
-  ;; (use-package evil-collection
-  ;;   :ensure t
-  ;;   :after evil
-  ;;   :demand
-  ;;   :config
-  ;;   (setq evil-collection-mode-list
-  ;;         '(ag dired magit mu4e which-key)
-  ;;         evil-collection-want-unimpaired-p nil)
-  ;;   (evil-collection-init))
-
-  ;; (use-package evil-nerd-commenter
-  ;;   :after evil
-  ;;   :general
-  ;;   (general-nvmap
-  ;;     "gc" 'evilnc-comment-operator))
-
-  ;; (use-package evil-surround
-  ;;   :ensure t
-  ;;   :after evil
-  ;;   :config
-  ;;   (global-evil-surround-mode 1))
+    
+      ;;     (use-package nano-modeline
+      ;;       ;; :init
+      ;;       ;; (nano-modeline-pdf-mode t)
+      ;;       :custom
+      ;;       (nano-modeline-position 'nano-modeline-footer)
+      ;;       :hook
+      ;;       (prog-mode-hook            . nano-modeline-prog-mode)
+      ;;       (text-mode-hook            . nano-modeline-text-mode)
+      ;;       (org-mode-hook             . nano-modeline-org-mode)
+      ;;       (pdf-view-mode-hook        . nano-modeline-pdf-mode)
+      ;;       (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
+      ;;       (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
+      ;;       (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
+      ;;       (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
+      ;;       (term-mode-hook            . nano-modeline-term-mode)
+      ;;       (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
+      ;;       (messages-buffer-mode-hook . nano-modeline-message-mode)
+      ;;       (org-capture-mode-hook     . nano-modeline-org-capture-mode)
+      ;;       (org-agenda-mode-hook      . nano-modeline-org-agenda-mode)
+      ;;       :config
+      ;;       (nano-modeline-text-mode t))
 
 
-  ;; Default tags
-  (setq org-tag-alist '(
-                        ;; locale
-                        (:startgroup)
-                        ("home" . ?h)
-                        ("work" . ?w)
-                        ("school" . ?s)
-                        (:endgroup)
-                        (:newline)
-                        ;; scale
-                        (:startgroup)
-                        ("one-shot" . ?o)
-                        ("project" . ?j)
-                        ("tiny" . ?t)
-                        (:endgroup)
-                        ;; misc
-                        ("meta")
-                        ("review")
-                        ("reading")))
+      ;; ;;    (use-package doom-modeline
+          ;;   :ensure t
+          ;;   :init (doom-modeline-mode 1)
+          ;;   :config
+          ;;   (setq doom-modeline-time nil
+          ;;         doom-modeline-height 28
+          ;;         doom-modeline-persp-name t
+          ;;         doom-modeline-buffer-encoding nil
+          ;;         doom-modeline-buffer-coding nil
+          ;;         doom-modeline-check-simple-format t
+          ;;         doom-modeline-battery nil
+          ;;         doom-modeline-unicode-fallback nil
 
-  ;; Org-refile: where should org-refile look?
-  (setq org-refile-targets 'FIXME)
+          ;;         doom-modeline-modal nil)
 
-                                                                 ;;; Phase 3 variables
+          ;;   ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
+          ;;   ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
+          ;;   )
 
-  ;; Org-roam variables
-  ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
-  ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
+          (use-package perspective
+            :bind
+            ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
+            :custom
+            (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
+            :init
+            (persp-mode))
 
-                                                                 ;;; Optional variables
+          ;; (use-package activities
+          ;;   :init
+          ;;   (activities-mode)
 
-  ;; Advanced: Custom link types
-  ;; This example is for linking a person's 7-character ID to their page on the
-  ;; free genealogy website Family Search.
-  (setq org-link-abbrev-alist
-        '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
+          ;;   ;; Prevent `edebug' default bindings from interfering.
+          ;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
 
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                 ;;;
-                                                                 ;;;   Phase 1: editing and exporting files
-                                                                 ;;;
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+          ;;   :bind
+          ;;   (("C-x C-a C-n" . activities-new)
+          ;;    ("C-x C-a C-d" . activities-define)
+          ;;    ("C-x C-a C-a" . activities-resume)
+          ;;    ("C-x C-a C-s" . activities-suspend)
+          ;;    ("C-x C-a C-k" . activities-kill)
+          ;;    ("C-x C-a RET" . activities-switch)
+          ;;    ("C-x C-a b" . activities-switch-buffer)
+          ;;    ("C-x C-a g" . activities-revert)
+          ;;    ("C-x C-a l" . activities-list)))
 
+          (use-package kele
+            :defer t
+            :config
+            (bind-key (kbd "s-k") kele-command-map kele-mode-map))
 
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                 ;;;
-                                                                 ;;;   Phase 2: todos, agenda generation, and task tracking
-                                                                 ;;;
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+          (use-package project
+            :after xref
+            :config
+            (setq project-switch-commands 'project-dired)
 
+            )
 
-  ;; Yes, you can have multiple use-package declarations. It's best if their
-  ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
-  ;; config from Phase 1. I've broken it up here for the sake of clarity.
-  (use-package org
-    :ensure t
-    :config
-    ;; Instead of just two states (TODO, DONE) we set up a few different states
-    ;; that a task can be in.
-
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((shell . t)))
-
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
-
-    ;; Refile configuration
-    (setq org-outline-path-complete-in-steps nil)
-    (setq org-refile-use-outline-path 'file)
-
-    (setq org-capture-templates
-          '(("c" "Default Capture" entry (file "inbox.org")
-             "* TODO %?\n%U\n%i")
-            ;; Capture and keep an org-link to the thing we're currently working with
-            ("r" "Capture with Reference" entry (file "inbox.org")
-             "* TODO %?\n%U\n%i\n%a")
-            ;; Define a section
-            ("w" "Work")
-            ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
-             "** TODO %?\n%U\n%i\n%a")
-            ("wr" "Work report" entry (file+headline "work.org" "Reports")
-             "** TODO %?\n%U\n%i\n%a")))
-
-    (setq org-agenda-custom-commands
-          '(("n" "Agenda and All Todos"
-             ((agenda)
-              (todo)))
-            ("w" "Work" agenda ""
-             ((org-agenda-files '("work.org")))))))
-
-
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                 ;;;
-                                                                 ;;;   Phase 3: extensions (org-roam, etc.)
-                                                                 ;;;
-                                                                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ;; (use-package org-roam
-  ;;   :ensure t
-  ;;   :config
-  ;;   (org-roam-db-autosync-mode)
-  ;;   ;; Dedicated side window for backlinks
-  ;;   (add-to-list 'display-buffer-alist
-  ;;                '("\\*org-roam\\*"
-  ;;                  (display-buffer-in-side-window)
-  ;;                  (side . right)
-  ;;                  (window-width . 0.4)
-  ;;                  (window-height . fit-window-to-buffer))))
-
-  ;; Pretty web interface for org-roam
-                                          ;(use-package org-roam-ui
-                                          ;  :ensure t
-                                          ;  :after org-roam
-                                          ;  :config
-                                          ;  (setq org-roam-ui-sync-theme t
-                                          ;        org-roam-ui-follow t
-                                          ;        org-roam-ui-update-on-save t
-                                          ;        org-roam-ui-open-on-start t))
-
-
-
-  (use-package nerd-icons
-    :config (setq nerd-icons-color-icons t
-                  nerd-icons-scale-factor 1.0
-                  nerd-icons-font-family  "Symbols Nerd Font"))
-  (use-package nerd-icons-dired
-    :ensure t
-    :hook
-    (dired-mode . nerd-icons-dired-mode))
-
-  (use-package mastodon
-    :config
-    (setq mastodon-instance-url "https://social.yakshed.org"
-          mastodon-active-user "bascht"
-          mastodon-tl--horiz-bar "———————————"
-          )
-
-    )
-  (use-package vterm)
-  (use-package vterm-toggle
-    :after general
-    ;;  :ensure t
-    :general ("C-c t" 'vterm-toggle :which-key "terminal"))
-
-
-  ;; (use-package nano-modeline
-  ;;   :init
-  ;;   (nano-modeline-pdf-mode t)
-  ;;   :custom
-  ;;   (nano-modeline-position 'nano-modeline-footer)
-  ;;   :hook
-  ;;   (prog-mode-hook            . nano-modeline-prog-mode)
-  ;;   (text-mode-hook            . nano-modeline-text-mode)
-  ;;   (org-mode-hook             . nano-modeline-org-mode)
-  ;;   (pdf-view-mode-hook        . nano-modeline-pdf-mode)
-  ;;   (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
-  ;;   (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
-  ;;   (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
-  ;;   (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
-  ;;   (term-mode-hook            . nano-modeline-term-mode)
-  ;;   (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
-  ;;   (messages-buffer-mode-hook . nano-modeline-message-mode)
-  ;;   (org-capture-mode-hook     . nano-modeline-org-capture-mode)
-  ;;   (org-agenda-mode-hook      . nano-modeline-org-agenda-mode))
-
-
-  (use-package doom-modeline
-    :ensure t
-    :init (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-time nil
-          doom-modeline-height 28
-          doom-modeline-persp-name t
-          doom-modeline-buffer-encoding nil
-          doom-modeline-buffer-coding nil
-          doom-modeline-check-simple-format t
-          doom-modeline-battery nil
-          doom-modeline-unicode-fallback nil
-
-          doom-modeline-modal nil)
-
-    ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
-    ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
-    )
-
-  (use-package perspective
-    :bind
-    ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
-    :custom
-    (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
-    :init
-    (persp-mode))
-
-  ;; (use-package activities
-  ;;   :init
-  ;;   (activities-mode)
-
-  ;;   ;; Prevent `edebug' default bindings from interfering.
-  ;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
-
-  ;;   :bind
-  ;;   (("C-x C-a C-n" . activities-new)
-  ;;    ("C-x C-a C-d" . activities-define)
-  ;;    ("C-x C-a C-a" . activities-resume)
-  ;;    ("C-x C-a C-s" . activities-suspend)
-  ;;    ("C-x C-a C-k" . activities-kill)
-  ;;    ("C-x C-a RET" . activities-switch)
-  ;;    ("C-x C-a b" . activities-switch-buffer)
-  ;;    ("C-x C-a g" . activities-revert)
-  ;;    ("C-x C-a l" . activities-list)))
-
-  (use-package kele
-    :defer t
-    :config
-    (bind-key (kbd "s-k") kele-command-map kele-mode-map))
-
-  (use-package project
-    :after xref
-    :config
-    (setq project-switch-commands 'project-dired)
-
-    )
-
-  (use-package jinx
-    :after generaln
-    :hook text-mode prog-mode conf-mode mu4e-compose-mode
-    :general (leader-keys
-              "m s c" '(jinx-correct :which-key "")
-              "m s l" '(jinx-languages :which-key ""))
-    :config
-    (setq jinx-languages "de_DE en_GB"))
+          (use-package jinx
+            :after generaln
+            :hook text-mode prog-mode conf-mode mu4e-compose-mode
+            :general (leader-keys
+                      "m s c" '(jinx-correct :which-key "")
+                      "m s l" '(jinx-languages :which-key ""))
+            :config
+            (setq jinx-languages "de_DE en_GB"))
 
 #+end_src
 
@@ -1452,8 +1507,11 @@ Various language specific modes and checkers.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package yasnippet
-    :hook ((prog-mode . yas-minor-mode)
-           (org-mode . yas-minor-mode)))
+    :hook ((prog-mode
+            text-mode
+            conf-mode
+            snippet-mode) . yas-minor-mode-on)
+    :init (setq yas-snippet-dir "~/.config/emacs/snippets"))
 
 
   (use-package yasnippet-snippets
@@ -2253,10 +2311,9 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
     (spacious-padding-mode)
     (breadcrumb-mode -1)
-    (doom-modeline-mode -1)
 
     (org-journal-open-current-journal-file)
-    (shell-command "swaymsg floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
+    (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
 
 
   (defun bascht--worklog ()
