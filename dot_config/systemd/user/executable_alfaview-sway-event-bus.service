@@ -7,6 +7,7 @@ Restart=on-failure
 RestartSec=5
 
 [Unit]
-After=graphical-session-pre.target
 Description=Launch the my own alfaview event bus
+After=graphical-session.target
 PartOf=graphical-session.target
+Requires=graphical-session.target
