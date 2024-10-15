@@ -1,13 +1,13 @@
 [Install]
-WantedBy=graphical-session.target
+WantedBy=sway-session.target
 
 [Service]
 ExecStart=/home/bascht/bin/alfaview-sway-event-bus
+#ExecCondition=/bin/sh -c '[ -n "$WAYLAND_DISPLAY" ]'
 Restart=on-failure
-RestartSec=5
+#RestartSec=5
 
 [Unit]
 Description=Launch the my own alfaview event bus
-After=graphical-session.target
-PartOf=graphical-session.target
-Requires=graphical-session.target
+After=sway-session.target
+PartOf=sway-session.target

@@ -1,5 +1,5 @@
 [Install]
-WantedBy=graphical-session.target
+WantedBy=sway-session.target
 
 [Service]
 Type=notify
@@ -10,7 +10,6 @@ Environment=COLORTERM=truecolor
 
 [Unit]
 Description=Emacs comacs daemon
-After=graphical-session.target
-Requires=graphical-session.target
-PartOf=graphical-session.target
+After=sway-session.target
+PartOf=sway-session.target
 X-RestartIfChanged=false

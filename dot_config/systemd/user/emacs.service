@@ -1,15 +1,15 @@
 [Install]
-WantedBy=graphical-session.target
+WantedBy=sway-session.target
 
 [Service]
 Type=notify
 ExecStart=/usr/bin/emacs --fg-daemon=emacs
 Restart=on-failure
 Environment=COLORTERM=truecolor
+SuccessExitStatus=15
 
 [Unit]
 Description=Emacs emacs daemon
-After=graphical-session.target
-Requires=graphical-session.target
-PartOf=graphical-session.target
+After=sway-session.target
+PartOf=sway-session.target
 X-RestartIfChanged=false
