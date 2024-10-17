@@ -99,6 +99,10 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
     (setopt initial-scratch-message (format ";; Scratch buffer from session %s\n" (daemonp)))
     (setopt display-time-default-load-average nil)
 
+    ;; Don't let emacs, comacs and workmacs fight over one history file
+    (when (daemonp)
+      (setopt savehist-file (format "~/.config/emacs/history.%s" (daemonp))))
+    
     ;; Make sure to sync the clipboard
     (setq wl-copy-process nil)
     (defun wl-copy (text)
@@ -114,8 +118,11 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
           nil ; should return nil if we're the current paste owner
         (shell-command-to-string "wl-paste -n | tr -d \r")))
 
-    (setq interprogram-cut-function 'wl-copy)
-    (setq interprogram-paste-function 'wl-paste)
+
+    ;; These two buggers will only work when we have a graphical env
+    (when (getenv "WAYLAND_DISPLAY")
+      (setq interprogram-cut-function 'wl-copy)
+      (setq interprogram-paste-function 'wl-paste))
 
     ;; Automatically reread from disk if the underlying file changes
     (setopt auto-revert-avoid-polling t)
@@ -249,9 +256,10 @@ General is one of those packages where I'm not even sure if I still need it afte
      :prefix "C-c"
      "m" 'mu4e
      "c" 'org-capture
-     "o" '(:ignore t :which-key "emacs")
+     "o" '(:ignore t :which-key "Anything org-related for bascht")
      "o h" '(consult-org-agenda :which-key "Go to agenda heading")
      "o a" '(org-agenda :which-key "Open agenda")
+     "o c" '(:ignore t :which-key "All the org clocks")
      "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
      "o c g" '(org-clock-goto :which-key "Go to current clock")
      "o c o" '(org-clock-out :which-key "Clock out current clock")
@@ -261,11 +269,19 @@ General is one of those packages where I'm not even sure if I still need it afte
      "p p" '(persp-switch :which-key "")
      "p ," '(persp-rename :which-key "")
      "p k" '(persp-kill :which-key "")
-     "p n" '(bascht-create-new-persp :which-key ""))
+     "p n" '(bascht-create-new-persp :which-key "")
+
+     "g" '(:ignore t :which-key "goto")
+     "g g" '(beginning-of-buffer :which-key "Beginning of buffer")
+     "g G" '(end-of-buffer :which-key "End of buffer")
+
+     "#" '(comment-or-uncomment-region :which-key "Comment / Uncomment")
+     "d" '(duplicate-dwim :which-key "Duplicate line / dwim"))
 
     (general-define-key
      :prefix "C-x"
-     "O" 'bascht--toggle-window-zoom :which-key "Toggle temporary window")
+     "O" 'bascht--toggle-window-zoom :which-key "Toggle temporary window"
+     )
 
     (general-create-definer my-leader-def
       :prefix "M-SPC")
@@ -504,8 +520,8 @@ Holy fuck! How did I only now learn about this?
     :ensure t
     :demand t
     :after avy
-    :bind (("C-." . embark-act)
-           ("C-,". embark-dwim))
+    :bind (("M-." . embark-act)
+           ("M-,". embark-dwim))
     :init
     ;; Add the option to run embark when using avy
     (defun bedrock/avy-action-embark (pt)
@@ -673,483 +689,489 @@ Orderless: powerful completion style
 
 * Casual menus
 #+begin_src emacs-lisp :tangle init.el
-           (use-package casual-suite
-              :ensure t
-              :after (magit org dired-preview)
-              :config
-              (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
-              (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
-              (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
-              (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-              (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-              (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
-              (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
-              (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
-              (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
-              (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
-              (keymap-global-set "M-g" #'casual-avy-tmenu))
-                                                                           
-            ;; Modify search results en masse
-            (use-package wgrep
-              :ensure t
-              :config
-              (setq wgrep-auto-save-buffer t))
-
-
-
-            (use-package emacs
-              :ensure nil
-              :bind (;;("C-." . set-mark-command)
-                     ("M-z" . zap-up-to-char)
-                     ("M-," . beginning-of-buffer)
-                     ("M-." . end-of-buffer)
-                     ("M-p" . backward-paragraph)
-                     ("M-n" . forward-paragraph)
-                     ;;             ( "C-c;;  w h" . 'windmove-left)
-                     ;; ( "C-c w j" . windmove-down)
-                     ;; ( "C-c w k" . windmove-up)
-                     ;; ( "C-c w l" . windmove-right)
-                     )
-
-              :config
-              (defvar-keymap windmove-repeat-map
-                :repeat t
-                "h" #'windmove-left
-                "j" #'windmove-down
-                "k" #'windmove-up
-                "l" #'windmove-right)
-              ;; Treesitter config
-
-              ;; Tell Emacs to prefer the treesitter mode
-              ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
-
-
-              (setq major-mode-remap-alist
-                    '((yaml-mode . yaml-ts-mode)
-                      (bash-mode . bash-ts-mode)
-                      (js2-mode . js-ts-mode)
-                      (typescript-mode . typescript-ts-mode)
-                      (json-mode . json-ts-mode)
-                      (css-mode . css-ts-mode)
-                      (python-mode . python-ts-mode)))
-              :hook
-              ;; Auto parenthesis matching
-              ((prog-mode . electric-pair-mode)))
-
-            (use-package magit
-              :ensure t
-              :after general
-              :general
-              (leader-keys
-               "g" '(:ignore t :which-key "git")
-               "g <escape>" '(keyboard-escape-quit :which-key t)
-               "g g" '(magit-status :which-key "status")
-               "g l" '(magit-log :which-key "log"))
-              (general-nmap
-               "<escape>" #'transient-quit-one))
-
-            (add-hook 'git-commit-mode-hook
-                      (lambda () (end-of-line)))
-
-
-  (use-package lab
-    :ensure t
-    )
-  (use-package auth-source-gopass
-    :ensure t)
-
-            (use-package diff-hl
-              :init
-              (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-              (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-              :config
-              (global-diff-hl-mode))
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                           ;;;
-                                                                           ;;;   Common file types
-                                                                           ;;;
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-            (use-package markdown-mode
-              :ensure t
-              :hook ((markdown-mode . visual-line-mode)))
-
-            (use-package yaml-mode
-              :ensure t)
-
-            (use-package json-mode
-              :ensure t)
-
-            ;; Emacs ships with a lot of popular programming language modes. If it's not
-            ;; built in, you're almost certain to find a mode for the language you're
-            ;; looking for with a quick Internet search.
-
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                           ;;;
-                                                                           ;;;   Eglot, the built-in LSP client for Emacs
-                                                                           ;;;
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-            ;; Helpful resources:
-            ;;
-            ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-
-            ;; Emacs includes Tree-sitter support as of version 29, but does not
-            ;; bundle Tree-sitter grammars via the usual installation methods.
-            ;; That means that if you want to use a Tree-sitter major mode, you
-            ;; must first install the respective language grammar.  `treesit-auto'
-            ;; is a handy package that manages this extra step for you, prompting
-            ;; the installation of Tree-sitter grammars when necessary.
-            (use-package treesit-auto
-              :ensure t
-              :custom
-              (treesit-auto-install 'prompt)
-              :config
-              (treesit-auto-add-to-auto-mode-alist 'all)
-              (global-treesit-auto-mode))
-
-            (use-package jsonrpc :ensure t)
-            (use-package eglot
-
-              ;; no :ensure t here because it's built-in
-
-              ;; Configure hooks to automatically turn-on eglot for selected modes
-                                                    ; :hook
-                                                    ; (((python-mode ruby-mode elixir-mode) . eglot))
-
-              :custom
-              (eglot-send-changes-idle-time 0.1)
-              (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
-
-              :config
-              (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-              ;; Sometimes you need to tell Eglot where to find the language server
-                                                    ; (add-to-list 'eglot-server-programs
-                                                    ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-              )
-
-            ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
-            (use-package breadcrumb
-              :ensure t
-              :config
-
-              ;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
-              (breadcrumb-mode))
-
-
-
-            (use-package forge
-              :ensure t
-              :after magit
-              :config (push '("git.alfa.sx" "git.alfa.sx/api/v4" "git.alfa.sx" forge-gitlab-repository) forge-alist)
-              )
-
-
-            ;; ;; Evil: vi emulation
-            ;; (use-package evil
-            ;;   :ensure t
-            ;;   :demand
-            ;;   :init
-            ;;   (setq evil-respect-visual-line-mode t)
-            ;;   (setq evil-undo-system 'undo-redo)
-            ;;   (setq evil-want-keybinding nil)
-
-            ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
-            ;;   (setq evil-want-C-u-scroll t)
-
-            ;;   :config
-            ;;   (evil-mode)
-
-            ;;   ;; Configuring initial major mode for some modes
-            ;;   (evil-set-initial-state 'vterm-mode 'emacs))
-
-            ;; (use-package evil-collection
-            ;;   :ensure t
-            ;;   :after evil
-            ;;   :demand
-            ;;   :config
-            ;;   (setq evil-collection-mode-list
-            ;;         '(ag dired magit mu4e which-key)
-            ;;         evil-collection-want-unimpaired-p nil)
-            ;;   (evil-collection-init))
-
-            ;; (use-package evil-nerd-commenter
-            ;;   :after evil
-            ;;   :general
-            ;;   (general-nvmap
-            ;;     "gc" 'evilnc-comment-operator))
-
-            ;; (use-package evil-surround
-            ;;   :ensure t
-            ;;   :after evil
-            ;;   :config
-            ;;   (global-evil-surround-mode 1))
-
-
-            ;; Default tags
-            (setq org-tag-alist '(
-                                  ;; locale
-                                  (:startgroup)
-                                  ("home" . ?h)
-                                  ("work" . ?w)
-                                  ("school" . ?s)
-                                  (:endgroup)
-                                  (:newline)
-                                  ;; scale
-                                  (:startgroup)
-                                  ("one-shot" . ?o)
-                                  ("project" . ?j)
-                                  ("tiny" . ?t)
-                                  (:endgroup)
-                                  ;; misc
-                                  ("meta")
-                                  ("review")
-                                  ("reading")))
-
-            ;; Org-refile: where should org-refile look?
-            (setq org-refile-targets 'FIXME)
-
-                                                                           ;;; Phase 3 variables
-
-            ;; Org-roam variables
-            ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
-            ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
-
-                                                                           ;;; Optional variables
-
-            ;; Advanced: Custom link types
-            ;; This example is for linking a person's 7-character ID to their page on the
-            ;; free genealogy website Family Search.
-            (setq org-link-abbrev-alist
-                  '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
-
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                           ;;;
-                                                                           ;;;   Phase 1: editing and exporting files
-                                                                           ;;;
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                           ;;;
-                                                                           ;;;   Phase 2: todos, agenda generation, and task tracking
-                                                                           ;;;
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-            ;; Yes, you can have multiple use-package declarations. It's best if their
-            ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
-            ;; config from Phase 1. I've broken it up here for the sake of clarity.
-            (use-package org
-              :ensure t
-              :config
-              ;; Instead of just two states (TODO, DONE) we set up a few different states
-              ;; that a task can be in.
-
-              (org-babel-do-load-languages
-               'org-babel-load-languages
-               '((shell . t)))
-
-              (setq org-todo-keywords
-                    '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
-
-              ;; Refile configuration
-              (setq org-outline-path-complete-in-steps nil)
-              (setq org-refile-use-outline-path 'file)
-
-              (setq org-capture-templates
-                    '(("c" "Default Capture" entry (file "inbox.org")
-                       "* TODO %?\n%U\n%i")
-                      ;; Capture and keep an org-link to the thing we're currently working with
-                      ("r" "Capture with Reference" entry (file "inbox.org")
-                       "* TODO %?\n%U\n%i\n%a")
-                      ;; Define a section
-                      ("w" "Work")
-                      ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
-                       "** TODO %?\n%U\n%i\n%a")
-                      ("wr" "Work report" entry (file+headline "work.org" "Reports")
-                       "** TODO %?\n%U\n%i\n%a")))
-
-              (setq org-agenda-custom-commands
-                    '(("n" "Agenda and All Todos"
-                       ((agenda)
-                        (todo)))
-                      ("w" "Work" agenda ""
-                       ((org-agenda-files '("work.org")))))))
-
-
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                                                                           ;;;
-                                                                           ;;;   Phase 3: extensions (org-roam, etc.)
-                                                                           ;;;
-                                                                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-            ;; (use-package org-roam
-            ;;   :ensure t
-            ;;   :config
-            ;;   (org-roam-db-autosync-mode)
-            ;;   ;; Dedicated side window for backlinks
-            ;;   (add-to-list 'display-buffer-alist
-            ;;                '("\\*org-roam\\*"
-            ;;                  (display-buffer-in-side-window)
-            ;;                  (side . right)
-            ;;                  (window-width . 0.4)
-            ;;                  (window-height . fit-window-to-buffer))))
-
-            ;; Pretty web interface for org-roam
-                                                    ;(use-package org-roam-ui
-                                                    ;  :ensure t
-                                                    ;  :after org-roam
-                                                    ;  :config
-                                                    ;  (setq org-roam-ui-sync-theme t
-                                                    ;        org-roam-ui-follow t
-                                                    ;        org-roam-ui-update-on-save t
-                                                    ;        org-roam-ui-open-on-start t))
-
-
-
-            (use-package nerd-icons
-              :config (setq nerd-icons-color-icons t
-                            nerd-icons-scale-factor 1.0
-                            nerd-icons-font-family  "Symbols Nerd Font"))
-            (use-package nerd-icons-dired
-              :ensure t
-              :hook
-              (dired-mode . nerd-icons-dired-mode))
-
-            (use-package mastodon
-              :config
-              (setq mastodon-instance-url "https://social.yakshed.org"
-                    mastodon-active-user "bascht"
-                    mastodon-tl--horiz-bar "———————————"
-                    )
-
-              )
-            (use-package vterm)
-            (use-package vterm-toggle
-              :after general
-              ;;  :ensure t
-              :general ("C-c t" 'vterm-toggle :which-key "terminal"))
-
-
-            (use-package smart-mode-line
-              :ensure t
-              :config
-
-              (add-to-list 'sml/replacer-regexp-list '("^~/\\.config/emacs" " ") t)
-              (add-to-list 'sml/replacer-regexp-list '("^~/Code/alfatraining" "󰬈 ") t)
-
-              (setq sml/theme 'light)
-              (setq sml/no-confirm-load-theme t)
-              (setq sml/mode-width "full")
-              (setq sml/shorten-modes t)
-              (setq sml/mule-info nil)
-              (sml/setup)
-                    (add-to-list 'rm-blacklist "org-a-t" )
-        (add-to-list 'rm-blacklist "yas" )
-        (add-to-list 'rm-blacklist " WK " )
-
-      
-              )
-
-
-
-
-    (use-package vundo
+       (use-package casual-suite
+  	:ensure t
+  	:after (magit org dired-preview)
+  	:config
+  	(keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
+  	(keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
+  	(keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
+  	(keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+  	(keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+  	(keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
+  	(keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
+  	(keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
+  	(keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
+  	(keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
+  	(keymap-global-set "M-g" #'casual-avy-tmenu))
+
+        ;; Modify search results en masse
+        (use-package wgrep
+  	:ensure t
+  	:config
+  	(setq wgrep-auto-save-buffer t))
+
+
+
+        (use-package emacs
+  	:ensure nil
+  	:bind (;;("C-." . set-mark-command)
+  	       ("M-z" . zap-up-to-char)
+  	       ("M-," . beginning-of-buffer)
+  	       ("M-." . end-of-buffer)
+  	       ("M-p" . backward-paragraph)
+  	       ("M-n" . forward-paragraph)
+  	       ;;             ( "C-c;;  w h" . 'windmove-left)
+  	       ;; ( "C-c w j" . windmove-down)
+  	       ;; ( "C-c w k" . windmove-up)
+  	       ;; ( "C-c w l" . windmove-right)
+  	       )
+
+  	:config
+  	(defvar-keymap windmove-repeat-map
+  	  :repeat t
+  	  "h" #'windmove-left
+  	  "j" #'windmove-down
+  	  "k" #'windmove-up
+  	  "l" #'windmove-right)
+  	;; Treesitter config
+
+  	;; Tell Emacs to prefer the treesitter mode
+  	;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
+
+
+  	(setq major-mode-remap-alist
+  	      '((yaml-mode . yaml-ts-mode)
+  		(bash-mode . bash-ts-mode)
+  		(js2-mode . js-ts-mode)
+  		(typescript-mode . typescript-ts-mode)
+  		(json-mode . json-ts-mode)
+  		(css-mode . css-ts-mode)
+  		(python-mode . python-ts-mode)))
+  	:hook
+  	;; Auto parenthesis matching
+  	((prog-mode . electric-pair-mode)))
+
+        (use-package magit
+  	:ensure t
+  	:after general
+  	:general
+  	(leader-keys
+  	 "g" '(:ignore t :which-key "git")
+  	 "g <escape>" '(keyboard-escape-quit :which-key t)
+  	 "g g" '(magit-status :which-key "status")
+  	 "g l" '(magit-log :which-key "log"))
+  	(general-nmap
+  	 "<escape>" #'transient-quit-one))
+
+        (add-hook 'git-commit-mode-hook
+  		(lambda () (end-of-line)))
+
+
+    (use-package lab
       :ensure t
-      :bind ("C-x U" . vundo)
-      :config
-      (setq vundo-glyph-alist vundo-unicode-symbols))
-      
-        ;;     (use-package nano-modeline
-        ;;       ;; :init
-        ;;       ;; (nano-modeline-pdf-mode t)
-        ;;       :custom
-        ;;       (nano-modeline-position 'nano-modeline-footer)
-        ;;       :hook
-        ;;       (prog-mode-hook            . nano-modeline-prog-mode)
-        ;;       (text-mode-hook            . nano-modeline-text-mode)
-        ;;       (org-mode-hook             . nano-modeline-org-mode)
-        ;;       (pdf-view-mode-hook        . nano-modeline-pdf-mode)
-        ;;       (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
-        ;;       (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
-        ;;       (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
-        ;;       (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
-        ;;       (term-mode-hook            . nano-modeline-term-mode)
-        ;;       (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
-        ;;       (messages-buffer-mode-hook . nano-modeline-message-mode)
-        ;;       (org-capture-mode-hook     . nano-modeline-org-capture-mode)
-        ;;       (org-agenda-mode-hook      . nano-modeline-org-agenda-mode)
-        ;;       :config
-        ;;       (nano-modeline-text-mode t))
+      )
+    (use-package auth-source-gopass
+      :ensure t)
+
+        (use-package diff-hl
+  	:init
+  	(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  	(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  	:config
+  	(global-diff-hl-mode))
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  								     ;;;
+  								     ;;;   Common file types
+  								     ;;;
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        (use-package markdown-mode
+  	:ensure t
+  	:hook ((markdown-mode . visual-line-mode)))
+
+        (use-package yaml-mode
+  	:ensure t)
+
+        (use-package json-mode
+  	:ensure t)
+
+        ;; Emacs ships with a lot of popular programming language modes. If it's not
+        ;; built in, you're almost certain to find a mode for the language you're
+        ;; looking for with a quick Internet search.
+
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  								     ;;;
+  								     ;;;   Eglot, the built-in LSP client for Emacs
+  								     ;;;
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        ;; Helpful resources:
+        ;;
+        ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+
+        ;; Emacs includes Tree-sitter support as of version 29, but does not
+        ;; bundle Tree-sitter grammars via the usual installation methods.
+        ;; That means that if you want to use a Tree-sitter major mode, you
+        ;; must first install the respective language grammar.  `treesit-auto'
+        ;; is a handy package that manages this extra step for you, prompting
+        ;; the installation of Tree-sitter grammars when necessary.
+        (use-package treesit-auto
+  	:ensure t
+  	:custom
+  	(treesit-auto-install 'prompt)
+  	:config
+  	(treesit-auto-add-to-auto-mode-alist 'all)
+  	(global-treesit-auto-mode))
+
+        (use-package jsonrpc :ensure t)
+        (use-package eglot
+
+  	;; no :ensure t here because it's built-in
+
+  	;; Configure hooks to automatically turn-on eglot for selected modes
+  					      ; :hook
+  					      ; (((python-mode ruby-mode elixir-mode) . eglot))
+
+  	:custom
+  	(eglot-send-changes-idle-time 0.1)
+  	(eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
+
+  	:config
+  	(fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
+  	;; Sometimes you need to tell Eglot where to find the language server
+  					      ; (add-to-list 'eglot-server-programs
+  					      ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+  	)
+
+        ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
+        (use-package breadcrumb
+  	:ensure t
+  	:config
+
+  	;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
+  	(breadcrumb-mode))
 
 
-        ;; ;;    (use-package doom-modeline
-            ;;   :ensure t
-            ;;   :init (doom-modeline-mode 1)
-            ;;   :config
-            ;;   (setq doom-modeline-time nil
-            ;;         doom-modeline-height 28
-            ;;         doom-modeline-persp-name t
-            ;;         doom-modeline-buffer-encoding nil
-            ;;         doom-modeline-buffer-coding nil
-            ;;         doom-modeline-check-simple-format t
-            ;;         doom-modeline-battery nil
-            ;;         doom-modeline-unicode-fallback nil
 
-            ;;         doom-modeline-modal nil)
+        (use-package forge
+  	:ensure t
+  	:after magit
+  	:config (push '("git.alfa.sx" "git.alfa.sx/api/v4" "git.alfa.sx" forge-gitlab-repository) forge-alist)
+  	)
 
-            ;;   ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
-            ;;   ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
-            ;;   )
 
-            (use-package perspective
-              :bind
-              ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
-  ;            ("C-x C-p C-p" . persp-pref)
-              :custom
-              (persp-mode-prefix-key (kbd "C-x C-p"))  ; pick your own prefix key here
-              :init
-              (persp-mode))
+        ;; ;; Evil: vi emulation
+        ;; (use-package evil
+        ;;   :ensure t
+        ;;   :demand
+        ;;   :init
+        ;;   (setq evil-respect-visual-line-mode t)
+        ;;   (setq evil-undo-system 'undo-redo)
+        ;;   (setq evil-want-keybinding nil)
 
-            ;; (use-package activities
-            ;;   :init
-            ;;   (activities-mode)
+        ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
+        ;;   (setq evil-want-C-u-scroll t)
 
-            ;;   ;; Prevent `edebug' default bindings from interfering.
-            ;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+        ;;   :config
+        ;;   (evil-mode)
 
-            ;;   :bind
-            ;;   (("C-x C-a C-n" . activities-new)
-            ;;    ("C-x C-a C-d" . activities-define)
-            ;;    ("C-x C-a C-a" . activities-resume)
-            ;;    ("C-x C-a C-s" . activities-suspend)
-            ;;    ("C-x C-a C-k" . activities-kill)
-            ;;    ("C-x C-a RET" . activities-switch)
-            ;;    ("C-x C-a b" . activities-switch-buffer)
-            ;;    ("C-x C-a g" . activities-revert)
-            ;;    ("C-x C-a l" . activities-list)))
+        ;;   ;; Configuring initial major mode for some modes
+        ;;   (evil-set-initial-state 'vterm-mode 'emacs))
 
-            (use-package kele
-              :defer t
-              :config
-              (bind-key (kbd "s-k") kele-command-map kele-mode-map))
+        ;; (use-package evil-collection
+        ;;   :ensure t
+        ;;   :after evil
+        ;;   :demand
+        ;;   :config
+        ;;   (setq evil-collection-mode-list
+        ;;         '(ag dired magit mu4e which-key)
+        ;;         evil-collection-want-unimpaired-p nil)
+        ;;   (evil-collection-init))
 
-            (use-package project
-              :after xref
-              :config
-              (setq project-switch-commands 'project-dired)
+        ;; (use-package evil-nerd-commenter
+        ;;   :after evil
+        ;;   :general
+        ;;   (general-nvmap
+        ;;     "gc" 'evilnc-comment-operator))
 
-              )
+        ;; (use-package evil-surround
+        ;;   :ensure t
+        ;;   :after evil
+        ;;   :config
+        ;;   (global-evil-surround-mode 1))
 
-            (use-package jinx
-              :after generaln
-              :hook text-mode prog-mode conf-mode mu4e-compose-mode
-              :general (leader-keys
-                        "m s c" '(jinx-correct :which-key "")
-                        "m s l" '(jinx-languages :which-key ""))
-              :config
-              (setq jinx-languages "de_DE en_GB"))
+
+        ;; Default tags
+        (setq org-tag-alist '(
+  			    ;; locale
+  			    (:startgroup)
+  			    ("home" . ?h)
+  			    ("work" . ?w)
+  			    ("school" . ?s)
+  			    (:endgroup)
+  			    (:newline)
+  			    ;; scale
+  			    (:startgroup)
+  			    ("one-shot" . ?o)
+  			    ("project" . ?j)
+  			    ("tiny" . ?t)
+  			    (:endgroup)
+  			    ;; misc
+  			    ("meta")
+  			    ("review")
+  			    ("reading")))
+
+        ;; Org-refile: where should org-refile look?
+        (setq org-refile-targets 'FIXME)
+
+  								     ;;; Phase 3 variables
+
+        ;; Org-roam variables
+        ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
+        ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
+
+  								     ;;; Optional variables
+
+        ;; Advanced: Custom link types
+        ;; This example is for linking a person's 7-character ID to their page on the
+        ;; free genealogy website Family Search.
+        (setq org-link-abbrev-alist
+  	    '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
+
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  								     ;;;
+  								     ;;;   Phase 1: editing and exporting files
+  								     ;;;
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  								     ;;;
+  								     ;;;   Phase 2: todos, agenda generation, and task tracking
+  								     ;;;
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+        ;; Yes, you can have multiple use-package declarations. It's best if their
+        ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
+        ;; config from Phase 1. I've broken it up here for the sake of clarity.
+        (use-package org
+  	:ensure t
+  	:config
+  	;; Instead of just two states (TODO, DONE) we set up a few different states
+  	;; that a task can be in.
+
+  	(if (string= (daemonp) "workmacs")
+  			  (setq org-clock-persist t
+  				org-clock-persist-file "~/.config/emacs/org-clock-workmacs-save.el"
+  				org-clock-query-save t))
+
+  	(org-babel-do-load-languages
+  	 'org-babel-load-languages
+  	 '((shell . t)))
+
+    (add-hook 'org-trigger-hook 'save-buffer)
+  (add-hook 'org-clock-in-hook 'save-buffer)
+  (add-hook 'org-clock-out-hook 'save-buffer)
+
+  	(setq org-todo-keywords
+  	      '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+
+  	(add-to-list 'org-global-properties
+  		     '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+
+  	;; Refile configuration
+  	(setq org-outline-path-complete-in-steps nil)
+  	(setq org-refile-use-outline-path 'file)
+
+  	(setq org-capture-templates
+  	      '(("c" "Default Capture" entry (file "inbox.org")
+  		 "* TODO %?\n%U\n%i")
+  		;; Capture and keep an org-link to the thing we're currently working with
+  		("r" "Capture with Reference" entry (file "inbox.org")
+  		 "* TODO %?\n%U\n%i\n%a")
+  		;; Define a section
+  		("w" "Work")
+  		("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
+  		 "** TODO %?\n%U\n%i\n%a")
+  		("wr" "Work report" entry (file+headline "work.org" "Reports")
+  		 "** TODO %?\n%U\n%i\n%a")))
+
+  	(setq org-agenda-custom-commands
+  	      '(("n" "Agenda and All Todos"
+  		 ((agenda)
+  		  (todo)))
+  		("w" "Work" agenda ""
+  		 ((org-agenda-files '("work.org")))))))
+
+
+
+  (use-package org-rainbow-tags
+    :ensure t
+    :hook (org-mode . org-rainbow-tags-mode)
+    :config (setq org-rainbow-tags-hash-start-index 8))
+  						      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  								     ;;;
+  								     ;;;   Phase 3: extensions (org-roam, etc.)
+  								     ;;;
+  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        ;; (use-package org-roam
+        ;;   :ensure t
+        ;;   :config
+        ;;   (org-roam-db-autosync-mode)
+        ;;   ;; Dedicated side window for backlinks
+        ;;   (add-to-list 'display-buffer-alist
+        ;;                '("\\*org-roam\\*"
+        ;;                  (display-buffer-in-side-window)
+        ;;                  (side . right)
+        ;;                  (window-width . 0.4)
+        ;;                  (window-height . fit-window-to-buffer))))
+
+        ;; Pretty web interface for org-roam
+  					      ;(use-package org-roam-ui
+  					      ;  :ensure t
+  					      ;  :after org-roam
+  					      ;  :config
+  					      ;  (setq org-roam-ui-sync-theme t
+  					      ;        org-roam-ui-follow t
+  					      ;        org-roam-ui-update-on-save t
+  					      ;        org-roam-ui-open-on-start t))
+
+
+
+        (use-package nerd-icons
+  	:config (setq nerd-icons-color-icons t
+  		      nerd-icons-scale-factor 1.0
+  		      nerd-icons-font-family  "Symbols Nerd Font"))
+        (use-package nerd-icons-dired
+  	:ensure t
+  	:hook
+  	(dired-mode . nerd-icons-dired-mode))
+
+        (use-package vterm)
+        (use-package vterm-toggle
+  	:after general
+  	;;  :ensure t
+  	:general ("C-c t t" 'vterm-toggle :which-key "terminal"))
+
+
+      ;;         (use-package smart-mode-line
+      ;;           :ensure t
+      ;;           :config
+
+      ;;           (add-to-list 'sml/replacer-regexp-list '("^~/\\.config/emacs" " ") t)
+      ;;           (add-to-list 'sml/replacer-regexp-list '("^~/Code/alfatraining" "󰬈 ") t)
+
+      ;;           (setq sml/theme 'light)
+      ;;           (setq sml/no-confirm-load-theme t)
+      ;;           (setq sml/mode-width "full")
+      ;;           (setq sml/shorten-modes t)
+      ;;           (setq sml/mule-info nil)
+      ;;           (sml/setup)
+      ;;                 (add-to-list 'rm-blacklist "org-a-t" )
+      ;;                 (add-to-list 'rm-blacklist "yas" )
+      ;;                 (add-to-list 'rm-blacklist " WK " ))
+
+
+
+
+      (use-package vundo
+  :ensure t
+  :bind ("C-x U" . vundo)
+  :config
+  (setq vundo-glyph-alist vundo-unicode-symbols))
+
+    ;;     (use-package nano-modeline
+    ;;       ;; :init
+    ;;       ;; (nano-modeline-pdf-mode t)
+    ;;       :custom
+    ;;       (nano-modeline-position 'nano-modeline-footer)
+    ;;       :hook
+    ;;       (prog-mode-hook            . nano-modeline-prog-mode)
+    ;;       (text-mode-hook            . nano-modeline-text-mode)
+    ;;       (org-mode-hook             . nano-modeline-org-mode)
+    ;;       (pdf-view-mode-hook        . nano-modeline-pdf-mode)
+    ;;       (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
+    ;;       (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
+    ;;       (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
+    ;;       (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
+    ;;       (term-mode-hook            . nano-modeline-term-mode)
+    ;;       (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
+    ;;       (messages-buffer-mode-hook . nano-modeline-message-mode)
+    ;;       (org-capture-mode-hook     . nano-modeline-org-capture-mode)
+    ;;       (org-agenda-mode-hook      . nano-modeline-org-agenda-mode)
+    ;;       :config
+    ;;       (nano-modeline-text-mode t))
+
+
+    ;; ;;    (use-package doom-modeline
+        ;;   :ensure t
+        ;;   :init (doom-modeline-mode 1)
+        ;;   :config
+        ;;   (setq doom-modeline-time nil
+        ;;         doom-modeline-height 28
+        ;;         doom-modeline-persp-name t
+        ;;         doom-modeline-buffer-encoding nil
+        ;;         doom-modeline-buffer-coding nil
+        ;;         doom-modeline-check-simple-format t
+        ;;         doom-modeline-battery nil
+        ;;         doom-modeline-unicode-fallback nil
+
+        ;;         doom-modeline-modal nil)
+
+        ;;   ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
+        ;;   ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
+        ;;   )
+
+        (use-package perspective
+  	:bind
+  	("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
+    ;            ("C-x C-p C-p" . persp-pref)
+  	:custom
+  	(persp-mode-prefix-key (kbd "C-x C-p"))  ; pick your own prefix key here
+  	:init
+  	(persp-mode))
+
+        ;; (use-package activities
+        ;;   :init
+        ;;   (activities-mode)
+
+        ;;   ;; Prevent `edebug' default bindings from interfering.
+        ;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
+
+        ;;   :bind
+        ;;   (("C-x C-a C-n" . activities-new)
+        ;;    ("C-x C-a C-d" . activities-define)
+        ;;    ("C-x C-a C-a" . activities-resume)
+        ;;    ("C-x C-a C-s" . activities-suspend)
+        ;;    ("C-x C-a C-k" . activities-kill)
+        ;;    ("C-x C-a RET" . activities-switch)
+        ;;    ("C-x C-a b" . activities-switch-buffer)
+        ;;    ("C-x C-a g" . activities-revert)
+        ;;    ("C-x C-a l" . activities-list)))
+
+        (use-package kele
+  	:defer t
+  	:config
+  	(bind-key (kbd "s-k") kele-command-map kele-mode-map))
+
+        (use-package project
+  	:after xref
+  	:config
+  	(setq project-switch-commands 'project-dired)
+
+  	)
+
+        (use-package jinx
+  	:after generaln
+  	:hook text-mode prog-mode conf-mode mu4e-compose-mode
+  	:general (leader-keys
+  		  "m s c" '(jinx-correct :which-key "")
+  		  "m s l" '(jinx-languages :which-key ""))
+  	:config
+  	(setq jinx-languages "de_DE en_GB"))
 
 #+end_src
 
@@ -1812,71 +1834,50 @@ Various language specific modes and checkers.
 
 #+begin_src emacs-lisp :tangle init.el
 
-  (use-package org-msg
-    :preface
-    (defun org-msg-no-temp-buffer (orig-fun &rest args)
-      "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
-      (let ((org-export-show-temporary-export-buffer nil))
-        (apply orig-fun args)))
+    (use-package org-msg
+      :ensure t
+;      :requires (mu4e)
+      ;; :preface      (defun org-msg-no-temp-buffer (orig-fun &rest args)
+      ;;   "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
+      ;;   (let ((org-export-show-temporary-export-buffer nil))
+      ;;     (apply orig-fun args)))
 
-    :config
+      :config
+  ;; (message "This actually ran!")
+      (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+            org-msg-startup "hidestars indent inlineimages"
+            org-msg-greeting-fmt "\nHallo,\n\n"
+            ;; org-msg-recipient-names '(("jeremy.compostella@gmail.com" . "Jérémy"))
+            ;; org-msg-greeting-name-limit 3
+            org-msg-default-alternatives '((new		. (text html))
+                                           (reply-to-html	. (text html))
+                                           (reply-to-text	. (text)))
+            org-msg-convert-citation t)
 
-    ;; TODO until https://github.com/jeremy-compostella/org-msg/pull/183/files is merged
+  ;;    (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
+  ;;     (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
+  ;;     (add-hook 'message-sent-hook
+  ;;               (lambda ()
+  ;;                 (interactive)
+  ;;                 (switch-to-buffer "*mu4e-article*")
+  ;;                 (mu4e-view-quit)
+  ;;                 (kill-buffer "*Org ASCII Export*")))
 
-    (defun org-msg--mu4e-fun (name)
-      "Attempt to find the existing mu4e function suffixed with NAME."
-      (let ((funs (mapcar (lambda (prefix) (intern (concat prefix name)))
-                          '("mu4e~" "mu4e-" "mu4e--"))))
-        (car (cl-member-if #'fboundp funs))))
+  ;;     (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
+  ;;     (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
+  ;;     (add-hook 'message-sent-hook
+  ;;               (lambda ()
+  ;;                 (interactive)
+  ;;                 (switch-to-buffer "*mu4e-article*")
+  ;;                 (mu4e-view-quit)
+  ;;                 (kill-buffer "*Org ASCII Export*")))
 
-    (defun org-msg--mu4e-fun-call (name)
-      "Call the mu4e function suffixed with NAME if any."
-      (when-let ((fun (org-msg--mu4e-fun name)))
-        (funcall fun)))
+      (org-msg-mode)
 
-    (defun org-msg-edit-mode-mu4e ()
-      "Setup mu4e faces, addresses completion and run mu4e."
-      (org-msg--mu4e-fun-call "compose-remap-faces")
-      (unless (mu4e-running-p)
-        (org-msg--mu4e-fun-call "start"))
-      (when mu4e-compose-complete-addresses
-        (org-msg--mu4e-fun-call "compose-setup-completion"))
-      (add-hook 'message-sent-hook #'mu4e--compose-before-send nil t))
-
-
-    (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-          org-msg-startup "hidestars indent inlineimages"
-          org-msg-greeting-fmt "\nHallo,\n\n"
-          ;; org-msg-recipient-names '(("jeremy.compostella@gmail.com" . "Jérémy"))
-          ;; org-msg-greeting-name-limit 3
-          org-msg-default-alternatives '((new		. (text html))
-                                         (reply-to-html	. (text html))
-                                         (reply-to-text	. (text)))
-          org-msg-convert-citation t)
-
-    (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
-    (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
-    (add-hook 'message-sent-hook
-              (lambda ()
-                (interactive)
-                (switch-to-buffer "*mu4e-article*")
-                (mu4e-view-quit)
-                (kill-buffer "*Org ASCII Export*")))
-
-    (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
-    (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
-    (add-hook 'message-sent-hook
-              (lambda ()
-                (interactive)
-                (switch-to-buffer "*mu4e-article*")
-                (mu4e-view-quit)
-                (kill-buffer "*Org ASCII Export*")))
-
-    (org-msg-mode)
-
-    )
+      )
 
 #+end_src
+
 
 #+begin_src emacs-lisp :tangle init.el
     (use-package mu4e
@@ -2067,265 +2068,265 @@ Various language specific modes and checkers.
 * TODO Work
 
 #+begin_src emacs-lisp :tangle init.el
-    ;;; org.el -*- lexical-binding: t; -*-
+      ;;; org.el -*- lexical-binding: t; -*-
 
-  (setq org-capture-templates
-        (if (string= (system-name) "apfelstrudel")
+    (setq org-capture-templates
+          (if (string= (system-name) "apfelstrudel")
+              '(("t" "Todo" entry (file "Todo.org")
+                 "* TODO %?\n  %i")
+                ("m" "MailTodo" entry (file "Todo.org")
+                 "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
+                ("p" "OpsRetro positive" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :+1: %?\n  %i")
+                ("n" "OpsRetro negative" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :-1: %?\n  %i"))
             '(("t" "Todo" entry (file "Todo.org")
                "* TODO %?\n  %i")
               ("m" "MailTodo" entry (file "Todo.org")
                "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
-              ("p" "OpsRetro positive" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :+1: %?\n  %i")
-              ("n" "OpsRetro negative" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :-1: %?\n  %i"))
-          '(("t" "Todo" entry (file "Todo.org")
-             "* TODO %?\n  %i")
-            ("m" "MailTodo" entry (file "Todo.org")
-             "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
-            ("p" "Print" entry (file+headline "Personal.org" "Drucken")
-             "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
-            ("b" "BlogIdeas" entry (file+olp "Projects.org" "bascht.com" "BlogIdeas")
-             "* TODO %?\n  %i"))))
+              ("p" "Print" entry (file+headline "Personal.org" "Drucken")
+               "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
+              ("b" "BlogIdeas" entry (file+olp "Projects.org" "bascht.com" "BlogIdeas")
+               "* TODO %?\n  %i"))))
 
-                                          ; Daily Review
-  (defun bascht/daily-review ()
-    (interactive)
-    (persp-switch "@Org")
-    (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
-    (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
-    (org-narrow-to-subtree)
-    (org-cycle-hide-drawers 'all)
-    (search-forward "[ ]"))
+                                            ; Daily Review
+    (defun bascht/daily-review ()
+      (interactive)
+      (persp-switch "@Org")
+      (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
+      (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
+      (org-narrow-to-subtree)
+      (org-cycle-hide-drawers 'all)
+      (search-forward "[ ]"))
 
 
-                                          ; Recent loops callable for daily review
-  (defun bascht/org-agenda-recent-open-loops ()
-    (interactive)
-    (let ((org-agenda-start-with-log-mode t)
-          (org-agenda-span 'day)
-          (org-agenda-use-time-grid nil))
-      (org-agenda nil "l")
-      (beginend-org-agenda-mode-goto-beginning)))
+                                            ; Recent loops callable for daily review
+    (defun bascht/org-agenda-recent-open-loops ()
+      (interactive)
+      (let ((org-agenda-start-with-log-mode t)
+            (org-agenda-span 'day)
+            (org-agenda-use-time-grid nil))
+        (org-agenda nil "l")
+        (beginend-org-agenda-mode-goto-beginning)))
 
-  (defun bascht/sway-org-clock-indicator ()
-    (if (org-clocking-p)
-        (format "%s @ %s"
-                org-clock-heading
-                (format "%2f h" (/ (org-clock-get-clocked-time) 60.0)))
-      (format "🕶 chilling")))
-
-  (add-to-list 'org-global-properties
-               '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
-
-                                          ; Via https://www.reddit.com/r/emacs/comments/8kz8dv/tip_how_i_use_orgjournal_to_improve_my/
-  (defun bascht/goto-yesterdays-journal ()
-    (interactive)
-    (find-file (expand-file-name (concat org-journal-dir (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))))
-
-  ;; Find my work tree and clock into the respective day / create entry if it does not exist
-  (defun bascht/alfatraining-clock-in ()
-    (interactive)
-    (save-excursion
-
-      (find-file (expand-file-name "Alfaview.org" org-directory))
-      (goto-char (point-min))
-
-      (let ((month (format-time-string "%Y-%m"))
-            (today (format-time-string "[%Y-%m-%d]")))
-        (goto-char (org-find-exact-headline-in-buffer month))
-
-        (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
-            (goto-char (org-find-exact-headline-in-buffer today))
-          (progn
-            (org-insert-subheading nil)
-            (insert today)))
-        (org-clock-in)
-        (save-buffer))))
-
-  ;; Add the a small button to report the current clock line in a :clockreport to
-  ;; Personio. This won't actually do the remote call, but just add a elisp: hyperlink.
-  ;; That way we keep the table rendering nice and quick.
-  ;; Skip the first 3 total / sum rows by matching the current item against =org-ts-regexp0=
-  (defun bascht/ts-for-report-table (ts h)
-    (save-excursion
-      (if (string-match org-ts-regexp0 ts)
-          (progn
-            (beginning-of-buffer)
-            (goto-char (org-find-exact-headline-in-buffer ts))
-            (if (org-entry-get nil "PERSONIO_REPORTED")
-                "✓ Reported"
-              (progn
-                (search-forward ":LOGBOOK:")
-                (search-forward ":END:")
-                (forward-line -1)
-                (let* ((timestamp (org-element-property :value (org-element-at-point)))
-                       (ts-start (org-timestamp-to-time timestamp))
-                       (ts-end (org-timestamp-to-time timestamp t))
-                       (hours (s-chop-suffix "h" h)))
-
-                  (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report]]" ts-start hours))
-                )))
-        "")))
-
-                                          ; Split working hours into personio-compatible slots around a 1 hour break in
-                                          ; case the report is longer than 4 hours. There are probably a 1000 easier
-                                          ; ways to do this, but I'mma take proud in my hacky solution since it works
-                                          ; and it was hard enough to cobble together.
-  (defun bascht/ts-report-to-personio (ts hours)
-    (point-to-register 'bascht/ts-report-current-table)
-    (async-start
-     (lambda ()
-       (if (> hours 4)
-           (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
-                  (break-end (time-add first-shift-end 3600))
-                  (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
-
-             (shell-command (format "report-to-personio \"%s\" \"%s\" \"%s\" \"%s\""
-                                    (format-time-string "%R" ts)
-                                    (format-time-string "%R" first-shift-end)
-                                    (format-time-string "%R" break-end)
-                                    (format-time-string "%R" shift-end)))
-             )
-
-         (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
-           (shell-command (format "report-to-personio \"%s\" \"%s\""
-                                  (format-time-string "%R" ts)
-                                  (format-time-string "%R" shift-end)))))
-
-       (list (format-time-string "[%F]" ts) (format "Successfully reported %s hours to Personio" hours)))
-
-     (lambda (result)
-       (jump-to-register 'bascht/ts-report-current-table)
-       (save-excursion
-         (beginning-of-buffer)
-         (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
-         (org-set-property "PERSONIO_REPORTED" "t"))
-       (message (car-safe (cdr-safe result)))
-       (org-table-recalculate)))
-
-    (defun bascht/alfatraining-hours-a-day (date)
-      (cond
-       ((string-match "Mon" (s-trim date)) 4)
-       ((string-match "Tue" (s-trim date)) 8)
-       ((string-match "Wed" (s-trim date)) 8)
-       ((string-match "Thu" (s-trim date)) 8)
-       ((string-match "Fri" (s-trim date)) 2)
-       (t "0:00")))
-
-    (defun bascht/send-org-clock-to-ulanzi ()
+    (defun bascht/sway-org-clock-indicator ()
       (if (org-clocking-p)
-          (let* ((clocked-time (/ (org-clock-get-clocked-time) 60.0))
-                 (percent (round (*(/ clocked-time (bascht/alfatraining-hours-a-day (format-time-string "%a"))) 100)))
-                 (text (format "%.1fh" clocked-time)))
+          (format "%s @ %s"
+                  org-clock-heading
+                  (format "%2f h" (/ (org-clock-get-clocked-time) 60.0)))
+        (format "🕶 chilling")))
 
-            (request "http://10.11.12.180/api/custom"
-              :type "POST"
-              :headers '(("Content-Type" . "application/json"))
-              :data (json-encode `(("name" . "worklog")
-                                   ("icon" . "11402")
-                                   ("progress" . ,percent)
-                                   ("text" . ,text))))
-            )
 
-        ))
-
-    (defun bascht/org-file-show-headings (org-file)
+                                            ; Via https://www.reddit.com/r/emacs/comments/8kz8dv/tip_how_i_use_orgjournal_to_improve_my/
+    (defun bascht/goto-yesterdays-journal ()
       (interactive)
-      (find-file (expand-file-name org-file))
-      (counsel-org-goto)
-      (org-fold-show-subtree))
+      (find-file (expand-file-name (concat org-journal-dir (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))))
 
-    (defun bascht/wzzk-find ()
+    ;; Find my work tree and clock into the respective day / create entry if it does not exist
+    (defun bascht/alfatraining-clock-in ()
       (interactive)
-      (projectile-find-file-in-directory bascht/wzzk))
+      (save-excursion
 
-    (defun bascht/wzzk-find-today ()
-      (interactive)
-      (let ((journal-today (expand-file-name (format-time-string "journals/%Y-%m-%d.md") bascht/wzzk)))
-        (unless (file-exists-p journal-today)
-          (message (concat "No journal for today, creating " (concat journal-today "on the fly.")))
-          (copy-file (expand-file-name "journals/_template.md" bascht/wzzk) journal-today))
-        (find-file journal-today))
-      (beginning-of-buffer)
-      (replace-string "<% tp.file.creation_date() %>" (format-time-string "%Y-%m-%d %H:%m"))
-      (replace-string "DailyNote <% tp.file.title.split('-')[0] %>" (format-time-string "DailyNote %Y"))
-      (end-of-buffer))
+        (find-file (expand-file-name "Alfaview.org" org-directory))
+        (goto-char (point-min))
 
-    (defun bascht/wzzk-find-yesterday ()
-      (interactive)
-      (find-file (expand-file-name
-                  (format-time-string "%Y-%m-%d.md"
-                                      (time-subtract (current-time) (days-to-time 1))) "~/WirZwei/Zettelkasten/journals")))
+        (let ((month (format-time-string "%Y-%m"))
+              (today (format-time-string "[%Y-%m-%d]")))
+          (goto-char (org-find-exact-headline-in-buffer month))
+
+          (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
+              (goto-char (org-find-exact-headline-in-buffer today))
+            (progn
+              (org-insert-subheading nil)
+              (insert today)))
+          (org-clock-in)
+          (save-buffer))))
+
+    ;; Add the a small button to report the current clock line in a :clockreport to
+    ;; Personio. This won't actually do the remote call, but just add a elisp: hyperlink.
+    ;; That way we keep the table rendering nice and quick.
+    ;; Skip the first 3 total / sum rows by matching the current item against =org-ts-regexp0=
+    (defun bascht/ts-for-report-table (ts h)
+      (save-excursion
+        (if (string-match org-ts-regexp0 ts)
+            (progn
+              (beginning-of-buffer)
+              (goto-char (org-find-exact-headline-in-buffer ts))
+              (if (org-entry-get nil "PERSONIO_REPORTED")
+                  "✓ Reported"
+                (progn
+                  (search-forward ":LOGBOOK:")
+                  (search-forward ":END:")
+                  (forward-line -1)
+                  (let* ((timestamp (org-element-property :value (org-element-at-point)))
+                         (ts-start (org-timestamp-to-time timestamp))
+                         (ts-end (org-timestamp-to-time timestamp t))
+                         (hours (s-chop-suffix "h" h)))
+
+                    (format "[[elisp:(bascht/ts-report-to-personio `(list %s) %s)][Report %s hours to Personio]]" `ts-start hours hours))
+                  )))
+          "")))
+
+                                            ; Split working hours into personio-compatible slots around a 1 hour break in
+                                            ; case the report is longer than 4 hours. There are probably a 1000 easier
+                                            ; ways to do this, but I'mma take proud in my hacky solution since it works
+                                            ; and it was hard enough to cobble together.
+    (defun bascht/ts-report-to-personio (ts hours)
+      (message "Ohai from %s %s " ts hours)
+      (point-to-register 'bascht/ts-report-current-table)
+      (async-start
+       `(lambda ()
+         (if (> ,hours 4)
+             (let* ((first-shift-end (time-add ,ts (seconds-to-time (* 3600 4))))
+                    (break-end (time-add first-shift-end 3600))
+                    (shift-end (time-add break-end (seconds-to-time (* 3600 (- ,hours 4))))))
+
+               (shell-command (format "report-to-personio \"%s\" \"%s\" \"%s\" \"%s\""
+                                      (format-time-string "%R" ,ts)
+                                      (format-time-string "%R" first-shift-end)
+                                      (format-time-string "%R" break-end)
+                                      (format-time-string "%R" shift-end)))
+               )
+
+           (let* ((shift-end (time-add ,ts (seconds-to-time (* ,hours 3600)))))
+             (shell-command (format "report-to-personio \"%s\" \"%s\""
+                                    (format-time-string "%R" ,ts)
+                                    (format-time-string "%R" shift-end))))
+
+         (list (format-time-string "[%F]" ,ts) (format "Successfully reported %s hours to Personio" ,hours))))
+
+       (lambda (result)
+         (jump-to-register 'bascht/ts-report-current-table)
+         (save-excursion
+           (beginning-of-buffer)
+           (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
+           (org-set-property "PERSONIO_REPORTED" "t"))
+         (message (car-safe (cdr-safe result)))
+         (org-table-recalculate))))
+
+    
+      (defun bascht/alfatraining-hours-a-day (date)
+        (cond
+         ((string-match "Mon" (s-trim date)) 4)
+         ((string-match "Tue" (s-trim date)) 8)
+         ((string-match "Wed" (s-trim date)) 8)
+         ((string-match "Thu" (s-trim date)) 8)
+         ((string-match "Fri" (s-trim date)) 2)
+         (t "0:00")))
+
+      (defun bascht/send-org-clock-to-ulanzi ()
+        (if (org-clocking-p)
+            (let* ((clocked-time (/ (org-clock-get-clocked-time) 60.0))
+                   (percent (round (*(/ clocked-time (bascht/alfatraining-hours-a-day (format-time-string "%a"))) 100)))
+                   (text (format "%.1fh" clocked-time)))
+
+              (request "http://10.11.12.180/api/custom"
+                :type "POST"
+                :headers '(("Content-Type" . "application/json"))
+                :data (json-encode `(("name" . "worklog")
+                                     ("icon" . "11402")
+                                     ("progress" . ,percent)
+                                     ("text" . ,text))))
+              )
+
+          ))
+
+      (defun bascht/org-file-show-headings (org-file)
+        (interactive)
+        (find-file (expand-file-name org-file))
+        (counsel-org-goto)
+        (org-fold-show-subtree))
+
+      (defun bascht/wzzk-find ()
+        (interactive)
+        (projectile-find-file-in-directory bascht/wzzk))
+
+      (defun bascht/wzzk-find-today ()
+        (interactive)
+        (let ((journal-today (expand-file-name (format-time-string "journals/%Y-%m-%d.md") bascht/wzzk)))
+          (unless (file-exists-p journal-today)
+            (message (concat "No journal for today, creating " (concat journal-today "on the fly.")))
+            (copy-file (expand-file-name "journals/_template.md" bascht/wzzk) journal-today))
+          (find-file journal-today))
+        (beginning-of-buffer)
+        (replace-string "<% tp.file.creation_date() %>" (format-time-string "%Y-%m-%d %H:%m"))
+        (replace-string "DailyNote <% tp.file.title.split('-')[0] %>" (format-time-string "DailyNote %Y"))
+        (end-of-buffer))
+
+      (defun bascht/wzzk-find-yesterday ()
+        (interactive)
+        (find-file (expand-file-name
+                    (format-time-string "%Y-%m-%d.md"
+                                        (time-subtract (current-time) (days-to-time 1))) "~/WirZwei/Zettelkasten/journals")))
 
 
-    (defun +mu4e/capture-msg-to-agenda (arg)
-      "Refile a message and add a entry in `+org-capture-emails-file' with a
-  deadline.  Default deadline is today.  With one prefix, deadline
-  is tomorrow.  With two prefixes, select the deadline."
-      (interactive "p")
-      (let ((sec "^* Email")
-            (msg (mu4e-message-at-point)))
-        (when msg
-          ;; put the message in the agenda
-          (with-current-buffer (find-file-noselect
-                                (expand-file-name +org-capture-emails-file org-directory))
-            (save-excursion
-              ;; find header section
-              (goto-char (point-max))
-              (let (org-M-RET-may-split-line
-                    (lev (org-outline-level))
-                    (folded-p (invisible-p (point-at-eol)))
-                    (from (plist-get msg :from)))
-                (when (consp (car from)) ; Occurs when using mu4e 1.8+.
-                  (setq from (car from)))
-                ;;
-                ;; place the subheader
-                (org-end-of-meta-data) ; skip property drawer
-                (org-insert-todo-heading 1)        ; insert a todo heading
-                ;;
-                ;; insert message and add deadline
-                (insert (concat "Email beantworten: "
-                                "[[mu4e:msgid:"
-                                (plist-get msg :message-id) "]["
-                                (truncate-string-to-width
-                                 (plist-get from :name) 25 nil nil t)
-                                " - "
-                                (truncate-string-to-width
-                                 (plist-get msg :subject) 40 nil nil t)
-                                "]] :email:"))
-                (org-deadline nil
-                              (cond ((= arg 1) (format-time-string "%Y-%m-%d"))
-                                    ((= arg 4) "+1d")))
+      (defun +mu4e/capture-msg-to-agenda (arg)
+        "Refile a message and add a entry in `+org-capture-emails-file' with a
+    deadline.  Default deadline is today.  With one prefix, deadline
+    is tomorrow.  With two prefixes, select the deadline."
+        (interactive "p")
+        (let ((sec "^* Email")
+              (msg (mu4e-message-at-point)))
+          (when msg
+            ;; put the message in the agenda
+            (with-current-buffer (find-file-noselect
+                                  (expand-file-name +org-capture-emails-file org-directory))
+              (save-excursion
+                ;; find header section
+                (goto-char (point-max))
+                (let (org-M-RET-may-split-line
+                      (lev (org-outline-level))
+                      (folded-p (invisible-p (point-at-eol)))
+                      (from (plist-get msg :from)))
+                  (when (consp (car from)) ; Occurs when using mu4e 1.8+.
+                    (setq from (car from)))
+                  ;;
+                  ;; place the subheader
+                  (org-end-of-meta-data) ; skip property drawer
+                  (org-insert-todo-heading 1)        ; insert a todo heading
+                  ;;
+                  ;; insert message and add deadline
+                  (insert (concat "Email beantworten: "
+                                  "[[mu4e:msgid:"
+                                  (plist-get msg :message-id) "]["
+                                  (truncate-string-to-width
+                                   (plist-get from :name) 25 nil nil t)
+                                  " - "
+                                  (truncate-string-to-width
+                                   (plist-get msg :subject) 40 nil nil t)
+                                  "]] :email:"))
+                  (org-deadline nil
+                                (cond ((= arg 1) (format-time-string "%Y-%m-%d"))
+                                      ((= arg 4) "+1d")))
 
-                (org-update-parent-todo-statistics)
+                  (org-update-parent-todo-statistics)
 
-                ;; refold as necessary
-                (if folded-p
-                    (progn
-                      (org-up-heading-safe)
-                      (hide-subtree))
-                  (hide-entry)))))
-          ;; refile the message and update
-          (cond ((eq major-mode 'mu4e-view-mode)
-                 (mu4e-view-mark-for-refile))
-                ((eq major-mode 'mu4e-headers-mode)
-                 (mu4e-headers-mark-for-refile)))
-          (message "Refiled \"%s\" and added to the agenda for %s"
-                   (truncate-string-to-width
-                    (plist-get msg :subject) 40 nil nil t)
-                   (cond ((= arg 1) "today")
-                         ((= arg 4) "tomorrow")
-                         (t         "later"))))))
+                  ;; refold as necessary
+                  (if folded-p
+                      (progn
+                        (org-up-heading-safe)
+                        (hide-subtree))
+                    (hide-entry)))))
+            ;; refile the message and update
+            (cond ((eq major-mode 'mu4e-view-mode)
+                   (mu4e-view-mark-for-refile))
+                  ((eq major-mode 'mu4e-headers-mode)
+                   (mu4e-headers-mark-for-refile)))
+            (message "Refiled \"%s\" and added to the agenda for %s"
+                     (truncate-string-to-width
+                      (plist-get msg :subject) 40 nil nil t)
+                     (cond ((= arg 1) "today")
+                           ((= arg 4) "tomorrow")
+                           (t         "later"))))))
 
-    (setq org-agenda-category-icon-alist
-          '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
-            ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
-            ("Customer.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
-            ("Alfaview" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
-            ("Calendar" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
-            ("Freelance.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
-            ("Projects" "~/.icons/emacs/generic-folder-16x16.png" nil nil :ascent center)
-            ("\\(ROPrivat\\|ROArbeit\\)" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
-            (".*" '(space . (:width (16))))))
+      (setq org-agenda-category-icon-alist
+            '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
+              ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
+              ("Customer.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+              ("Alfaview" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+              ("Calendar" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
+              ("Freelance.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+              ("Projects" "~/.icons/emacs/generic-folder-16x16.png" nil nil :ascent center)
+              ("\\(ROPrivat\\|ROArbeit\\)" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
+              (".*" '(space . (:width (16))))))
 
 
 
@@ -2336,9 +2337,7 @@ Various language specific modes and checkers.
 #+begin_src emacs-lisp :tangle init.el
 
                                           ; Save file on every state change
-  (add-hook 'org-trigger-hook 'save-buffer)
-  (add-hook 'org-clock-in-hook 'save-buffer)
-  (add-hook 'org-clock-out-hook 'save-buffer))
+
 
 #+end_src
 
@@ -2347,39 +2346,40 @@ Various language specific modes and checkers.
 Set up my =workmacs= instance that will periodically bother me to write and update my worklog. The =bascht--setup-workmacs= function will be called when the instance is started. Every time I invoke it via a systemd service, I can call =bascht--worklog= so the window will pop up in the correct spot with the correct /fontaine/ config applied.
 
 #+begin_src emacs-lisp :tangle init.el
-    (defun bascht--setup-workmacs()
-      (interactive)
-      (setq indicate-empty-lines nil
-            inhibit-startup-screen t
-            initial-buffer-choice t
-            initial-scratch-message nil
-            doom-modeline-vcs-icon nil
-            doom-modeline-check-icon nil
-            doom-modeline-workspace-name nil
-            doom-modeline-persp-name nil
-            doom-modeline-persp-icon nil
-            doom-modeline-lsp nil
-            org-journal-find-file-fn 'find-file
-            ;mode-line-format nil
-            )
+      (defun bascht--setup-workmacs()
+        (interactive)
+        (setq indicate-empty-lines nil
+              inhibit-startup-screen t
+              initial-buffer-choice t
+              initial-scratch-message nil
+              doom-modeline-vcs-icon nil
+              doom-modeline-check-icon nil
+              doom-modeline-workspace-name nil
+              doom-modeline-persp-name nil
+              doom-modeline-persp-icon nil
+              doom-modeline-lsp nil
+              org-journal-find-file-fn 'find-file
+              ;mode-line-format nil
+              )
 
-      (add-hook 'org-journal-mode-hook
-                (lambda ()
-                  ;(setq mode-line-format nil)
-                  (add-hook 'after-save-hook 'bascht--move-to-scratchpad))) 
+                    (general-define-key
+                     :keymaps 'org-journal-mode-map
+                     "C-c C-c"  '(lambda () (interactive)(save-buffer)(bascht--move-to-scratchpad)))
+                    ;(setq mode-line-format nil)
+                    ;(add-hook 'after-save-hook 'bascht--move-to-scratchpad))
 
-      (spacious-padding-mode)
-      (breadcrumb-mode -1)
+        (spacious-padding-mode)
+        (breadcrumb-mode -1)
 
-      (org-journal-open-current-journal-file)
-      (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
+        (org-journal-open-current-journal-file)
+        (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
 
 
-    (defun bascht--worklog ()
-      "Switch to my worklog workspace and append a new log"
-      (interactive)
-      (org-set-frame-title "Worklog")
-      (org-journal-new-entry nil))
+      (defun bascht--worklog ()
+        "Switch to my worklog workspace and append a new log"
+        (interactive)
+        (org-set-frame-title "Worklog")
+        (org-journal-new-entry nil))
 #+end_src
 
 * Custom functions
