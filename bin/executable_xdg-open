@@ -44,13 +44,10 @@ case "${match}" in
         exec alfaview-staging "${argument}"
         ;;
     application/vnd.debian.binary-package)
-        if [[ "${argument}" == ${XDG_RUNTIME_DIR}/alfaview* ]]; then
-            cd ~/.opt
-            make
-            killall -15 alfaview || echo "Nothing to kill"
+        if [[ "${argument}" == /tmp/alfaview* ]]; then
+            doas /home/bascht/bin/update-alfaview
         else
             notify-send "Nothing to do for ${argument}"
-
         fi
         ;;
     ssh:*)
