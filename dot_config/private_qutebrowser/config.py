@@ -65,8 +65,12 @@ config.bind(',gtd', 'quickmark-load todo')
 config.bind(',gca', 'quickmark-load calendar')
 
 config.bind(',vu', 'spawn umpv {url}')
+config.bind(',vn', 'spawn umpv --no-video {url}')
 config.bind(',vf', 'hint links spawn umpv {hint-url}')
 config.bind(',vF', 'hint --rapid links spawn umpv {hint-url}')
+
+config.bind(',vp', 'spawn foot-launcher add-to-yt-playlist {hint-url}')
+config.bind(',vP', 'hint --rapid links spawn foot-launcher add-to-yt-playlist {hint-url}')
 config.bind(',mu', 'open http://localhost:6680/youtube?url={url}')
 config.bind(',mf', 'hint links open http://localhost:6680/youtube?url={hint-url}')
 config.bind(',su', 'spawn -u send-url')
