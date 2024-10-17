@@ -43,7 +43,8 @@ shopt -s checkjobs
 eval "$(zoxide init bash)"
 
 if [[ $TERM != "dumb" ]]; then
-  eval "$(starship init bash --print-full-init)"
+    eval "$(starship init bash --print-full-init)"
+    export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; $'\n'}history -a; history -c; history -r"
 fi
 
 for f in ~/.config/bash/*.sh; do source $f; done
