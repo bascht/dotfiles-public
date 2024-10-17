@@ -4,6 +4,7 @@ WantedBy=sway-session.target
 [Service]
 Type=notify
 ExecStart=/usr/bin/emacs --fg-daemon=workmacs
+ExecStop=/usr/bin/emacsclient -n -s workmacs -e "(progn (setq confirm-kill-processes nil)(org-clock-out)(save-buffers-kill-emacs)")
 Restart=on-failure
 Environment=COLORTERM=truecolor
 SuccessExitStatus=15
