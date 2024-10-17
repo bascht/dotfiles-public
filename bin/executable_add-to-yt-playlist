@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+URL="${1}"
+TMP_INFO="$(yt-dlp --dump-single-json "${URL}")"
+TITLE="$(echo "${TMP_INFO}" | jq -r .title)"
+DURATION="$(echo "${TMP_INFO}" | jq .duration)"
+
+PLAYLIST=$(find ~/.local/share/mopidy/m3u -type f | fzf --prompt "Which playlist?")
+
+echo -e "#EXTINF:${DURATION},${TITLE}\n${URL}" >>"${PLAYLIST}"
