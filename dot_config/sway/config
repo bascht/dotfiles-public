@@ -387,7 +387,7 @@ mode $mode_resize {
   bindsym Escape mode "default"
 }
 
-set $mode_alfaview "Alfaview: (a) launch (s) share (r) regionshare (h)op to monitor (k) stop share (j)oin room (b)reak (m)ute"
+set $mode_alfaview "Alfaview: (a) launch (s) share (r) regionshare (h)op to monitor (k) stop share (j)oin room (b)reak (m)ute clock (i)n clock (o)ut"
 set $mode_run "Run: (d) launcher (b)ookmarks (f)ile (t)otp (q)utebrowser (c)alculator (h)istory (r)ofi (p)ass (s)snippets (w)eb (a)lfaview e(m)oji (Space) org-capture"
 set $mode_file "Files: (h)ome (s)creenshots (d)ocuments (l)astshot"
 
@@ -455,6 +455,8 @@ mode $mode_alfaview {
   bindsym b exec "alfaview-toggle-break"; mode "default";
   bindsym m exec "alfaview-toggle-mute"; mode "default";
   bindsym j exec "my-rofi alfaview-room"; mode "default";
+  bindsym i exec "org-clock-in-alfatraining"; mode "default";
+  bindsym o exec "org-clock-out"; mode "default";
   # return to default mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
