@@ -12,74 +12,64 @@ export FZF_DEFAULT_OPTS='
 
 FOOT_OPTIONS=''
 
-if [[ -z "$1" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='🦄 '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-run
-elif [[ "$1" == "bookmarks" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='🔖 '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-bookmarks
-  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
-elif [[ "$1" == "documents" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='f '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-folder
-  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
-elif [[ "$1" == "clipboard" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
-  FOOT_OPTIONS="-W 160x30 ${FOOT_OPTIONS}"
-  COMMAND=~/bin/launcher-clipboard
-elif [[ "$1" == "gopass" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-gopass
-elif [[ "$1" == "snippets" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='📋'${FZF_DEFAULT_OPTS}"
-  export QUERY="${2}"
-  COMMAND=~/bin/launcher-snippets
-elif [[ "$1" == "qutebrowser" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='🌐'${FZF_DEFAULT_OPTS}"
-  FOOT_OPTIONS="-W 250x40 ${FOOT_OPTIONS}"
-  COMMAND=~/bin/launcher-qutebrowser
-elif [[ "$1" == "zoxide" ]]
-then
-  FOOT_OPTIONS="-W 160x30 ${FOOT_OPTIONS}"
-  FZF_DEFAULT_OPTS="--prompt=' ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-zoxide
-elif [[ "$1" == "k8s" ]]
-then
-  FZF_DEFAULT_OPTS="--prompt='󱃾 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-k8s
-elif [[ "$1" == "calc" ]]
-then
-  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
-  FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/iqalc
-elif [[ "$1" == "emoji" ]]
-then
-  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
-  FZF_DEFAULT_OPTS="--prompt='🐈 '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-emoji
-elif [[ "$1" == "alfaview-room" ]]
-then
-  FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
-  FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/alfaview-join-room
-elif [[ "$1" == "totp" ]]
-then
-  FOOT_OPTIONS="-W 40x30 ${FOOT_OPTIONS}"
-  FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-totp
-elif [[ "$1" == "dmenu" ]]
-then
-  FOOT_OPTIONS="-W 40x30 ${FOOT_OPTIONS}"
-  FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
-  COMMAND=~/bin/launcher-dmenu
+if [[ -z "$1" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='🦄 '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-run
+elif [[ "$1" == "bookmarks" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='🔖 '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-bookmarks
+    FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+elif [[ "$1" == "documents" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='f '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-folder
+    FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+elif [[ "$1" == "clipboard" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='📋 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+    FOOT_OPTIONS="-W 100x30 ${FOOT_OPTIONS}"
+    COMMAND=~/bin/launcher-clipboard
+elif [[ "$1" == "gopass" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='🔑 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-gopass
+elif [[ "$1" == "snippets" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='📋'${FZF_DEFAULT_OPTS}"
+    export QUERY="${2}"
+    COMMAND=~/bin/launcher-snippets
+elif [[ "$1" == "qutebrowser" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='🌐'${FZF_DEFAULT_OPTS}"
+    FOOT_OPTIONS="-W 250x40 ${FOOT_OPTIONS}"
+    COMMAND=~/bin/launcher-qutebrowser
+elif [[ "$1" == "zoxide" ]]; then
+    FOOT_OPTIONS="-W 160x30 ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt=' ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-zoxide
+elif [[ "$1" == "k8s" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='󱃾 ' --algo=v1 --bind 'tab:up' ${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-k8s
+elif [[ "$1" == "calc" ]]; then
+    FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/iqalc
+elif [[ "$1" == "emoji" ]]; then
+    FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt='🐈 '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-emoji
+elif [[ "$1" == "alfaview-room" ]]; then
+    FOOT_OPTIONS="-W 120x40 ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt='🧮 '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/alfaview-join-room
+elif [[ "$1" == "totp" ]]; then
+    FOOT_OPTIONS="-W 40x30 ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
+    export QUERY="${2}"
+    COMMAND=~/bin/launcher-totp
+elif [[ "$1" == "dmenu" ]]; then
+    FOOT_OPTIONS="-W 40x30 ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
+    COMMAND=~/bin/launcher-dmenu
+elif [ -f "${HOME}/bin/launcher-${1}" ]; then
+    FOOT_OPTIONS="-W 140x30 ${FOOT_OPTIONS}"
+    COMMAND="${HOME}/bin/launcher-${1}"
 else
-  exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
-fi;
+    exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
+fi
 exec foot --app-id launcher ${FOOT_OPTIONS} --config ~/.config/foot/foot-launcher.ini "$COMMAND"
