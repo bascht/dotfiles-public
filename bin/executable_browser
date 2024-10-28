@@ -5,6 +5,7 @@ BROWSER=qutebrowser
 QUTE_SOCK="${XDG_RUNTIME_DIR}/qutebrowser/ipc-e1046d5b3be559e50bde86bda91e0739"
 export SWAYSOCK
 TREE=$(swaymsg -t get_tree | jq -r '[ recurse(.nodes[],.floating_nodes[]) | select(.app_id == "org.qutebrowser.qutebrowser") ]')
+#export QSG_RHI_BACKEND=vulkan
 
 if [[ "$TREE" == "[]" ]]; then
 	echo "No ${BROWSER} found. Opening a new instance of ${BROWSER}"
