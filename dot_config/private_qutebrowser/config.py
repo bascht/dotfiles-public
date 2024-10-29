@@ -29,9 +29,11 @@ c.prompt.filebrowser = False
 c.completion.height = "40%"
 c.downloads.location.directory = '/home/bascht/Downloads/'
 
-c.qt.args = ['ignore-gpu-blocklist', 'untrusted-args', 'enable-zero-copy', 'enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,RawDraw,WebGPU', 'use-gl=egl', 'enable-accelerated-video-decode', 'enable-gpu-rasterization', 'disable-gpu-driver-bug-workarounds']
+c.qt.args = ['ignore-gpu-blocklist', 'enable-features=Vulkan', 'enable-gpu-rasterization']#, 'untrusted-args', 'enable-zero-copy', 'enable-features=Vulkan,VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,RawDraw,WebGPU', 'use-gl=egl', 'enable-accelerated-video-decode', 'disable-gpu-driver-bug-workarounds']
 
-#c.qt.args = ['untrusted-args','enable-features=VaapiVideoDecoder']
+c.qt.workarounds.disable_accelerated_2d_canvas = "never"
+
+c.qt.args = ['untrusted-args','enable-features=VaapiVideoDecoder']
 c.content.webgl = False
 c.content.autoplay = False
 c.content.geolocation = False
