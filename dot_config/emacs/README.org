@@ -2386,106 +2386,90 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 ** The =bascht/= namespace
 
 #+begin_src emacs-lisp :tangle init.el
-    (defun bascht/switch-spellcheck (lang)
-      (interactive)
-      (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
-      (ispell-change-dictionary lang) lang)
+      (defun bascht/switch-spellcheck (lang)
+        (interactive)
+        (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
+        (ispell-change-dictionary lang) lang)
 
-    (defun bascht/switch-spellcheck-to-english ()
-      (interactive)
-      (bascht/switch-spellcheck "en_GB")
-      (spell-fu-mode))
+      (defun bascht/switch-spellcheck-to-english ()
+        (interactive)
+        (bascht/switch-spellcheck "en_GB")
+        (spell-fu-mode))
 
-    (defun bascht/switch-spellcheck-to-german ()
-      (interactive)
-      (bascht/switch-spellcheck "de_DE")
-      (spell-fu-mode))
+      (defun bascht/switch-spellcheck-to-german ()
+        (interactive)
+        (bascht/switch-spellcheck "de_DE")
+        (spell-fu-mode))
 
-    (defun bascht-switch-to-or-load-perspective (name &optional directory)
-      (interactive)
-      (require 'magit-git)
-      (persp-mode)
-      (if (member name (persp-names))
-          (persp-switch name)
-        (progn (persp-new name)
-               (persp-switch name)
-               (project-switch-project directory)
-               (when (magit-git-repo-p directory)
-                 (progn
-                   (magit-fetch-all nil)                                                                 
-                   (magit-status-setup-buffer)
-                   (delete-other-windows))))))
+      (defun bascht-switch-to-or-load-perspective (name &optional directory)
+        (interactive)
+        (require 'magit-git)
+        (persp-mode)
+        (if (member name (persp-names))
+            (persp-switch name)
+          (progn (persp-new name)
+                 (persp-switch name)
+                 (project-switch-project directory)
+                 (when (magit-git-repo-p directory)
+                   (progn
+                     (magit-fetch-all nil)                                                                 
+                     (magit-status-setup-buffer)
+                     (delete-other-windows))))))
 
-    (defun bascht/switch-to-or-load-activity (name &optional directory)
-      (interactive)
-      (activities-mode)
-      (if (member name (activities-names))
-          (progn
-            (activities-resume name)
-            (activities-switch name))
-        (progn (activities-define name)
-               (activities-switch name)
-               (magit-status-setup-buffer))))
+      (defun bascht/switch-to-or-load-activity (name &optional directory)
+        (interactive)
+        (activities-mode)
+        (if (member name (activities-names))
+            (progn
+              (activities-resume name)
+              (activities-switch name))
+          (progn (activities-define name)
+                 (activities-switch name)
+                 (magit-status-setup-buffer))))
 
-    (defun bascht-mu4e-persp ()
-      (interactive)
-      (if (member "mu4e" (persp-names))
-          (persp-new "mu4e"))
-      (persp-switch "mu4e")
-      (mu4e))
+      (defun bascht-mu4e-persp ()
+        (interactive)
+        (if (member "mu4e" (persp-names))
+            (persp-new "mu4e"))
+        (persp-switch "mu4e")
+        (mu4e))
 
-    (defun bascht-create-new-persp ()
-      (interactive)
-      (let ((name (concat (daemonp) "-" (cadr (s-split "-" (org-id-uuid))))))
-        (persp-new name)
-        (persp-switch name)))
+      (defun bascht-create-new-persp ()
+        (interactive)
+        (let ((name (concat (daemonp) "-" (cadr (s-split "-" (org-id-uuid))))))
+          (persp-new name)
+          (persp-switch name)))
 
-    (defun bascht--move-to-scratchpad()
-      (call-process "swaymsg" nil nil nil "--quiet" "move" "scratchpad"))
+      (defun bascht--move-to-scratchpad()
+        (call-process "swaymsg" nil nil nil "--quiet" "move" "scratchpad"))
 
-    (defun bascht/mu4e-change-from-to-catchall (msg)
-      "Set the From address based on the To address of the original message if I reply."
-      (setq user-mail-address
-            (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
-                (plist-get (car-safe (mu4e-message-field msg :to)) :email)
-              (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
+      (defun bascht/mu4e-change-from-to-catchall (msg)
+        "Set the From address based on the To address of the original message if I reply."
+        (setq user-mail-address
+              (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
+                  (plist-get (car-safe (mu4e-message-field msg :to)) :email)
+                (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
 
-                                            ; Always open new project with dired
-    (defun bascht/projectile-open-dired (dir)
-      (let ((default-directory (file-truename (expand-file-name dir))))
-        (dirvish)))
+                                              ; Always open new project with dired
+      (defun bascht/projectile-open-dired (dir)
+        (let ((default-directory (file-truename (expand-file-name dir))))
+          (dirvish)))
 
-    (defun bascht/file-string (file)
-      "Read the contents of a file and return as a string."
-      (with-current-buffer (find-file-noselect file)
-        (buffer-string)))
+      (defun bascht/file-string (file)
+        "Read the contents of a file and return as a string."
+        (with-current-buffer (find-file-noselect file)
+          (buffer-string)))
 
-    (defun bascht/dirvish-tdir()
-      (interactive)
-      (find-file
-       (string-trim (shell-command-to-string "mktemp -d"))))
+      (defun bascht/dirvish-tdir()
+        (interactive)
+        (find-file
+         (string-trim (shell-command-to-string "mktemp -d"))))
 
-    (defun bascht/checkout-mr-after-creation ()
-      (interactive)
-      (magit-fetch)
-      (sleep-for 5)
-      (let* ((pullreq (forge-read-pullreq "Checkout pull request" t)))
-        (magit-checkout (forge--branch-pullreq (forge-get-pullreq pullreq)))))
-
-    (defun bascht/create-mr-from-issue ()
-      ;; Create a new GitLab merge request and re-use the issue title as the branch name and copy all labels
-      (interactive)
-      (let* ((issue (forge-read-issue "View issue" t)))
-        (forge-visit (forge-get-issue issue))
-        (forge-create-post)
-        (add-hook 'kill-buffer-hook 'bascht/checkout-mr-after-creation 90 t)
-        (insert "/create_merge_request")))
-
-    (defun bascht/projectile-get-started ()
-      ;; Open up a new project and reset to main / master + pull
-      (interactive)
-      (magit-call-git "checkout" (magit-main-branch))
-      (magit-run-git-with-editor "pull"))
+      (defun bascht/projectile-get-started ()
+        ;; Open up a new project and reset to main / master + pull
+        (interactive)
+        (magit-call-git "checkout" (magit-main-branch))
+        (magit-run-git-with-editor "pull"))
 #+end_src
 ** Git and Magit helpers
 
@@ -2493,7 +2477,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 *** Clean up untracked files
 
 #+begin_src emacs-lisp :tangle init.el
-  (defun bascht/magit-cleanup-untracked ()
+  (defun bascht--magit-cleanup-untracked ()
     "Clean up all the untracked files in the current working directory. We're not stashing them but
   rather move them to a =__gitignore= subfolder that is in my global git config."
     (interactive)
@@ -2505,6 +2489,30 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           (if (not (f-directory-p ignored-dir))
               (make-directory ignored-dir))
           (rename-file file (concat ignored-dir ignored-file))))))
+#+end_src
+
+*** Create GitLab merge request from issue
+
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht--create-mr-from-issue ()
+    ;; Create a new GitLab merge request and re-use the issue title as the branch name and copy all labels
+    (interactive)
+    (let* ((issue (forge-read-issue "View issue")))
+      (forge-visit-issue (forge-get-issue issue))
+      (forge-create-post)
+      (add-hook 'kill-buffer-hook 'bascht--checkout-mr-after-creation 90 t)
+      (insert "/create_merge_request")))
+#+end_src
+
+*** Check out MR branch after creation
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht--checkout-mr-after-creation ()
+    ;; Check out the MR branch after creating it via bascht--create-mr-from-issue
+    (interactive)
+    (magit-run-git "fetch" "origin")
+    (forge-pull)
+    (let* ((pullreq (forge-read-pullreq "Checkout pull request")))
+      (magit-checkout (forge--branch-pullreq (forge-get-pullreq pullreq)))))
 #+end_src
 
 * Looks and Faces
