@@ -387,7 +387,7 @@ c.colors.tabs.odd.bg = base00
 c.colors.tabs.even.fg = base05
 
 # Background color of unselected even tabs.
-c.colors.tabs.even.bg = "#2C1E20"
+c.colors.tabs.even.bg = "#2E3440"
 
 # Background color of pinned unselected even tabs.
 c.colors.tabs.pinned.even.bg = base0B
