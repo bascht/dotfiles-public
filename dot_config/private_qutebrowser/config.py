@@ -1,3 +1,5 @@
+import os.path
+
 config.load_autoconfig(False)
 c.content.user_stylesheets = ['/home/bascht/.local/share/user-content.css']
 c.fonts.default_family = "JetBrains Mono"
@@ -120,6 +122,9 @@ for domain in [
 ## JS Clipboard Access
 for domain in ['wordle.at', 'https://www.nytimes.com/games/wordle/index.html']:
     config.set('content.javascript.clipboard', 'access', domain)
+
+if os.path.isfile("config-forges.py"):
+    config.source("config-forges.py")
 
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
 # Base16 qutebrowser template by theova and Daniel Mulford

@@ -1,0 +1,2 @@
+for domain in [{{ range .git.forges }}{{ .|quote }},{{ end  }}]:
+    config.set('content.javascript.can_open_tabs_automatically', True, domain)
