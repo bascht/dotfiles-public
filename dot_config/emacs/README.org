@@ -520,8 +520,8 @@ Holy fuck! How did I only now learn about this?
     :ensure t
     :demand t
     :after avy
-    :bind (("M-." . embark-act)
-           ("M-,". embark-dwim))
+    :bind (("C-." . embark-act)
+           ("C-,". embark-dwim))
     :init
     ;; Add the option to run embark when using avy
     (defun bedrock/avy-action-embark (pt)
