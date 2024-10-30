@@ -15,7 +15,8 @@ html[data-app-context="team"] body *,
 body.mono-as-fuck,
 /* chat.sr.ht */
 body section#buffer div.logline-list *,
-body#appBody.system-theme
+/* Cinny */
+body#appBody.prism-light
 /* Slay all other other serif devils. */
   {
   font-family: "JetBrains Mono" !important;
