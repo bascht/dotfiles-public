@@ -350,12 +350,11 @@ for_window [title="^alfaview - Share screen region.*$"] floating enable, border 
 for_window [instance="alfaview" title="^Screen share - *$"] floating enable, border pixel 1, move position center
 for_window [instance="alfaview" title="^Screen share – No media shared$"] move scratchpad
 
-assign [instance="^.*\.yakshed\.org$"] "3  "
-assign [title=".*slack.*"] "3  "
-assign [instance="web.whatsapp.com"] "3  "
-assign [instance="inoreader.com"] "3  "
-assign [instance="wire"] "3  "
-assign [instance="signal"] "3  "
+assign [instance="^.*\.yakshed\.org$"] $workspace_name_3
+assign [title=".*slack.*"] $workspace_name_3
+assign [instance="cinny.*"] $workspace_name_3
+assign [instance="inoreader.com"] $workspace_name_3
+assign [instance="signal"] $workspace_name_3
 
 #
 # Resizing containers:
