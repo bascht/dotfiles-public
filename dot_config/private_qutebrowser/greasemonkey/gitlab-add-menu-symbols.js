@@ -59,6 +59,7 @@
                     // The buttons need more room the breathe
                     newButton.classList.remove("gl-w-6")
                     newButton.classList.add("gl-w-16")
+                    newButton.parentElement.classList.add("gl-min-w-fit")
 
                     // Remove empty pills (Terraform, etc)
                     if (badgeButton?.children?.length == 0) {
