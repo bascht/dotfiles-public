@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+set -xa
+
 FOLDER="/home/bascht/Videos/Screenrecordings/$(date +'%Y-%m')"
 mkdir -p "${FOLDER}"
 
-
 NAME="${FOLDER}/$(date +%Y-%m-%d-%H%M%S)"
 if [[ -n "${*}" ]]; then
-	NAME="${NAME}-${*}";
-fi;
+    NAME="${NAME}-${*}"
+fi
 
-wf-recorder -d /dev/dri/renderD128 -c hevc_vaapi -g "$(slurp-window)" -f "${NAME}.mp4" > /dev/null 2>&1
+wf-recorder -g "$(slurp-window)" -f "${NAME}.mp4"
+#wf-recorder -d /dev/dri/renderD128 -c hevc_vaapi -g "$(slurp-window)" -f "${NAME}.mp4" > /dev/null 2>&1
 echo -e "\n\n${NAME}.mp4"
