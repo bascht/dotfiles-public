@@ -102,7 +102,7 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
     ;; Don't let emacs, comacs and workmacs fight over one history file
     (when (daemonp)
       (setopt savehist-file (format "~/.config/emacs/history.%s" (daemonp))))
-    
+
     ;; Make sure to sync the clipboard
     (setq wl-copy-process nil)
     (defun wl-copy (text)
@@ -136,7 +136,7 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
     (if (string= (daemonp) "workmacs")
         (add-hook 'emacs-startup-hook #'bascht--setup-workmacs)))
   #+end_src
-  
+
 ** More defaults from bedrock still
 
 Some day I'm going to clean them up. Some day.
@@ -362,7 +362,7 @@ General is one of those packages where I'm not even sure if I still need it afte
       "p F" '(project-find-file-other :which-key "Find a file in project")
       "p p" '(project-switch-project :which-key "Switch project")
 
-      ;; Embark 
+      ;; Embark
                                           ;                "a" '(embark-act :which-key "")
 
       ;; Org
@@ -373,16 +373,16 @@ General is one of those packages where I'm not even sure if I still need it afte
       "o c o" '(org-clock-out :which-key "Go to current clock")
 
 
-      ;; Eval 
+      ;; Eval
       ;; "m e" '(:ignore t :which-key "")
       ;; "m e d" '(eval-defun :which-key "Evaluate current defun")
       ;; "m e b" '(eval-buffer :which-key "Evaluate current buffer")
-      ;; "m e r" '(eval-buffer :which-key "Evaluate current region") 
+      ;; "m e r" '(eval-buffer :which-key "Evaluate current region")
 
       ;; Buffer
       "b" '(:ignore t :which-key "buffer")
       ;; Don't show an error because SPC b ESC is undefined, just abort
-      "b <escape>" '(keyboard-escape-quit :which-key t) 
+      "b <escape>" '(keyboard-escape-quit :which-key t)
       "bd"  'kill-current-buffer)
     )
 
@@ -639,7 +639,7 @@ Vertico: better vertical completion for minibuffer commands
     :config
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-  
+
 #+end_src
 
 ** Marginalia
@@ -1121,7 +1121,7 @@ Orderless: powerful completion style
 
         ;;         doom-modeline-modal nil)
 
-        ;;   ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold) 
+        ;;   ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold)
         ;;   ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
         ;;   )
 
@@ -1182,7 +1182,7 @@ Orderless: powerful completion style
                           "~/Work/Zettelkasten/"
                         "~/Documents/Zettelkasten/"))
 
-  (setq org-agenda-files 
+  (setq org-agenda-files
         (if (string= (system-name) "apfelstrudel")
             '("Todo.org" "Alfaview.org")
           '("Todo.org" "Personal.org" "Projects.org")))
@@ -1409,7 +1409,7 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
   (use-package dired-hacks-utils :ensure t)
 
 #+end_src
-      
+
 *** Dired preview
 
 Prot got my back. This wrapper nudged me away from =dirvish=.
@@ -1423,7 +1423,7 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
       '((display-buffer-in-side-window)
         (side . right)
         (width . 0.5)))
-  
+
     :config
     (setq dired-preview-delay 0.4)
     (setq dired-preview-max-size (expt 2 20))
@@ -1751,7 +1751,7 @@ Various language specific modes and checkers.
 * Keys and mappings
 ** TODO Mode-specific hotkeys
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
   (map! :leader
         :desc "Org capture"    "SPC" #'org-capture
         :desc "Quick ace window" "w SPC" #'ace-window
@@ -1897,7 +1897,7 @@ Various language specific modes and checkers.
       ;; draggety drag drag
       '(:name "drag" :handler "drag" :receives temp))
 
-      
+
       ;;  (setq mu4e-contexts
       ;;     `( ,(make-mu4e-context
       ;;           :name "bascht.com"
@@ -1932,7 +1932,7 @@ Various language specific modes and checkers.
       (load-file (expand-file-name "email-accounts.el" "/home/bascht/.config/emacs"))
 
 
-      
+
       ;; set `mu4e-context-policy` and `mu4e-compose-policy` to tweak when mu4e should
 
       ;; guess or ask the correct context, e.g.
@@ -1949,7 +1949,7 @@ Various language specific modes and checkers.
 
       ;; Always refile to my archive/year structure
       (setq mu4e-refile-folder (format-time-string "/Archiv/%Y"))
-      
+
       (setq
 
 
@@ -2202,7 +2202,7 @@ Various language specific modes and checkers.
          (message (car-safe (cdr-safe result)))
          (org-table-recalculate))))
 
-    
+
       (defun bascht/alfatraining-hours-a-day (date)
         (cond
          ((string-match "Mon" (s-trim date)) 4)
@@ -2346,40 +2346,39 @@ Various language specific modes and checkers.
 Set up my =workmacs= instance that will periodically bother me to write and update my worklog. The =bascht--setup-workmacs= function will be called when the instance is started. Every time I invoke it via a systemd service, I can call =bascht--worklog= so the window will pop up in the correct spot with the correct /fontaine/ config applied.
 
 #+begin_src emacs-lisp :tangle init.el
-      (defun bascht--setup-workmacs()
-        (interactive)
-        (setq indicate-empty-lines nil
-              inhibit-startup-screen t
-              initial-buffer-choice t
-              initial-scratch-message nil
-              doom-modeline-vcs-icon nil
-              doom-modeline-check-icon nil
-              doom-modeline-workspace-name nil
-              doom-modeline-persp-name nil
-              doom-modeline-persp-icon nil
-              doom-modeline-lsp nil
-              org-journal-find-file-fn 'find-file
-              ;mode-line-format nil
-              )
+  (defun bascht--setup-workmacs()
+    (interactive)
+    (setq indicate-empty-lines nil
+          inhibit-startup-screen t
+          initial-buffer-choice t
+          initial-scratch-message nil
+          doom-modeline-vcs-icon nil
+          doom-modeline-check-icon nil
+          doom-modeline-workspace-name nil
+          doom-modeline-persp-name nil
+          doom-modeline-persp-icon nil
+          doom-modeline-lsp nil
+          org-journal-find-file-fn 'find-file
+          ;mode-line-format nil
+          )
 
-                    (general-define-key
-                     :keymaps 'org-journal-mode-map
-                     "C-c C-c"  '(lambda () (interactive)(save-buffer)(bascht--move-to-scratchpad)))
-                    ;(setq mode-line-format nil)
-                    ;(add-hook 'after-save-hook 'bascht--move-to-scratchpad))
+    (general-define-key
+                 :keymaps 'org-journal-mode-map
+                 "C-c C-c"  '(lambda () (interactive)(save-buffer)(bascht--move-to-scratchpad)))
 
-        (spacious-padding-mode)
-        (breadcrumb-mode -1)
+    (add-hook 'after-save-hook 'bascht--move-to-scratchpad)
+    (spacious-padding-mode)
+    (breadcrumb-mode -1)
 
-        (org-journal-open-current-journal-file)
-        (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
+    (org-journal-open-current-journal-file)
+    (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
 
 
-      (defun bascht--worklog ()
-        "Switch to my worklog workspace and append a new log"
-        (interactive)
-        (org-set-frame-title "Worklog")
-        (org-journal-new-entry nil))
+  (defun bascht--worklog ()
+    "Switch to my worklog workspace and append a new log"
+    (interactive)
+    (org-set-frame-title "Worklog")
+    (org-journal-new-entry nil))
 #+end_src
 
 * Custom functions
@@ -2412,7 +2411,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
                  (project-switch-project directory)
                  (when (magit-git-repo-p directory)
                    (progn
-                     (magit-fetch-all nil)                                                                 
+                     (magit-fetch-all nil)
                      (magit-status-setup-buffer)
                      (delete-other-windows))))))
 
