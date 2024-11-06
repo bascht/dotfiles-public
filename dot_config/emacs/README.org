@@ -1529,7 +1529,8 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package ace-window
-    :bind (("M-o" . 'ace-window)))
+    :bind (("M-o" . 'ace-window))
+    :config (setq aw-scope 'frame))
 #+end_src
 
 ** Kubernetes
