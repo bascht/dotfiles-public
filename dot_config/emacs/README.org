@@ -1007,6 +1007,9 @@ Orderless: powerful completion style
 
 
 
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+
   (use-package org-rainbow-tags
     :ensure t
     :hook (org-mode . org-rainbow-tags-mode)
