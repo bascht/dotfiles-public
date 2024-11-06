@@ -2,5 +2,5 @@
 
 TERM=xterm-256color
 export TERM
-echo -ne "\033]0;ssh: ${1}\007"
+echo -ne "\033]0;ssh: ${@}\007" >/dev/stderr
 /usr/bin/ssh ${@}
