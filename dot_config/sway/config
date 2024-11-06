@@ -172,6 +172,8 @@ bindgesture pinch:inward+down move down
 bindgesture pinch:inward+left move left
 bindgesture pinch:inward+right move right
 
+bindsym --whole-window --border --no-repeat $mod+button4 opacity minus 0.2
+bindsym --whole-window --border --no-repeat $mod+button5 opacity plus 0.2
 
 ### Key bindings
 #
