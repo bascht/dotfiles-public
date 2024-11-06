@@ -141,6 +141,8 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
 
     (if (string= (daemonp) "workmacs")
         (add-hook 'emacs-startup-hook #'bascht--setup-workmacs)))
+
+
   #+end_src
 
 ** More defaults from bedrock still
@@ -727,6 +729,8 @@ Orderless: powerful completion style
   	       ("M-." . end-of-buffer)
   	       ("M-p" . backward-paragraph)
   	       ("M-n" . forward-paragraph)
+           ("M-\"" . mark-word)
+           ("C-M-\"" . mark-sexp)
   	       ;;             ( "C-c;;  w h" . 'windmove-left)
   	       ;; ( "C-c w j" . windmove-down)
   	       ;; ( "C-c w k" . windmove-up)
@@ -2375,7 +2379,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           doom-modeline-persp-icon nil
           doom-modeline-lsp nil
           org-journal-find-file-fn 'find-file
-          ;mode-line-format nil
+                                          ;mode-line-format nil
           )
 
     (general-define-key
