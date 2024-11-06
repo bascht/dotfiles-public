@@ -2379,16 +2379,20 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           )
 
     (general-define-key
-                 :keymaps 'org-journal-mode-map
-                 "C-c C-c"  '(lambda () (interactive)(save-buffer)(bascht--move-to-scratchpad)))
+     :keymaps 'org-journal-mode-map
+     "C-c C-c"  '(lambda () (interactive)(save-buffer)(bascht--move-to-scratchpad)))
 
-    (add-hook 'after-save-hook 'bascht--move-to-scratchpad)
+    (add-hook 'after-save-hook 'bascht--save-workmacs-journal)
+
     (spacious-padding-mode)
     (breadcrumb-mode -1)
 
     (org-journal-open-current-journal-file)
     (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center"))
 
+  (defun bascht--save-workmacs-journal ()
+    (when (eq major-mode 'org-journal-mode)
+      (bascht--move-to-scratchpad)))
 
   (defun bascht--worklog ()
     "Switch to my worklog workspace and append a new log"
