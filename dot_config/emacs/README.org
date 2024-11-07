@@ -731,6 +731,7 @@ Orderless: powerful completion style
   	       ("M-n" . forward-paragraph)
            ("M-\"" . mark-word)
            ("C-M-\"" . mark-sexp)
+           ("M-ü" . delete-horizontal-space)
   	       ;;             ( "C-c;;  w h" . 'windmove-left)
   	       ;; ( "C-c w j" . windmove-down)
   	       ;; ( "C-c w k" . windmove-up)
@@ -1119,24 +1120,24 @@ Orderless: powerful completion style
     ;;       (nano-modeline-text-mode t))
 
 
-    ;; ;;    (use-package doom-modeline
-        ;;   :ensure t
-        ;;   :init (doom-modeline-mode 1)
-        ;;   :config
-        ;;   (setq doom-modeline-time nil
-        ;;         doom-modeline-height 28
-        ;;         doom-modeline-persp-name t
-        ;;         doom-modeline-buffer-encoding nil
-        ;;         doom-modeline-buffer-coding nil
-        ;;         doom-modeline-check-simple-format t
-        ;;         doom-modeline-battery nil
-        ;;         doom-modeline-unicode-fallback nil
+    (use-package doom-modeline
+          :ensure t
+          :init (doom-modeline-mode 1)
+          :config
+          (setq doom-modeline-time nil
+                doom-modeline-height 28
+                doom-modeline-persp-name t
+                doom-modeline-buffer-encoding nil
+                doom-modeline-buffer-coding nil
+                doom-modeline-check-simple-format t
+                doom-modeline-battery nil
+                doom-modeline-unicode-fallback nil
 
-        ;;         doom-modeline-modal nil)
+                doom-modeline-modal nil)
 
-        ;;   ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold)
-        ;;   ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
-        ;;   )
+          ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold)
+          ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
+          )
 
         (use-package perspective
   	:bind
@@ -1562,11 +1563,14 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 
 * Languages / Syntax
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package clojure-mode
-    :ensure t)
-
-  (use-package go-mode
-    :ensure t)
+    (use-package clojure-mode
+      :ensure t)
+  (use-package cider
+    :ensure t
+    :hook (clojure-mode . cider-mode))
+  
+    (use-package go-mode
+      :ensure t)
 #+END_SRC
 
 
@@ -2188,7 +2192,6 @@ Various language specific modes and checkers.
                                               ; and it was hard enough to cobble together.
 
 
-  (bascht/ts-report-to-personio '((26363 36832) (26363 53932)) 5.77)
     (defun bascht/ts-report-to-personio (ts hours)
         (message "Ohai from ts [%s] with hours: %s" ts hours)
         (point-to-register 'bascht/ts-report-current-table)
