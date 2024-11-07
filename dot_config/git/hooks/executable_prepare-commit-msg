@@ -11,7 +11,7 @@ commit_file=$1
 commit_msg=$(<"$commit_file")
 
 if [[ "${PWD}" == "/home/bascht/Code/bascht/dotfiles" ]]; then
-    STAGED_FILES=$(git status --porcelain | sed "s/private_//" | grep -oP '^[MM|M ]  \K[\S/]+' | head -n 1)
+    STAGED_FILES=$(git status --porcelain | sed "s/private_//" | grep -oP '^(MM|M )\s+\K[\S/]+' | head -n 1)
 
     echo "${STAGED_FILES}"
     case "${STAGED_FILES}" in
