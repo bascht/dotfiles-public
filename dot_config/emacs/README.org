@@ -766,6 +766,7 @@ Orderless: powerful completion style
         (use-package magit
   	:ensure t
   	:after general
+   :config (setq magit-display-buffer-function  'magit-display-buffer-fullframe-status-topleft-v1)
   	:general
   	(leader-keys
   	 "g" '(:ignore t :which-key "git")
