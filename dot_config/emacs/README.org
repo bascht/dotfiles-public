@@ -241,12 +241,12 @@ And even more from the other bedrock files
 
 ** Fix terminal keyboards
 
+This may sound esoteric but I really rely on having =C-.= and the likes available for embark.
+
 #+begin_src emacs-lisp :tangle init.el
   (use-package kkp
-  :ensure t
-  :config
-  ;; (setq kkp-alt-modifier 'alt) ;; use this if you want to map the Alt keyboard modifier to Alt in Emacs (and not to Meta)
-  (global-kkp-mode +1))
+    :ensure t
+    :config (global-kkp-mode +1))
 #+end_src
 
 ** General
