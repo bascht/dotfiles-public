@@ -1,6 +1,10 @@
 #+startup: fold
 #+auto_tangle: t
 
+#+begin_src emacs-lisp
+  (add-to-list 'org-structure-template-alist '("S" . "src emacs-lisp :tangle init.el"))
+#+end_src
+
 * TODO Early init settings
 
 #+begin_src emacs-lisp :tangle early-init.el
@@ -33,7 +37,6 @@
           native-comp-deferred-compilation t)
 #+end_src
 
-
 * TODO Hypergalactic new =init.el= [0/1]
 
 This is where I'm at after a few evenings of porting my existing doomemacs configuration over to a bare bones from scratch Emacs (with a little help and inspiration from the [[https://codeberg.org/ashton314/emacs-bedrock][emacs-bedrock]] project).
@@ -56,40 +59,55 @@ This /might/ one day become elpaca, but today it is not this day.
   (package-initialize)
 #+end_src
 
-
 ** Set sensible variable defaults
 
 This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-defaults.
 
 #+begin_src emacs-lisp :tangle init.el
-  (setq save-interprogram-paste-before-kill t
-        package-install-upgrade-built-in t
-        initial-major-mode 'emacs-lisp-mode
-        use-package-always-ensure t
-        apropos-do-all t
-        mouse-yank-at-point t
-        require-final-newline t
-        visible-bell t
-        load-prefer-newer t
-        ad-redefinition-action 'accept
+    (setq save-interprogram-paste-before-kill t
+          package-install-upgrade-built-in t
+          initial-major-mode 'emacs-lisp-mode
+          use-package-always-ensure t
+          apropos-do-all t
+          mouse-yank-at-point t
+          backup-by-copying t
+          require-final-newline t
+          visible-bell t
+          load-prefer-newer t
+          ad-redefinition-action 'accept
+          truncate-string-ellipsis "…"
+          delete-selection-mode t
+  frame-title-format (concat "%b - " user-login-name "@" (system-name))
+  
+        browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
+          frame-inhibit-implied-resize t
+          ediff-window-setup-function 'ediff-setup-windows-plain
+          custom-file (expand-file-name "custom.el" user-emacs-directory)
+          backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
 
-        backup-by-copying t
-        frame-inhibit-implied-resize t
-        ediff-window-setup-function 'ediff-setup-windows-plain
-        custom-file (expand-file-name "custom.el" user-emacs-directory)
-        backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
-
-        mail-user-agent 'mu4e-user-agent
-        mail-signature nil
-        mail-signature-file nil
-
-        )
+          mail-user-agent 'mu4e-user-agent
+          mail-signature nil
+          mail-signature-file nil)
 #+end_src
 
 ** Sensible Emacs defaults
 #+begin_src emacs-lisp :tangle init.el
   (use-package emacs
     :ensure nil
+    :bind (("M-z" . zap-up-to-char)
+             ("M-," . beginning-of-buffer)
+             ("M-." . end-of-buffer)
+             ("M-p" . backward-paragraph)
+             ("M-n" . forward-paragraph)
+           ("M-\"" . mark-word)
+           ("C-M-\"" . mark-sexp)
+           ("M-ü" . delete-horizontal-space)
+             ;;             ( "C-c;;  w h" . 'windmove-left)
+             ;; ( "C-c w j" . windmove-down)
+             ;; ( "C-c w k" . windmove-up)
+             ;; ( "C-c w l" . windmove-right)
+             )
+    :hook  ((prog-mode . electric-pair-mode))
     :config
     (winner-mode)
     (repeat-mode)
@@ -140,8 +158,17 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
     (global-auto-revert-mode)
 
     (if (string= (daemonp) "workmacs")
-        (add-hook 'emacs-startup-hook #'bascht--setup-workmacs)))
-  #+end_src
+        (add-hook 'emacs-startup-hook #'bascht--setup-workmacs))
+    (defvar-keymap windmove-repeat-map
+      :repeat t
+      "h" #'windmove-left
+      "j" #'windmove-down
+      "k" #'windmove-up
+      "l" #'windmove-right)
+
+
+    )
+#+end_src
 
 ** More defaults from bedrock still
 
@@ -302,22 +329,6 @@ General is one of those packages where I'm not even sure if I still need it afte
       ;; Emacs
       "e" '(:ignore t :which-key "emacs")
 
-      ;; Windows
-      ;;        "w" '(:ignore t :which-key "windows")
-      ;;      "w w" '(other-window :which-key "")
-      ;; "w d" '(evil-window-delete :which-key "")
-      ;; "w l" '(evil-window-right :which-key "")
-      ;; "w h" '(evil-window-left :which-key "")
-      ;; "w k" '(evil-window-up :which-key "")
-      ;; "w j" '(evil-window-down :which-key "")
-      ;; "w L" '(evil-window-move-right :which-key "")
-      ;; "w H" '(evil-window-move-left :which-key "")
-      ;; "w K" '(evil-window-move-up :which-key "")
-      ;; "w J" '(evil-window-move-down :which-key "")
-      ;; "w s" '(evil-window-split :which-key "")
-      ;; "w v" '(evil-window-vsplit :which-key "")
-      ;;    "w m m" '(bascht--toggle-window-zoom :which-key "")
-
       ;; All sorts of searches
       "s" '(:ignore t :which-key "search")
       "s s" '(consult-ripgrep :which-key "")
@@ -355,9 +366,6 @@ General is one of those packages where I'm not even sure if I still need it afte
       "p F" '(project-find-file-other :which-key "Find a file in project")
       "p p" '(project-switch-project :which-key "Switch project")
 
-      ;; Embark
-                                          ;                "a" '(embark-act :which-key "")
-
       ;; Org
       "o" '(:ignore t :which-key "emacs")
       "o h" '(consult-org-agenda :which-key "Go to agenda heading")
@@ -365,30 +373,22 @@ General is one of those packages where I'm not even sure if I still need it afte
       "o c g" '(org-clock-goto :which-key "Go to current clock")
       "o c o" '(org-clock-out :which-key "Go to current clock")
 
-
-      ;; Eval
-      ;; "m e" '(:ignore t :which-key "")
-      ;; "m e d" '(eval-defun :which-key "Evaluate current defun")
-      ;; "m e b" '(eval-buffer :which-key "Evaluate current buffer")
-      ;; "m e r" '(eval-buffer :which-key "Evaluate current region")
-
       ;; Buffer
       "b" '(:ignore t :which-key "buffer")
       ;; Don't show an error because SPC b ESC is undefined, just abort
       "b <escape>" '(keyboard-escape-quit :which-key t)
-      "bd"  'kill-current-buffer)
-    )
-
+      "bd"  'kill-current-buffer))
 #+end_src
 
 ** Which key
+
+Well, which key is it?
+
 #+begin_src emacs-lisp :tangle init.el
   (use-package which-key
     :ensure t
-    :config
-    (which-key-mode))
+    :config (which-key-mode))
 #+end_src
-
 * Writing
 
 ** Spell checking
@@ -400,6 +400,22 @@ General is one of those packages where I'm not even sure if I still need it afte
            ("C-M-$" . 'jinx-languages))
     :config
     (setq jinx-languages "de_DE en_GB"))
+#+end_src
+
+** Basic [[https://jblevins.org/projects/markdown-mode/][Markdown]] mode
+
+#+begin_src emacs-lisp :tangle init.el
+        (use-package markdown-mode
+          :ensure t
+          :mode (("README\\.md\\'" . gfm-mode)
+                 ("\\.txt$" . markdown-mode))
+          :hook ((markdown-mode . visual-line-mode))
+          :config
+          (setq markdown-enable-wiki-links t
+                      markdown-wiki-link-search-type '(sub-directories parent-directories)
+                      markdown-wiki-link-fontify-missing t
+                      markdown-enable-math nil
+                      markdown-link-space-sub-char " "))
 #+end_src
 
 * Fonts
@@ -460,19 +476,6 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
       (if (string= (daemonp) "workmacs")
           (fontaine-set-preset 'worklogger)
         (fontaine-set-preset 'regular))))
-#+end_src
-
-** Emojify
-
-Try to use proper emoji where possible (and actually useful)
-
-#+begin_src emacs-lisp :tangle init.el
-  (use-package emojify
-    :ensure t
-    :config
-    (setq
-     emojify-display-style 'unicode
-     emojify-download-emojis-p t))
 #+end_src
 
 * Matching and completion
@@ -574,7 +577,6 @@ Holy fuck! How did I only now learn about this?
 Vertico: better vertical completion for minibuffer commands
 
 #+begin_src emacs-lisp :tangle init.el
-
   (use-package vertico
     :ensure t
     :config
@@ -633,9 +635,7 @@ Vertico: better vertical completion for minibuffer commands
     :init
     (add-to-list 'completion-at-point-functions #'cape-dabbrev)
     (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-    )
-
+    (add-to-list 'completion-at-point-functions #'cape-elisp-block))
 
   ;; Pretty icons for corfu
   (use-package kind-icon
@@ -649,31 +649,31 @@ Vertico: better vertical completion for minibuffer commands
 #+end_src
 
 ** Marginalia
-    ;; Marginalia: annotations for minibuffer
-    ;; extending Vertico with a ton of rich information.
 
-    #+begin_src emacs-lisp :tangle init.el
-    (use-package marginalia
-      :ensure t
-      :after vertico
-      ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the
-      ;; binding available in the *Completions* buffer, add it to the
-      ;; `completion-list-mode-map'.
-      :bind (:map minibuffer-local-map
-                  ("M-A" . marginalia-cycle))
-      :init
-      ;; Marginalia must be activated in the :init section of use-package
-      ;; such that the mode gets enabled right away.  Note that this
-      ;; forces loading the package.
-      (marginalia-mode))
-    #+end_src
+Marginalia: annotations for minibuffer
+extending Vertico with a ton of rich information.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package marginalia
+    :ensure t
+    :after vertico
+    ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the
+    ;; binding available in the *Completions* buffer, add it to the
+    ;; `completion-list-mode-map'.
+    :bind (:map minibuffer-local-map
+                ("M-A" . marginalia-cycle))
+    :init
+    ;; Marginalia must be activated in the :init section of use-package
+    ;; such that the mode gets enabled right away.  Note that this
+    ;; forces loading the package.
+    (marginalia-mode))
+#+end_src
 
 ** Orderless
 I was told there would be less.
 Orderless: powerful completion style
 
 #+begin_src emacs-lisp :tangle init.el
-
   (use-package orderless
     :ensure t
     :config
@@ -683,566 +683,82 @@ Orderless: powerful completion style
 
 #+end_src
 
-* Navigation
-** Avy
+* Org Mode
+
+** Basic org-mode settings
 #+begin_src emacs-lisp :tangle init.el
-  (use-package avy
+  (use-package org
     :ensure t
-    :demand t
-    :bind (("M-g g" . avy-goto-line)
-           ("M-j"   . avy-goto-char-timer)))
+    :config
+
+
+    ;; Let me run shell code from my org files
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((shell . t)))
+
+    ;; Make workmacs persist the clock and ensure I always properly
+    ;; clock in and out. It's the only daemon that tracks the time.
+    (if (string= (daemonp) "workmacs")
+        (progn (setq org-clock-persist t
+                     org-clock-persist-file "~/.config/emacs/org-clock-workmacs-save.el"
+                     org-clock-query-save t)
+               (add-hook 'org-trigger-hook 'save-buffer)
+               (add-hook 'org-clock-in-hook 'save-buffer)
+               (add-hook 'org-clock-out-hook 'save-buffer)))
+
+    ;; Set org directory depending on which laptop I'm at
+
+    (setq org-directory (if (string= (system-name) "apfelstrudel")
+                            "~/Work/Zettelkasten/"
+                          "~/Documents/Zettelkasten/"))
+
+    ;; Same with the agenda files, either Work or Play.
+    (setq org-agenda-files
+          (if (string= (system-name) "apfelstrudel")
+              '("Todo.org" "Alfaview.org")
+            '("Todo.org" "Personal.org" "Projects.org")))
+
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+
+    (add-to-list 'org-global-properties
+                 '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+
+    ;; Refile configuration
+    (setq org-outline-path-complete-in-steps nil)
+    (setq org-refile-use-outline-path 'file)
+    (setq org-blank-before-new-entry '((plain-list-item . auto)))
+    (setq org-agenda-custom-commands
+          '(("n" "Agenda and All Todos"
+             ((agenda)
+              (todo)))
+            ("w" "Work" agenda ""
+             ((org-agenda-files '("Alfaview.org")))))))
 #+end_src
-
-* Casual menus
-#+begin_src emacs-lisp :tangle init.el
-       (use-package casual-suite
-  	:ensure t
-  	:after (magit org dired-preview)
-  	:config
-  	(keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
-  	(keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
-  	(keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
-  	(keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-  	(keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-  	(keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
-  	(keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
-  	(keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
-  	(keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
-  	(keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
-  	(keymap-global-set "M-g" #'casual-avy-tmenu))
-
-        ;; Modify search results en masse
-        (use-package wgrep
-  	:ensure t
-  	:config
-  	(setq wgrep-auto-save-buffer t))
-
-
-
-        (use-package emacs
-  	:ensure nil
-  	:bind (;;("C-." . set-mark-command)
-  	       ("M-z" . zap-up-to-char)
-  	       ("M-," . beginning-of-buffer)
-  	       ("M-." . end-of-buffer)
-  	       ("M-p" . backward-paragraph)
-  	       ("M-n" . forward-paragraph)
-           ("M-\"" . mark-word)
-           ("C-M-\"" . mark-sexp)
-           ("M-ü" . delete-horizontal-space)
-  	       ;;             ( "C-c;;  w h" . 'windmove-left)
-  	       ;; ( "C-c w j" . windmove-down)
-  	       ;; ( "C-c w k" . windmove-up)
-  	       ;; ( "C-c w l" . windmove-right)
-  	       )
-
-  	:config
-  	(defvar-keymap windmove-repeat-map
-  	  :repeat t
-  	  "h" #'windmove-left
-  	  "j" #'windmove-down
-  	  "k" #'windmove-up
-  	  "l" #'windmove-right)
-  	;; Treesitter config
-
-  	;; Tell Emacs to prefer the treesitter mode
-  	;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
-
-
-  	(setq major-mode-remap-alist
-  	      '((yaml-mode . yaml-ts-mode)
-  		(bash-mode . bash-ts-mode)
-  		(js2-mode . js-ts-mode)
-  		(typescript-mode . typescript-ts-mode)
-  		(json-mode . json-ts-mode)
-  		(css-mode . css-ts-mode)
-  		(python-mode . python-ts-mode)))
-  	:hook
-  	;; Auto parenthesis matching
-  	((prog-mode . electric-pair-mode)))
-
-        (use-package magit
-  	:ensure t
-  	:after general
-   :config (setq magit-display-buffer-function  'magit-display-buffer-fullframe-status-topleft-v1)
-  	:general
-  	(leader-keys
-  	 "g" '(:ignore t :which-key "git")
-  	 "g <escape>" '(keyboard-escape-quit :which-key t)
-  	 "g g" '(magit-status :which-key "status")
-  	 "g l" '(magit-log :which-key "log"))
-  	(general-nmap
-  	 "<escape>" #'transient-quit-one))
-
-        (add-hook 'git-commit-mode-hook
-  		(lambda () (end-of-line)))
-
-
-    (use-package lab
-      :ensure t
-      )
-    (use-package auth-source-gopass
-      :ensure t)
-
-        (use-package diff-hl
-  	:init
-  	(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  	(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  	:config
-  	(global-diff-hl-mode))
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  								     ;;;
-  								     ;;;   Common file types
-  								     ;;;
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        (use-package markdown-mode
-  	:ensure t
-  	:hook ((markdown-mode . visual-line-mode)))
-
-        (use-package yaml-mode
-  	:ensure t)
-
-        (use-package json-mode
-  	:ensure t)
-
-        ;; Emacs ships with a lot of popular programming language modes. If it's not
-        ;; built in, you're almost certain to find a mode for the language you're
-        ;; looking for with a quick Internet search.
-
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  								     ;;;
-  								     ;;;   Eglot, the built-in LSP client for Emacs
-  								     ;;;
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; Helpful resources:
-        ;;
-        ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-
-        ;; Emacs includes Tree-sitter support as of version 29, but does not
-        ;; bundle Tree-sitter grammars via the usual installation methods.
-        ;; That means that if you want to use a Tree-sitter major mode, you
-        ;; must first install the respective language grammar.  `treesit-auto'
-        ;; is a handy package that manages this extra step for you, prompting
-        ;; the installation of Tree-sitter grammars when necessary.
-        (use-package treesit-auto
-  	:ensure t
-  	:custom
-  	(treesit-auto-install 'prompt)
-  	:config
-  	(treesit-auto-add-to-auto-mode-alist 'all)
-  	(global-treesit-auto-mode))
-
-        (use-package jsonrpc :ensure t)
-        (use-package eglot
-
-  	;; no :ensure t here because it's built-in
-
-  	;; Configure hooks to automatically turn-on eglot for selected modes
-  					      ; :hook
-  					      ; (((python-mode ruby-mode elixir-mode) . eglot))
-
-  	:custom
-  	(eglot-send-changes-idle-time 0.1)
-  	(eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
-
-  	:config
-  	(fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-  	;; Sometimes you need to tell Eglot where to find the language server
-  					      ; (add-to-list 'eglot-server-programs
-  					      ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-  	)
-
-        ;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
-        (use-package breadcrumb
-  	:ensure t
-  	:config
-
-  	;; (set-face-attribute 'bc-face nil :family "VictorMono Nerd Font Propo")
-  	(breadcrumb-mode))
-
-
-
-        (use-package forge
-  	:ensure t
-  	:after magit
-  	:config (push '("git.alfa.sx" "git.alfa.sx/api/v4" "git.alfa.sx" forge-gitlab-repository) forge-alist)
-  	)
-
-
-        ;; ;; Evil: vi emulation
-        ;; (use-package evil
-        ;;   :ensure t
-        ;;   :demand
-        ;;   :init
-        ;;   (setq evil-respect-visual-line-mode t)
-        ;;   (setq evil-undo-system 'undo-redo)
-        ;;   (setq evil-want-keybinding nil)
-
-        ;;   ;; Enable this if you want C-u to scroll up, more like pure Vim
-        ;;   (setq evil-want-C-u-scroll t)
-
-        ;;   :config
-        ;;   (evil-mode)
-
-        ;;   ;; Configuring initial major mode for some modes
-        ;;   (evil-set-initial-state 'vterm-mode 'emacs))
-
-        ;; (use-package evil-collection
-        ;;   :ensure t
-        ;;   :after evil
-        ;;   :demand
-        ;;   :config
-        ;;   (setq evil-collection-mode-list
-        ;;         '(ag dired magit mu4e which-key)
-        ;;         evil-collection-want-unimpaired-p nil)
-        ;;   (evil-collection-init))
-
-        ;; (use-package evil-nerd-commenter
-        ;;   :after evil
-        ;;   :general
-        ;;   (general-nvmap
-        ;;     "gc" 'evilnc-comment-operator))
-
-        ;; (use-package evil-surround
-        ;;   :ensure t
-        ;;   :after evil
-        ;;   :config
-        ;;   (global-evil-surround-mode 1))
-
-
-        ;; Default tags
-        (setq org-tag-alist '(
-  			    ;; locale
-  			    (:startgroup)
-  			    ("home" . ?h)
-  			    ("work" . ?w)
-  			    ("school" . ?s)
-  			    (:endgroup)
-  			    (:newline)
-  			    ;; scale
-  			    (:startgroup)
-  			    ("one-shot" . ?o)
-  			    ("project" . ?j)
-  			    ("tiny" . ?t)
-  			    (:endgroup)
-  			    ;; misc
-  			    ("meta")
-  			    ("review")
-  			    ("reading")))
-
-        ;; Org-refile: where should org-refile look?
-        (setq org-refile-targets 'FIXME)
-
-  								     ;;; Phase 3 variables
-
-        ;; Org-roam variables
-        ;; (setq org-roam-directory "~/WirZwei/Zettelkasten/")
-        ;;(setq org-roam-index-file "~/WirZwei/Zettelkasten/index.org")
-
-  								     ;;; Optional variables
-
-        ;; Advanced: Custom link types
-        ;; This example is for linking a person's 7-character ID to their page on the
-        ;; free genealogy website Family Search.
-        (setq org-link-abbrev-alist
-  	    '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
-
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  								     ;;;
-  								     ;;;   Phase 1: editing and exporting files
-  								     ;;;
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  								     ;;;
-  								     ;;;   Phase 2: todos, agenda generation, and task tracking
-  								     ;;;
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-        ;; Yes, you can have multiple use-package declarations. It's best if their
-        ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
-        ;; config from Phase 1. I've broken it up here for the sake of clarity.
-        (use-package org
-  	:ensure t
-  	:config
-  	;; Instead of just two states (TODO, DONE) we set up a few different states
-  	;; that a task can be in.
-
-  	(if (string= (daemonp) "workmacs")
-  			  (setq org-clock-persist t
-  				org-clock-persist-file "~/.config/emacs/org-clock-workmacs-save.el"
-  				org-clock-query-save t))
-
-  	(org-babel-do-load-languages
-  	 'org-babel-load-languages
-  	 '((shell . t)))
-
-    (add-hook 'org-trigger-hook 'save-buffer)
-  (add-hook 'org-clock-in-hook 'save-buffer)
-  (add-hook 'org-clock-out-hook 'save-buffer)
-
-  	(setq org-todo-keywords
-  	      '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
-
-  	(add-to-list 'org-global-properties
-  		     '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
-
-  	;; Refile configuration
-  	(setq org-outline-path-complete-in-steps nil)
-  	(setq org-refile-use-outline-path 'file)
-
-  	(setq org-capture-templates
-  	      '(("c" "Default Capture" entry (file "inbox.org")
-  		 "* TODO %?\n%U\n%i")
-  		;; Capture and keep an org-link to the thing we're currently working with
-  		("r" "Capture with Reference" entry (file "inbox.org")
-  		 "* TODO %?\n%U\n%i\n%a")
-  		;; Define a section
-  		("w" "Work")
-  		("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
-  		 "** TODO %?\n%U\n%i\n%a")
-  		("wr" "Work report" entry (file+headline "work.org" "Reports")
-  		 "** TODO %?\n%U\n%i\n%a")))
-
-  	(setq org-agenda-custom-commands
-  	      '(("n" "Agenda and All Todos"
-  		 ((agenda)
-  		  (todo)))
-  		("w" "Work" agenda ""
-  		 ((org-agenda-files '("work.org")))))))
-
-
-
-  (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
-
-  (use-package org-rainbow-tags
-    :ensure t
-    :hook (org-mode . org-rainbow-tags-mode)
-    :config (setq org-rainbow-tags-hash-start-index 8))
-  						      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  								     ;;;
-  								     ;;;   Phase 3: extensions (org-roam, etc.)
-  								     ;;;
-  								     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-        ;; (use-package org-roam
-        ;;   :ensure t
-        ;;   :config
-        ;;   (org-roam-db-autosync-mode)
-        ;;   ;; Dedicated side window for backlinks
-        ;;   (add-to-list 'display-buffer-alist
-        ;;                '("\\*org-roam\\*"
-        ;;                  (display-buffer-in-side-window)
-        ;;                  (side . right)
-        ;;                  (window-width . 0.4)
-        ;;                  (window-height . fit-window-to-buffer))))
-
-        ;; Pretty web interface for org-roam
-  					      ;(use-package org-roam-ui
-  					      ;  :ensure t
-  					      ;  :after org-roam
-  					      ;  :config
-  					      ;  (setq org-roam-ui-sync-theme t
-  					      ;        org-roam-ui-follow t
-  					      ;        org-roam-ui-update-on-save t
-  					      ;        org-roam-ui-open-on-start t))
-
-
-
-        (use-package nerd-icons
-  	:config (setq nerd-icons-color-icons t
-  		      nerd-icons-scale-factor 1.0
-  		      nerd-icons-font-family  "Symbols Nerd Font"))
-        (use-package nerd-icons-dired
-  	:ensure t
-  	:hook
-  	(dired-mode . nerd-icons-dired-mode))
-
-        (use-package vterm)
-        (use-package vterm-toggle
-  	:after general
-  	;;  :ensure t
-  	:general ("C-c t t" 'vterm-toggle :which-key "terminal"))
-
-
-      ;;         (use-package smart-mode-line
-      ;;           :ensure t
-      ;;           :config
-
-      ;;           (add-to-list 'sml/replacer-regexp-list '("^~/\\.config/emacs" " ") t)
-      ;;           (add-to-list 'sml/replacer-regexp-list '("^~/Code/alfatraining" "󰬈 ") t)
-
-      ;;           (setq sml/theme 'light)
-      ;;           (setq sml/no-confirm-load-theme t)
-      ;;           (setq sml/mode-width "full")
-      ;;           (setq sml/shorten-modes t)
-      ;;           (setq sml/mule-info nil)
-      ;;           (sml/setup)
-      ;;                 (add-to-list 'rm-blacklist "org-a-t" )
-      ;;                 (add-to-list 'rm-blacklist "yas" )
-      ;;                 (add-to-list 'rm-blacklist " WK " ))
-
-
-
-
-      (use-package vundo
-  :ensure t
-  :bind ("C-x U" . vundo)
-  :config
-  (setq vundo-glyph-alist vundo-unicode-symbols))
-
-    ;;     (use-package nano-modeline
-    ;;       ;; :init
-    ;;       ;; (nano-modeline-pdf-mode t)
-    ;;       :custom
-    ;;       (nano-modeline-position 'nano-modeline-footer)
-    ;;       :hook
-    ;;       (prog-mode-hook            . nano-modeline-prog-mode)
-    ;;       (text-mode-hook            . nano-modeline-text-mode)
-    ;;       (org-mode-hook             . nano-modeline-org-mode)
-    ;;       (pdf-view-mode-hook        . nano-modeline-pdf-mode)
-    ;;       (mu4e-headers-mode-hook    . nano-modeline-mu4e-headers-mode)
-    ;;       (mu4e-view-mode-hook       . nano-modeline-mu4e-message-mode)
-    ;;       (elfeed-show-mode-hook     . nano-modeline-elfeed-entry-mode)
-    ;;       (elfeed-search-mode-hook   . nano-modeline-elfeed-search-mode)
-    ;;       (term-mode-hook            . nano-modeline-term-mode)
-    ;;       (xwidget-webkit-mode-hook  . nano-modeline-xwidget-mode)
-    ;;       (messages-buffer-mode-hook . nano-modeline-message-mode)
-    ;;       (org-capture-mode-hook     . nano-modeline-org-capture-mode)
-    ;;       (org-agenda-mode-hook      . nano-modeline-org-agenda-mode)
-    ;;       :config
-    ;;       (nano-modeline-text-mode t))
-
-
-    (use-package doom-modeline
-          :ensure t
-          :init (doom-modeline-mode 1)
-          :config
-          (setq doom-modeline-time nil
-                doom-modeline-height 28
-                doom-modeline-persp-name t
-                doom-modeline-buffer-encoding nil
-                doom-modeline-buffer-coding nil
-                doom-modeline-check-simple-format t
-                doom-modeline-battery nil
-                doom-modeline-unicode-fallback nil
-
-                doom-modeline-modal nil)
-
-          ;; (set-face-attribute 'mode-line-active nil :family "VictorMono Nerd Font Propo" :foreground "green" :height 120 :width 'normal :weight 'ultra-bold)
-          ;; (set-face-attribute 'mode-line-inactive nil :family "VictorMono Nerd Font Propo"  :background "gray" :height 120 :width 'normal :weight 'ultra-bold )
-          )
-
-        (use-package perspective
-  	:bind
-  	("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
-    ;            ("C-x C-p C-p" . persp-pref)
-  	:custom
-  	(persp-mode-prefix-key (kbd "C-x C-p"))  ; pick your own prefix key here
-  	:init
-  	(persp-mode))
-
-        ;; (use-package activities
-        ;;   :init
-        ;;   (activities-mode)
-
-        ;;   ;; Prevent `edebug' default bindings from interfering.
-        ;;   (setq edebug-inhibit-emacs-lisp-mode-bindings t)
-
-        ;;   :bind
-        ;;   (("C-x C-a C-n" . activities-new)
-        ;;    ("C-x C-a C-d" . activities-define)
-        ;;    ("C-x C-a C-a" . activities-resume)
-        ;;    ("C-x C-a C-s" . activities-suspend)
-        ;;    ("C-x C-a C-k" . activities-kill)
-        ;;    ("C-x C-a RET" . activities-switch)
-        ;;    ("C-x C-a b" . activities-switch-buffer)
-        ;;    ("C-x C-a g" . activities-revert)
-        ;;    ("C-x C-a l" . activities-list)))
-
-        (use-package kele
-  	:defer t
-  	:config
-  	(bind-key (kbd "s-k") kele-command-map kele-mode-map))
-
-        (use-package project
-  	:after xref
-  	:config
-  	(setq project-switch-commands 'project-dired)
-
-  	)
-
-#+end_src
-
+** Org Auto tangling
+Used in this very file :)
 
 #+begin_src emacs-lisp :tangle init.el
-
-  (setq org-directory (if (string= (system-name) "apfelstrudel")
-                          "~/Work/Zettelkasten/"
-                        "~/Documents/Zettelkasten/"))
-
-  (setq org-agenda-files
-        (if (string= (system-name) "apfelstrudel")
-            '("Todo.org" "Alfaview.org")
-          '("Todo.org" "Personal.org" "Projects.org")))
-
-
-
-  ;; (use-package org
-  ;;   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
-  ;;          (org-mode . jinx-mode))    ; spell checking!
-
-  ;;   :bind (:map global-map
-  ;;               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
-  ;;               ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
-  ;;   :config
-  ;;   (require 'oc-csl)                     ; citation support
-  ;;   (add-to-list 'org-export-backends 'md)
-
-  ;;   ;; Make org-open-at-point follow file links in the same window
-  ;;   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
-
-  ;;   ;; Make exporting quotes better
-  ;;   (setq org-export-with-smart-quotes t)
-  ;;   (setq org-todo-keywords
-  ;;         '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
-
-  ;;   ;; Refile configuration
-  ;;   (setq org-outline-path-complete-in-steps nil)
-  ;;   (setq org-refile-use-outline-path 'file)
-
-  ;;   (setq org-capture-templates
-  ;;         '(("c" "Default Capture" entry (file "inbox.org")
-  ;;            "* TODO %?\n%U\n%i")
-  ;;           ;; Capture and keep an org-link to the thing we're currently working with
-  ;;           ("r" "Capture with Reference" entry (file "inbox.org")
-  ;;            "* TODO %?\n%U\n%i\n%a")
-  ;;           ;; Define a section
-  ;;           ("w" "Work")
-  ;;           ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
-  ;;            "** TODO %?\n%U\n%i\n%a")
-  ;;           ("wr" "Work report" entry (file+headline "work.org" "Reports")
-  ;;            "** TODO %?\n%U\n%i\n%a")))
-
-  ;;   (setq org-agenda-custom-commands
-  ;;         '(("n" "Agenda and All Todos"
-  ;;            ((agenda)
-  ;;             (todo)))
-  ;;           ("w" "Work" agenda ""
-  ;;            ((org-agenda-files '("work.org")))))))
-
   (use-package org-auto-tangle
     :defer t
     :hook (org-mode . org-auto-tangle-mode))
-
-  (use-package spacious-padding
+#+end_src
+** Org Alerts
+#+begin_src emacs-lisp :tangle init.el
+  (use-package org-alert
     :ensure t
-    )
+    :defer t
+    :config
+    (setq
+     alert-default-style 'libnotify
+     org-alert-notify-cutoff 15
+     org-alert-notify-after-event-cutoff 15)
+    (org-alert-enable))
+#+end_src
+** Org Journal
+My work log since 2010.
+#+begin_src emacs-lisp :tangle init.el
   (use-package org-journal
     :ensure t
     :defer t
@@ -1255,22 +771,96 @@ Orderless: powerful completion style
           org-journal-file-format "%Y%m%d"
           org-journal-date-format "%A, %d/%m/%Y"
           org-journal-carryover-items nil))
-
-
-
-
-  (defun bascht--toggle-window-zoom ()
-    ;; Toggle temporary zooom for current window without the need of zoom.el
-    ;; @see https://christiantietze.de/posts/2022/09/replacing-zoom-window-with-winner-mode/
-    (interactive)
-    (if (window-parent (selected-window))
-        (delete-other-windows)
-      (winner-undo)))
-
-
 #+end_src
-* Styles
+* Navigation
+** Avy quick navigation
+#+begin_src emacs-lisp :tangle init.el
+  (use-package avy
+    :ensure t
+    :demand t
+    :bind (("M-g g" . avy-goto-line)
+           ("M-j"   . avy-goto-char-timer)))
+#+end_src
 
+** Movement via Ace Window
+
+This is super neat. The only thing I had to adapt was =aw-scope= since I never want to leave my frame.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package ace-window
+    :bind (("M-o" . 'ace-window))
+    :config (setq aw-scope 'frame))
+#+end_src
+
+** Bread crumbs
+
+Display a visual hint just below the Emacs title bar
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package breadcrumb
+    :ensure t
+    :config (breadcrumb-mode))
+#+end_src
+** Visual undo (vundo)
+
+Beautiful undo visualisation mode I got used to when using doom-emacs.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package vundo
+    :ensure t
+    :bind ("C-x u" . vundo)
+    :config
+    (setq vundo-glyph-alist vundo-unicode-symbols))
+#+end_src
+** Perspective Mode
+
+Awesome built-in mode that fully replaced persp.el for me.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package perspective
+    :bind ("C-x C-b" . persp-list-buffers)
+    :custom (persp-mode-prefix-key (kbd "C-x C-p"))  ; pick your own prefix key here
+    :init (persp-mode))
+#+end_src
+** Project.el
+
+Fully replaced projectile for me as well.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package project
+    :after xref
+    :config
+    (setq project-switch-commands 'project-dired))
+#+end_src
+** Expand Region
+Might not even need this since I do have embark now.
+
+#+begin_src emacs-lisp :tangle init.el
+    (use-package expand-region
+      :ensure t
+      :general ("C-c +" 'er/expand-region))
+#+end_src
+
+* TODO Needs cleanup
+#+begin_src emacs-lisp :tangle init.el
+  (use-package casual-suite
+    :ensure t
+    :after (magit org dired-preview)
+    :config
+    (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu)
+    (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
+    (keymap-set isearch-mode-map "<f2>" #'cc-isearch-menu-transient)
+    (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+    (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+    (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu)
+    (keymap-set Info-mode-map "C-o" #'casual-info-tmenu)
+    (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
+    (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu)
+    (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu)
+    (keymap-global-set "M-g" #'casual-avy-tmenu))
+#+end_src
+
+* Styles
 ** Themes
 
 *** Prots ef-themes
@@ -1278,31 +868,37 @@ Orderless: powerful completion style
 Gorgeous.
 
 #+begin_src emacs-lisp :tangle init.el
-      (use-package ef-themes
-        :ensure t
-        ;; :defer t
-        :init
-        :config
-        (setq ef-themes-mixed-fonts t
-              ef-themes-variable-pitch-ui t)
-        (mapc #'disable-theme custom-enabled-themes)
-        (if (string= (daemonp) "workmacs")
-            (ef-themes-select 'ef-cyprus)
-          (ef-themes-select 'ef-light))
-(set-face-attribute 'mode-line nil
-                    :background "#b7c7ff"
-                    :foreground "#151515"
-                    :box '(:line-width 4 :color "#b7c7ff")
-                    :overline nil
-                    :underline nil)
+  (use-package ef-themes
+    :ensure t
+    ;; :defer t
+    :init
+    :config
+    (setq ef-themes-mixed-fonts t
+          ef-themes-variable-pitch-ui t)
+    (mapc #'disable-theme custom-enabled-themes)
+    (if (string= (daemonp) "workmacs")
+        (ef-themes-select 'ef-cyprus)
+      (ef-themes-select 'ef-light))
+    (set-face-attribute 'mode-line nil
+                        :background "#b7c7ff"
+                        :foreground "#151515"
+                        :box '(:line-width 4 :color "#b7c7ff")
+                        :overline nil
+                        :underline nil)
 
-(set-face-attribute 'mode-line-inactive nil
-                    :background "#dbdbdb"
-                    :foreground "#70627f"
-                    :box '(:line-width 4 :color "#dbdbdb")
-                    :overline nil
-                    :underline nil)
-        )
+    (set-face-attribute 'mode-line-inactive nil
+                        :background "#dbdbdb"
+                        :foreground "#70627f"
+                        :box '(:line-width 4 :color "#dbdbdb")
+                        :overline nil
+                        :underline nil)
+
+    (set-face-attribute 'avy-lead-face nil
+                        :background "deep pink"
+                        :foreground "snow"
+                        :bold t
+                        )
+    )
 #+end_src
 
 ** Olivetti Mode
@@ -1316,89 +912,8 @@ Gorgeous.
 
 Make sure we can tell comacs (my code editor config) from the rest of the pack.
 
-** TODO Meet the =setq= family
-
-#+begin_src emacs-lisp :tangle init.el
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-        doom-variable-pitch-font (font-spec :family "VictorMono Nerd Font")
-        doom-big-font (font-spec :family "JetBrains Mono" :size 24)
-        doom-serif-font (font-spec :family "IBM Plex Mono")
-        doom-symbol-font (font-spec :family "Joypixels")
-                                          ;doom-theme (if (bascht/is-comacs) 'doom-one-light 'ef-light)
-        doom-scratch-dir (expand-file-name "scratch" user-emacs-directory)
-        +snippets-dir (expand-file-name "~/.doom.d/snippets")
-        ;; ef-themes-mixed-fonts t
-        ;; modus-themes-variable-pitch-ui t
-        ;; evil-want-fine-undo t
-        truncate-string-ellipsis "…"
-        +zen-text-scale 0.9
-        display-line-numbers-type nil
-        delete-selection-mode nil
-        writeroom-width 100
-        safe-local-variable-values '((buffer-read-only . 1))
-        frame-title-format (concat "%b - " user-login-name "@" (system-name))
-        browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
-        hl-todo-keyword-faces
-        `(("TODO" warning bold)
-          ("FIXME" error bold)
-          ("HACK" font-lock-constant-face bold)
-          ("REVIEW" font-lock-keyword-face bold)
-          ("NOTE" success bold)
-          ("DEPRECATED" font-lock-doc-face bold)
-          ("REFACTOR" font-lock-comment-face)
-                                          ;("STYLE" ,(doom-color 'yellow))
-          ("BUG" error bold)
-          ("MAYBE" warning bold))
-        )
-
-
-
-
-  (setq +workspaces-switch-project-function #'bascht/projectile-open-dired)
-  (setq +format-on-save-enabled-modules
-        '( terraform-mode
-           go-mode))
-
-#+end_src
-
-** Hooks
-#+begin_src emacs-lisp :tangle init.el
-  (remove-hook 'text-mode-hook #'spell-fu-mode)
-
-                                          ;  (add-hook! 'yaml-mode-hook
-                                          ;    (setq auto-fill-mode -1)
-                                          ;    (flycheck-select-checker 'yaml-yamllint))
-                                          ;
-                                          ;  (add-hook! 'git-commit-mode-hook
-                                          ;    (end-of-line)
-                                          ;    (spell-fu-mode)
-                                          ;    (bascht/switch-spellcheck "en_GB")
-                                          ;    (evil-insert-state))
-                                          ;
-                                          ;  (add-hook! 'org-capture-mode-hook
-                                          ;    (bascht/switch-spellcheck "de_DE")
-                                          ;    (evil-insert-state))
-                                          ;
-                                          ;  (add-hook! 'mu4e-compose-pre-hook
-                                          ;    (bascht/mu4e-change-from-to-catchall mu4e-compose-parent-message)
-                                          ;    (spell-fu-mode)
-                                          ;    (bascht/switch-spellcheck "de_DE")
-                                          ;    (evil-insert-state))
-                                          ;
-                                          ;  (add-hook! 'mu4e-view-mode-hook (variable-pitch-mode))
-                                          ;
-                                          ;  (add-hook! 'terraform-mode-hook   #'format-all-mode)
-                                          ;  (add-hook 'prog-mode-hook (lambda () (setq company-idle-delay 0.2)))
-                                          ;  (add-hook! markdown-mode-hook 'spell-fu-mode)
-#+end_src
-** Mode specific settings
-
-#+begin_src emacs-lisp :tangle init.el
-  (add-to-list 'auto-mode-alist '("\\.txt$" . markdown-mode))
-  (add-to-list 'auto-mode-alist '("\\.journal\\'" . ledger-mode))
-#+end_src
 * TODO Packages
-** Dired and it's wrappers
+** Dired and it's helpers
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package dired
@@ -1416,119 +931,53 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
 Prot got my back. This wrapper nudged me away from =dirvish=.
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package dired-preview
+        (use-package dired-preview
+          :ensure t
+          :init
+          :general-config (:keymaps '(dired-mode-map)
+                      "N"  'dired-preview-mode
+                      ". d"  'dwim-shell-command-drag
+                      ". o"  'dwim-shell-command-drop
+                      )
+          :config
+          (setq dired-preview-delay 0.4)
+          (setq dired-preview-max-size (expt 2 20)))
+#+end_src
+*** dwim-shell-command
+#+begin_src emacs-lisp :tangle init.el
+  (use-package dwim-shell-command
     :ensure t
+    :after dired
     :init
-    (defun my-dired-preview-to-the-right ()
-      "My preferred `dired-preview-display-action-alist-function'."
-      '((display-buffer-in-side-window)
-        (side . right)
-        (width . 0.5)))
 
-    :config
-    (setq dired-preview-delay 0.4)
-    (setq dired-preview-max-size (expt 2 20))
-    (setq dired-preview-display-action-alist-function #'my-dired-preview-to-the-right)
-    (dired-preview-global-mode))
-#+end_src
+    (defun dwim-shell-command-convert-to-gif ()
+      "Convert file to a small GIF"
+      (interactive)
+      (dwim-shell-command-on-marked-files
+       "Converting <<f>> to GIF"
+       "convert-to-gif <<f>>"
+       :utils "convert-to-gif"
+       ))
 
+    (defun dwim-shell-command-drop ()
+      "Drop stuff over to drop.bascht.space"
+      (interactive)
+      (dwim-shell-command-on-marked-files
+       "Drop to drop.bascht.space"
+       "drop <<f>>"
+       :utils "drop"
+       :silent-success t
+       ))
 
-#+begin_src emacs-lisp :tangle init.el
-  (use-package obsidian
-    :defer t
-    :demand t
-    :config
-    (obsidian-specify-path "~/WirZwei Zettelkasten")
-    (global-obsidian-mode t)
-    :custom
-    (obsidian-daily-notes-directory "journals")
-    )
-
-#+end_src
-
-#+begin_src emacs-lisp :tangle init.el
-  (use-package terraform-mode
-    :ensure t
-    :config
-    (add-hook 'terraform-mode-hook #'outline-minor-mode)
-    (setq terraform-format-on-save t))
-  #+end_src
-
-
-#+begin_src emacs-lisp :tangle init.el
-    (use-package expand-region
-      :ensure t
-      :general ("C-c +" 'er/expand-region))
-#+end_src
-
-
-#+begin_src emacs-lisp :tangle init.el
-
-  (use-package dictcc
-    :ensure t)
-
-#+end_src
-
-
-#+begin_src emacs-lisp :tangle packages.el
-  ;; -*- no-byte-compile: t; -*-
-  ;;; $DOOMDIR/packages.el
-  ;; ohai
-  ;; (package! sqlite3-api :built-in 'prefer)
-  ;; (package! emacsql :ignore t)
-  ;; (package! emacsql-sqlite :ignore t)
-  ;; (package! emacsql-closql :ignore t)
-  (package! sqlite :ignore t)
-  (package! pdf-tools :ignore t)
-  (package! elfeed-org :ignore t)
-  (package! elfeed-goodies :ignore t)
-  (package! cider :ignore t)
-
-  (package! forge :ignore t)
-  (package! calfw :ignore t)
-  (package! dirvish :built-in 'prefer)
-  (package! emojify :ignore t)
-  (package! corfu :ignore t)
-  (package! realgud :ignore t)
-  (package! org-alert :built-in 'prefer)
-  (package! rainbow-mode :built-in 'prefer)
-  (package! mu4e :ignore t)
-  (package! vscode-icon :built-in 'prefer)
-  (package! nerd-icons-dired :built-in 'prefer)
-  (package! dictcc :built-in 'prefer)
-  (package! khalel :built-in 'prefer)
-  (package! hass :built-in 'prefer)
-
-  (package! ace-window :built-in 'prefer)
-  (package! spacious-padding)
-  (package! rainbow-mode)
-  (package! lab)
-
-  (package! ef-themes :built-in 'prefer)
-  (package! mingus :built-in 'prefer)
-  (package! spacious-padding :built-in 'prefer)
-  (package! apropospriate-theme :built-in 'prefer)
-  (package! literate-calc-mode :built-in 'prefer)
-  (package! org-alert :built-in 'prefer)
-  (package! simple-mpc :built-in 'prefer)
-  (package! magit-todos :disable t)
-
-  (when (string= (system-name) "apfelstrudel")
-  (package! protobuf-mode)
-  (package! salt-mode)
-  (package! cmake-mode)
-  (package! ob-grpc :recipe
-  (:host github :repo "shsms/ob-grpc")))
-
-
-#+end_src
-
-** Movement via Ace Window
-
-#+begin_src emacs-lisp :tangle init.el
-  (use-package ace-window
-    :bind (("M-o" . 'ace-window))
-    :config (setq aw-scope 'frame))
+    (defun dwim-shell-command-drag ()
+      "Drag stuff via dragon"
+      (interactive)
+      (dwim-shell-command-on-marked-files
+       "Drag files somewhere"
+       "dragon --and-exit <<f>>"
+       :utils "dragon"
+       :silent-success t
+       )))
 #+end_src
 
 ** Kubernetes
@@ -1539,8 +988,6 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
     :general ("C-c k" 'kubed-prefix-map :which-key "Kubed"))
 #+end_src
 
-
-
 ** Surround
 #+begin_src emacs-lisp :tangle init.el
   (use-package surround
@@ -1548,33 +995,187 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
   :bind-keymap ("C-c s" . surround-keymap))
 #+end_src
 
-* Languages / Syntax
-#+BEGIN_SRC emacs-lisp :tangle init.el
-    (use-package clojure-mode
-      :ensure t)
+** Wgrep
+
+Modify search results en masse.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package wgrep
+    :ensure t
+    :config (setq wgrep-auto-save-buffer t))
+#+end_src
+
+** Auth Source Gopass
+
+Let me authenticate to GitLab & co via my =gopass= credentials.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package auth-source-gopass :ensure t)
+#+end_src
+** vterm
+
+Have vterm and it's own toggle mode.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package vterm)
+  (use-package vterm-toggle
+    :after general
+    ;;  :ensure t
+    :general ("C-c t t" 'vterm-toggle :which-key "terminal"))
+#+end_src
+** dict mode
+
+I need this each and every day.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package dictcc :ensure t)
+#+end_src
+
+** Obisidan mode
+
+Needed for collab on our shared Zettelkasten.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package obsidian
+    :defer t
+    :demand t
+    :config
+    (obsidian-specify-path "~/WirZwei Zettelkasten")
+    (global-obsidian-mode t)
+    :custom
+    (obsidian-daily-notes-directory "journals"))
+#+end_src
+** Zoxide
+Jump to wherever the shell has been.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package zoxide :ensure t)
+#+end_src
+
+* Programming
+** Languages / Syntax
+*** Clojure
+
+For the greater good.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package clojure-mode :ensure t)
+  (use-package clojure-ts-mode :ensure t)
+#+end_src
+
+…and with a side of cider.
+
+#+begin_src emacs-lisp :tangle init.el
   (use-package cider
     :ensure t
     :hook (clojure-mode . cider-mode))
+#+end_src
 
-    (use-package go-mode
-      :ensure t)
-#+END_SRC
+*** The Gopher
 
+You know, for work.
 
-* Programming
+#+begin_src emacs-lisp :tangle init.el
+  (use-package go-mode :ensure t)
+#+end_src
+*** Terraform
+#+begin_src emacs-lisp :tangle init.el
+  (use-package terraform-mode
+    :ensure t
+    :config
+    (add-hook 'terraform-mode-hook #'outline-minor-mode)
+    (setq terraform-format-on-save t))
+#+end_src
+
+** Programming utilities
 
 Various language specific modes and checkers.
 
+*** Magit <3
+
+Oh Magit.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package magit
+    :ensure t
+    :after general
+    :hook (git-commit-mode . (lambda () (end-of-line))) ; Jump to end of line when opening a commit message buffer
+    :config (setq magit-display-buffer-function  'magit-display-buffer-fullframe-status-topleft-v1))
+#+end_src
+
+*** Forge
+
+Never again shall I click GitLabs buttons.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package forge
+    :ensure t
+    :after magit
+    :config (load (expand-file-name "forges.el" user-emacs-directory)))
+#+end_src
+
+*** Treesitter modes
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package treesit-auto
+    :ensure t
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    ;; Automatically set up treesitter for the following major modes
+    (setq major-mode-remap-alist '(
+                                   (yaml-mode . yaml-ts-mode)
+                                     (bash-mode . bash-ts-mode)
+                                     (js2-mode . js-ts-mode)
+                                     (typescript-mode . typescript-ts-mode)
+                                     (json-mode . json-ts-mode)
+                                     (css-mode . css-ts-mode)
+                                     (go-mode . go-ts-mode)
+                                     (clojure-mode . clojure-ts-mode)
+                                     (python-mode . python-ts-mode)))
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
+#+end_src
 
 
-** Flycheck
+*** Emacs eglot
+
+Configure the built-in LSP.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package eglot
+    :custom
+    (eglot-send-changes-idle-time 0.1)
+    (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
+    :config
+    (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
+    )
+#+end_src
+
+*** JSON RPC
+
+I… think… it is used / required by eglot?
+
+#+begin_src emacs-lisp :tangle init.el
+(use-package jsonrpc :ensure t)
+#+end_src
+
+*** (Git)Lab support
+
+I mostly use the =glab= cli, but this comes in handy if I need to open a pipeline from time to time.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package lab :ensure t)
+#+end_src
+
+*** Flycheck
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package flycheck
     :hook (prog-mode . flycheck-mode))
 #+end_src
 
-** TODO Format-All
+*** TODO Format-All
 
 - [ ] This might be obsolete since most of the tools now come with a proper treesit formatter?
 
@@ -1588,7 +1189,7 @@ Various language specific modes and checkers.
                     ("Shell" (shfmt "-i" "4" "-ci")))))
 #+end_src
 
-** (Yas)Snippets
+*** (Yas)Snippets
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package yasnippet
@@ -1605,236 +1206,30 @@ Various language specific modes and checkers.
   (use-package consult-yasnippet)
 #+end_src
 
+*** [[https://github.com/dgutov/diff-hl][Diff highlighter]]
 
+Mark changes on the left side of the gutter.
 
-* TODO Package specific options
-#+begin_src emacs-lisp
-  (use-package! zoxide :defer t)
-  (use-package! dictcc :defer t)
-  (after! dap
-          (unless (display-graphic-p)
-            (set-face-background 'dap-ui-marker-face "orange")
-            (set-face-attribute 'dap-ui-marker-face nil :inherit nil)
-            (set-face-background 'dap-ui-pending-breakpoint-face "lightpink")
-            (set-face-attribute 'dap-ui-verified-breakpoint-face nil :inherit 'dap-ui-pending-breakpoint-face)))
-
-  (after! emojify
-          (setq
-           emojify-display-style 'unicode
-           emojify-download-emojis-p t))
-
-  (after! elfeed
-          (elfeed-org)
-          (use-package! elfeed-link)
-          (setq elfeed-search-filter "@1-month-ago +unread"
-                rmh-elfeed-org-files `(,(expand-file-name "Feeds.org" org-directory))))
-
-  (use-package! ef-themes)
-  (use-package! apropospriate-theme :defer t)
-  (use-package! khalel :defer t)
-  (use-package! obsidian
-                :defer t
-                :demand t
-                :config
-                (obsidian-specify-path "~/WirZwei/Zettelkasten")
-                (global-obsidian-mode t)
-                :custom
-                (obsidian-daily-notes-directory "journals")
-                )
-
-  (use-package! org-alert
-                :defer t
-                :config
-                (setq
-                 alert-default-style 'libnotify
-                 org-alert-notify-cutoff 15
-                 org-alert-notify-after-event-cutoff 15)
-                (org-alert-enable))
-
-  (use-package! spacious-padding)
-
-  (after! dirvish
-          ;;   (dirvish-override-dired-mode)
-          ;;   (setq dirvish-attributes '(vc-state subtree-state collapse git-msg file-time file-size))
-          (setq dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group")
-          (setq dirvish-default-layout (list 0 0.4))
-          (setq dirvish-hide-details t))
-
-
-  (after! markdown-mode
-          (set-company-backend! 'markdown-mode '(:separate obsidian-tags-backend company-capf company-dabbrev company-yasnippet company-ispell)))
-
-  (use-package! dwim-shell-command
-                :defer t
-                :init
-
-                (defun dwim-shell-command-convert-to-gif ()
-                  "Convert file to a small GIF"
-                  (interactive)
-                  (dwim-shell-command-on-marked-files
-                   "Converting <<f>> to GIF"
-                   "convert-to-gif <<f>>"
-                   :utils "convert-to-gif"
-                   ))
-
-                (defun dwim-shell-command-drop ()
-                  "Drop stuff over to drop.bascht.space"
-                  (interactive)
-                  (dwim-shell-command-on-marked-files
-                   "Drop to drop.bascht.space"
-                   "drop <<f>>"
-                   :utils "drop"
-                   :silent-success t
-                   ))
-
-                (defun dwim-shell-command-drag ()
-                  "Drag stuff via dragon"
-                  (interactive)
-                  (dwim-shell-command-on-marked-files
-                   "Drag files somewhere"
-                   "dragon --and-exit <<f>>"
-                   :utils "dragon"
-                   :silent-success t
-                   )))
-
-  (after! modus-themes
-          (setq modus-themes-syntax '(faint green-strings yellow-comments yellow-alt-syntax)
-                modus-themes-bold-constructs t
-                modus-themes-italic-constructs t
-                modus-themes-fringes 'subtle
-                modus-themes-hl-line '(accented intense)
-                modus-themes-paren-match '(bold intense)
-                modus-themes-prompts '(bold intense)
-                modus-themes-region '(bg-only)
-                modus-themes-org-blocks 'tinted-background
-                modus-themes-mode-line '(accented borderless (padding . 1))
-                modus-themes-headings '((1 . (rainbow overline background 1.4))
-                                        (2 . (rainbow background 1.3))
-                                        (3 . (rainbow bold 1.2))
-                                        (t . (semilight 1.1)))))
-
-  (after! solaire-mode
-          (solaire-global-mode -1))
-
-  (after! writeroom-mode
-          (setq +zen-text-scale 0.8))
-
-                                          ; Don't add #0 #1 #2 #3… workspaces :D
-  (after! persp-mode
-          (setq persp-emacsclient-init-frame-behaviour-override "main"))
-
-                                          ; Directly create a matching workspace for the project (when launched with `bin/tn')
-
-  (after! flycheck
-          (flycheck-define-checker vale
-            "A checker for prose"
-            :command ("vale" "--output" "line" source)
-            :standard-input nil
-            :error-patterns
-            ((error line-start (file-name) ":" line ":" column ":" (id (one-or-more (not (any ":")))) ":" (message) line-end)) :modes (markdown-mode markdown-mode gfm-mode org-mode text-mode)))
-
-  (use-package! markdown-mode
-                :defer t
-                :init
-                (setq markdown-enable-wiki-links t
-                      markdown-wiki-link-search-type '(sub-directories parent-directories)
-                      markdown-wiki-link-fontify-missing t
-                      markdown-enable-math nil
-                      markdown-link-space-sub-char " "))
-
-
-  (after! magit
-          (magit-wip-mode)
-          (setq magit-log-arguments '("--graph" "--decorate" "--color")
-                magit-delete-by-moving-to-trash nil
-                git-commit-summary-max-length 80
-                transient-values '((magit-rebase "--autosquash" "--autostash")
-                                   (magit-pull "--rebase" "--autostash")
-                                   (magit-revert "--autostash"))))
-
+#+begin_src emacs-lisp :tangle init.el
+  (use-package diff-hl
+    :init
+    (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+    :config (global-diff-hl-mode))
 #+end_src
-* Keys and mappings
-** TODO Mode-specific hotkeys
 
-#+begin_src emacs-lisp
-  (map! :leader
-        :desc "Org capture"    "SPC" #'org-capture
-        :desc "Quick ace window" "w SPC" #'ace-window
-        (:prefix-map ("l" . "bascht/personal")
-                     :desc "Start my daily review"  "d" #'bascht/daily-review
-                     :desc "Run table formatter"    "tf" #'org-table-calc-current-TBLFM
+*** Yaml Mode
 
-                     (:prefix-map ("c" . "clocks")
-                                  :desc "Clock in alfatraining" "a" #'bascht/alfatraining-clock-in
-                                  :desc "Goto in recent clock"  "r" #'org-mru-clock-select-recent-task))
-
-        (:prefix-map ("nw" . "WirZwei")
-                     :desc "Open todays wzzk"       "t" #'bascht/wzzk-find-today
-                     :desc "Open yesterdays wzzk"   "y" #'bascht/wzzk-find-yesterday
-                     :desc "Find file in wzzk"      "f" #'bascht/wzzk-find)
-
-        :desc "Open file via zoxide"    "fz" #'zoxide-find-file
-
-        :desc "Open yesterdays journal" "njy" #'bascht/goto-yesterdays-journal
-        :desc "Find in Alfaview"        "nga" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/CustomerAlfaview.org"))
-        :desc "Find in Knowledgebase"   "ngk" (lambda () (interactive) (bascht/org-file-show-headings "~/Documents/Zettelkasten/KnowledgeBase.org")))
-
-  (map! :after dired
-        :map dirvish-mode-map
-        :n "h" #'dired-up-directory
-        :n "l" #'dired-find-file)
-
-
-  (map! :after org
-        :map org-mode-map
-        :localleader
-
-        (:prefix-map ("i" . "Insert")
-                     :desc "Link/Image"           "l" 'org-insert-link
-                     :desc "Item"                 "o" 'org-toggle-item
-                     :desc "Citation"             "c" 'org-ref-helm-insert-cite-link
-                     :desc "Footnote"             "f" 'org-footnote-action
-                     :desc "Table"                "t" 'org-table-create-or-convert-from-region
-                     :desc "Clipboard"            "c" 'org-download-clipboard
-                     :desc "Structure template"   "s" #'org-insert-structure-template
-                     :desc "Heading (respecting)" "h" #'org-insert-heading-respect-content
-                     :desc "TODO heading"         "t" #'org-insert-heading-respect-content))
-
-  (map! :after dired
-        :map dired-mode-map
-        :localleader
-
-        :desc "Drag" "d" #'dwim-shell-command-drag
-        :desc "Drop" "o" #'dwim-shell-command-drop
-        :desc "Convert to GIF" "g" #'dwim-shell-command-convert-to-gif)
-
-  ;; Remap C-Return in org-journal mode since I don't need any other
-  ;; kind of headlines in org-journal files
-  (map! :after org-journal
-        :map org-journal-mode-map
-        :desc "Insert new Journal entry" "C-j" #'org-journal-new-entry
-        :desc "Insert new Journal entry" "C-RET" #'org-journal-new-entry)
-
-  (map! :after markdown-mode
-        :map evil-markdown-mode-map
-        :i "M-b" #'backward-word
-        )
-
-  (map! :after mu4e
-        :map mu4e-view-mode-map :vn
-        "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
-
-  (map! :after mu4e
-        :map mu4e-headers-mode-map :vn
-        "T" (lambda () (interactive) (mu4e-headers-mark-thread nil '(refile))))
-
-  (map! :after mu4e
-        :map (mu4e-headers-mode-map mu4e-view-mode-map) :vn
-        :desc "Back to last search" "<backspace>" #'mu4e-search-prev
-        :desc "Forward to next search" "S-<backspace>" #'mu4e-search-next)
-
-
+#+begin_src emacs-lisp :tangle init.el
+  (use-package yaml-mode :ensure t)
 #+end_src
+
+*** JSON Mode
+
+#+begin_src emacs-lisp :tangle init.el
+(use-package json-mode :ensure t)
+#+end_src
+
 * TODO Email
 
 #+begin_src emacs-lisp :tangle init.el
@@ -1854,9 +1249,9 @@ Various language specific modes and checkers.
           org-msg-greeting-fmt "\nHallo,\n\n"
           ;; org-msg-recipient-names '(("jeremy.compostella@gmail.com" . "Jérémy"))
           ;; org-msg-greeting-name-limit 3
-          org-msg-default-alternatives '((new		. (text html))
-                                         (reply-to-html	. (text html))
-                                         (reply-to-text	. (text)))
+          org-msg-default-alternatives '((new           . (text html))
+                                         (reply-to-html . (text html))
+                                         (reply-to-text . (text)))
           org-msg-convert-citation t)
     (message "Org msg mode is currently %s and agent is %s" org-msg-mode mu4e-user-agent-string)
 
@@ -1919,8 +1314,8 @@ Various language specific modes and checkers.
     ;;           :match-func (lambda (msg)
     ;;                         (when msg
     ;;                           (string-match-p "^/bascht.com" (mu4e-message-field msg :maildir))))
-    ;;           :vars '( ( user-mail-address	    . "mail@bascht.com"  )
-    ;;                    ( user-full-name	    . "Sebastian Schulze" )
+    ;;           :vars '( ( user-mail-address       . "mail@bascht.com"  )
+    ;;                    ( user-full-name          . "Sebastian Schulze" )
     ;; (mu4e-sent-folder . "/bascht.com/Sent")
     ;; (mu4e-drafts-folder . "/bascht.com/Drafts")
     ;; (mu4e-trash-folder . "/bascht.com/Trash")
@@ -1935,8 +1330,8 @@ Various language specific modes and checkers.
     ;;           :match-func (lambda (msg)
     ;;                         (when msg
     ;;                           (string-match-p "^/Arkham" (mu4e-message-field msg :maildir))))
-    ;;           :vars '( ( user-mail-address	       . "aderleth@miskatonic.example.com" )
-    ;;                    ( user-full-name	       . "Alice Derleth" )
+    ;;           :vars '( ( user-mail-address          . "aderleth@miskatonic.example.com" )
+    ;;                    ( user-full-name             . "Alice Derleth" )
     ;;                    ( message-user-organization . "Miskatonic University" )
     ;;                    ))
 
@@ -2072,8 +1467,6 @@ Various language specific modes and checkers.
                                  (backward-word)
                                  (shr-browse-url))))
 #+end_src
-
-
 
 * TODO Work
 
@@ -2396,8 +1789,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 #+end_src
 
 * Custom functions
-** The =bascht/= namespace
-
+** The =bascht--= namespace
 #+begin_src emacs-lisp :tangle init.el
       (defun bascht/switch-spellcheck (lang)
         (interactive)
@@ -2484,6 +1876,17 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
         (magit-call-git "checkout" (magit-main-branch))
         (magit-run-git-with-editor "pull"))
 #+end_src
+*** Toggle temporary window zoom
+
+#+begin_src emacs-lisp :tangle init.el
+(defun bascht--toggle-window-zoom ()
+    ;; Toggle temporary zooom for current window without the need of zoom.el
+    ;; @see https://christiantietze.de/posts/2022/09/replacing-zoom-window-with-winner-mode/
+    (interactive)
+    (if (window-parent (selected-window))
+        (delete-other-windows)
+      (winner-undo)))
+#+end_src
 ** Git and Magit helpers
 *** Clean up untracked files
 
@@ -2527,30 +1930,75 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 #+end_src
 
 * Looks and Faces
-** TODO Custom faces
+** Rainbow-Delimiters
 
-#+begin_src emacs-lisp :tangle faces.el
-  (custom-set-faces!
-   '(mode-line :family  "VictorMono Nerd Font" :weight medium)
-   '(mode-line-active :family "VictorMono Nerd Font" :weight medium)
-   '(mode-line-inactive :family "VictorMono Nerd Font" :weight medium)
-   '(avy-lead-face :inherit isearch :family doom-font :bold t :italic nil :background "deep pink" :height 1.0 :foreground "snow"))
-  (custom-set-faces
-   '(avy-lead-face ((t (:inherit isearch :background "deep pink" :foreground "snow"))))
-   '(mode-line ((t (:family "IBM Plex Mono" :weight normal :height 1.0))))
-   '(mode-line-active ((t (:family "IBM Plex Mono" :height 1.0))))
-   '(mode-line-inactive ((t (:family "IBM Plex Mono" :height 1.0))))
-   '(mu4e-unread-face ((t (:weight medium :foreground "gray10"))))
-   '(mu4e-flagged-face ((t (:weight medium :foreground "DeepPink"))))
-   '(mu4e-system-face ((t (:family "IBM Plex Mono" :foreground "gray60"))))
-   '(mu4e-header-highlight-face ((t (:background "lemon chiffon"))))
-   '(org-document-title ((t (:height 1.5 :underline nil))))
-   '(org-level-1 ((t (:family  "IBM Plex Serif" :height 1.3 :overline nil :weight normal))))
-   '(org-level-2 ((t (:family "IBM Plex Serif" :height 1.2 :overline nil :weight normal))))
-   '(org-level-3 ((t (:family "IBM Plex Sans" :height 1.1 :overline nil :weight light)))))
+(((((((awwwwww)))))))
 
+#+begin_src emacs-lisp :tangle init.el
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+** Doom modeline
+Tried and true. Just cannot get used to any thing different or more minimal.
+#+begin_src emacs-lisp :tangle init.el
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-time nil
+          doom-modeline-height 28
+          doom-modeline-persp-name t
+          doom-modeline-buffer-encoding nil
+          doom-modeline-buffer-coding nil
+          doom-modeline-check-simple-format t
+          doom-modeline-battery nil
+          doom-modeline-unicode-fallback nil
+          doom-modeline-modal nil))
+#+end_src
+** Nerd-Icons
+#+begin_src emacs-lisp :tangle init.el
+  (use-package nerd-icons
+    :config (setq nerd-icons-color-icons t
+                  nerd-icons-scale-factor 1.0
+                  nerd-icons-font-family  "Symbols Nerd Font"))
+#+end_src
+** Nerd Icons for dired as well
+#+begin_src emacs-lisp :tangle init.el
+  (use-package nerd-icons-dired
+    :ensure t
+    :hook
+    (dired-mode . nerd-icons-dired-mode))
+#+end_src
+** Emojify
+
+Try to use proper emoji where possible (and actually useful) :smile:
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package emojify
+    :ensure t
+    :hook (prog-mode org-mode text-mode)
+    :config (setq
+             emojify-display-style 'unicode
+             emojify-download-emojis-p t))
 #+end_src
 
+** Org Rainbow Tags
+
+Think rainbow delimiters, but for =org-mode= tags.
+
+#+begin_src emacs-lisp :tangle init.el
+(use-package org-rainbow-tags
+    :ensure t
+    :hook (org-mode . org-rainbow-tags-mode)
+    :config (setq org-rainbow-tags-hash-start-index 8))
+    #+end_src
+** Spacious Padding
+
+No need for zen mode when Prot got you covered.
+#+begin_src emacs-lisp :tangle init.el
+  (use-package spacious-padding :ensure t
+    )
+#+end_src
 ** TODO Custom set variables
 
 - [ ] Find out why I'm still getting asked for confirmation by my [[Alfaview.org]] file
