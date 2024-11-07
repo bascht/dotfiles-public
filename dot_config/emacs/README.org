@@ -2500,8 +2500,6 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
         (magit-run-git-with-editor "pull"))
 #+end_src
 ** Git and Magit helpers
-
-
 *** Clean up untracked files
 
 #+begin_src emacs-lisp :tangle init.el
@@ -2569,6 +2567,8 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 #+end_src
 
 ** TODO Custom set variables
+
+- [ ] Find out why I'm still getting asked for confirmation by my [[Alfaview.org]] file
 
 #+begin_src emacs-lisp :tangle init.el
   (custom-set-variables
