@@ -404,6 +404,19 @@ General is one of those packages where I'm not even sure if I still need it afte
     (which-key-mode))
 #+end_src
 
+* Writing
+
+** Spell checking
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package jinx
+    :hook text-mode prog-mode conf-mode mu4e-compose-mode git-commit-mode
+    :bind (("M-$" . 'jinx-correct)
+           ("C-M-$" . 'jinx-languages))
+    :config
+    (setq jinx-languages "de_DE en_GB"))
+#+end_src
+
 * Fonts
 
 ** Fontaine mode
@@ -1179,15 +1192,6 @@ Orderless: powerful completion style
 
   	)
 
-        (use-package jinx
-  	:after generaln
-  	:hook text-mode prog-mode conf-mode mu4e-compose-mode
-  	:general (leader-keys
-  		  "m s c" '(jinx-correct :which-key "")
-  		  "m s l" '(jinx-languages :which-key ""))
-  	:config
-  	(setq jinx-languages "de_DE en_GB"))
-
 #+end_src
 
 
@@ -1346,9 +1350,6 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
         display-line-numbers-type nil
         delete-selection-mode nil
         writeroom-width 100
-        ispell-dictionary "en_GB"
-        ispell-aspell-data-dir (expand-file-name "~/.guix-home/profile/lib/aspell")
-        ispell-aspell-dict-dir ispell-aspell-data-dir
         safe-local-variable-values '((buffer-read-only . 1))
         frame-title-format (concat "%b - " user-login-name "@" (system-name))
         browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
