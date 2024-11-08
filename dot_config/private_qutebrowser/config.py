@@ -102,7 +102,7 @@ config.bind('<z><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-dmenu"
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-menu" --username-target secret --username-pattern "user: (.+)" --username-only')
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-menu" --username-target secret --username-pattern "user: (.+)" --password-only')
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --mode gopass -d "fzf-menu" --username-target secret --username-pattern "user: (.+)" --otp-only')
-config.bind('<z><t><l>', 'spawn my-rofi totp {url:host}')
+config.bind('<z><t><l>', 'mode-enter insert ;; spawn my-rofi totp {url:host}')
 
 config.bind('ygs', 'spawn get-gitlab-shortcode {url}')
 config.bind('ygm', 'spawn get-gitlab-shortcode-as-markdown {url}')
