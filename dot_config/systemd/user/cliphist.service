@@ -1,0 +1,15 @@
+[Install]
+WantedBy=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wl-paste --watch cliphist store
+Restart=on-failure
+RestartSec=10
+
+
+[Unit]
+Description=Clipboard manager
+After=sway-session.target
+PartOf=sway-session.target
+X-RestartIfChanged=false
