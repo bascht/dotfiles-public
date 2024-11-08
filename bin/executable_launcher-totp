@@ -10,6 +10,13 @@ if [ -z "$QUERY" ]; then
     QUERY=''
 fi
 
+# Work around my inability to correctly name the things on my Yubikey :joy:
+case "${QUERY}" in
+    aws*) QUERY="aws" ;;
+    *otc*) QUERY="otc" ;;
+esac
+
 list=$(ykman oath accounts list)
 account=$(echo -e "${list}" | fzf -q "$QUERY")
-ykman oath accounts code "${account}" | awk '{ print $2 }' | wl-copy
+TOKEN=$(ykman oath accounts code "${account}" | awk '{ print $2 }')
+swaymsg exec -- wtype -d 150 "${TOKEN}"
