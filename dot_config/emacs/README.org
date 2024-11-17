@@ -867,20 +867,29 @@ Might not even need this since I do have embark now.
 
 *** Prots ef-themes
 
-Gorgeous.
+Gorgeous. Pick a theme according to whichever Emacs daemon I'm currently in, so I can actually tell them apart.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package ef-themes
     :ensure t
-    ;; :defer t
-    :init
     :config
     (setq ef-themes-mixed-fonts t
           ef-themes-variable-pitch-ui t)
     (mapc #'disable-theme custom-enabled-themes)
-    (if (string= (daemonp) "workmacs")
-        (ef-themes-select 'ef-cyprus)
-      (ef-themes-select 'ef-light))
+
+    (cond ((string= (daemonp) "workmacs") (ef-themes-select 'ef-cyprus))
+          ((string= (daemonp) "comacs")  (ef-themes-select 'ef-light))
+          (t  (ef-themes-select 'ef-trio-light)))
+
+  (when (string= (daemonp) "workmacs")
+    (set-face-attribute 'mode-line nil
+                        :background nil
+                        :foreground nil
+                        :box '(:line-width 4 :color nil :background nil)
+                        :overline nil
+                        :underline nil))
+
+  (when (string= (daemonp) "workmacs")
     (set-face-attribute 'mode-line nil
                         :background "#b7c7ff"
                         :foreground "#151515"
@@ -893,14 +902,28 @@ Gorgeous.
                         :foreground "#70627f"
                         :box '(:line-width 4 :color "#dbdbdb")
                         :overline nil
+                        :underline nil))
+
+  (when (string= (daemonp) "comacs")
+    (set-face-attribute 'mode-line nil
+                        :background "#a5c67f"
+                        :foreground "#142810"
+                        :box '(:line-width 4 :color "#b7c7ff")
+                        :overline nil
                         :underline nil)
 
-    (set-face-attribute 'avy-lead-face nil
-                        :background "deep pink"
-                        :foreground "snow"
-                        :bold t
-                        )
-    )
+    (set-face-attribute 'mode-line-inactive nil
+                        :background "#dbdbdb"
+                        :foreground "#70627f"
+                        :box '(:line-width 4 :color "#dbdbdb")
+                        :overline nil
+                        :underline nil))
+
+  ;; Make sure I actually notice the tiny avy overlay
+  (set-face-attribute 'avy-lead-face nil
+                      :background "deep pink"
+                      :foreground "snow"
+                      :bold t))
 #+end_src
 
 ** Olivetti Mode
