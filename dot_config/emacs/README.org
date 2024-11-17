@@ -37,7 +37,7 @@
           native-comp-deferred-compilation t)
 #+end_src
 
-* TODO Hypergalactic new =init.el= [0/1]
+* TODO Hypergalactic new =init.el= [0/2]
 
 This is where I'm at after a few evenings of porting my existing doomemacs configuration over to a bare bones from scratch Emacs (with a little help and inspiration from the [[https://codeberg.org/ashton314/emacs-bedrock][emacs-bedrock]] project).
 
@@ -170,9 +170,11 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
     )
 #+end_src
 
-** More defaults from bedrock still
+** TODO More defaults from bedrock still
 
 Some day I'm going to clean them up. Some day.
+
+- [ ] Only show trailing whitespace when we're in =prog-mode=
 
 #+begin_src emacs-lisp :tangle init.el
   ;; Save history of minibuffer
