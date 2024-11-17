@@ -397,7 +397,7 @@ Well, which key is it?
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package jinx
-    :hook text-mode prog-mode conf-mode mu4e-compose-mode git-commit-mode
+    :hook markdown-mode org-mode conf-mode mu4e-compose-mode git-commit-mode
     :bind (("M-$" . 'jinx-correct)
            ("C-M-$" . 'jinx-languages))
     :config
