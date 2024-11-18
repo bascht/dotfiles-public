@@ -878,44 +878,6 @@ Gorgeous. Pick a theme according to whichever Emacs daemon I'm currently in, so 
           ((string= (daemonp) "comacs")  (ef-themes-select 'ef-light))
           (t  (ef-themes-select 'ef-trio-light)))
 
-  (when (string= (daemonp) "workmacs")
-    (set-face-attribute 'mode-line nil
-                        :background nil
-                        :foreground nil
-                        :box '(:line-width 4 :color nil :background nil)
-                        :overline nil
-                        :underline nil))
-
-  (when (string= (daemonp) "workmacs")
-    (set-face-attribute 'mode-line nil
-                        :background "#b7c7ff"
-                        :foreground "#151515"
-                        :box '(:line-width 4 :color "#b7c7ff")
-                        :overline nil
-                        :underline nil)
-
-    (set-face-attribute 'mode-line-inactive nil
-                        :background "#dbdbdb"
-                        :foreground "#70627f"
-                        :box '(:line-width 4 :color "#dbdbdb")
-                        :overline nil
-                        :underline nil))
-
-  (when (string= (daemonp) "comacs")
-    (set-face-attribute 'mode-line nil
-                        :background "#a5c67f"
-                        :foreground "#142810"
-                        :box '(:line-width 4 :color "#b7c7ff")
-                        :overline nil
-                        :underline nil)
-
-    (set-face-attribute 'mode-line-inactive nil
-                        :background "#dbdbdb"
-                        :foreground "#70627f"
-                        :box '(:line-width 4 :color "#dbdbdb")
-                        :overline nil
-                        :underline nil))
-
   ;; Make sure I actually notice the tiny avy overlay
   (set-face-attribute 'avy-lead-face nil
                       :background "deep pink"
@@ -1734,12 +1696,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           inhibit-startup-screen t
           initial-buffer-choice t
           initial-scratch-message nil
-          doom-modeline-vcs-icon nil
-          doom-modeline-check-icon nil
-          doom-modeline-workspace-name nil
-          doom-modeline-persp-name nil
-          doom-modeline-persp-icon nil
-          doom-modeline-lsp nil
+
           org-journal-find-file-fn 'find-file
                                           ;mode-line-format nil
           )
@@ -1899,9 +1856,24 @@ Tried and true. Just cannot get used to any thing different or more minimal.
     :ensure t
     :init (doom-modeline-mode 1)
     :config
+    (if (string= (daemonp) "workmacs")
+        (setq doom-modeline-major-mode nil
+              doom-modeline-major-mode-icon t
+              doom-modeline-vcs-icon nil
+              doom-modeline-check-icon nil
+              doom-modeline-workspace-name nil
+              doom-modeline-display-misc-in-all-mode-lines nil
+              doom-modeline-persp-name nil
+              doom-modeline-k8s-show-namespace nil
+              doom-modeline-persp-icon nil
+              doom-modeline-time-icon nil
+              doom-modeline-time-analogue-clock nil
+              doom-modeline-lsp nil)
+      (setq doom-modeline-persp-name t))
+
     (setq doom-modeline-time nil
           doom-modeline-height 28
-          doom-modeline-persp-name t
+
           doom-modeline-buffer-encoding nil
           doom-modeline-buffer-coding nil
           doom-modeline-check-simple-format t
@@ -1950,8 +1922,12 @@ Think rainbow delimiters, but for =org-mode= tags.
 
 No need for zen mode when Prot got you covered.
 #+begin_src emacs-lisp :tangle init.el
-  (use-package spacious-padding :ensure t
-    )
+  (use-package spacious-padding
+    :ensure t
+    :config
+    ;; For workmacs I really only need a subtle mode line.
+    (when (string= (daemonp) "workmacs")
+      (setq spacious-padding-subtle-mode-line '(:mode-line-active "gray70" :mode-line-inactive "gray80"))))
 #+end_src
 
 * Custom Values
