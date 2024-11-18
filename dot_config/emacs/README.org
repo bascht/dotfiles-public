@@ -700,7 +700,9 @@ Orderless: powerful completion style
     (if (string= (daemonp) "workmacs")
         (progn (setq org-clock-persist t
                      org-clock-persist-file "~/.config/emacs/org-clock-workmacs-save.el"
-                     org-clock-query-save t)
+                     org-clock-query-save t
+                     org-clock-ask-before-exiting nil)
+               (org-clock-persistence-insinuate)
                (add-hook 'org-trigger-hook 'save-buffer)
                (add-hook 'org-clock-in-hook 'save-buffer)
                (add-hook 'org-clock-out-hook 'save-buffer)))
