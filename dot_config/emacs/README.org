@@ -275,7 +275,7 @@ General is one of those packages where I'm not even sure if I still need it afte
 
     (general-define-key
      :prefix "C-c"
-     "m" 'mu4e
+     "m" '(bascht-mu4e-persp :which-key "mu4e")
      "c" 'org-capture
      "o" '(:ignore t :which-key "Anything org-related for bascht")
      "o h" '(consult-org-agenda :which-key "Go to agenda heading")
@@ -1422,6 +1422,20 @@ Mark changes on the left side of the gutter.
     )
 
 #+end_src
+
+
+** Reply from individual catchall addresses
+
+This function takes care of my individual catchall addresses =*@bascht.com=. Whenever I reply from an address that's just an alias, I still want to keep up the charade and not accidentally reply from a "real" address:
+
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht/mu4e-change-from-to-catchall (msg)
+    "Set the From address based on the To address of the original message if I reply."
+    (setq user-mail-address
+          (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
+              (plist-get (car-safe (mu4e-message-field msg :to)) :email)
+            (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
+#+end_src
 ** GitLab Email helpers
 
 #+begin_src emacs-lisp :tangle init.el
@@ -1434,269 +1448,268 @@ Mark changes on the left side of the gutter.
                                  (backward-word)
                                  (shr-browse-url))))
 #+end_src
-
 * TODO Work
 
 #+begin_src emacs-lisp :tangle init.el
-        ;;; org.el -*- lexical-binding: t; -*-
+      ;;; org.el -*- lexical-binding: t; -*-
 
-      (setq org-capture-templates
-            (if (string= (system-name) "apfelstrudel")
-                '(("t" "Todo" entry (file "Todo.org")
-                   "* TODO %?\n  %i")
-                  ("m" "MailTodo" entry (file "Todo.org")
-                   "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
-                  ("p" "OpsRetro positive" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :+1: %?\n  %i")
-                  ("n" "OpsRetro negative" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :-1: %?\n  %i"))
-              '(("t" "Todo" entry (file "Todo.org")
-                 "* TODO %?\n  %i")
-                ("m" "MailTodo" entry (file "Todo.org")
-                 "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
-                ("p" "Print" entry (file+headline "Personal.org" "Drucken")
-                 "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
-                ("b" "BlogIdeas" entry (file+olp "Projects.org" "bascht.com" "BlogIdeas")
-                 "* TODO %?\n  %i"))))
+  (setq org-capture-templates
+        (if (string= (system-name) "apfelstrudel")
+            '(("t" "Todo" entry (file "Todo.org")
+               "* TODO %?\n  %i")
+              ("m" "MailTodo" entry (file "Todo.org")
+               "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
+              ("p" "OpsRetro positive" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :+1: %?\n  %i")
+              ("n" "OpsRetro negative" entry (file+olp "Alfaview.org" "Meetings" "Ops-Retro") "* TODO :-1: %?\n  %i"))
+          '(("t" "Todo" entry (file "Todo.org")
+             "* TODO %?\n  %i")
+            ("m" "MailTodo" entry (file "Todo.org")
+             "* TODO %:fromname %a%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%i\n")
+            ("p" "Print" entry (file+headline "Personal.org" "Drucken")
+             "* TODO %a drucken :@home:@print:%?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\"))\n%a\n")
+            ("b" "BlogIdeas" entry (file+olp "Projects.org" "bascht.com" "BlogIdeas")
+             "* TODO %?\n  %i"))))
 
-                                              ; Daily Review
-      (defun bascht/daily-review ()
-        (interactive)
-        (persp-switch "@Org")
-        (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
-        (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
-        (org-narrow-to-subtree)
-        (org-cycle-hide-drawers 'all)
-        (search-forward "[ ]"))
-
-
-                                              ; Recent loops callable for daily review
-      (defun bascht/org-agenda-recent-open-loops ()
-        (interactive)
-        (let ((org-agenda-start-with-log-mode t)
-              (org-agenda-span 'day)
-              (org-agenda-use-time-grid nil))
-          (org-agenda nil "l")
-          (beginend-org-agenda-mode-goto-beginning)))
-
-      (defun bascht/sway-org-clock-indicator ()
-        (if (org-clocking-p)
-            (format "%s @ %s"
-                    org-clock-heading
-                    (format "%2f h" (/ (org-clock-get-clocked-time) 60.0)))
-          (format "🕶 chilling")))
+                                          ; Daily Review
+  (defun bascht/daily-review ()
+    (interactive)
+    (persp-switch "@Org")
+    (find-file "/home/bascht/Documents/Zettelkasten/Todo.org")
+    (goto-char (org-find-exact-headline-in-buffer "Daily Review"))
+    (org-narrow-to-subtree)
+    (org-cycle-hide-drawers 'all)
+    (search-forward "[ ]"))
 
 
-                                              ; Via https://www.reddit.com/r/emacs/comments/8kz8dv/tip_how_i_use_orgjournal_to_improve_my/
-      (defun bascht/goto-yesterdays-journal ()
-        (interactive)
-        (find-file (expand-file-name (concat org-journal-dir (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))))
+                                          ; Recent loops callable for daily review
+  (defun bascht/org-agenda-recent-open-loops ()
+    (interactive)
+    (let ((org-agenda-start-with-log-mode t)
+          (org-agenda-span 'day)
+          (org-agenda-use-time-grid nil))
+      (org-agenda nil "l")
+      (beginend-org-agenda-mode-goto-beginning)))
 
-      ;; Find my work tree and clock into the respective day / create entry if it does not exist
-      (defun bascht/alfatraining-clock-in ()
-        (interactive)
-        (save-excursion
+  (defun bascht/sway-org-clock-indicator ()
+    (if (org-clocking-p)
+        (format "%s @ %s"
+                org-clock-heading
+                (format-seconds "%.2h:%.2m" (* 60 (org-clock-get-clocked-time))))
+      (format "🕶 chilling")))
 
-          (find-file (expand-file-name "Alfaview.org" org-directory))
-          (goto-char (point-min))
 
-          (let ((month (format-time-string "%Y-%m"))
-                (today (format-time-string "[%Y-%m-%d]")))
-            (goto-char (org-find-exact-headline-in-buffer month))
+                                          ; Via https://www.reddit.com/r/emacs/comments/8kz8dv/tip_how_i_use_orgjournal_to_improve_my/
+  (defun bascht/goto-yesterdays-journal ()
+    (interactive)
+    (find-file (expand-file-name (concat org-journal-dir (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))))
 
-            (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
-                (goto-char (org-find-exact-headline-in-buffer today))
+  ;; Find my work tree and clock into the respective day / create entry if it does not exist
+  (defun bascht/alfatraining-clock-in ()
+    (interactive)
+    (save-excursion
+
+      (find-file (expand-file-name "Alfaview.org" org-directory))
+      (goto-char (point-min))
+
+      (let ((month (format-time-string "%Y-%m"))
+            (today (format-time-string "[%Y-%m-%d]")))
+        (goto-char (org-find-exact-headline-in-buffer month))
+
+        (if (integer-or-marker-p (org-find-exact-headline-in-buffer today))
+            (goto-char (org-find-exact-headline-in-buffer today))
+          (progn
+            (org-insert-subheading nil)
+            (insert today)))
+        (org-clock-in)
+        (save-buffer))))
+
+  ;; Add the a small button to report the current clock line in a :clockreport to
+  ;; Personio. This won't actually do the remote call, but just add a elisp: hyperlink.
+  ;; That way we keep the table rendering nice and quick.
+  ;; Skip the first 3 total / sum rows by matching the current item against =org-ts-regexp0=
+  (defun bascht/ts-for-report-table (ts h)
+    (save-excursion
+      (if (string-match org-ts-regexp0 ts)
+          (progn
+            (beginning-of-buffer)
+            (goto-char (org-find-exact-headline-in-buffer ts))
+            (if (org-entry-get nil "PERSONIO_REPORTED")
+                "✓ Reported"
               (progn
-                (org-insert-subheading nil)
-                (insert today)))
-            (org-clock-in)
-            (save-buffer))))
+                (search-forward ":LOGBOOK:")
+                (search-forward ":END:")
+                (forward-line -1)
+                (let* ((timestamp (org-element-property :value (org-element-at-point)))
+                       (ts-start (org-timestamp-to-time timestamp))
+                       (hours (s-chop-suffix "h" h)))
+                  (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report %s hours to Personio]]" ts-start hours hours))
+                )))
+        "")))
 
-      ;; Add the a small button to report the current clock line in a :clockreport to
-      ;; Personio. This won't actually do the remote call, but just add a elisp: hyperlink.
-      ;; That way we keep the table rendering nice and quick.
-      ;; Skip the first 3 total / sum rows by matching the current item against =org-ts-regexp0=
-      (defun bascht/ts-for-report-table (ts h)
-        (save-excursion
-          (if (string-match org-ts-regexp0 ts)
-              (progn
-                (beginning-of-buffer)
-                (goto-char (org-find-exact-headline-in-buffer ts))
-                (if (org-entry-get nil "PERSONIO_REPORTED")
-                    "✓ Reported"
+                                          ; Split working hours into personio-compatible slots around a 1 hour break in
+                                          ; case the report is longer than 4 hours. There are probably a 1000 easier
+                                          ; ways to do this, but I'mma take proud in my hacky solution since it works
+                                          ; and it was hard enough to cobble together.
+
+
+  (defun bascht/ts-report-to-personio (ts hours)
+    (message "Ohai from ts [%s] with hours: %s" ts hours)
+    (point-to-register 'bascht/ts-report-current-table)
+
+    (if (> hours 4)
+
+        (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
+               (break-end (time-add first-shift-end 3600))
+               (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
+
+          (shell-command (format "report-to-personio \"%s\" \"%s\" \"%s\" \"%s\""
+                                 (format-time-string "%R" ts)
+                                 (format-time-string "%R" first-shift-end)
+                                 (format-time-string "%R" break-end)
+                                 (format-time-string "%R" shift-end)))
+          )
+
+      (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
+        (shell-command (format "report-to-personio \"%s\" \"%s\""
+                               (format-time-string "%R" ts)
+                               (format-time-string "%R" shift-end))))
+      )
+
+
+
+    (jump-to-register 'bascht/ts-report-current-table)
+    (save-excursion
+      (beginning-of-buffer)
+      (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
+      (org-set-property "PERSONIO_REPORTED" "t"))
+    ;;(message (car-safe (cdr-safe result)))
+    (org-table-recalculate))
+
+
+  (defun bascht/alfatraining-hours-a-day (date)
+    (cond
+     ((string-match "Mon" (s-trim date)) 4)
+     ((string-match "Tue" (s-trim date)) 8)
+     ((string-match "Wed" (s-trim date)) 8)
+     ((string-match "Thu" (s-trim date)) 8)
+     ((string-match "Fri" (s-trim date)) 2)
+     (t "0:00")))
+
+  (defun bascht/send-org-clock-to-ulanzi ()
+    (if (org-clocking-p)
+        (let* ((clocked-time (/ (org-clock-get-clocked-time) 60.0))
+               (percent (round (*(/ clocked-time (bascht/alfatraining-hours-a-day (format-time-string "%a"))) 100)))
+               (text (format "%.1fh" clocked-time)))
+
+          (request "http://10.11.12.180/api/custom"
+            :type "POST"
+            :headers '(("Content-Type" . "application/json"))
+            :data (json-encode `(("name" . "worklog")
+                                 ("icon" . "11402")
+                                 ("progress" . ,percent)
+                                 ("text" . ,text))))
+          )
+
+      ))
+
+  (defun bascht/org-file-show-headings (org-file)
+    (interactive)
+    (find-file (expand-file-name org-file))
+    (counsel-org-goto)
+    (org-fold-show-subtree))
+
+  (defun bascht/wzzk-find ()
+    (interactive)
+    (projectile-find-file-in-directory bascht/wzzk))
+
+  (defun bascht/wzzk-find-today ()
+    (interactive)
+    (let ((journal-today (expand-file-name (format-time-string "journals/%Y-%m-%d.md") bascht/wzzk)))
+      (unless (file-exists-p journal-today)
+        (message (concat "No journal for today, creating " (concat journal-today "on the fly.")))
+        (copy-file (expand-file-name "journals/_template.md" bascht/wzzk) journal-today))
+      (find-file journal-today))
+    (beginning-of-buffer)
+    (replace-string "<% tp.file.creation_date() %>" (format-time-string "%Y-%m-%d %H:%m"))
+    (replace-string "DailyNote <% tp.file.title.split('-')[0] %>" (format-time-string "DailyNote %Y"))
+    (end-of-buffer))
+
+  (defun bascht/wzzk-find-yesterday ()
+    (interactive)
+    (find-file (expand-file-name
+                (format-time-string "%Y-%m-%d.md"
+                                    (time-subtract (current-time) (days-to-time 1))) "~/WirZwei/Zettelkasten/journals")))
+
+
+  (defun +mu4e/capture-msg-to-agenda (arg)
+    "Refile a message and add a entry in `+org-capture-emails-file' with a
+    deadline.  Default deadline is today.  With one prefix, deadline
+    is tomorrow.  With two prefixes, select the deadline."
+    (interactive "p")
+    (let ((sec "^* Email")
+          (msg (mu4e-message-at-point)))
+      (when msg
+        ;; put the message in the agenda
+        (with-current-buffer (find-file-noselect
+                              (expand-file-name +org-capture-emails-file org-directory))
+          (save-excursion
+            ;; find header section
+            (goto-char (point-max))
+            (let (org-M-RET-may-split-line
+                  (lev (org-outline-level))
+                  (folded-p (invisible-p (point-at-eol)))
+                  (from (plist-get msg :from)))
+              (when (consp (car from)) ; Occurs when using mu4e 1.8+.
+                (setq from (car from)))
+              ;;
+              ;; place the subheader
+              (org-end-of-meta-data) ; skip property drawer
+              (org-insert-todo-heading 1)        ; insert a todo heading
+              ;;
+              ;; insert message and add deadline
+              (insert (concat "Email beantworten: "
+                              "[[mu4e:msgid:"
+                              (plist-get msg :message-id) "]["
+                              (truncate-string-to-width
+                               (plist-get from :name) 25 nil nil t)
+                              " - "
+                              (truncate-string-to-width
+                               (plist-get msg :subject) 40 nil nil t)
+                              "]] :email:"))
+              (org-deadline nil
+                            (cond ((= arg 1) (format-time-string "%Y-%m-%d"))
+                                  ((= arg 4) "+1d")))
+
+              (org-update-parent-todo-statistics)
+
+              ;; refold as necessary
+              (if folded-p
                   (progn
-                    (search-forward ":LOGBOOK:")
-                    (search-forward ":END:")
-                    (forward-line -1)
-                    (let* ((timestamp (org-element-property :value (org-element-at-point)))
-                           (ts-start (org-timestamp-to-time timestamp))
-                           (hours (s-chop-suffix "h" h)))
-                      (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report %s hours to Personio]]" ts-start hours hours))
-                    )))
-            "")))
+                    (org-up-heading-safe)
+                    (hide-subtree))
+                (hide-entry)))))
+        ;; refile the message and update
+        (cond ((eq major-mode 'mu4e-view-mode)
+               (mu4e-view-mark-for-refile))
+              ((eq major-mode 'mu4e-headers-mode)
+               (mu4e-headers-mark-for-refile)))
+        (message "Refiled \"%s\" and added to the agenda for %s"
+                 (truncate-string-to-width
+                  (plist-get msg :subject) 40 nil nil t)
+                 (cond ((= arg 1) "today")
+                       ((= arg 4) "tomorrow")
+                       (t         "later"))))))
 
-                                              ; Split working hours into personio-compatible slots around a 1 hour break in
-                                              ; case the report is longer than 4 hours. There are probably a 1000 easier
-                                              ; ways to do this, but I'mma take proud in my hacky solution since it works
-                                              ; and it was hard enough to cobble together.
-
-
-    (defun bascht/ts-report-to-personio (ts hours)
-        (message "Ohai from ts [%s] with hours: %s" ts hours)
-        (point-to-register 'bascht/ts-report-current-table)
-
-           (if (> hours 4)
-
-               (let* ((first-shift-end (time-add ts (seconds-to-time (* 3600 4))))
-                      (break-end (time-add first-shift-end 3600))
-                      (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
-
-                 (shell-command (format "report-to-personio \"%s\" \"%s\" \"%s\" \"%s\""
-                                        (format-time-string "%R" ts)
-                                        (format-time-string "%R" first-shift-end)
-                                        (format-time-string "%R" break-end)
-                                        (format-time-string "%R" shift-end)))
-                 )
-
-             (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
-               (shell-command (format "report-to-personio \"%s\" \"%s\""
-                                      (format-time-string "%R" ts)
-                                      (format-time-string "%R" shift-end))))
-             )
-
-
-
-           (jump-to-register 'bascht/ts-report-current-table)
-           (save-excursion
-             (beginning-of-buffer)
-             (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
-             (org-set-property "PERSONIO_REPORTED" "t"))
-           ;;(message (car-safe (cdr-safe result)))
-           (org-table-recalculate))
-
-
-        (defun bascht/alfatraining-hours-a-day (date)
-          (cond
-           ((string-match "Mon" (s-trim date)) 4)
-           ((string-match "Tue" (s-trim date)) 8)
-           ((string-match "Wed" (s-trim date)) 8)
-           ((string-match "Thu" (s-trim date)) 8)
-           ((string-match "Fri" (s-trim date)) 2)
-           (t "0:00")))
-
-        (defun bascht/send-org-clock-to-ulanzi ()
-          (if (org-clocking-p)
-              (let* ((clocked-time (/ (org-clock-get-clocked-time) 60.0))
-                     (percent (round (*(/ clocked-time (bascht/alfatraining-hours-a-day (format-time-string "%a"))) 100)))
-                     (text (format "%.1fh" clocked-time)))
-
-                (request "http://10.11.12.180/api/custom"
-                  :type "POST"
-                  :headers '(("Content-Type" . "application/json"))
-                  :data (json-encode `(("name" . "worklog")
-                                       ("icon" . "11402")
-                                       ("progress" . ,percent)
-                                       ("text" . ,text))))
-                )
-
-            ))
-
-        (defun bascht/org-file-show-headings (org-file)
-          (interactive)
-          (find-file (expand-file-name org-file))
-          (counsel-org-goto)
-          (org-fold-show-subtree))
-
-        (defun bascht/wzzk-find ()
-          (interactive)
-          (projectile-find-file-in-directory bascht/wzzk))
-
-        (defun bascht/wzzk-find-today ()
-          (interactive)
-          (let ((journal-today (expand-file-name (format-time-string "journals/%Y-%m-%d.md") bascht/wzzk)))
-            (unless (file-exists-p journal-today)
-              (message (concat "No journal for today, creating " (concat journal-today "on the fly.")))
-              (copy-file (expand-file-name "journals/_template.md" bascht/wzzk) journal-today))
-            (find-file journal-today))
-          (beginning-of-buffer)
-          (replace-string "<% tp.file.creation_date() %>" (format-time-string "%Y-%m-%d %H:%m"))
-          (replace-string "DailyNote <% tp.file.title.split('-')[0] %>" (format-time-string "DailyNote %Y"))
-          (end-of-buffer))
-
-        (defun bascht/wzzk-find-yesterday ()
-          (interactive)
-          (find-file (expand-file-name
-                      (format-time-string "%Y-%m-%d.md"
-                                          (time-subtract (current-time) (days-to-time 1))) "~/WirZwei/Zettelkasten/journals")))
-
-
-        (defun +mu4e/capture-msg-to-agenda (arg)
-          "Refile a message and add a entry in `+org-capture-emails-file' with a
-      deadline.  Default deadline is today.  With one prefix, deadline
-      is tomorrow.  With two prefixes, select the deadline."
-          (interactive "p")
-          (let ((sec "^* Email")
-                (msg (mu4e-message-at-point)))
-            (when msg
-              ;; put the message in the agenda
-              (with-current-buffer (find-file-noselect
-                                    (expand-file-name +org-capture-emails-file org-directory))
-                (save-excursion
-                  ;; find header section
-                  (goto-char (point-max))
-                  (let (org-M-RET-may-split-line
-                        (lev (org-outline-level))
-                        (folded-p (invisible-p (point-at-eol)))
-                        (from (plist-get msg :from)))
-                    (when (consp (car from)) ; Occurs when using mu4e 1.8+.
-                      (setq from (car from)))
-                    ;;
-                    ;; place the subheader
-                    (org-end-of-meta-data) ; skip property drawer
-                    (org-insert-todo-heading 1)        ; insert a todo heading
-                    ;;
-                    ;; insert message and add deadline
-                    (insert (concat "Email beantworten: "
-                                    "[[mu4e:msgid:"
-                                    (plist-get msg :message-id) "]["
-                                    (truncate-string-to-width
-                                     (plist-get from :name) 25 nil nil t)
-                                    " - "
-                                    (truncate-string-to-width
-                                     (plist-get msg :subject) 40 nil nil t)
-                                    "]] :email:"))
-                    (org-deadline nil
-                                  (cond ((= arg 1) (format-time-string "%Y-%m-%d"))
-                                        ((= arg 4) "+1d")))
-
-                    (org-update-parent-todo-statistics)
-
-                    ;; refold as necessary
-                    (if folded-p
-                        (progn
-                          (org-up-heading-safe)
-                          (hide-subtree))
-                      (hide-entry)))))
-              ;; refile the message and update
-              (cond ((eq major-mode 'mu4e-view-mode)
-                     (mu4e-view-mark-for-refile))
-                    ((eq major-mode 'mu4e-headers-mode)
-                     (mu4e-headers-mark-for-refile)))
-              (message "Refiled \"%s\" and added to the agenda for %s"
-                       (truncate-string-to-width
-                        (plist-get msg :subject) 40 nil nil t)
-                       (cond ((= arg 1) "today")
-                             ((= arg 4) "tomorrow")
-                             (t         "later"))))))
-
-        (setq org-agenda-category-icon-alist
-              '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
-                ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
-                ("Customer.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
-                ("Alfaview" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
-                ("Calendar" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
-                ("Freelance.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
-                ("Projects" "~/.icons/emacs/generic-folder-16x16.png" nil nil :ascent center)
-                ("\\(ROPrivat\\|ROArbeit\\)" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
-                (".*" '(space . (:width (16))))))
+  (setq org-agenda-category-icon-alist
+        '(("Todo" "~/.icons/emacs/todo-16x16.png" nil nil :ascent center)
+          ("Personal" "~/.icons/emacs/person-16x16.png" nil nil :ascent center)
+          ("Customer.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+          ("Alfaview" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+          ("Calendar" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
+          ("Freelance.*" "~/.icons/emacs/customer-16x16.png" nil nil :ascent center)
+          ("Projects" "~/.icons/emacs/generic-folder-16x16.png" nil nil :ascent center)
+          ("\\(ROPrivat\\|ROArbeit\\)" "~/.icons/emacs/calendar-16x16.png" nil nil :ascent center)
+          (".*" '(space . (:width (16))))))
 
 
 
@@ -1734,7 +1747,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
     (general-define-key
      :keymaps 'org-journal-mode-map
-     "C-c C-c"  '(lambda () (interactive)(save-buffer)(bascht--move-to-scratchpad)))
+     "C-c C-c"  '(lambda () (interactive)(bascht--move-to-scratchpad)(save-buffer)))
 
     (add-hook 'after-save-hook 'bascht--save-workmacs-journal)
 
@@ -1757,92 +1770,67 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
 * Custom functions
 ** The =bascht--= namespace
+
+I am immensely proud of this little set of functions that date to back to my first steps with Emacs lisp back when I first tried Doom Emacs.
+
+*** Switch to or create a perspective
+
+I use this function a 1000 times a day when I enter any kind of code / documentation project with my =bin/tn= or =bin/ta= helpers.
+
+It is called with the two last directory segments (e.g. =Code/something=), which will become the name of the perspective **and** the matching tmux session. So, whenever I need to switch contexts, I can either just peek into anther project by switching perspectives, or go all in and switch the tmux session. Both names match.
+
 #+begin_src emacs-lisp :tangle init.el
-      (defun bascht/switch-spellcheck (lang)
-        (interactive)
-        (setq ispell-personal-dictionary (concat "~/.local/share/ispell/bascht_" lang ".pws"))
-        (ispell-change-dictionary lang) lang)
-
-      (defun bascht/switch-spellcheck-to-english ()
-        (interactive)
-        (bascht/switch-spellcheck "en_GB")
-        (spell-fu-mode))
-
-      (defun bascht/switch-spellcheck-to-german ()
-        (interactive)
-        (bascht/switch-spellcheck "de_DE")
-        (spell-fu-mode))
-
-      (defun bascht-switch-to-or-load-perspective (name &optional directory)
-        (interactive)
-        (require 'magit-git)
-        (persp-mode)
-        (if (member name (persp-names))
-            (persp-switch name)
-          (progn (persp-new name)
-                 (persp-switch name)
-                 (project-switch-project directory)
-                 (when (magit-git-repo-p directory)
-                   (progn
-                     (magit-fetch-all nil)
-                     (magit-status-setup-buffer)
-                     (delete-other-windows))))))
-
-      (defun bascht/switch-to-or-load-activity (name &optional directory)
-        (interactive)
-        (activities-mode)
-        (if (member name (activities-names))
-            (progn
-              (activities-resume name)
-              (activities-switch name))
-          (progn (activities-define name)
-                 (activities-switch name)
-                 (magit-status-setup-buffer))))
-
-      (defun bascht-mu4e-persp ()
-        (interactive)
-        (if (member "mu4e" (persp-names))
-            (persp-new "mu4e"))
-        (persp-switch "mu4e")
-        (mu4e))
-
-      (defun bascht-create-new-persp ()
-        (interactive)
-        (let ((name (concat (daemonp) "-" (cadr (s-split "-" (org-id-uuid))))))
-          (persp-new name)
-          (persp-switch name)))
-
-      (defun bascht--move-to-scratchpad()
-        (call-process "swaymsg" nil nil nil "--quiet" "move" "scratchpad"))
-
-      (defun bascht/mu4e-change-from-to-catchall (msg)
-        "Set the From address based on the To address of the original message if I reply."
-        (setq user-mail-address
-              (if (and msg (mu4e-message-contact-field-matches msg :to "bascht.com"))
-                  (plist-get (car-safe (mu4e-message-field msg :to)) :email)
-                (cdr-safe (assoc 'user-mail-address (mu4e-context-vars (mu4e-context-current)))))))
-
-                                              ; Always open new project with dired
-      (defun bascht/projectile-open-dired (dir)
-        (let ((default-directory (file-truename (expand-file-name dir))))
-          (dirvish)))
-
-      (defun bascht/file-string (file)
-        "Read the contents of a file and return as a string."
-        (with-current-buffer (find-file-noselect file)
-          (buffer-string)))
-
-      (defun bascht/dirvish-tdir()
-        (interactive)
-        (find-file
-         (string-trim (shell-command-to-string "mktemp -d"))))
-
-      (defun bascht/projectile-get-started ()
-        ;; Open up a new project and reset to main / master + pull
-        (interactive)
-        (magit-call-git "checkout" (magit-main-branch))
-        (magit-run-git-with-editor "pull"))
+  (defun bascht--switch-to-or-load-perspective (name &optional directory)
+    (interactive)
+    (require 'magit-git)
+    (persp-mode)
+    (if (member name (persp-names))
+        (persp-switch name)
+      (progn (persp-new name)
+             (persp-switch name)
+             (project-switch-project directory)
+             (when (magit-git-repo-p directory)
+               (progn
+                 (magit-fetch-all nil)
+                 (magit-status-setup-buffer)
+                 (delete-other-windows))))))
 #+end_src
+*** Switch to my =mu4e= perspective
+
+The default =emacs= session will always have a =mu4e= session running. Doom Emacs used to handle it a bit more strict, but for me having a dedicated =mu4e= perspective is plenty.
+
+Also - this will bail if I am not in my standard Emacs daemon or an ad-hoc Emacs session.
+
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht--mu4e-persp ()
+    (interactive)
+    (unless (or (eq (daemonp) nil) (string= (daemonp) "emacs"))
+        (error (format "Sorry muscle-memory. No mu4e in %s." (daemonp))))
+    (if (member "mu4e" (persp-names))
+        (persp-new "mu4e"))
+    (persp-switch "mu4e")
+    (mu4e))
+#+end_src
+*** Create a random new perspective
+
+I use this function to create ad-hoc perspectives for temporary buffers or exploration.
+
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht-create-new-persp ()
+    (interactive)
+    (let ((name (concat (daemonp) "-" (cadr (s-split "-" (org-id-uuid))))))
+      (persp-new name)
+      (persp-switch name)))
+#+end_src
+*** Move current window to the sway scratchpad
+
+This function will move the currently active window into the sway [[https://github.com/swaywm/sway/blob/master/sway/commands/scratchpad.c][Scratchpad]].
+
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht--move-to-scratchpad()
+    (call-process "swaymsg" nil nil nil "--quiet" "move" "scratchpad"))
+#+end_src
+
 *** Toggle temporary window zoom
 
 #+begin_src emacs-lisp :tangle init.el
@@ -1966,11 +1954,14 @@ No need for zen mode when Prot got you covered.
   (use-package spacious-padding :ensure t
     )
 #+end_src
-** TODO Custom set variables
 
-- [ ] Find out why I'm still getting asked for confirmation by my [[Alfaview.org]] file
+* Custom Values
 
 #+begin_src emacs-lisp :tangle init.el
-  (custom-set-variables
-   '(safe-local-variable-values '((buffer-read-only . 1))))
+  (setq safe-local-variable-values
+         '((org-table-duration-custom-format
+            ("h" . t)
+            (special . 2))
+           (org-safe-remote-resources . '("drop.bascht.space"))
+           (org-confirm-elisp-link-function . nil))  )
 #+end_src
