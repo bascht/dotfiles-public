@@ -64,30 +64,29 @@ This /might/ one day become elpaca, but today it is not this day.
 This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-defaults.
 
 #+begin_src emacs-lisp :tangle init.el
-    (setq save-interprogram-paste-before-kill t
-          package-install-upgrade-built-in t
-          initial-major-mode 'emacs-lisp-mode
-          use-package-always-ensure t
-          apropos-do-all t
-          mouse-yank-at-point t
-          backup-by-copying t
-          require-final-newline t
-          visible-bell t
-          load-prefer-newer t
-          ad-redefinition-action 'accept
-          truncate-string-ellipsis "…"
-          delete-selection-mode t
-  frame-title-format (concat "%b - " user-login-name "@" (system-name))
-  
+  (setq save-interprogram-paste-before-kill t
+        package-install-upgrade-built-in t
+        initial-major-mode 'emacs-lisp-mode
+        use-package-always-ensure t
+        apropos-do-all t
+        mouse-yank-at-point t
+        backup-by-copying t
+        require-final-newline t
+        visible-bell t
+        load-prefer-newer t
+        ad-redefinition-action 'accept
+        truncate-string-ellipsis "…"
+        delete-selection-mode t
+        frame-title-format (concat "%b - " user-login-name "@" (system-name))
         browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
-          frame-inhibit-implied-resize t
-          ediff-window-setup-function 'ediff-setup-windows-plain
-          custom-file (expand-file-name "custom.el" user-emacs-directory)
-          backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+        frame-inhibit-implied-resize t
+        ediff-window-setup-function 'ediff-setup-windows-plain
+        custom-file (expand-file-name "custom.el" user-emacs-directory)
+        backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
 
-          mail-user-agent 'mu4e-user-agent
-          mail-signature nil
-          mail-signature-file nil)
+        mail-user-agent 'mu4e-user-agent
+        mail-signature nil
+        mail-signature-file nil)
 #+end_src
 
 ** Sensible Emacs defaults
