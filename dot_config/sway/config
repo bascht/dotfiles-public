@@ -433,6 +433,7 @@ mode $mode_run {
 
   bindsym e exec em; mode "default"
   bindsym shift+E exec comacs; mode "default"
+  bindsym ctrl+shift+E exec workmacs; mode "default"
   bindsym $mod+f exec nautilus; mode "default"
 
   bindsym r exec $menu calc; mode "default"
