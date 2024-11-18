@@ -487,9 +487,6 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
 
   (use-package consult
     :ensure t
-    :after general
-    :general
-
     :bind (
            ;; Drop-in replacements
            ("C-x b" . consult-buffer)     ; orig. switch-to-buffer
@@ -1044,7 +1041,6 @@ Have vterm and it's own toggle mode.
 #+begin_src emacs-lisp :tangle init.el
   (use-package vterm)
   (use-package vterm-toggle
-    :after general
     ;;  :ensure t
     :general ("C-c t t" 'vterm-toggle :which-key "terminal"))
 #+end_src
@@ -1123,7 +1119,6 @@ Oh Magit.
 #+begin_src emacs-lisp :tangle init.el
   (use-package magit
     :ensure t
-    :after general
     :hook (git-commit-mode . (lambda () (end-of-line))) ; Jump to end of line when opening a commit message buffer
     :config (setq magit-display-buffer-function  'magit-display-buffer-fullframe-status-topleft-v1))
 #+end_src
