@@ -77,7 +77,7 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
         ad-redefinition-action 'accept
         truncate-string-ellipsis "…"
         delete-selection-mode t
-        frame-title-format (concat "%b - " user-login-name "@" (system-name))
+        frame-title-format (concat "%b - " (persp-current-name) "@" (daemonp))
         browse-url-browser-function 'browse-url-xdg-open browse-url-generic-program "browser"
         frame-inhibit-implied-resize t
         ediff-window-setup-function 'ediff-setup-windows-plain
