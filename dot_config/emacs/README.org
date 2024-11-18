@@ -275,7 +275,7 @@ General is one of those packages where I'm not even sure if I still need it afte
 
     (general-define-key
      :prefix "C-c"
-     "m" '(bascht-mu4e-persp :which-key "mu4e")
+     "m" '(bascht--mu4e-persp :which-key "mu4e")
      "c" 'org-capture
      "o" '(:ignore t :which-key "Anything org-related for bascht")
      "o h" '(consult-org-agenda :which-key "Go to agenda heading")
@@ -296,7 +296,7 @@ General is one of those packages where I'm not even sure if I still need it afte
      "g g" '(beginning-of-buffer :which-key "Beginning of buffer")
      "g G" '(end-of-buffer :which-key "End of buffer")
 
-     "#" '(comment-or-uncomment-region :which-key "Comment / Uncomment")
+     ";" '(comment-or-uncomment-region :which-key "Comment / Uncomment")
      "d" '(duplicate-dwim :which-key "Duplicate line / dwim"))
 
     (general-define-key
