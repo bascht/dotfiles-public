@@ -778,8 +778,7 @@ My work log since 2010.
   (use-package avy
     :ensure t
     :demand t
-    :bind (("M-g g" . avy-goto-line)
-           ("M-j"   . avy-goto-char-timer)))
+    :bind (("M-j"   . avy-goto-char-timer)))
 #+end_src
 
 ** Movement via Ace Window
