@@ -1180,12 +1180,14 @@ I… think… it is used / required by eglot?
 (use-package jsonrpc :ensure t)
 #+end_src
 
-*** (Git)Lab support
+*** TODO (Git)Lab support
+
+Currently blocked on https://github.com/isamert/lab.el/issues/12
 
 I mostly use the =glab= cli, but this comes in handy if I need to open a pipeline from time to time.
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package lab :ensure t)
+  ;; (use-package lab :ensure t)
 #+end_src
 
 *** Flycheck
