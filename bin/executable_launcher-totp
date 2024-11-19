@@ -19,4 +19,4 @@ esac
 list=$(ykman oath accounts list)
 account=$(echo -e "${list}" | fzf -q "$QUERY")
 TOKEN=$(ykman oath accounts code "${account}" | awk '{ print $2 }')
-swaymsg exec -- wtype -d 150 "${TOKEN}"
+swaymsg exec -- wtype -d 50 "${TOKEN}"
