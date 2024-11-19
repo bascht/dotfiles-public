@@ -19,6 +19,7 @@ esac
 
 if [[ -z "$1" ]]; then
     FZF_DEFAULT_OPTS="--prompt='🦄 '${FZF_DEFAULT_OPTS}"
+    FOOT_OPTIONS="-W ${MAX_DIMENSIONS:-120x40} ${FOOT_OPTIONS}"
     COMMAND=~/bin/launcher-run
 elif [[ "$1" == "bookmarks" ]]; then
     FZF_DEFAULT_OPTS="--prompt='🔖 '${FZF_DEFAULT_OPTS}"
