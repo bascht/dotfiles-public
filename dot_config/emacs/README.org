@@ -787,7 +787,8 @@ This is super neat. The only thing I had to adapt was =aw-scope= since I never w
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package ace-window
-    :bind (("M-o" . 'ace-window))
+    :bind (("M-o" . 'ace-window)
+           ("M-O" . 'ace-swap-window))
     :config (setq aw-scope 'frame))
 #+end_src
 
