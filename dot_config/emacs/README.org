@@ -716,7 +716,7 @@ Orderless: powerful completion style
     ;; Same with the agenda files, either Work or Play.
     (setq org-agenda-files
           (if (string= (system-name) "apfelstrudel")
-              '("Todo.org" "Alfaview.org")
+              '("Todo.org" "Alfaview.org" "Calendar.org")
             '("Todo.org" "Personal.org" "Projects.org")))
 
     (setq org-todo-keywords
@@ -771,6 +771,21 @@ My work log since 2010.
           org-journal-file-format "%Y%m%d"
           org-journal-date-format "%A, %d/%m/%Y"
           org-journal-carryover-items nil))
+#+end_src
+** Khal.el Calendar sync
+
+Giving khal a second try. For my work Exchange calendar this is neat.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package khalel
+    :ensure t
+    :after org
+    :config
+    (setq khalel-capture-key "e")
+    (setq khalel-import-org-file (concat org-directory "Calendar.org"))
+    (setq khalel-import-org-file-confirm-overwrite nil)
+    (setq khalel-import-end-date "+30d")
+    (khalel-add-capture-template))
 #+end_src
 * Navigation
 ** Avy quick navigation
