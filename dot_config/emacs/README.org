@@ -1,7 +1,7 @@
 #+startup: fold
 #+auto_tangle: t
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results none
   (add-to-list 'org-structure-template-alist '("S" . "src emacs-lisp :tangle init.el"))
 #+end_src
 
