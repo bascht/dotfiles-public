@@ -201,13 +201,13 @@ REMOVE=(
 )
 
 LOG=$(mktemp)
-yay --sync
-yay -S --needed --noconfirm "${ADD[@]}"
+pacman -Sy
+pacman -S --needed --noconfirm "${ADD[@]}"
 exit 0
 for PACKAGE in "${ADD[@]}"; do
-    if ! yay -Qs "^${PACKAGE}$" >/dev/null; then
+    if ! pacman -Qs "^${PACKAGE}$" >/dev/null; then
         echo "Installing: ${PACKAGE}"
-        if ! yay -S --noconfirm "${PACKAGE}" >>"${LOG}"; then
+        if ! pacman -S --noconfirm "${PACKAGE}" >>"${LOG}"; then
             echo "Failed to install ${PACKAGE}"
         fi
     else
