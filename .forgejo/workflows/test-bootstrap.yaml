@@ -4,14 +4,16 @@ jobs:
   doom:
     runs-on: docker
     container:
-      image: alpine:3.19
+      image: archlinux/archlinux:base-devel-20241120.0.281320
     needs: [clone]
     steps:
-      - run: grep Alpine /etc/os-release
+      - run: cat /etc/os-release
       - run: |
-          apk add --update git emacs-nox chezmoi nodejs bash mu mu4e tar zstd
-        with:
-          entrypoint: "/bin/sh"
+          pacman-key --init
+          pacman-key --populate archlinux
+          pacman -Syy --noconfirm archlinux-keyring
+
+          pacman -Syu git chezmoi bash
       - uses: actions/checkout@v3
       - run: |
           mkdir -p "${HOME}/.local/share" "${HOME}/.config/chezmoi"
