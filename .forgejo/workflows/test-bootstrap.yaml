@@ -26,3 +26,6 @@ jobs:
       - run: |
           chezmoi status
           chezmoi apply --force --keep-going
+      - run: |
+          yay -S --needed --noconfirm emacs-wayland
+          emacs -nw --batch --eval "(print (emacs-version))"
