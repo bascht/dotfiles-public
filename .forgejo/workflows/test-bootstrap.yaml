@@ -14,6 +14,12 @@ jobs:
           pacman -Syu --noconfirm git chezmoi bash zstd tar nodejs systemd
       - uses: actions/checkout@v3
       - run: |
+            mkdir /tmp/yay
+            cd /tmp/yay
+            curl -Lo yay.tar.gz https://github.com/Jguer/yay/releases/download/v12.4.2/yay_12.4.2_x86_64.tar.gz
+            tar --strip-components=1 -xvf yay.tar.gz
+            mv yay /usr/local/bin/yay
+      - run: |
           mkdir -p "${HOME}/.local/share" "${HOME}/.config/chezmoi"
           ln -s "$(pwd)" "${HOME}/.local/share/chezmoi"
           cp "$(pwd)/bootstrap/chezmoi.toml" "${HOME}/.config/chezmoi"
