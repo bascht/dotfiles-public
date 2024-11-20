@@ -1,24 +1,28 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bb
 
-set -e -o pipefail
+(require '[babashka.fs :as fs])
+(require '[babashka.process :refer [shell process]])
 
-file=$(realpath $1)
-filename=$(basename -- "$file")
-extension="${filename##*.}"
-new_name="$(openssl rand -hex 12).${extension}"
-url="https://drop.bascht.space/${new_name}"
-SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
-export SSH_AUTH_SOCK
+(def file (first *command-line-args*))
+(def filename (fs/file-name file))
+(def extension (fs/extension file))
+(def new-name (str (->> "openssl rand -hex 12" (shell {:out :string}) :out clojure.string/trim) "." extension))
 
-if [[ ! -f "${file}" ]]; then
-  echo "File ${file} not readable. Aborting."
-  exit 1
-fi
+(def upload ["scp" file (format "drop.bascht.space:/home/bascht/drop/%s" new-name)])
+(def url (format "https://drop.bascht.space/%s" new-name))
 
-scp "${file}" "drop.bascht.space:/home/bascht/drop/${new_name}"
-if [[ $? != 0 ]]; then
-  echo "Could not upload file. Aborting"
-  exit 1;
-fi;
-wl-copy "${url}"
-notify-send -t 1000 "Uploaded successfully" "<a href=\'${url}\'>drop.bascht.space</a>" --icon="${file}"
+(if-not (fs/exists? file)
+  (do (println (str "ERROR: File does not exist: " file))
+      (System/exit 1)))
+
+(println (format "Will upload file %s to %s" new-name upload))
+
+(println upload)
+(println "ohai")
+(try (shell upload)
+     (catch Exception e
+       (println "This didn't work:" (.getMessage e))))
+
+
+(shell "wl-copy" url)
+(shell "notify-send" "--expire-time=1000" (str "--icon=" file) "Uploaded successfully" url)
