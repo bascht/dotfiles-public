@@ -19,4 +19,4 @@ jobs:
           cp "$(pwd)/bootstrap/chezmoi.toml" "${HOME}/.config/chezmoi"
       - run: |
           chezmoi status
-          chezmoi apply
+          chezmoi apply --force --keep-going
