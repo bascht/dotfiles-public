@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ -n "$CI" ]; then
+    echo "Not running this step in CI for now";
+    exit 0;
+fi;
+
 ADD=(
     "adobe-source-code-pro-fonts"
     "aspell"
@@ -201,13 +206,13 @@ REMOVE=(
 )
 
 LOG=$(mktemp)
-pacman -Sy
-pacman -S --needed --noconfirm "${ADD[@]}"
+yay --sync
+yay -S --needed --noconfirm "${ADD[@]}"
 exit 0
 for PACKAGE in "${ADD[@]}"; do
-    if ! pacman -Qs "^${PACKAGE}$" >/dev/null; then
+    if ! yay -Qs "^${PACKAGE}$" >/dev/null; then
         echo "Installing: ${PACKAGE}"
-        if ! pacman -S --noconfirm "${PACKAGE}" >>"${LOG}"; then
+        if ! yay -S --noconfirm "${PACKAGE}" >>"${LOG}"; then
             echo "Failed to install ${PACKAGE}"
         fi
     else

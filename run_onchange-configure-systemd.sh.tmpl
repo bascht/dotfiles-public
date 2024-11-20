@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ -n "$CI" ]; then
+    echo "Not running this step in CI for now";
+    exit 0;
+fi
+
 # systemd-hash: {{ glob "~/.config/systemd/user/*" | join "" | sha256sum }}
 systemctl --user daemon-reload
 
