@@ -5,37 +5,18 @@ jobs:
     runs-on: docker
     container:
       image: archlinux/archlinux:base-devel-20241120.0.281320
-#    needs: [clone]
     steps:
       - run: cat /etc/os-release
       - run: |
           pacman-key --init
           pacman-key --populate archlinux
           pacman -Syy --noconfirm archlinux-keyring
-          pacman -Syu --noconfirm git chezmoi bash zstd tar nodejs
+          pacman -Syu --noconfirm git chezmoi bash zstd tar nodejs systemd
       - uses: actions/checkout@v3
       - run: |
           mkdir -p "${HOME}/.local/share" "${HOME}/.config/chezmoi"
           ln -s "$(pwd)" "${HOME}/.local/share/chezmoi"
           cp "$(pwd)/bootstrap/chezmoi.toml" "${HOME}/.config/chezmoi"
       - run: |
+          chezmoi status
           chezmoi apply
-      - name: Restore cached Doom
-        id: cache-doom-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            /root/.emacs.d
-          key: ${{ runner.os }}-doom
-      - run: |
-          git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d || (cd ~/.emacs.d && git pull)
-      - run: |
-          ~/.emacs.d/bin/doom profiles sync --force
-          ~/.emacs.d/bin/doom sync --force
-      - name: Save Doom Cache
-        id: cache-doom-save
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            /root/.emacs.d
-          key: ${{ steps.cache-doom-restore.outputs.cache-primary-key }}
