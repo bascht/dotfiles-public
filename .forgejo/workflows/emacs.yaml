@@ -1,0 +1,16 @@
+---
+on: [push]
+jobs:
+  emacs:
+    name: Build my emacs config
+    runs-on: docker
+    container:
+      image: archlinux/archlinux:base-devel-20241120.0.281320
+    steps:
+      - run: |
+          pacman -Sy
+          pacman -Syu --noconfirm git emacs-wayland libvterm cmake nodejs
+      - uses: actions/checkout@v3
+      - run: |
+            cd dot_config/emacs
+            emacs --script build.el
