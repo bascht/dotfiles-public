@@ -12,7 +12,7 @@ fi
 
 # Work around my inability to correctly name the things on my Yubikey :joy:
 case "${QUERY}" in
-    aws*) QUERY="aws" ;;
+    *aws*) QUERY="aws" ;;
     *otc*) QUERY="otc" ;;
 esac
 
