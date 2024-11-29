@@ -845,7 +845,8 @@ Fully replaced projectile for me as well.
   (use-package project
     :after xref
     :config
-    (setq project-switch-commands 'project-dired))
+    (setq project-switch-commands 'project-dired)
+    (setq project-vc-extra-root-markers '(".project")))
 #+end_src
 ** Expand Region
 Might not even need this since I do have embark now.
