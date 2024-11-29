@@ -46,4 +46,4 @@ bind '"\egsss" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e staging **\t"'
 bind '"\egssp" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e production **\t"'
 
 # k9s is such a handy tool
-bind '"\e9" "k9s\n"'
+bind '"\e9" "TERM=xterm-256color k9s\n"'
