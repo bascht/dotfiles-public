@@ -14,3 +14,7 @@ screenshot-high-bit-depth=no
 hwdec=auto-safe
 vo=gpu
 profile=gpu-hq
+term-osd-bar
+video-osd=no
+#shuffle
+term-osd=auto
