@@ -141,6 +141,8 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
           nil ; should return nil if we're the current paste owner
         (shell-command-to-string "wl-paste -n | tr -d \r")))
 
+    ;; Only enable the encrypted authinfo file
+    (setq auth-sources '("~/.authinfo.gpg"))
 
     ;; These two buggers will only work when we have a graphical env
     (when (getenv "WAYLAND_DISPLAY")
