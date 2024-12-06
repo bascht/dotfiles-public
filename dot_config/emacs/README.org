@@ -189,6 +189,11 @@ Some day I'm going to clean them up. Some day.
       (context-menu-mode) ; Enable right clicks when we're in graphics mode
     (xterm-mouse-mode))   ; If not, enable terminal mouse mode. Fed two birds with one cone.
 
+  (unless (display-graphic-p)
+                                          ;(set-face-inverse-video-p 'vertical-border nil)
+                                          ;(set-face-background 'vertical-border (face-background 'default))
+    (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│)))
+
   ;; Don't litter file system with *~ backup files; put them all inside
   ;; ~/.emacs.d/backup or wherever
   (defun bedrock--backup-file-name (fpath)
