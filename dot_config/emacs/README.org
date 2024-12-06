@@ -1446,8 +1446,6 @@ This function takes care of my individual catchall addresses =*@bascht.com=. Whe
 * TODO Work
 
 #+begin_src emacs-lisp :tangle init.el
-      ;;; org.el -*- lexical-binding: t; -*-
-
   (setq org-capture-templates
         (if (string= (system-name) "apfelstrudel")
             '(("t" "Todo" entry (file "Todo.org")
@@ -1528,26 +1526,25 @@ This function takes care of my individual catchall addresses =*@bascht.com=. Whe
           (progn
             (beginning-of-buffer)
             (goto-char (org-find-exact-headline-in-buffer ts))
-            (if (org-entry-get nil "PERSONIO_REPORTED")
-                "✓ Reported"
-              (progn
-                (search-forward ":LOGBOOK:")
-                (search-forward ":END:")
-                (forward-line -1)
-                (let* ((timestamp (org-element-property :value (org-element-at-point)))
-                       (ts-start (org-timestamp-to-time timestamp))
-                       (hours (s-chop-suffix "h" h)))
-                  (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report %s hours to Personio]]" ts-start hours hours))
-                )))
-        "")))
+
+            (progn
+              (search-forward ":LOGBOOK:")
+              (search-forward ":END:")
+              (forward-line -1)
+              (let* ((timestamp (org-element-property :value (org-element-at-point)))
+                     (ts-start (org-timestamp-to-time timestamp))
+                     (hours (s-chop-suffix "h" h))
+                     (reported (if (org-entry-get nil "PERSONIO_REPORTED") "✓" "")))
+                (format "[[elisp:(bascht/ts-report-to-personio '%s %s)][Report %s hours to Personio]] %s" ts-start hours hours reported)))))))
 
                                           ; Split working hours into personio-compatible slots around a 1 hour break in
                                           ; case the report is longer than 4 hours. There are probably a 1000 easier
-                                          ; ways to do this, but I'mma take proud in my hacky solution since it works
+                                          ; ways to do this, but I'mma take pride in my hacky solution since it works
                                           ; and it was hard enough to cobble together.
 
 
   (defun bascht/ts-report-to-personio (ts hours)
+    ;; Report the current row of the clock report table to Personio
     (message "Ohai from ts [%s] with hours: %s" ts hours)
     (point-to-register 'bascht/ts-report-current-table)
 
@@ -1557,29 +1554,46 @@ This function takes care of my individual catchall addresses =*@bascht.com=. Whe
                (break-end (time-add first-shift-end 3600))
                (shift-end (time-add break-end (seconds-to-time (* 3600 (- hours 4))))))
 
-          (shell-command (format "report-to-personio \"%s\" \"%s\" \"%s\" \"%s\""
-                                 (format-time-string "%R" ts)
-                                 (format-time-string "%R" first-shift-end)
-                                 (format-time-string "%R" break-end)
-                                 (format-time-string "%R" shift-end)))
-          )
+          (bascht/ts-type-into-personio
+           (format-time-string "%R" ts)
+           (format-time-string "%R" first-shift-end)
+           (format-time-string "%R" break-end)
+           (format-time-string "%R" shift-end)))
 
       (let* ((shift-end (time-add ts (seconds-to-time (* hours 3600)))))
-        (shell-command (format "report-to-personio \"%s\" \"%s\""
-                               (format-time-string "%R" ts)
-                               (format-time-string "%R" shift-end))))
-      )
+        (bascht/ts-type-into-personio (format-time-string "%R" ts) (format-time-string "%R" shift-end))))
 
+    ;; (jump-to-register 'bascht/ts-report-current-table)
+    ;; (save-excursion
+    ;;   (beginning-of-buffer)
+    ;;   (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
+    ;;   (org-set-property "PERSONIO_REPORTED" "t"))
+    ;; ;;(message (car-safe (cdr-safe result)))
+    ;; (org-table-recalculate)
+    )
 
+  (defun bascht/swaymsg (msg) (shell-command-to-string (format "swaymsg %s" msg)))
+  (defun bascht/wtype (args) (shell-command-to-string (format "wtype %s" args)))
 
-    (jump-to-register 'bascht/ts-report-current-table)
-    (save-excursion
-      (beginning-of-buffer)
-      (goto-char (org-find-exact-headline-in-buffer (car-safe result)))
-      (org-set-property "PERSONIO_REPORTED" "t"))
-    ;;(message (car-safe (cdr-safe result)))
-    (org-table-recalculate))
+  (defun bascht/ts-type-into-personio (first-shift-start first-shift-end &optional break-end shift-end)
 
+    (let ((emacs-window-id (string-trim (shell-command-to-string "swaymsg -t get_tree | jq -e -r 'recurse(.nodes[],.floating_nodes[]) | select(.focused == true).id'")))
+          (personio-window-id (string-trim (shell-command-to-string "swaymsg -t get_tree | jq -e -r 'recurse(.nodes[],.floating_nodes[]) | select(.app_id == \"org.qutebrowser.qutebrowser\") | select(.name|startswith(\"Personio\")).id'"))))
+
+      (if (s-blank? personio-window-id)
+          (error "Could not find Personio window!"))
+
+      (bascht/swaymsg (format "[con_id=%s] focus" personio-window-id))
+      (bascht/wtype (format "-d 150 i -d 120 %s" first-shift-start))
+      (bascht/wtype (format "-d 50 -k tab -d 120 %s" first-shift-end))
+
+      (when (and break-end shift-end)
+        (bascht/wtype "-k tab -k tab -k tab -k tab -k tab -k tab -k tab -k tab -k tab -k space") ; find next input field
+        (bascht/wtype (format "-d 250 i %s" break-end))
+        (bascht/wtype (format "-d 150 -k tab %s" shift-end)))
+
+      (bascht/wtype "-k escape -d 30 '/Speichern' -d 100 -k return -k return")
+      (bascht/swaymsg (format "[con_id=%s] focus" emacs-window-id))))
 
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
@@ -1638,8 +1652,8 @@ This function takes care of my individual catchall addresses =*@bascht.com=. Whe
 
   (defun +mu4e/capture-msg-to-agenda (arg)
     "Refile a message and add a entry in `+org-capture-emails-file' with a
-    deadline.  Default deadline is today.  With one prefix, deadline
-    is tomorrow.  With two prefixes, select the deadline."
+        deadline.  Default deadline is today.  With one prefix, deadline
+        is tomorrow.  With two prefixes, select the deadline."
     (interactive "p")
     (let ((sec "^* Email")
           (msg (mu4e-message-at-point)))
@@ -1971,6 +1985,7 @@ No need for zen mode when Prot got you covered.
          '((org-table-duration-custom-format
             ("h" . t)
             (special . 2))
+           (buffer-read-only . 1)
            (org-safe-remote-resources . '("drop.bascht.space"))
            (org-confirm-elisp-link-function . nil))  )
 #+end_src
