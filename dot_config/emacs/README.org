@@ -1182,11 +1182,15 @@ I mostly use the =glab= cli, but this comes in handy if I need to open a pipelin
   ;; (use-package lab :ensure t)
 #+end_src
 
-*** Flycheck
+*** Flymake
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package flycheck
-    :hook (prog-mode . flycheck-mode))
+  (use-package flymake
+    :hook (prog-mode . flymake-mode)
+    :config
+    (setq flymake-fringe-indicator-position 'left-fringe)
+    (setq flymake-start-on-flymake-mode t)
+    (setq flymake-start-on-save-buffer t))
 #+end_src
 
 *** TODO Format-All
