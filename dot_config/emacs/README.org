@@ -569,6 +569,12 @@ Holy fuck! How did I only now learn about this?
                    nil
                    (window-parameters (mode-line-format . none)))))
 
+  (use-package eldoc
+    :ensure nil
+    :hook (prog-mode . eldoc-mode)
+    :config
+    (setq eldoc-message-function #'message))
+
   (use-package embark-consult
     :ensure t
     :hook
