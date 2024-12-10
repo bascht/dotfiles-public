@@ -1206,6 +1206,10 @@ I mostly use the =glab= cli, but this comes in handy if I need to open a pipelin
                   '(("C"     (astyle "--mode=c"))
                     ("Shell" (shfmt "-i" "4" "-ci")))))
 #+end_src
+*** Elisp autoformatter
+#+begin_src emacs-lisp :tangle init.el
+  (use-package elisp-autofmt :ensure t)
+#+end_src
 
 *** (Yas)Snippets
 
@@ -1246,6 +1250,17 @@ Mark changes on the left side of the gutter.
 
 #+begin_src emacs-lisp :tangle init.el
 (use-package json-mode :ensure t)
+#+end_src
+*** Outline mode
+
+#+begin_src emacs-lisp :tangle init.el
+(use-package outline
+  :ensure nil
+  :config
+  (setq outline-minor-mode-highlight nil) ; emacs28
+  (setq outline-minor-mode-cycle t) ; emacs28
+  (setq outline-minor-mode-use-buttons nil) ; emacs29---bless you for the nil option!
+  (setq outline-minor-mode-use-margins nil)) ; as above
 #+end_src
 
 * TODO Email
