@@ -23,7 +23,7 @@ alias gp="gopass"
 alias hl="hledger"
 alias cm="chezmoi"
 alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
-alias ls="exa -l --icons --total-size --no-user --no-time --no-permissions"
+alias ls="exa -l --icons --no-user --no-time --no-permissions"
 alias alfaview-logfile="/usr/bin/env ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1"
 alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
 alias ta-if-in-code='if [[ "${PWD}" == "${HOME}/Code"* ]]; then ta; fi'
