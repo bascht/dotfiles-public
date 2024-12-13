@@ -9,5 +9,6 @@ fi
 systemctl --user daemon-reload
 
 {{- if (eq .chezmoi.hostname "apfelstrudel") }}
+systemctl enable --now --user davmail@bascht
 sudo systemctl enable --now docker
 {{ end }}
