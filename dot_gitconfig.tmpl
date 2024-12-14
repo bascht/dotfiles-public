@@ -1,22 +1,22 @@
 [user]
-	name = Sebastian Schulze
-	email = {{ .git.email }}
-	signingkey = {{ .git.signingkey }}
+  name = Sebastian Schulze
+  email = {{ .git.email }}
+  signingkey = {{ .git.signingkey }}
 
 [core]
-	excludesfile = ~/.gitignore
-	editor = em -nw
-	hooksPath = ~/.config/git/hooks
-	pager = delta
+  excludesfile = ~/.gitignore
+  editor = em -nw
+  hooksPath = ~/.config/git/hooks
+  pager = delta
 
 [commit]
-	gpgsign = true
+  gpgsign = true
 
 [interactive]
-	diffFilter = delta --color-only
+  diffFilter = delta --color-only
 
 [delta]
-	navigate = true
+  navigate = true
 	light = true
   side-by-side = true
   features = unobtrusive-line-numbers decorations
@@ -30,7 +30,7 @@
   hunk-header-decoration-style = yellow box
 
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 
 [diff]
 	colorMoved = default
