@@ -170,8 +170,10 @@ bindsym $mod+shift+b border toggle
 bindsym $mod+shift+s sticky toggle
 
 # Allow switching between workspaces with left and right swipes
-bindgesture swipe:right workspace next
-bindgesture swipe:left workspace prev
+bindgesture swipe:4:right workspace prev
+bindgesture swipe::4:left workspace next
+bindgesture swipe:3:right resize grow width 15ppt
+bindgesture swipe::3:left resize shrink width 15ppt
 bindgesture swipe:up fullscreen
 
 # Allow container movements by pinching them
