@@ -1388,6 +1388,7 @@ Mark changes on the left side of the gutter.
      message-sendmail-extra-arguments '("--read-envelope-from")
      message-sendmail-f-is-evil 't
      sendmail-program "msmtp"
+     mu4e-mu-allow-temp-file t
      mu4e-update-interval 600
      mu4e-compose-complete-only-after "2016-01-01"
      mu4e-compose-dont-reply-to-self 't
