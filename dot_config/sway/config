@@ -16,6 +16,7 @@ set $term foot
 # Note: it's recommended that you pass the final command to sway
 set $menu "my-rofi"
 set $display_laptop eDP-1
+set $display_aoc "AOC U27G3X ZXKQ4HA006099"
 set $display_dell "Dell Inc. DELL U2415 7MT018BM1PGU"
 set $display_lg "LG Electronics 34UM95 0x01010101"
 set $display_coworking "Dell Inc. DELL U2713H C6F0K34O095L"
@@ -47,6 +48,7 @@ exec_always {
 ### Output configuration
 output * bg ~/Pictures/Wallpapers/spring-mountains-colourful.jpg fill
 
+output $display_aoc mode 3840x2160@120Hz pos 1200 600 scale 1.5
 output $display_lg mode 3440x1440@49.987Hz pos 1200 600
 output $display_dell mode 1920x1200@59.950Hz transform 90 pos 0 0
 output $display_teleprompter mode 1024x600@60.044Hz pos 2187 0
@@ -260,7 +262,9 @@ bindsym $mod+Shift+Right move right
 #
 # switch to workspace
 workspace $workspace_name_1 output $display_lg
+workspace $workspace_name_2 output $display_aoc
 workspace $workspace_name_2 output $display_lg
+workspace $workspace_name_2 output $display_aoc
 workspace $workspace_name_3 output $display_dell
 workspace $workspace_name_4 output $display_dell
 bindsym $mod+1 workspace $workspace_name_1
@@ -520,6 +524,7 @@ bar {
   strip_workspace_numbers yes
 	output $display_laptop
 	output $display_lg
+	output $display_aoc
 	output $display_coworking
   colors {
       background $base00
