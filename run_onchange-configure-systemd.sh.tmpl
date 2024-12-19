@@ -8,6 +8,7 @@ fi
 # systemd-hash: {{ glob "~/.config/systemd/user/*" | join "" | sha256sum }}
 systemctl --user daemon-reload
 sudo systemctl enable --now pcscd
+sudo systemctl enable --now udisks2
 sudo systemctl enable --now systemd-resolved
 
 {{- if (eq .chezmoi.hostname "apfelstrudel") }}
