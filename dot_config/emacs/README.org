@@ -1925,6 +1925,10 @@ This function will move the currently active window into the sway [[https://gith
   (defun bascht--create-mr-from-issue ()
     ;; Create a new GitLab merge request and re-use the issue title as the branch name and copy all labels
     (interactive)
+    (forge-pull)
+    (magit-fetch-all nil)
+    (sleep-for 3)
+
     (let* ((issue (forge-read-issue "View issue")))
       (forge-visit-issue (forge-get-issue issue))
       (forge-create-post)
