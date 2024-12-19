@@ -88,6 +88,10 @@ input "type:pointer" {
     natural_scroll enabled
 }
 
+input "type:touchpad" {
+    natural_scroll enabled
+}
+
 input "2:7:SynPS/2_Synaptics_TouchPad" {
     tap enabled
     natural_scroll enabled
