@@ -1308,10 +1308,11 @@ Mark changes on the left side of the gutter.
   (use-package org-msg
     :ensure t
     :after mu4e
-    ;; :preface      (defun org-msg-no-temp-buffer (orig-fun &rest args)
-    ;;   "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
-    ;;   (let ((org-export-show-temporary-export-buffer nil))
-    ;;     (apply orig-fun args)))
+    :preface
+    (defun org-msg-no-temp-buffer (orig-fun &rest args)
+      "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
+      (let ((org-export-show-temporary-export-buffer nil))
+        (apply orig-fun args)))
 
     :config
     ;; (message "This actually ran!")
@@ -1326,33 +1327,20 @@ Mark changes on the left side of the gutter.
 
     (with-eval-after-load 'mu4e
       (progn
-        (org-msg-mode)
-        (message "Org msg mode is currently %s and agent is %s" org-msg-mode mu4e-user-agent-string)))
+        (org-msg-mode)))
 
-    (message "Org msg mode is currently %s and agent is %s" org-msg-mode mu4e-user-agent-string)
-
-
-    ;;    (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
-    ;;     (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
-    ;;     (add-hook 'message-sent-hook
-    ;;               (lambda ()
-    ;;                 (interactive)
-    ;;                 (switch-to-buffer "*mu4e-article*")
-    ;;                 (mu4e-view-quit)
-    ;;                 (kill-buffer "*Org ASCII Export*")))
-
-    ;;     (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
-    ;;     (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
-    ;;     (add-hook 'message-sent-hook
-    ;;               (lambda ()
-    ;;                 (interactive)
-    ;;                 (switch-to-buffer "*mu4e-article*")
-    ;;                 (mu4e-view-quit)
-    ;;                 (kill-buffer "*Org ASCII Export*")))
+    (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
+    (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
+    (add-hook 'message-sent-hook
+              (lambda ()
+                (interactive)
+                (switch-to-buffer "*mu4e-article*")
+                (mu4e-view-quit)
+                (kill-buffer "*Org ASCII Export*")))
 
 
 
-    )
+  )
 
 #+end_src
 
