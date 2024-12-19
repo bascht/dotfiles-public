@@ -1290,7 +1290,17 @@ Mark changes on the left side of the gutter.
   (setq outline-minor-mode-use-buttons nil) ; emacs29---bless you for the nil option!
   (setq outline-minor-mode-use-margins nil)) ; as above
 #+end_src
-
+*** Indent Bars mode
+#+begin_src emacs-lisp :tangle init.el
+(use-package indent-bars
+  :config
+  (require 'indent-bars-ts)
+  :custom
+  (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  :hook ((yaml-mode) . indent-bars-mode))
+#+end_src
 * TODO Email
 
 #+begin_src emacs-lisp :tangle init.el
