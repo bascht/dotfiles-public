@@ -293,10 +293,10 @@ General is one of those packages where I'm not even sure if I still need it afte
      "o c o" '(org-clock-out :which-key "Clock out current clock")
 
      "p" '(:ignore t :which-key "persp")
-     "p o" '(persp-switch-last :which-key "")
-     "p p" '(persp-switch :which-key "")
-     "p ," '(persp-rename :which-key "")
-     "p k" '(persp-kill :which-key "")
+     "p o" '(persp-switch-last :which-key "last persp")
+     "p p" '(persp-switch :which-key "switch")
+     "p ," '(persp-rename :which-key "rename")
+     "p k" '(persp-kill :which-key "new persp")
      "p n" '(bascht-create-new-persp :which-key "")
 
      "g" '(:ignore t :which-key "goto")
