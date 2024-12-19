@@ -20,6 +20,7 @@ if [[ "${PWD}" == "/home/bascht/Code/bascht/dotfiles" ]]; then
         dot_bash*) COMMIT_COMPONENT="bash" ;;
         bin/executable*) COMMIT_COMPONENT="bin" ;;
         dot_config/emacs/README.org) COMMIT_COMPONENT="emacs" ;;
+        run_onchange*) COMMIT_COMPONENT="${STAGED_FILES/run_onchange-/}" ;;
         dot_local/share/user*css) COMMIT_COMPONENT="css" ;;
         dot_git*) COMMIT_COMPONENT="git" ;;
     esac
