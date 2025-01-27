@@ -83,7 +83,7 @@ config.bind(',sp', 'spawn -u send-url baschtfon')
 config.bind(',aw', 'set content.webgl true')
 config.bind(',ac', 'set content.javascript.clipboard "access"')
 
-config.bind(',b', 'open https://read.yakshed.org/bookmarklet?url={url}')
+config.bind(',b', 'spawn --userscript /home/bascht/bin/bookmark-add {url}')
 config.bind(',y', 'open https://social.yakshed.org/authorize_interaction?uri={url}')
 
 
