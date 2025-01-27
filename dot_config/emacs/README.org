@@ -1348,14 +1348,29 @@ Mark changes on the left side of the gutter.
 #+begin_src emacs-lisp :tangle init.el
   (use-package mu4e
     :ensure nil
-    :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map)
+    :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map mu4e-compose-minor-mode-map)
                               "C-<return>" 'bascht-mu4e-view-it-on-gitlab
-                              "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile))))
+                              "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile)))
+                              "R" 'bascht--supersede-or-compose-reply-ask-wide)
     :config
     (defun bascht--mu4e-view-in-gitlab (msg)
       "Search for a clickable »view in GitLab« link in the message"
       (pp msg)
       )
+
+    ;; via https://github.com/djcb/mu/issues/2665#issuecomment-2016826822
+    (defun bascht--supersede-or-compose-reply-ask-wide ()
+      "Supersede own messages or ask whether to reply-to-all."
+      (interactive)
+      (if (mu4e-message-contact-field-matches-me (mu4e-message-at-point) :from)
+          (mu4e-compose-supersede)
+        (let* ((tos (length (mu4e-message-field-at-point :to)))
+              (ccs (length (mu4e-message-field-at-point :cc)))
+              (sum (+ tos ccs)))
+          (mu4e-compose-reply
+           (and (> sum 1)
+                (yes-or-no-p (format "Reply to all %s recipients?" sum)))))))
+
     (add-to-list 'mu4e-headers-actions '("view in GitLab" . bascht--mu4e-view-in-gitlab) t)
 
     (add-to-list 'mu4e-view-mime-part-actions
