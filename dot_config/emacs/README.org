@@ -1016,8 +1016,8 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
       (interactive)
       (dwim-shell-command-on-marked-files
        "Drag files somewhere"
-       "dragon --and-exit <<f>>"
-       :utils "dragon"
+       "drag <<f>>"
+       :utils "drag"
        :silent-success t
        )))
 #+end_src
