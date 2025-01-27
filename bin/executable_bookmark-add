@@ -1,0 +1,16 @@
+#!/usr/bin/env bb
+
+(require '[babashka.http-client :as http])
+(require '[cheshire.core :as json])
+(require '[clojure.string :as str])
+(require '[babashka.process :refer [shell]])
+
+(def token (-> (shell {:out :string} "gopass show -o tools/pocket.yakshed.org/api") :out str/split-lines first))
+
+(def resp (http/post "https://pocket.yakshed.org/api/bookmarks"
+                     {:headers {:Authorization (format "Bearer %s" token)
+                                :Content-Type "application/json"}
+                      :body (json/encode {:url (first *command-line-args*)})}))
+
+(if (System/getenv "QUTE_FIFO")
+  (spit (System/getenv "QUTE_FIFO") (format "open -t %s"  (str/replace (get (:headers resp) "location") "/api/" "/"))))
