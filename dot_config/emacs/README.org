@@ -1949,6 +1949,17 @@ This function will move the currently active window into the sway [[https://gith
     (let* ((pullreq (forge-read-pullreq "Checkout pull request")))
       (magit-checkout (forge--branch-pullreq (forge-get-pullreq pullreq)))))
 #+end_src
+*** Start working on a branch
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht--start-branch ()
+    ;; Start to work on a branch by fetching the origin and checking out the branch
+    (interactive)
+    (magit-checkout (cadr (magit--get-default-branch)))
+    (magit-run-git "fetch" "origin")
+    (forge-pull)
+    (call-interactively 'magit-branch-create)
+    (call-interactively 'magit-branch-checkout))
+#+end_src
 
 * Looks and Faces
 ** Rainbow-Delimiters
