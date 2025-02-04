@@ -1467,7 +1467,7 @@ Mark changes on the left side of the gutter.
      mu4e-headers-date-format "%d.%m."
      mu4e-headers-time-format "%H:%M"
      mu4e-search-results-limit 1500
-     mu4e-headers-visible-lines 15
+     mu4e-headers-visible-lines 4
      mu4e-headers-visible-columns 135
      mu4e-use-fancy-chars t
      mu4e-index-cleanup t)
