@@ -7,9 +7,11 @@ fi
 
 # systemd-hash: {{ glob "~/.config/systemd/user/*" | join "" | sha256sum }}
 systemctl --user daemon-reload
-sudo systemctl enable --now pcscd
-sudo systemctl enable --now udisks2
-sudo systemctl enable --now systemd-resolved
+sudo systemctl enable --now pcscd.service
+sudo systemctl enable --now udisks2.service
+sudo systemctl enable --now systemd-resolved.service
+
+systemctl enable --user --now vdirsyncer.timer
 
 {{- if (eq .chezmoi.hostname "apfelstrudel") }}
 systemctl enable --now --user davmail@bascht
