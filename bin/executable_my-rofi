@@ -9,7 +9,7 @@ export FZF_DEFAULT_OPTS='
   --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
   --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 '
-
+export MY_ROFI_LAUNCHER=1
 FOOT_OPTIONS=''
 MONITOR_MAKE=$(swaymsg -t get_outputs | jq -r '.[]|select(.focused==true) | .make')
 case "${MONITOR_MAKE}" in
