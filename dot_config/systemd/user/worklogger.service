@@ -2,7 +2,7 @@
 Description=Ask for periodic worklog updates
 
 [Service]
-Type=oneshot
+Type=simple
 Environment="QT_QPA_PLATFORMTHEME=qt5ct"
 Environment="XDG_CURRENT_DESKTOP=KDE"
 Environment="SWAYSOCK=/run/user/1000/sway-ipc.sock"

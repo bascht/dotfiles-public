@@ -16,5 +16,5 @@ if [ -n "$(get_worklog_window)" ]; then
     swaymsg --quiet [title='Worklog'] scratchpad show
     exec emacsclient -s workmacs --eval "(bascht--worklog)"
 else
-    exec emacsclient -s workmacs --create-frame --eval "(bascht--worklog)" &
+    exec emacsclient -s workmacs --create-frame --eval "(bascht--worklog)"
 fi
