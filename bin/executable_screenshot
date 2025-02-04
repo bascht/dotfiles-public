@@ -3,4 +3,5 @@ FOLDER="/home/bascht/Pictures/Screenshots/$(date +'%Y-%m')"
 mkdir -p ${FOLDER}
 
 NAME="${FOLDER}/Screenshot-$(date +%Y-%m-%d-%H%M%S).png"
-grimshot save anything "$NAME";
+grimshot save anything "$NAME"
+wl-copy <"${NAME}"
