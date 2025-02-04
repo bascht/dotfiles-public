@@ -47,3 +47,9 @@ bind '"\egssp" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e production **\
 
 # k9s is such a handy tool
 bind '"\e9" "TERM=xterm-256color k9s\n"'
+
+# Quote last word
+bind '"\C-xq":"\eb"\ef\""'
+
+# Bind my snippet launcher for both in-shell and GUI usage
+bind '"\es": " \C-u `launcher-snippets`\e\C-e\C-a\C-y\C-e"'
