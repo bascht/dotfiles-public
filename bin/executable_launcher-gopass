@@ -6,18 +6,17 @@ set -o errexit
 # send the current terminal window to the scratch space & clear the clipboard
 # afterwards.
 
-
 QUERY=$1
 
 if [ -z "$QUERY" ]; then
-  QUERY=''
+    QUERY=''
 fi
 
 input=$(gopass list -f | fzf -q "$QUERY")
 
-swaymsg move scratchpad
+#swaymsg move scratchpad
 PASSWORD=$(gopass show -o "$input")
-echo "${PASSWORD}"| wl-copy
+echo "${PASSWORD}" | wl-copy
 
 notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
 sleep 10
