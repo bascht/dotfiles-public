@@ -4,7 +4,7 @@ After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
 [Service]
-ExecStart=/usr/bin/nextcloud
+ExecStart=/usr/bin/nextcloud --background
 Restart=on-failure
 RestartSec=5s
 LimitNOFILE=65535:65535

@@ -1,5 +1,5 @@
 [Install]
-WantedBy=sway-session.target
+WantedBy=graphical-session.target
 
 [Service]
 Type=notify
@@ -10,6 +10,6 @@ SuccessExitStatus=15
 
 [Unit]
 Description=Emacs emacs daemon
-After=sway-session.target
-PartOf=sway-session.target
+After=graphical-session.target
+PartOf=graphical-session.target
 X-RestartIfChanged=false

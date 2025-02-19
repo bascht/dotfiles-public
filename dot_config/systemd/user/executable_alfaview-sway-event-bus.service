@@ -1,5 +1,5 @@
 [Install]
-WantedBy=sway-session.target
+WantedBy=graphical-session.target
 
 [Service]
 ExecStart=/home/bascht/bin/alfaview-sway-event-bus
@@ -9,5 +9,5 @@ Restart=on-failure
 
 [Unit]
 Description=Launch the my own alfaview event bus
-After=sway-session.target
-PartOf=sway-session.target
+After=graphical-session.target
+PartOf=graphical-session.target
