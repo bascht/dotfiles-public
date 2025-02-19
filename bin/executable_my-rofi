@@ -9,9 +9,9 @@ export FZF_DEFAULT_OPTS='
   --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
   --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 '
-export MY_ROFI_LAUNCHER=1
+
 FOOT_OPTIONS=''
-MONITOR_MAKE=$(swaymsg -t get_outputs | jq -r '.[]|select(.focused==true) | .make')
+MONITOR_MAKE=$(niri msg -j focused-output | jq -r .make)
 case "${MONITOR_MAKE}" in
     "Mediatrix Peripherals Inc") MAX_DIMENSIONS="70x20" ;;
     "Dell Inc.") MAX_DIMENSIONS="90x60" ;;
@@ -72,10 +72,14 @@ elif [[ "$1" == "dmenu" ]]; then
     FOOT_OPTIONS="-W ${MAX_DIMENSIONS:-40x30} ${FOOT_OPTIONS}"
     FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
     COMMAND=~/bin/launcher-dmenu
+elif [[ "$1" == "chords" ]]; then
+    FOOT_OPTIONS="-W ${MAX_DIMENSIONS:-40x30} ${FOOT_OPTIONS}"
+    FZF_DEFAULT_OPTS="--prompt='⏲️ '${FZF_DEFAULT_OPTS}"
+    COMMAND="${HOME}/Code/Go/fzf-chords/fzf-chords"
 elif [ -f "${HOME}/bin/launcher-${1}" ]; then
     FOOT_OPTIONS="-W ${MAX_DIMENSIONS:-140x30} ${FOOT_OPTIONS}"
-    COMMAND="${HOME}/bin/launcher-${1}"
+    COMMAND="${HOME}/Code/Go/fzf-chords/fzf-chords"
 else
-    exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/bin/launcher-run
+    exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/Code/Go/fzf-chords/fzf-chords
 fi
 exec foot --app-id launcher ${FOOT_OPTIONS} --config ~/.config/foot/foot-launcher.ini "$COMMAND"
