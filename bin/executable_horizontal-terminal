@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+foot --app-id="horizontal_terminal" &
+FOOT_PID=$!
+while [ -z "${FOOT_ID}" ]; do
+  FOOT_ID=$(niri msg -j windows | jq -r --argjson foot_pid "${FOOT_PID}" '.[]|select(.pid==$foot_pid).id')
+done
+
+niri msg action consume-window-into-column
+niri msg action focus-window --id "${FOOT_ID}"

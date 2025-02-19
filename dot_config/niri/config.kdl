@@ -341,6 +341,11 @@ window-rule {
     default-window-height { fixed 500; }
 }
 
+window-rule {
+    match app-id="horizontal_terminal"
+    open-focused false
+}
+
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
