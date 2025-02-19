@@ -4,4 +4,4 @@ while read -r l; do
     eval export $l
 done < <(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
 
-[ "$(tty)" = "/dev/tty1" ] && exec sway-run
+[ "$(tty)" = "/dev/tty1" ] && exec uwsm start niri.desktop
