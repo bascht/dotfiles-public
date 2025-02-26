@@ -53,3 +53,5 @@ bind '"\C-xq":"\eb"\ef\""'
 
 # Bind my snippet launcher for both in-shell and GUI usage
 bind '"\es": " \C-u `launcher-snippets`\e\C-e\C-a\C-y\C-e"'
+
+bind '"\er": "ripgrepfzf\C-j"'
