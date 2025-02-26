@@ -86,24 +86,29 @@ output "eDP-1" {
 
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
-  variable-refresh-rate
-  mode "3840x2160@60.000"
+  variable-refresh-rate on-demand=true
+  mode "3840x2160@59.999"
     position x=1440 y=1120
 //  mode "3840x2160"
 }
 
 output "PNP(AOC) U27G3X 1322131231233" {
   scale 1.5
-  variable-refresh-rate
+  variable-refresh-rate on-demand=true
   transform "90"
   position x=0 y=600
-  mode "3840x2160@60.000"
+
+  mode "3840x2160@75.001"
 }
 
 output "Mediatrix Peripherals Inc MPI7002 0x00000001" {
-    position x=2116 y=520
+    position x=2316 y=520
     }
-    
+
+output "LG Display 0x05BE Unknown" {
+  scale 1.0
+}
+
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
