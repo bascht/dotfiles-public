@@ -5,32 +5,35 @@ set -eo pipefail
 SNIPPET_DIR=~/.local/share/snippets
 
 if [[ -n $MY_ROFI_LAUNCHER ]]; then
-    BAT_THEME="OneHalfDark"
+  BAT_THEME="OneHalfDark"
 else
-    BAT_THEME="OneHalfLight"
+  BAT_THEME="OneHalfLight"
 fi
 
 if [[ $(cat "/proc/$PPID/comm") == "bash" ]]; then
-    BASH=1
-    QUERY="^bash"
-    BAT_LANGUAGE="bash"
+  BASH=1
+  QUERY="^bash"
+  BAT_LANGUAGE="bash"
 else
-    BAT_LANGUAGE="txt"
+  BAT_LANGUAGE="txt"
 fi
 
 if [[ "$1" == "--preview" ]]; then
-    bat --theme="${BAT_THEME}" --language="${BAT_LANGUAGE}" --style=numbers,changes --color always "$SNIPPET_DIR/$2"
-    exit 0
+  bat --theme="${BAT_THEME}" --language="${BAT_LANGUAGE}" --style=numbers,changes --color always "$SNIPPET_DIR/$2"
+  exit 0
 fi
 
 if [[ -z "${BASH}" ]] && [[ -n "${QUERY}" ]]; then
-    SNIPPET="${QUERY}.md"
+  SNIPPET="${QUERY}.md"
 else
-    SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n" | fzf -q "${QUERY}" --preview-window="bottom:5" --preview="$0 --preview {}")
+  SNIPPET=$(find $SNIPPET_DIR -type f -printf "%f\n" | fzf -q "${QUERY}" --preview-window="bottom:5" --preview="$0 --preview {}")
 fi
 
+
 if [[ $(cat "/proc/$PPID/comm") == "bash" ]]; then
-    cat "${SNIPPET_DIR}/${SNIPPET}"
+  notify-send "cat snippet"
+  cat "${SNIPPET_DIR}/${SNIPPET}"
 else
-    swaymsg exec -- "wl-copy --type=text/plain < ${SNIPPET_DIR}/${SNIPPET} && wtype -M ctrl v"
+  wl-copy --type=text/plain < "${SNIPPET_DIR}/${SNIPPET}"
+  niri msg action spawn -- wtype -M ctrl v
 fi
