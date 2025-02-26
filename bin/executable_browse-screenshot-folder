@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-export BROOT_OPTIONS="--cmd=Screenshot;:sort_by_date;:preview_image"
 exec browse-folder $(screenshot-folder)
