@@ -31,8 +31,6 @@ esac
 HISTCONTROL=ignoredups:ignorespace
 HISTFILESIZE=80000
 HISTSIZE=10000
-GPG_TTY="$(tty)"
-export GPG_TTY
 
 shopt -s histappend
 shopt -s checkwinsize

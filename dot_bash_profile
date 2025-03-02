@@ -1,7 +1,5 @@
 source ~/.bashrc
 
-while read -r l; do
-    eval export $l
-done < <(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
+export EDITOR=em
 
-[ "$(tty)" = "/dev/tty1" ] && exec uwsm start niri.desktop
+[ "$(tty)" = "/dev/tty1" ] && uwsm check may-start && exec systemd-cat -t uwsm_start uwsm start default
