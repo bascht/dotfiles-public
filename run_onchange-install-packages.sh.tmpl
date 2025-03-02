@@ -4,7 +4,7 @@ if [ -n "$CI" ]; then
     echo "Not running this step in CI for now"
     exit 0
 fi
-## (save-excursion (search-forward "ADD=(")(forward-line)(set-mark-command nil)(forward-sentence)(forward-line -1)(end-of-line)(call-interactively 'sort-lines)(save-buffer))
+## (save-excursion (search-forward "ADD=")(forward-line)(surround-mark "(")(call-interactively 'sort-lines)(save-buffer))
 ADD=(
     "adobe-source-code-pro-fonts"
     "aspell"
