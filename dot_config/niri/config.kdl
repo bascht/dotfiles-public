@@ -6,12 +6,24 @@
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
-workspace "term"
-workspace "browser"
-workspace "comms"
-workspace "emacs"
-workspace "music"
-workspace "obsidian"
+workspace "term" {
+  open-on-output "PNP(AOC) U27G3X 1322131231233"
+}
+workspace "browser" {
+  open-on-output "PNP(AOC) U27G3X 1322131231233"
+}
+workspace "comms" {
+  open-on-output "eDP-1"
+}
+workspace "emacs" {
+  open-on-output "PNP(AOC) U27G3X 1322131231233"
+}
+workspace "music" {
+  open-on-output "eDP-1"
+}
+workspace "obsidian" {
+  open-on-output "PNP(AOC) U27G3X 1322131231233"
+}
 workspace "scratch"
 
 input {
@@ -86,24 +98,31 @@ input {
 }
 
 output "eDP-1" {
-  //  scale 1.5
+  scale 1.75
+  position x=0 y=1073
+  
 }
 
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
   variable-refresh-rate on-demand=true
   mode "3840x2160@59.999"
-    position x=1440 y=1120
+//    position x=1440 y=1120
 //  mode "3840x2160"
 }
 
 output "PNP(AOC) U27G3X 1322131231233" {
   scale 1.5
   variable-refresh-rate on-demand=true
-  transform "90"
-  position x=0 y=600
+   position x=1646 y=899
 
-  mode "3840x2160@75.001"
+// Tondorf
+//  transform "90"
+
+// Not Tondorf
+//  position x=0 y=600
+
+  mode "3840x2160@120.000"
 }
 
 output "Mediatrix Peripherals Inc MPI7002 0x00000001" {
@@ -274,11 +293,16 @@ shadow { on; }
     }
 }
 
+hotkey-overlay {
+  skip-at-startup
+}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
-// spawn-at-startup "alacritty" "-e" "fish"
+spawn-at-startup "start-comms"
+
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -321,6 +345,12 @@ window-rule {
 }
 
 window-rule {
+  match app-id=r#"^org\.qutebrowser\.qutebrowser-comms$"#
+  match app-id=r#"^signal"#
+  open-on-workspace "chat"
+}
+
+window-rule {
    match app-id="alfaview" title="alfaview - Region is being shared"
    match app-id="alfaview-staging" title="Screen share – No media shared"
    match app-id="alfaview-staging" title="alfaview - Region is being shared"
@@ -353,8 +383,8 @@ window-rule {
 window-rule {
     match app-id="launcher"
     open-floating true
-    default-column-width { proportion 0.75; }
-    default-window-height { fixed 500; }
+//    default-column-width { proportion 0.75; }
+//    default-window-height { fixed 500; }
 }
 
 window-rule {
@@ -398,6 +428,7 @@ binds {
     Mod+O { focus-monitor-next; }
     Mod+Shift+O { move-window-to-monitor-next; }
     Ctrl+Alt+L { spawn "blur-lock"; }
+    XF86Mail { spawn "blur-lock"; }
 
     Mod+N { spawn "makoctl" "dismiss"; }
 
@@ -562,6 +593,7 @@ binds {
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
+
     // Switches focus between the current and the previous workspace.
     Mod+Tab { focus-workspace-previous; }
 
@@ -610,7 +642,7 @@ binds {
     Alt+Print { screenshot-window; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    Mod+Shift+E { quit; }
+    Mod+Shift+E { spawn "uwsm" "stop"; }
     Ctrl+Alt+Delete { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
