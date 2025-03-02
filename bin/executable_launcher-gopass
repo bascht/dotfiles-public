@@ -14,12 +14,22 @@ fi
 
 input=$(gopass list -f | fzf -q "$QUERY")
 
+niri msg action set-window-height 70
+niri msg action set-window-width 370
+niri msg action center-window
+niri msg action move-floating-window -y 10
+niri msg action focus-tiling
+
 #swaymsg move scratchpad
-PASSWORD=$(gopass show -o "$input")
+PASSWORD=$(gum spin --title="Copying password to clipboard" -- gopass show -co "$input")
 echo "${PASSWORD}" | wl-copy
 
-notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
-sleep 10
+#notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
+#gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
+clear
+
+gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
+
 cliphist delete-query "${PASSWORD}"
 wl-copy --clear
 notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
