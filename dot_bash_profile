@@ -1,5 +1,7 @@
 source ~/.bashrc
 
+TTY=$(tty)
 export EDITOR=em
+export GPG_TTY="${TTY}"
 
-[ "$(tty)" = "/dev/tty1" ] && uwsm check may-start && exec systemd-cat -t uwsm_start uwsm start default
+[ "${TTY}" = "/dev/tty1" ] && uwsm check may-start && exec systemd-cat -t uwsm_start uwsm start default
