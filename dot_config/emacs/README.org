@@ -760,7 +760,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
     (general-define-key
      :keymaps 'org-journal-mode-map
-     "C-c C-c"  '(lambda () (interactive)(save-buffer)))
+     "C-c C-c"  '(lambda () (interactive)(save-buffer)(delete-frame)))
 
     (add-hook 'org-capture-mode-hook 'delete-other-windows)
     (add-hook 'after-save-hook 'bascht--save-workmacs-journal)
@@ -1110,6 +1110,8 @@ Orderless: powerful completion style
 
     (add-to-list 'org-global-properties
                  '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+
+    (setq org-hide-leading-stars t)
 
     ;; Refile configuration
     (setq org-outline-path-complete-in-steps nil)
