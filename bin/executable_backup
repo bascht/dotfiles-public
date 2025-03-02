@@ -3,23 +3,40 @@
 set -eo pipefail
 
 if [ ! -b /dev/disk/by-partlabel/Gulasch ]; then
-    echo "Disk not found or not settled yet"
-    exit 1;
+  notify-send "Backup" "Disk not found or not settled yet"
+  exit 1;
 fi
 
 if [ ! -b /dev/mapper/Gulasch ]; then
-    if ! foot -- doas /run/current-system/sw/bin/cryptsetup luksOpen /dev/disk/by-partlabel/Gulasch Gulasch; then
-        echo "Could not mount disk"
-        exit 1;
-    fi
+  if ! foot-launcher -- run0 systemd-cryptsetup attach Gulasch /dev/disk/by-partlabel/Gulasch; then
+    notify-send "Backup" "Could not mount disk"
+    exit 1;
+  fi
 fi;
 
-if ! mountpoint /mnt/Gulasch; then
-    doas /run/wrappers/bin/mount /dev/mapper/Gulasch /mnt/Gulasch
+if ! mountpoint /run/media/bascht/Gulasch > /dev/null; then
+  udiskie-mount /dev/mapper/Gulasch
 fi
 
-borgmatic -v 1  -c ~/Backup/pierogi.yaml list
+if pgrep -f 'restic backup' > /dev/null; then
+  echo 'restic is already running...' 1>&2
+  exit 0
+fi
 
-zenity --question --modal --icon-name drive-removable-media --title "backup" --width=150 --text="<b>Disk attached</b>\nStart backup?"
+set -e
+set -v
 
-systemctl start --user borgmatic
+export RESTIC_REPOSITORY='/run/media/bascht/Gulasch/ResticBackup'
+export RESTIC_PASSWORD_COMMAND='gopass show -o person/backup/restic-pierogi'
+export RESTIC_COMPRESSION='off'
+export RESTIC_CACHE_DIR=~/.cache/restic
+
+mkdir -p "${RESTIC_CACHE_DIR}"
+
+restic unlock 
+restic backup \
+       /home/bascht \
+       --exclude-file=/home/bascht/.config/restic/excludes.txt \
+       --tag scheduled 
+restic check --with-cache --read-data-subset=5G
+restic forget --prune --keep-hourly 24 --keep-daily 30 --keep-monthly 6 --keep-weekly 4 --keep-yearly 3
