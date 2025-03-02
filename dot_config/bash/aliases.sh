@@ -23,7 +23,7 @@ alias gp="gopass"
 alias hl="hledger"
 alias cm="chezmoi"
 alias cm-private="chezmoi -S ~/.local/share/chezmoi-private"
-alias ls="exa -l --icons --no-user --no-time --no-permissions"
+
 alias alfaview-logfile="/usr/bin/env ls -d -- ~/.local/share/alfaview-staging/logs/*.log|tail -n 1"
 alias ta="tmux attach -t \$(tmux ls -F '#{session_name}' | fzf)"
 alias ta-if-in-code='if [[ "${PWD}" == "${HOME}/Code"* ]]; then ta; fi'
@@ -39,8 +39,7 @@ alias krs="kubectl rollout status"
 alias kubens='kubectl config set-context --current --namespace="$(kubectl get ns -o json| jq -r .items[].metadata.name | fzf)"'
 alias kubectx='kubectl config use-context "$( yq .contexts[].name $KUBECONFIG  | fzf)"'
 alias kn="kubens"
-alias nps="nix search nixpkgs "
-
+alias package="yay -Slq | fzf --preview-window=80% --preview 'cat <(yay -Si {1}) <(yay --getpkgbuild --print {1})' | xargs --no-run-if-empty --open-tty yay -S"
 # Make sure completions still work for aliases
 complete -o default -F __start_kubectl k
 
@@ -168,4 +167,22 @@ function ripgrepfzf {
       --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
       --preview-window '~4,+{2}+4/3,<80(up)' \
       --query "$*"
+}
+
+# Keep muscle memory & stick with eza
+function ls {
+  args="--no-user --no-permissions"
+  case "${1}" in
+    "-l")
+      args="-l"
+      ;;
+    "-ls")
+      args="-G --symlinks"
+      ;;
+    "-lha")
+      args="-l --time-style long-iso"
+      ;;
+    esac
+
+  eza --icons ${args} ${*}
 }
