@@ -1419,7 +1419,7 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 #+begin_src emacs-lisp :tangle init.el
   (use-package surround
     :ensure t
-    :bind-keymap ("C-c s" . surround-keymap))
+    :bind-keymap ("M-s M-s" . surround-keymap))
 #+end_src
 
 ** Wgrep
