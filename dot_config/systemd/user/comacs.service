@@ -4,12 +4,15 @@ WantedBy=graphical-session.target
 [Service]
 Type=notify
 ExecStart=/usr/bin/emacs --fg-daemon=comacs
-SuccessExitStatus=15
 Restart=on-failure
 Environment=COLORTERM=truecolor
+SuccessExitStatus=15
+Slice=app-graphical.slice
 
 [Unit]
 Description=Emacs comacs daemon
-After=graphical-session.target
 PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
 X-RestartIfChanged=false
