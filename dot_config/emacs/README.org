@@ -2110,7 +2110,7 @@ Try to use proper emoji where possible (and actually useful) :smile:
 #+begin_src emacs-lisp :tangle init.el
   (use-package emojify
     :ensure t
-    :hook (prog-mode org-mode text-mode)
+    :hook ((markdown-mode org-mode) . emojify-mode)
     :config (setq
              emojify-display-style 'unicode
              emojify-download-emojis-p t))
