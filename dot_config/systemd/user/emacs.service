@@ -1,6 +1,5 @@
 [Install]
 WantedBy=graphical-session.target
-#WantedBy=wayland-session@niri.desktop.target
 
 [Service]
 Type=notify
@@ -12,12 +11,8 @@ Slice=app-graphical.slice
 
 [Unit]
 Description=Emacs emacs daemon
-#After=graphical-session.target
-#PartOf=graphical-session.target
-#After=wayland-session@niri.desktop.target
 PartOf=graphical-session.target
 After=graphical-session.target
 Requisite=graphical-session.target
-
 
 X-RestartIfChanged=false
