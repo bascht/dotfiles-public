@@ -8,7 +8,7 @@ if [ ! -b /dev/disk/by-partlabel/Gulasch ]; then
 fi
 
 if [ ! -b /dev/mapper/Gulasch ]; then
-  if ! foot-launcher -- run0 systemd-cryptsetup attach Gulasch /dev/disk/by-partlabel/Gulasch; then
+  if ! foot  --app-id launcher -W 80x20 --config ~/.config/foot/foot-launcher.ini -- run0 systemd-cryptsetup attach Gulasch /dev/disk/by-partlabel/Gulasch; then
     notify-send "Backup" "Could not mount disk"
     exit 1;
   fi
@@ -40,3 +40,7 @@ restic backup \
        --tag scheduled 
 restic check --with-cache --read-data-subset=5G
 restic forget --prune --keep-hourly 24 --keep-daily 30 --keep-monthly 6 --keep-weekly 4 --keep-yearly 3
+
+udiskie-umount /dev/mapper/Gulasch
+run0 systemd-cryptsetup detach Gulasch
+run0 hdparm -Y /dev/disk/by-partlabel/Gulasch
