@@ -27,7 +27,7 @@ set -e
 set -v
 
 export RESTIC_REPOSITORY='/run/media/bascht/Gulasch/ResticBackup'
-export RESTIC_PASSWORD_COMMAND='gopass show -o person/backup/restic-pierogi'
+export RESTIC_PASSWORD_COMMAND='gopass show -o personal/backup/restic-pierogi'
 export RESTIC_COMPRESSION='off'
 export RESTIC_CACHE_DIR=~/.cache/restic
 
