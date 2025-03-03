@@ -351,6 +351,11 @@ window-rule {
 }
 
 window-rule {
+   match app-id="emacs" title="Worklog"
+   open-floating true
+}
+
+window-rule {
    match app-id="alfaview" title="alfaview - Region is being shared"
    match app-id="alfaview-staging" title="Screen share – No media shared"
    match app-id="alfaview-staging" title="alfaview - Region is being shared"
