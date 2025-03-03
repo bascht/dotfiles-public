@@ -21,7 +21,7 @@ niri msg action move-floating-window -y 10
 niri msg action focus-tiling
 
 #swaymsg move scratchpad
-PASSWORD=$(gum spin --title="Copying password to clipboard" -- gopass show -co "$input")
+PASSWORD=$(gum spin --title="Copying password to clipboard" -- gopass show -o "$input")
 echo "${PASSWORD}" | wl-copy
 
 #notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
@@ -33,3 +33,4 @@ gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
 cliphist delete-query "${PASSWORD}"
 wl-copy --clear
 notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
+ää2
