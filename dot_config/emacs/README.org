@@ -569,13 +569,7 @@ Well, which key is it?
 
   (defun bascht/ts-type-into-personio (first-shift-start first-shift-end &optional break-end shift-end)
 
-    (let ((emacs-window-id (string-trim (shell-command-to-string "swaymsg -t get_tree | jq -e -r 'recurse(.nodes[],.floating_nodes[]) | select(.focused == true).id'")))
-          (personio-window-id (string-trim (shell-command-to-string "swaymsg -t get_tree | jq -e -r 'recurse(.nodes[],.floating_nodes[]) | select(.app_id == \"org.qutebrowser.qutebrowser\") | select(.name|startswith(\"Personio\")).id'"))))
-
-      (if (s-blank? personio-window-id)
-          (error "Could not find Personio window!"))
-
-      (bascht/swaymsg (format "[con_id=%s] focus" personio-window-id))
+      (shell-command "niri msg action focus-column-right")
       (bascht/wtype (format "-d 150 i -d 120 %s" first-shift-start))
       (bascht/wtype (format "-d 50 -k tab -d 120 %s" first-shift-end))
 
@@ -585,7 +579,7 @@ Well, which key is it?
         (bascht/wtype (format "-d 150 -k tab %s" shift-end)))
 
       (bascht/wtype "-k escape -d 30 '/Speichern' -d 100 -k return -k return")
-      (bascht/swaymsg (format "[con_id=%s] focus" emacs-window-id))))
+      (shell-command "niri msg action focus-column-left"))
 
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
