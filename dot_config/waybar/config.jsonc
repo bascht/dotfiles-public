@@ -1,0 +1,251 @@
+// -*- mode: jsonc -*-
+{
+    "height": 30, // Waybar height (to be removed for auto height)
+    "spacing": 4, // Gaps between modules (4px)
+    "modules-left": [
+        "niri/workspaces",
+        "niri/window"
+    ],
+    "modules-center": [
+        "mpris",
+    ],
+    "modules-right": [
+        //        "idle_inhibitor",
+        "custom/org-clock",
+        "pulseaudio",
+        "power-profiles-daemon",
+        "cpu",
+        "memory",
+        "temperature",
+        "backlight",
+        "battery",
+        "tray",
+        "clock"
+    ],
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "niri/window": {
+                "max-length": 40
+    },
+    "mpris": {
+	      "format": "{player_icon} {dynamic}",
+	      "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "dynamic-len": 90,
+	      "player-icons": {
+		        "default": "▶",
+		        "mpv": "🎵"
+	      },
+	      "status-icons": {
+		        "paused": "⏸"
+	      },
+	      //"ignored-players": ["firefox"]
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 5,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%e. %H:%M}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format-medium": " ",
+        "format-low": " ",
+        "format-high": "<span color='#e03c52'>{usage}% </span>",
+        "format-critical": "<span color='#c20821'>{usage}% </span>",
+        "tooltip": false,
+        
+    },
+    "memory": {
+        "format-regular": "",
+        "format-high": "{}% ",
+        "states": {
+            "high": 80,
+            "regular": 0
+        }
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format-high": "{temperatureC}°C {icon}",
+        "format-regular": "",
+        "format-icons": ["", "", ""],
+        "states": {
+            "high": 80,
+            "regular": 0
+        }
+    },
+    "backlight": {
+        //"device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󰂄",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon} ",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": "󰝟 {icon}",
+        "format-muted": "󰝟",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol"
+    },
+    "custom/org-clock": {
+        "format": "{} {icon}",
+        "hide-empty-text": false,
+        "format-chilling": "ff{icon}ff",
+        "format-clocking": "ff{icon}WAT",
+        "format-icons": {
+            "chilling": "󱎬",
+            "clocking": "󱫡",
+            "default": "󱎫",
+        },
+        "return-type": "json",
+        "max-length": 40,
+        "escape": false,
+        "interval": 10,
+        "on-click": "org-clock-toggle",
+        "on-click-right": "org-clock-goto",
+        "on-click-middle": "worklogger",
+        "exec": "emacs-server-eval workmacs bascht/waybar-org-clock-indicator"
+    },
+    "custom/media": {
+        "format": "{icon} {text}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "custom/power": {
+        "format" : "⏻ ",
+		    "tooltip": false,
+		    "menu": "on-click",
+		    "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+		    "menu-actions": {
+			      "shutdown": "shutdown",
+			      "reboot": "reboot",
+			      "suspend": "systemctl suspend",
+			      "hibernate": "systemctl hibernate"
+		    }
+    },
+    "niri/workspaces": {
+	      "format": "{icon}",
+        "on-click-forward": "niri msg action move-workspace-down",
+        "on-click-backward": "niri msg action move-workspace-up",
+        "on-scroll-up": "niri msg action focus-workspace-up",
+        "on-scroll-down": "niri msg action focus-workspace-down",
+        "on-scroll-left": "niri msg action focus-column-right",
+        "on-scroll-right": "niri msg action focus-column-left",
+	      "format-icons": {
+		        // Named workspaces
+		        // (you need to configure them in niri)
+		        "term": "",
+		        "browser": "",
+		        "comms": "",
+		        "emacs": "",
+		        "music": "",
+		        "obsidian": "",
+		        "obsidian": "",
+		        // Icons by state
+            //		        "active": "",
+		        "default": ""
+	      }
+    },
+}
