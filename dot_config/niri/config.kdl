@@ -98,29 +98,22 @@ input {
 }
 
 output "eDP-1" {
-  scale 1.75
-  position x=0 y=1073
-  
+  //  scale 1.5
 }
 
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
   variable-refresh-rate on-demand=true
-  mode "3840x2160@59.999"
-//    position x=1440 y=1120
+  mode "3840x2160@120.000"
+    position x=1440 y=1120
 //  mode "3840x2160"
 }
 
 output "PNP(AOC) U27G3X 1322131231233" {
   scale 1.5
   variable-refresh-rate on-demand=true
-   position x=1646 y=899
-
-// Tondorf
-//  transform "90"
-
-// Not Tondorf
-//  position x=0 y=600
+  transform "90"
+  position x=0 y=600
 
   mode "3840x2160@120.000"
 }
@@ -388,8 +381,8 @@ window-rule {
 window-rule {
     match app-id="launcher"
     open-floating true
-//    default-column-width { proportion 0.75; }
-//    default-window-height { fixed 500; }
+    default-column-width { proportion 0.75; }
+    default-window-height { fixed 500; }
 }
 
 window-rule {
@@ -427,13 +420,12 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return { spawn "foot"; }
+    Mod+Return { spawn "kitty"; }
     Mod+W { toggle-column-tabbed-display; }
     Mod+D { spawn "my-rofi" "chords"; }
     Mod+O { focus-monitor-next; }
     Mod+Shift+O { move-window-to-monitor-next; }
     Ctrl+Alt+L { spawn "blur-lock"; }
-    XF86Mail { spawn "blur-lock"; }
 
     Mod+N { spawn "makoctl" "dismiss"; }
 
