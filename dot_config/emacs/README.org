@@ -430,7 +430,7 @@ Well, which key is it?
 
 #+begin_src emacs-lisp :tangle init.el
   (setq org-capture-templates
-        (if (string= (system-name) "apfelstrudel")
+        (if (string= (system-name) "bigos")
             '(("t" "Todo" entry (file "Todo.org")
                "* TODO %?\n  %i")
               ("m" "MailTodo" entry (file "Todo.org")
@@ -1095,13 +1095,13 @@ Orderless: powerful completion style
 
     ;; Set org directory depending on which laptop I'm at
 
-    (setq org-directory (if (string= (system-name) "apfelstrudel")
+    (setq org-directory (if (string= (system-name) "bigos")
                             "~/Work/Zettelkasten/"
                           "~/Documents/Zettelkasten/"))
 
     ;; Same with the agenda files, either Work or Play.
     (setq org-agenda-files
-          (if (string= (system-name) "apfelstrudel")
+          (if (string= (system-name) "bigos")
               '("Todo.org" "Alfaview.org" "Calendar.org")
             '("Todo.org" "Personal.org" "Projects.org")))
 
@@ -1822,7 +1822,7 @@ Mark changes on the left side of the gutter.
     (setq
      message-signature nil
      message-signature-file nil
-     org-msg-signature (with-current-buffer (find-file-noselect (string-join (list "/home/bascht/.signature" (if (string= (system-name) "apfelstrudel") ".alfatraining")))) (buffer-string))
+     org-msg-signature (with-current-buffer (find-file-noselect (string-join (list "/home/bascht/.signature" (if (string= (system-name) "bigos") ".alfatraining")))) (buffer-string))
      mu4e-change-filenames-when-moving t
      message-send-mail-function 'message-send-mail-with-sendmail
      message-sendmail-extra-arguments '("--read-envelope-from")
