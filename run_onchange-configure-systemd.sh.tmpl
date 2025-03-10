@@ -13,7 +13,7 @@ sudo systemctl enable --now systemd-resolved.service
 
 systemctl enable --user --now vdirsyncer.timer
 
-{{- if (eq .chezmoi.hostname "apfelstrudel") }}
+{{- if (eq .chezmoi.hostname "bigos") }}
 systemctl enable --now --user davmail@bascht
 sudo systemctl enable --now docker
 {{ end }}

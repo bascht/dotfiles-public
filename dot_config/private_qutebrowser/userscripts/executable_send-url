@@ -18,7 +18,7 @@ export SSH_AUTH_SOCK
 TARGET_HOST="${1:-pierogi}"
 
 if [[  $(hostname) == "${TARGET_HOST}" ]]; then
-TARGET_HOST="apfelstrudel"
+TARGET_HOST="bigos"
 fi
 
 NOTIFICATION_TITLE="Sending Tab ${QUTE_TITLE} to ${TARGET_HOST}"
