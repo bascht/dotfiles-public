@@ -1713,13 +1713,21 @@ Mark changes on the left side of the gutter.
 *** Outline mode
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package outline
-    :ensure nil
-    :config
-    (setq outline-minor-mode-highlight nil) ; emacs28
-    (setq outline-minor-mode-cycle t) ; emacs28
-    (setq outline-minor-mode-use-buttons nil) ; emacs29---bless you for the nil option!
-    (setq outline-minor-mode-use-margins nil)) ; as above
+  (use-package outline-indent
+    :ensure t
+    :defer t
+    :commands outline-indent-minor-mode
+
+    :custom
+    (outline-indent-ellipsis " ▼ ")
+
+    :init
+    ;; The minor mode can also be automatically activated for a certain modes.
+    (add-hook 'python-mode-hook #'outline-indent-minor-mode)
+    (add-hook 'python-ts-mode-hook #'outline-indent-minor-mode)
+
+    (add-hook 'yaml-mode-hook #'outline-indent-minor-mode)
+    (add-hook 'yaml-ts-mode-hook #'outline-indent-minor-mode))
 #+end_src
 *** Indent Bars mode
 #+begin_src emacs-lisp :tangle init.el
