@@ -606,6 +606,7 @@ binds {
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
+    Mod+Alt+R { expand-column-to-available-width; }
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
     Mod+C { center-column; }
