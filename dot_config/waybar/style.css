@@ -30,12 +30,13 @@
 }
 
 #workspaces {
-    margin: 0 4px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #workspaces button {
-    margin: 4px 0;
-    padding: 0 4px;
+    margin: 0px;
+    padding: 0 4px 0 0;
     color: @base05;
 }
 
@@ -44,8 +45,8 @@
 }
 
 #workspaces button.active {
-    border-radius: 4px;
-    background-color: @base02;
+    background-color: @base07;
+        color: @base03;
 }
 
 #workspaces button.urgent {
