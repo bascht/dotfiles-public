@@ -4,18 +4,11 @@ declare name
 raw_name=$(basename $(realpath $(pwd)/../))/$(basename $PWD)
 name="${raw_name//./_}"
 
-if ! tmux has-session -t="${name}" 2>/dev/null; then
-    tmux new-session -A -s "${name}" -d
-    tmux new-window -t "${name}"
-    tmux select-window -t "${name}" -t 0
-    tmux send-keys -t "${name}" "em -e '(bascht--switch-to-or-load-perspective \"${name}\" \"${PWD}\")'" C-m
-    tmux select-window -t "${name}" -t 1
-    tmux send-keys -t "${name}" 'gf; exa --long --header --git --no-user --no-permissions --no-time --no-filesize --icons --recurse --tree --level 2' C-m
-    tmux select-window -t "${name}" -t 0
-fi
+source ~/.config/bash/aliases.sh
 
-if [[ -z "${TMUX}" ]]; then
-    tmux attach -t "${name}"
-else
-    tmux switch-client -t "${name}"
-fi
+emacs_name=" ${name}"
+git fetch -a && git rebase
+kitten @ set-window-title "${emacs_name}"
+kitten @ send-text -- emacsclient -s comacs --tty -e "'(bascht--switch-to-or-load-perspective \"${name}\" \"${PWD}\")'\n"
+
+kitten @ launch --type=tab --dont-take-focus --cwd=current --hold -- eza --long --header --git --no-user --no-permissions --no-time --no-filesize --icons --recurse --tree --level 1
