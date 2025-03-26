@@ -1,23 +1,32 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bb
 
-VOLUME_STATE="${XDG_RUNTIME_DIR}/playerctl-last-volume"
+(require '[babashka.process :refer [shell]])
+(require '[clojure.string :as str])
+(require '[babashka.fs :as fs])
 
-if [[ $(playerctl -p mopidy status) == "Playing" && $(playerctl volume) == "0.000000" ]]; then
-      echo "Restoring old volume $(cat "${VOLUME_STATE}")"
-      playerctl -p mopidy volume "$(cat "${VOLUME_STATE}")"
-      exit 0
-elif [[ $(playerctl -p mopidy status) == "Playing" ]]; then
-  if playerctl -p mopidy metadata|grep xesam:url > /dev/null; then
-    if [[ $(playerctl volume) == "0.000000" ]]; then
-      echo "Restoring old volume $(cat "${VOLUME_STATE}")"
-      playerctl -p mopidy volume "$(cat "${VOLUME_STATE}")"
-    else
-      playerctl -p mopidy volume > "${VOLUME_STATE}"
-      echo "Saved current volume $(cat "${VOLUME_STATE}"). Now muting."
-      playerctl -p mopidy volume 0.0
-    fi;
-    exit 0
-  fi;
-fi;
+(defn playerctl [args] (-> (apply shell {:out :string} "/usr/bin/playerctl" args) :out str/split-lines))
+(defn players [] (playerctl ["--list-all"]))
+(defn set-volume [player volume] (playerctl ["-p" player "volume" volume]))
 
-exec playerctl play-pause
+(def player (some #{"mopidy" "mpv" "mpd"} (players)))
+(def volume-state (format "%s/playerctl-last-volume" (System/getenv "XDG_RUNTIME_DIR")))
+
+(when-not (fs/regular-file? volume-state)
+  (fs/create-file volume-state))
+
+(def old-volume (str/trim-newline(slurp volume-state)))
+(def volume (first (playerctl ["-p" player "volume"])))
+(def is-playing? (= (playerctl ["-p" player "status"]) ["Playing"]))
+(def is-muted? (= (playerctl ["-p" player "volume"]) ["0.000000"]))
+(def metadata (playerctl ["-p" player "metadata"]))
+(def is-streaming? (some #(str/includes? % "xesam:url")  (playerctl ["-p" player "metadata"])))
+
+
+(if (nil? player)
+  (playerctl "play-pause")
+  (if (and is-playing? is-muted?)
+    (set-volume player old-volume)
+    (when (and is-playing? is-streaming?)
+      (spit volume-state volume)
+      (set-volume player 0))))
+
