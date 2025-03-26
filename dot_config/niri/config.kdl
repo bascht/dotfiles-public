@@ -59,8 +59,8 @@ input {
         // accel-speed 0.0
         // accel-profile "flat"
         // scroll-method "no-scroll"
-        // scroll-method "on-button-down"
-        // scroll-button 276
+        scroll-method "on-button-down"
+        scroll-button 276
     }
 
     trackball {
@@ -94,28 +94,26 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse max-scroll-amount="30%"
 }
 
 output "eDP-1" {
-  //  scale 1.5
+    scale 1.5
 }
 
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
-  variable-refresh-rate on-demand=true
-  mode "3840x2160@120.000"
-    position x=1440 y=1120
-//  mode "3840x2160"
+  // variable-refresh-rate on-demand=true
+  mode "3840x2160@60.000"
+  position x=1440 y=1120
 }
 
 output "PNP(AOC) U27G3X 1322131231233" {
   scale 1.5
-  variable-refresh-rate on-demand=true
+  //variable-refresh-rate on-demand=true
   transform "90"
   position x=0 y=600
-
-  mode "3840x2160@120.000"
+  mode "3840x2160@60.000"
 }
 
 output "Mediatrix Peripherals Inc MPI7002 0x00000001" {
@@ -337,6 +335,29 @@ window-rule {
     default-column-width {}
 }
 
+// Indicate screencasted windows with red colors.
+window-rule {
+    match is-window-cast-target=true
+
+    focus-ring {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+
+    border {
+        inactive-color "#7d0d2d"
+    }
+
+    shadow {
+        color "#7d0d2d70"
+    }
+
+    tab-indicator {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+}
+
 window-rule {
   match app-id=r#"^org\.qutebrowser\.qutebrowser-comms$"#
   match app-id=r#"^signal"#
@@ -381,7 +402,7 @@ window-rule {
 window-rule {
     match app-id="launcher"
     open-floating true
-    default-column-width { proportion 0.75; }
+    default-column-width { proportion 0.5; }
     default-window-height { fixed 500; }
 }
 
@@ -589,7 +610,6 @@ binds {
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
-
 
     // Switches focus between the current and the previous workspace.
     Mod+Tab { focus-workspace-previous; }
