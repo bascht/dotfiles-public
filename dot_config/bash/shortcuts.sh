@@ -42,8 +42,8 @@ bind '"\eggs" "git status\n"'
 bind '"\egpa" "for remote in $(git remote); git push ${remote}; end"'
 
 # SSH Quick Jump
-bind '"\egsss" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e staging **\t"'
-bind '"\egssp" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e production **\t"'
+bind '"\es\es" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e staging ?\t"'
+bind '"\es\ep" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e production ?\t"'
 
 # k9s is such a handy tool
 bind '"\e9" "TERM=xterm-256color k9s\n"'
@@ -52,6 +52,6 @@ bind '"\e9" "TERM=xterm-256color k9s\n"'
 bind '"\C-xq":"\eb"\ef\""'
 
 # Bind my snippet launcher for both in-shell and GUI usage
-bind '"\es": " \C-u `launcher-snippets`\e\C-e\C-a\C-y\C-e"'
+bind '"\egs": " \C-u `launcher-snippets`\e\C-e\C-a\C-y\C-e"'
 
 bind '"\er": "ripgrepfzf\C-j"'
