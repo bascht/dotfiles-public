@@ -28,6 +28,9 @@ case $- in
     *) return ;;
 esac
 
+# Don't let the global systemd INVOCATION_ID bleed into my shell
+unset INVOCATION_ID
+
 HISTCONTROL=ignoredups:ignorespace
 HISTFILESIZE=80000
 HISTSIZE=10000
