@@ -1,16 +1,29 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bb
 
-set -eo pipefail
-set -xa
+(require '[babashka.cli :as cli]
+         '[babashka.process :refer [shell process destroy]] )
 
-FOLDER="/home/bascht/Videos/Screenrecordings/$(date +'%Y-%m')"
-mkdir -p "${FOLDER}"
+(defn slurp-geometry [] (-> (shell {:out :string :err :nil} "slurp") :out str/trim))
 
-NAME="${FOLDER}/$(date +%Y-%m-%d-%H%M%S)"
-if [[ -n "${*}" ]]; then
-    NAME="${NAME}-${*}"
-fi
+(def now (java.time.LocalDateTime/now))
+(def default-name (let [formatter (java.time.format.DateTimeFormatter/ofPattern "yyyy-MM-dd-HHmmss")]
+                    (str (.format now formatter) ".mp4")))
+(def default-directory (let [formatter (java.time.format.DateTimeFormatter/ofPattern "yyyy-MM")
+                             path (fs/path (fs/expand-home "~/Videos/Screenrecordings") (.format now formatter))]
+                         (str path)))
 
-wf-recorder -g "$(slurp-window)" -f "${NAME}.mp4"
-#wf-recorder -d /dev/dri/renderD128 -c hevc_vaapi -g "$(slurp-window)" -f "${NAME}.mp4" > /dev/null 2>&1
-echo -e "\n\n${NAME}.mp4"
+(def options (cli/parse-opts *command-line-args* {:spec {:dir {:default default-directory :validate fs/directory?}
+                                                         :geometry {:coerce :string} }
+                                                  :args->opts [:name]
+                                                  :exec-args {:name default-name}}))
+
+(def target-file (str (fs/path (:dir options) (:name options))))
+(def geometry (or (:geometry options) (slurp-geometry)))
+
+(def recorder (process "wf-recorder" "-g" geometry "-f" target-file))
+
+(let [stop-and-save (-> (shell {:continue true} "gum" "confirm" (str "Recording to " target-file) "--affirmative=Stop recording" "--negative=Abort recording") :exit zero?)]
+  (destroy recorder)
+  (if stop-and-save
+    (println target-file)
+    (fs/delete target-file)))
