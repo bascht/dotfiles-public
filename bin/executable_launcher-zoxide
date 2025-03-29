@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-FOLDER=$(zoxide query --list |fzf --preview="(tmux ls |grep -i {q}) && git -C {} status" --preview-window="bottom")
+FOLDER=$(zoxide query --list |fzf --preview "git -C {} status" --preview-window="bottom")
+raw_name=$(basename $(realpath $FOLDER/../))/$(basename $FOLDER)
+name="${raw_name//./_}"
 
 if [ -n "${FOLDER}" ]; then
-  swaymsg exec -- foot -D "${FOLDER}" "tn"
+  niri msg action spawn -- kitty --class "kitty-${name}" --directory "${FOLDER}" --hold "/home/bascht/bin/tn"
 fi
