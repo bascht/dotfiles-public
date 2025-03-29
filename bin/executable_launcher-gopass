@@ -14,8 +14,8 @@ fi
 
 input=$(gopass list -f | fzf -q "$QUERY")
 
-niri msg action set-window-height 70
-niri msg action set-window-width 370
+niri msg action set-window-height 75
+niri msg action set-window-width 372
 niri msg action center-window
 niri msg action move-floating-window -y 10
 niri msg action focus-tiling
@@ -33,4 +33,3 @@ gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
 cliphist delete-query "${PASSWORD}"
 wl-copy --clear
 notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
-ää2

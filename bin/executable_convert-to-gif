@@ -35,12 +35,15 @@ Dir.mktmpdir do |tmpdir|
     abort "File [#{name}] does not exist. Please see --help."
   end
 
+  basedir = File.dirname(name)
   width = ARGV[1] || `ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of default=nw=1:nk=1 #{name}|head -n1`
   fps = ARGV[2] || DEFAULT_FPS
 
   basename = File.basename(name, ".*")
   filters="fps=#{fps},scale=#{width}:-1:flags=lanczos"
+  outname = "#{basedir}/#{basename}.gif"
 
-  system("ffmpeg -i #{name} -vf '#{filters},palettegen' -y #{palette}")
-  system("ffmpeg -i #{name} -i #{palette} -lavfi '#{filters} [x]; [x][1:v] paletteuse' -y #{basename}.gif")
+  system("ffmpeg -hide_banner -loglevel error -i #{name} -vf '#{filters},palettegen' -y #{palette}")
+  system("ffmpeg -hide_banner -loglevel error -i #{name} -i #{palette} -lavfi '#{filters} [x]; [x][1:v] paletteuse' -y #{outname}")
+  puts outname
 end
