@@ -9,32 +9,40 @@
 
 #+begin_src emacs-lisp :tangle early-init.el
 
-  (setq gc-cons-threshold most-positive-fixnum)
+    (setq gc-cons-threshold most-positive-fixnum
+          gc-cons-percentage 0.6
+          vc-handled-backends '(Git))
 
-  ;; In Emacs 27+, package initialization occurs before `user-init-file' is
-  ;; loaded, but after `early-init-file'.
-  (setq package-enable-at-startup nil
-        package-quickstart nil
-        load-prefer-newer t)
+    ;; Better Window Management handling
+  (setq frame-resize-pixelwise t)
 
-  (setq-default inhibit-redisplay t
-                inhibit-message t)
-  (add-hook 'window-setup-hook
-            (lambda ()
-              (setq-default inhibit-redisplay nil
-                            inhibit-message nil)
-              (redisplay)))
+  (setq inhibit-compacting-font-caches t)
 
-  (push '(menu-bar-lines . 0) default-frame-alist)
-  (push '(tool-bar-lines . 0) default-frame-alist)
-  (push '(vertical-scroll-bars) default-frame-alist)
 
-  (setq frame-inhibit-implied-resize t)
+    ;; In Emacs 27+, package initialization occurs before `user-init-file' is
+    ;; loaded, but after `early-init-file'.
+    (setq package-enable-at-startup nil
+          package-quickstart nil
+          load-prefer-newer t)
 
-  (add-to-list 'native-comp-eln-load-path
-               (concat "~/.cache/emacs/" "eln-cache/"))
-  (setq native-comp-async-report-warnings-errors 'silent
-        native-comp-deferred-compilation t)
+    (setq-default inhibit-redisplay t
+                  inhibit-message t)
+    (add-hook 'window-setup-hook
+              (lambda ()
+                (setq-default inhibit-redisplay nil
+                              inhibit-message nil)
+                (redisplay)))
+
+    (push '(menu-bar-lines . 0) default-frame-alist)
+    (push '(tool-bar-lines . 0) default-frame-alist)
+    (push '(vertical-scroll-bars) default-frame-alist)
+
+    (setq frame-inhibit-implied-resize t)
+
+    (add-to-list 'native-comp-eln-load-path
+                 (concat "~/.cache/emacs/" "eln-cache/"))
+    (setq native-comp-async-report-warnings-errors 'silent
+          native-comp-deferred-compilation t)
 #+end_src
 
 * TODO Hypergalactic new =init.el= [0/2]
@@ -94,6 +102,7 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
   (use-package emacs
     :ensure nil
     :bind (("M-z" . zap-up-to-char)
+           ("C-M-z" . cycle-spacing)
            ("M-," . beginning-of-buffer)
            ("M-." . end-of-buffer)
            ("M-p" . backward-paragraph)
@@ -581,6 +590,7 @@ Well, which key is it?
       (bascht/wtype "-k escape -d 30 '/Speichern' -d 100 -k return -k return")
       (shell-command "niri msg action focus-column-left"))
 
+
   (defun bascht/alfatraining-hours-a-day (date)
     (cond
      ((string-match "Mon" (s-trim date)) 4)
@@ -778,7 +788,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
 * Writing
 
-** Spell checking
+** COMMENT Spell checking
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package jinx
@@ -787,6 +797,34 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
            ("C-M-$" . 'jinx-languages))
     :config
     (setq jinx-languages "de_DE en_GB"))
+#+end_src
+
+Languagetool is handy from time to time as well
+
+#+begin_src emacs-lisp :tangle init.el
+        (use-package flycheck-languagetool
+          :ensure t
+          :hook ((text-mode       . flycheck-languagetool-setup)
+                 (latex-mode      . flycheck-languagetool-setup)
+                 (org-mode        . flycheck-languagetool-setup)
+                 (markdown-mode   . flycheck-languagetool-setup))
+          :config
+          (setq ;flymake-languagetool-check-spelling t
+                flycheck-languagetool-language "de-DE"
+                flycheck-languagetool-server-jar "/usr/share/java/languagetool/languagetool-server.jar"))
+                                                ;    :init
+        ;; Local Server Configuration
+                                                ;    (setq flymake-languagetool-server-jar
+                                                ;             "path/to/LanguageTool-X.X/languagetool-server.jar"))
+
+  (use-package lsp-ltex-plus
+    :ensure nil
+    :hook (text-mode . (lambda ()
+                         (require 'lsp-ltex-plus)
+                         (lsp)))
+    :init
+    (setq lsp-ltex-plus-dictionary (list (expand-file-name "custom-dict" user-emacs-directory))))         ; 'stdio or 'tcp
+
 #+end_src
 
 ** Basic [[https://jblevins.org/projects/markdown-mode/][Markdown]] mode
@@ -877,6 +915,10 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
     :bind (
            ;; Drop-in replacements
            ("C-x b" . consult-buffer)     ; orig. switch-to-buffer
+           ("C-x 4 b" . consult-buffer-other-window)
+           ("C-x 5 b" . consult-buffer-other-window)
+           ("C-x t b" . consult-buffer-other-tab)
+           ("C-x p b" . consult-project-buffer)
            ("M-y"   . consult-yank-pop)   ; orig. yank-pop
            ;; Searching
            ("M-s r" . consult-ripgrep)
@@ -904,7 +946,14 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
            ("C-x C-d" . consult-dir)
            ("C-x C-j" . consult-dir-jump-file)))
 
-
+;;; WHITESPACE
+(use-package whitespace
+  :ensure nil
+  :defer t
+  :hook (before-save . whitespace-cleanup)
+  ;; if we wanna remove this hook at any time, eval:
+  ;; (remove-hook 'before-save-hook #'whitespace-cleanup)
+  )
 #+end_src
 
 ** Embark
@@ -1128,7 +1177,7 @@ Orderless: powerful completion style
       (if org-clock-loaded
           (message "Org clock is loaded!")
         (message "Org clock is NOT YET loaded!"))
-      
+
       (setq org-clock-persist 'history
             org-clock-persist-file  "~/.config/emacs/org-clock-workmacs-save.el"
             org-clock-resume t
@@ -1142,7 +1191,7 @@ Orderless: powerful completion style
             )
       (if org-clock-loaded
           (message "Org clock is loaded!")
-        (message "Org clock is NOT YET loaded!"))          
+        (message "Org clock is NOT YET loaded!"))
       (org-clock-persistence-insinuate)
       (org-clock-auto-clockout-insinuate)
       ;;          (org-clock-load)
@@ -1363,8 +1412,8 @@ Make sure we can tell comacs (my code editor config) from the rest of the pack.
     :config (setq dired-dwim-target t))
 
   (use-package dired-sidebar :ensure t)
+  (use-package dired-filter :ensure t)
   (use-package dired-hacks-utils :ensure t)
-
 #+end_src
 
 *** Dired preview
@@ -1542,14 +1591,55 @@ You know, for work.
     (defun bascht--go-format-and-reorganize-imports () (interactive)
            (eglot-format-buffer)
            (eglot-code-actions nil nil "source.organizeImports" t)
-           )           
-    
+           )
+
     (add-hook 'go-mode-hook (lambda()
                               (if (not (string-match "go" compile-command))
                                   (set (make-local-variable 'compile-command)
                                        "go build -v && go test -v && go vet"))
                               (add-hook 'before-save-hook 'bascht--go-format-and-reorganize-imports nil t)))
     )
+#+end_src
+**** To debug stuff
+#+begin_src emacs-lisp
+  (use-package dape
+  :preface
+  ;; By default dape shares the same keybinding prefix as `gud'
+  ;; If you do not want to use any prefix, set it to nil.
+  ;; (setq dape-key-prefix "\C-x\C-a")
+
+  :hook
+  ;; Save breakpoints on quit
+   (kill-emacs . dape-breakpoint-save)
+  ;; Load breakpoints on startup
+   (after-init . dape-breakpoint-load)
+
+  :config
+  ;; Turn on global bindings for setting breakpoints with mouse
+  ;; (dape-breakpoint-global-mode)
+
+  ;; Info buffers to the right
+  (setq dape-buffer-window-arrangement 'right)
+
+  ;; Info buffers like gud (gdb-mi)
+   (setq dape-buffer-window-arrangement 'gud)
+  (setq dape-info-hide-mode-line nil)
+
+  ;; Pulse source line (performance hit)
+  ;; (add-hook 'dape-display-source-hook 'pulse-momentary-highlight-one-line)
+
+  ;; Showing inlay hints
+  ;; (setq dape-inlay-hints t)
+
+  ;; Save buffers on startup, useful for interpreted languages
+  ;; (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
+
+  ;; Kill compile buffer on build success
+  ;; (add-hook 'dape-compile-hook 'kill-buffer)
+
+  ;; Projectile users
+  ;; (setq dape-cwd-function 'projectile-project-root)
+  )
 #+end_src
 *** Terraform
 #+begin_src emacs-lisp :tangle init.el
@@ -1599,7 +1689,7 @@ Never again shall I click GitLabs buttons.
     :custom
     (treesit-auto-install 'prompt)
     :config
-  	(setq treesit-auto-langs '(bash yaml json css python))
+        (setq treesit-auto-langs '(bash yaml json css python))
     (treesit-auto-add-to-auto-mode-alist 'all)
     (global-treesit-auto-mode))
 #+end_src
