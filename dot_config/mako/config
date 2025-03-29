@@ -1,14 +1,12 @@
 anchor=bottom-center
+format=<b>%a ⏵</b> %s\n%b
 width=600
+layer=overlay
 max-visible=2
 border-radius=2
 padding=25,10,18,10
 margin=2,0,-8,0
-font=VictorMono Nerd Font
-#max-icon-size=48
-icon-path=/etc/profiles/per-user/bascht/share/icons/Adwaita
-#icon-location=top
-
+font=Iosevka Term Slab
 background-color=#1d1f21
 text-color=#c5c8c6
 border-color=#969896
