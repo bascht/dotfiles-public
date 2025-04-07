@@ -104,7 +104,7 @@ output "eDP-1" {
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
   // variable-refresh-rate on-demand=true
-  mode "3840x2160@60.000"
+  mode "3840x2160@120.000"
   position x=1440 y=1120
 }
 
