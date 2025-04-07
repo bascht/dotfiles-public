@@ -19,4 +19,4 @@ esac
 list=$(ykman oath accounts list)
 account=$(echo -e "${list}" | fzf --bind one:accept -q "$QUERY")
 TOKEN=$(ykman oath accounts code "${account}" | awk '{ print $2 }')
-niri msg action spawn -- wtype -d 50 "${TOKEN}"
+niri msg action spawn -- kitty +kitten panel --edge=bottom --lines=2 sh -c "sleep 1; wlrctl keyboard type ${TOKEN}"
