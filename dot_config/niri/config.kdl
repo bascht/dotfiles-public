@@ -495,6 +495,10 @@ binds {
     Mod+Shift+J     { move-window-down; }
     Mod+Shift+K     { move-window-up; }
     Mod+Shift+L     { move-column-right; }
+    Mod+Alt+Shift+H     { move-workspace-to-monitor-left; }
+    Mod+Alt+Shift+J     { move-workspace-to-monitor-down; }
+    Mod+Alt+Shift+K     { move-workspace-to-monitor-up; }
+    Mod+Alt+Shift+L     { move-workspace-to-monitor-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
