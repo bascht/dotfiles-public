@@ -1,0 +1,7 @@
+before-sleep 'blur-lock'
+lock 'blur-lock'
+unlock 'thinkpad-dock'
+after-resume 'thinkpad-dock'
+timeout 300 'blur-lock'
+timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on" && thinkpad-dock'
+timeout 900 'suspend-if-docked' resume 'swaymsg "output * dpms on" && thinkpad-dock'
