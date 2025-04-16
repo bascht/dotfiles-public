@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -xv
+#GEOMETRY=$(slurp)
+CURRENT_WINDOW=$(niri msg --json windows | jq -r '.[]|select(.is_focused)')
+WINDOW_ID=$(echo "${CURRENT_WINDOW}" | jq -r .id)
+if ! echo "${CURRENT_WINDOW}" | jq -re .is_floating; then
+  niri msg action toggle-window-floating --id "${WINDOW_ID}"
+fi
+
+niri-shrinklify-window 800 300 "${WINDOW_ID}"
+clear
+FILE=$(screenrecording)
+niri msg action center-window --id "${WINDOW_ID}"
+
+niri-shrinklify-window 400 400 "${WINDOW_ID}"
+clear
+if gum confirm "Convert ${FILE} to gif?"; then
+  FILE=$(gum spin --spinner dot --title "Converting" -- convert-to-gif "${FILE}")
+fi
+
+wl-copy < "$FILE"
