@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+account=$(gopass list -f | fzf -q "$QUERY")
+password=$(gopass show -o "${account}")
+kitten @ send-text --match=recent:1 "${password}\n"
