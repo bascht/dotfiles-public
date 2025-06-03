@@ -12,7 +12,7 @@ fi
 
 if [[ $(cat "/proc/$PPID/comm") == "bash" ]]; then
   BASH=1
-  QUERY="^bash"
+  QUERY="^bash "
   BAT_LANGUAGE="bash"
 else
   BAT_LANGUAGE="txt"
