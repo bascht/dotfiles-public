@@ -7,5 +7,3 @@ mkdir -p "${ORGDIR}"
 
 # Send it to my clock, while we're at it
 emacsclient -n -s workmacs -e "(bascht/send-org-clock-to-ulanzi)"
-# Trim the resulting quotes from emacs eval response
-emacsclient -n -s workmacs -e "(bascht/sway-org-clock-indicator)" | tr -d '"' > "${ORGDIR}/current-task"
