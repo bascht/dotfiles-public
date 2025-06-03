@@ -993,19 +993,19 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
            ("C-x p b" . consult-project-buffer)
            ("M-y"   . consult-yank-pop)   ; orig. yank-pop
            ;; Searching
-           ("M-s M-r" . consult-ripgrep)
-           ("M-s M-l" . consult-line)       ; Alternative: rebind C-s to use
-           ("M-s M-s" . consult-line)       ; consult-line instead of isearch, bind
-           ("M-s M-L" . consult-line-multi) ; isearch to M-s s
+           ("M-s r" . consult-ripgrep)
+           ("M-s l" . consult-line)       ; Alternative: rebind C-s to use
+           ("M-s s" . consult-line)       ; consult-line instead of isearch, bind
+           ("M-s L" . consult-line-multi) ; isearch to M-s s
 
-           ("M-s M-i" . consult-imenu)
-           ("M-s M-o" . consult-outline)
+           ("M-s i" . consult-imenu)
+           ("M-s o" . consult-outline)
            ;; Isearch integration
            :map isearch-mode-map
            ("M-e" . consult-isearch-history)   ; orig. isearch-edit-string
-           ("M-s M-e" . consult-isearch-history) ; orig. isearch-edit-string
-           ("M-s M-l" . consult-line)            ; needed by consult-line to detect isearch
-           ("M-s M-L" . consult-line-multi)      ; needed by consult-line to detect isearch
+           ("M-s e" . consult-isearch-history) ; orig. isearch-edit-string
+           ("M-s l" . consult-line)            ; needed by consult-line to detect isearch
+           ("M-s L" . consult-line-multi)      ; needed by consult-line to detect isearch
            )
     :config
     ;; Narrowing lets you restrict results to certain groups of candidates
@@ -1563,7 +1563,7 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 #+begin_src emacs-lisp :tangle init.el
   (use-package surround
     :ensure t
-    :bind-keymap ("M-s M-s" . surround-keymap))
+    :bind-keymap ("M-SPC" . surround-keymap))
 #+end_src
 
 ** Wgrep
