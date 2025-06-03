@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
 ALFAVIEW_ID="$(alfaview-get-window-id)"
-WINDOW_TYPE=$(swaymsg -t get_tree | jq -e -r "recurse(.nodes[],.floating_nodes[]) | select(.id == ${ALFAVIEW_ID}).type")
-CURRENT_WORKSPACE=$(swaymsg -t get_workspaces | jq '.[] | select(.focused==true) | .name')
+IS_FLOATING="$(niri msg --json windows | jq '.[] | select(.id == '${ALFAVIEW_ID}').is_floating')"
+CURRENT_WORKSPACE=$(niri msg --json workspaces | jq '.[]|select(.is_focused==true and .is_active==true).id')
 
-swaymsg "[con_id=${ALFAVIEW_ID}]" focus
-if [[ "${WINDOW_TYPE}" == "floating_con" ]]; then
-	swaymsg "[con_id=${ALFAVIEW_ID}]" move container to workspace 3 
-	swaymsg "[con_id=${ALFAVIEW_ID}]" floating off
+niri msg action focus-window --id "${ALFAVIEW_ID}"
+
+if [[ "${IS_FLOATING}" == "true" ]]; then
+  niri msg action move-window-to-workspace --focus false --window-id ${ALFAVIEW_ID} comms
+  niri msg action toggle-window-floating --id "${ALFAVIEW_ID}"
+  niri msg action set-window-width --id "${ALFAVIEW_ID}" 300
 else
-	swaymsg "[con_id=${ALFAVIEW_ID}]" floating on
-	swaymsg "[con_id=${ALFAVIEW_ID}]" move container to workspace "${CURRENT_WORKSPACE}"
-	swaymsg "[con_id=${ALFAVIEW_ID}]" focus
-	sway-center-window
-	sway-center-window
+  niri msg action toggle-window-floating --id "${ALFAVIEW_ID}"
+  niri msg action move-window-to-workspace --window-id ${ALFAVIEW_ID} "${CURRENT_WORKSPACE}"
+  niri msg action focus-window --id "${ALFAVIEW_ID}"
 fi;
-
