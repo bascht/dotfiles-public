@@ -839,6 +839,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
     (spacious-padding-mode)
     (breadcrumb-mode -1)
 
+    (find-file (expand-file-name "Alfaview.org" org-directory))
     (org-journal-open-current-journal-file)
     ;; TODO: Let niri take care of this
     ;; (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center")
