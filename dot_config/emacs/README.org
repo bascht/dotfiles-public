@@ -1269,6 +1269,23 @@ Orderless: powerful completion style
       ))
 
 #+end_src
+** Org Appear
+
+Found this snippet in [[https://github.com/turbana/emacs-config?tab=readme-ov-file#org-appear][@turnbana's]] config.
+#+begin_src emacs-lisp :tangle init.el
+(use-package org-appear
+  :after (org)
+  :init
+  (defun bascht--setup-org-appear-hooks ()
+    (org-appear-mode 1)
+    (add-hook 'meow-insert-enter-hook #'org-appear-manual-start nil t)
+    (add-hook 'meow-insert-exit-hook #'org-appear-manual-stop nil t))
+  :config
+  (setq org-appear-autolinks t)
+  (setq org-appear-autoentities t)
+  (setq org-appear-trigger 'manual)
+  :hook (org-mode . bascht--setup-org-appear-hooks))
+#+end_src
 ** Org Auto tangling
 Used in this very file :)
 
