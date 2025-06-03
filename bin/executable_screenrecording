@@ -10,6 +10,7 @@
                     (str (.format now formatter) ".mp4")))
 (def default-directory (let [formatter (java.time.format.DateTimeFormatter/ofPattern "yyyy-MM")
                              path (fs/path (fs/expand-home "~/Videos/Screenrecordings") (.format now formatter))]
+                         (fs/create-dirs path)
                          (str path)))
 
 (def options (cli/parse-opts *command-line-args* {:spec {:dir {:default default-directory :validate fs/directory?}
