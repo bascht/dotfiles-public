@@ -1254,21 +1254,13 @@ Orderless: powerful completion style
             org-clock-persist-file  "~/.config/emacs/org-clock-workmacs-save.el"
             org-clock-resume t
             org-clock-history-length 20
-            ;;            org-clock-persist-query-resume nil
-            ;;            org-clock-persist-query-save nil
-            org-clock-idle-time 20
             org-clock-out-remove-zero-time-clocks t
             org-clock-auto-clock-resolution t
             org-clock-ask-before-exiting nil
-            org-clock-continuously t
-            org-clock-auto-clockout-timer 7200
-            ;;              org-clock-auto-clockout-timer 3600
-            ;;              org-clock-ask-before-exiting nil
-            )
+            org-clock-continuously t)
 
       (org-clock-persistence-insinuate)
       (org-clock-auto-clockout-insinuate)
-      ;;          (org-clock-load)
 
       (add-hook 'org-trigger-hook 'save-buffer)
       (add-hook 'org-clock-in-hook 'save-buffer)
