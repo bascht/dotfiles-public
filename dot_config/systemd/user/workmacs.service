@@ -8,6 +8,7 @@ ExecStop=/usr/bin/emacsclient -n -s workmacs -e "(progn (setq confirm-kill-proce
 Restart=on-failure
 Environment=COLORTERM=truecolor
 SuccessExitStatus=15
+TimeoutStopSec=15
 
 [Unit]
 Description=Emacs workmacs daemon
