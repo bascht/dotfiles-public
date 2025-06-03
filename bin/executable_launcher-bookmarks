@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-MARK=$(lookmarks|fzf --preview="ROFI_PREVIEW=1 lookmarks {1}" --preview-window="top:1")
+MARK=$(lookmarks|fzf --bind one:accept --preview="ROFI_PREVIEW=1 lookmarks {1}" --preview-window="top:1")
 lookmarks $MARK
