@@ -97,17 +97,31 @@ input {
     focus-follows-mouse max-scroll-amount="25%"
 }
 
-output "eDP-1" {
-    scale 1.5
-    position x=0 y=638
+//output "eDP-1" {
+//    scale 1.5
+//    position x=0 y=638 // P73
+//    position x=640 y=1069  // XMG
+//    position x=640 y=1069  // T1422
+///}
+
+/// XMG
+output "China Star Optoelectronics Technology Co., Ltd MNE007ZA3-2 Unknown" {
+    position x=640 y=1069
+}
+
+/// Lenovo
+output "Lenovo Group Limited 0x40A9 Unknown" {
+       position x=384 y=968
 }
 
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
   // variable-refresh-rate on-demand=true
-  mode "3840x2160@120.000"
-  // position x=1646 y=1440 # 1.75
-  position x=1920 y=1440
+  mode "3840x2160@60.000"
+  position x=2286 y=1440
+   // 1.75
+  //  position x=1920 y=0
+
 }
 
 output "PNP(AOC) U27G3X 1322131231233" {
@@ -116,7 +130,7 @@ output "PNP(AOC) U27G3X 1322131231233" {
   transform "180"
 
   // position x=1646 y=0
-  position x=1920 y=0
+  position x=1920 y=1440
   // mode "3840x2160@120.000"
   mode "3840x2160@60.000"
 }
@@ -448,10 +462,14 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "kitty"; }
     Mod+W { toggle-column-tabbed-display; }
+    Mod+E { toggle-overview; }
+    Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
     Mod+D { spawn "my-rofi" "chords"; }
+//    Mod+Space { spawn "my-rofi" "chords"; }
     Mod+O { focus-monitor-next; }
     Mod+Shift+O { move-window-to-monitor-next; }
     Ctrl+Alt+L { spawn "blur-lock"; }
+    XF86Mail { spawn "blur-lock"; }
 
     Mod+N { spawn "makoctl" "dismiss"; }
 
