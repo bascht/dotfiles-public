@@ -2302,8 +2302,10 @@ Tried and true. Just cannot get used to any thing different or more minimal.
           doom-modeline-buffer-coding nil
           doom-modeline-check-simple-format t
           doom-modeline-battery nil
-          doom-modeline-unicode-fallback nil
-          doom-modeline-modal nil))
+          doom-modeline-modal t
+          doom-modeline-modal-icon t
+
+          doom-modeline-unicode-fallback nil))
 #+end_src
 ** Nerd-Icons
 #+begin_src emacs-lisp :tangle init.el
@@ -2332,15 +2334,41 @@ Try to use proper emoji where possible (and actually useful) :smile:
              emojify-download-emojis-p t))
 #+end_src
 
-** Org Rainbow Tags
-
-Think rainbow delimiters, but for =org-mode= tags.
+** Another try for =org-modern=
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package org-rainbow-tags
-    :ensure t
-    :hook (org-mode . org-rainbow-tags-mode)
-    :config (setq org-rainbow-tags-hash-start-index 8))
+        (use-package org-modern
+          :ensure t
+          :after org
+          :config
+
+          (modify-all-frames-parameters
+           '((right-divider-width . 40)
+             (internal-border-width . 40)))
+          (dolist (face '(window-divider
+                          window-divider-first-pixel
+                          window-divider-last-pixel))
+            (face-spec-reset-face face)
+            (set-face-foreground face (face-attribute 'default :background)))
+          (set-face-background 'fringe (face-attribute 'default :background))
+
+
+          (setq
+           ;; Edit settings
+           org-auto-align-tags t
+           org-tags-column 0
+           org-catch-invisible-edits 'show-and-error
+           org-special-ctrl-a/e t
+           org-insert-heading-respect-content t
+
+           ;; Org styling, hide markup etc.
+           org-hide-emphasis-markers t
+           org-pretty-entities t
+           org-agenda-tags-column 0
+           org-ellipsis "…"
+           org-modern-star '("◉" "○" "◈" "◇" "*"))
+
+          (global-org-modern-mode))
 #+end_src
 ** Spacious Padding
 
