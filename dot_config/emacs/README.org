@@ -413,6 +413,7 @@ Let's give Meow another try.
     :ensure t
     :config
     (meow-setup)
+    (add-hook 'git-commit-mode-hook 'meow-insert-mode)
     (meow-global-mode 1))
 #+end_src
 
@@ -2128,9 +2129,8 @@ This function takes care of my individual catchall addresses =*@bascht.com=. Whe
 I run these filters automatically after fetching emails to clean up my =INBOX= right away.
 
 #+begin_src emacs-lisp :tangle init.el
-  (defun bascht--mu4e-clean-inbox ()
-    (interactive)
-     (kmacro "b N C-x h r x y M-<left>"))
+  (defalias 'bascht--mu4e-clean-inbox
+   (kmacro "C-c m b i b N C-x h r x y M-<left>"))
 #+end_src
 
 * Custom functions
