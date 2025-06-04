@@ -13,7 +13,8 @@ fi
 # Work around my inability to correctly name the things on my Yubikey :joy:
 case "${QUERY}" in
   *aws*) QUERY="aws" ;;
-  *otc*) QUERY="otc" ;;
+  *otc*) QUERY="console.otc" ;;
+  *personio*) QUERY="personio" ;;
 esac
 
 list=$(ykman oath accounts list)
