@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec emacsclient -s workmacs --create-frame --eval '(org-capture)'
