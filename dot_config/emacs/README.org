@@ -413,8 +413,10 @@ Let's give Meow another try.
     :ensure t
     :config
     (meow-setup)
-    (add-hook 'git-commit-mode-hook 'meow-insert-mode)
+    (add-hook 'git-commit-mode-hook (lambda () (end-of-line)(meow-insert-mode)))
     (meow-global-mode 1))
+
+
 #+end_src
 
 ** General
