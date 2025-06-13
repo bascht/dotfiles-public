@@ -6,6 +6,11 @@
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
+
+// debug {
+// render-drm-device "/dev/dri/renderD129"
+// }
+
 workspace "term" {
   open-on-output "PNP(AOC) U27G3X 1322131231233"
 }
@@ -394,7 +399,7 @@ window-rule {
    match app-id="alfaview-staging" title="alfaview - Region is being shared"
    open-floating true
    draw-border-with-background false
-           block-out-from "screen-capture"
+   block-out-from "screen-capture"
 //    opacity 1.0
 
     focus-ring {
@@ -406,7 +411,17 @@ window-rule {
     }
 }
 
-// Example: block out two password managers from screen capture.
+window-rule {
+    match app-id="kitty-quick-access"
+    border {
+      on
+    }
+    focus-ring {
+      on
+    }
+}
+
+// Example: block out two password managers from screen captu
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
@@ -461,13 +476,14 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "kitty"; }
+    Mod+Y { spawn "kitten" "quick-access-terminal"; }
     Mod+W { toggle-column-tabbed-display; }
     Mod+E { toggle-overview; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
     Mod+D { spawn "my-rofi" "chords"; }
 //    Mod+Space { spawn "my-rofi" "chords"; }
-    Mod+O { focus-monitor-next; }
-    Mod+Shift+O { move-window-to-monitor-next; }
+    Mod+M { focus-monitor-next; }
+    Mod+Shift+M { move-window-to-monitor-next; }
     Ctrl+Alt+L { spawn "blur-lock"; }
     XF86Mail { spawn "blur-lock"; }
 
@@ -500,23 +516,27 @@ binds {
     Mod+Down  { focus-window-down; }
     Mod+Up    { focus-window-up; }
     Mod+Right { focus-column-or-monitor-right; }
-    Mod+H     { focus-column-or-monitor-left; }
-    Mod+J     { focus-window-or-monitor-down; }
-    Mod+K     { focus-window-or-monitor-up; }
+    Mod+J     { focus-column-or-monitor-left; }
+    Mod+K     { focus-window-or-monitor-down; }
+    Mod+I     { focus-window-or-monitor-up; }
     Mod+L     { focus-column-or-monitor-right; }
 
     Mod+Shift+Left  { move-column-left; }
     Mod+Shift+Down  { move-window-down; }
     Mod+Shift+Up    { move-window-up; }
     Mod+Shift+Right { move-column-right; }
-    Mod+Shift+H     { move-column-left; }
-    Mod+Shift+J     { move-window-down; }
-    Mod+Shift+K     { move-window-up; }
+    Mod+Shift+J     { move-column-left; }
+    Mod+Shift+K     { move-window-down; }
+    Mod+Shift+I     { move-window-up; }
     Mod+Shift+L     { move-column-right; }
-    Mod+Alt+Shift+H     { move-workspace-to-monitor-left; }
-    Mod+Alt+Shift+J     { move-workspace-to-monitor-down; }
-    Mod+Alt+Shift+K     { move-workspace-to-monitor-up; }
+    Mod+Alt+Shift+J     { move-workspace-to-monitor-left; }
+    Mod+Alt+Shift+K     { move-workspace-to-monitor-down; }
+    Mod+Alt+Shift+I     { move-workspace-to-monitor-up; }
     Mod+Alt+Shift+L     { move-workspace-to-monitor-right; }
+    Mod+Alt+Shift+Left    { move-workspace-to-monitor-left; }
+    Mod+Alt+Shift+Down     { move-workspace-to-monitor-down; }
+    Mod+Alt+Shift+Up     { move-workspace-to-monitor-up; }
+    Mod+Alt+Shift+Right     { move-workspace-to-monitor-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
@@ -545,9 +565,9 @@ binds {
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
     Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
     Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+I    { move-column-to-monitor-up; }
     Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
     // Alternatively, there are commands to move just a single window:
@@ -561,7 +581,7 @@ binds {
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
     Mod+U              { focus-workspace-down; }
-    Mod+I              { focus-workspace-up; }
+    Mod+O              { focus-workspace-up; }
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
@@ -574,7 +594,7 @@ binds {
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
     Mod+Shift+U         { move-workspace-down; }
-    Mod+Shift+I         { move-workspace-up; }
+    Mod+Shift+O         { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
