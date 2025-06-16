@@ -3,7 +3,13 @@
 FOLDER=$(zoxide query --list |fzf --preview "git -C {} status" --preview-window="bottom")
 raw_name=$(basename $(realpath $FOLDER/../))/$(basename $FOLDER)
 name="${raw_name//./_}"
+kitty_name="kitty.${name}"
 
 if [ -n "${FOLDER}" ]; then
-  niri msg action spawn -- kitty --class "kitty-${name}" --directory "${FOLDER}" --hold "/home/bascht/bin/tn"
+  existing_kitty=$(niri msg --json windows | jq '.[]|select(.app_id=="'${kitty_name}'").id')
+  if [ -n "${existing_kitty}" ]; then
+    niri msg action focus-window --id "${existing_kitty}"
+  else
+    niri msg action spawn -- kitty --app-id "kitty.${name}" --directory "${FOLDER}" --hold "/home/bascht/bin/tn"
+  fi
 fi
