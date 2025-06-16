@@ -307,11 +307,11 @@ Let's give Meow another try.
     (setq meow-char-thing-table
           '((?f . round)
             (?d . square)
-            (?s . curly)
+            (?c . curly)
             (?a . angle)
             (?r . string)
             (?v . paragraph)
-            (?c . line)
+            (?l . line)
             (?x . buffer)))
 
     (meow-leader-define-key
@@ -366,7 +366,7 @@ Let's give Meow another try.
      '("a" . meow-mark-word)
      '("A" . meow-mark-symbol)
      '("s" . meow-line)
-     '("S" . meow-goto-line)
+     '("S" . consult-line)
      '("w" . meow-block)
      '("q" . meow-join)
      '("g" . meow-grab)
@@ -378,6 +378,12 @@ Let's give Meow another try.
 
      '("x" . meow-till)
      '("y" . meow-find)
+
+     '("ö" . er/expand-region)
+
+     '("(" . kmacro-start-macro)
+     '(")" . kmacro-end-macro)
+     '("!" . call-last-kbd-macro)
 
      '("," . meow-beginning-of-thing)
      '("." . meow-end-of-thing)
@@ -849,7 +855,6 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
     (if (not (bascht/org-can-clock))
              (shell-command "niri msg action spawn -- emacsclient -s workmacs --create-frame --eval \"(org-resolve-clocks)\"")))
 
-
   (defun bascht--save-workmacs-journal ()
     (when (eq major-mode 'org-journal-mode)
       (bascht--move-to-scratchpad)))
@@ -1276,18 +1281,22 @@ Orderless: powerful completion style
 
 Found this snippet in [[https://github.com/turbana/emacs-config?tab=readme-ov-file#org-appear][@turnbana's]] config.
 #+begin_src emacs-lisp :tangle init.el
-(use-package org-appear
-  :after (org)
-  :init
-  (defun bascht--setup-org-appear-hooks ()
-    (org-appear-mode 1)
-    (add-hook 'meow-insert-enter-hook #'org-appear-manual-start nil t)
-    (add-hook 'meow-insert-exit-hook #'org-appear-manual-stop nil t))
-  :config
-  (setq org-appear-autolinks t)
-  (setq org-appear-autoentities t)
-  (setq org-appear-trigger 'manual)
-  :hook (org-mode . bascht--setup-org-appear-hooks))
+  (use-package org-appear
+    :after (org)
+    :init
+    (defun bascht--setup-org-appear-hooks ()
+      (org-appear-mode 1)
+      (add-hook 'meow-insert-enter-hook #'org-appear-manual-start nil t)
+      (add-hook 'meow-insert-exit-hook #'org-appear-manual-stop nil t))
+    :config
+    (setq org-appear-autolinks t
+          org-appear-autoentities t
+          org-appear-autoemphasis   t
+          org-hide-emphasis-markers t
+          org-appear-autoentities   t
+          org-appear-autosubmarkers t
+          org-appear-trigger 'manual)
+    :hook (org-mode . bascht--setup-org-appear-hooks))
 #+end_src
 ** Org Auto tangling
 Used in this very file :)
@@ -1975,13 +1984,19 @@ Mark changes on the left side of the gutter.
     :ensure nil
     :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map mu4e-compose-minor-mode-map)
                               "C-<return>" 'bascht-mu4e-view-it-on-gitlab
-                              "T" (lambda () (interactive) (mu4e-view-mark-thread '(refile)))
+                              "T" 'mu4e-headers-mark-subthread
+                              "t" 'bascht--mu4e-headers-mark-thread-for-refile
                               "R" 'bascht--supersede-or-compose-reply-ask-wide)
     :config
     (defun bascht--mu4e-view-in-gitlab (msg)
       "Search for a clickable »view in GitLab« link in the message"
       (pp msg)
       )
+
+    (defun bascht--mu4e-headers-mark-thread-for-refile ()
+      "Mark the whole subthread to refile"
+      (interactive)
+      (mu4e-view-mark-thread '(refile)))
 
     ;; via https://github.com/djcb/mu/issues/2665#issuecomment-2016826822
     (defun bascht--supersede-or-compose-reply-ask-wide ()
@@ -2344,15 +2359,15 @@ Try to use proper emoji where possible (and actually useful) :smile:
           :after org
           :config
 
-          (modify-all-frames-parameters
-           '((right-divider-width . 40)
-             (internal-border-width . 40)))
-          (dolist (face '(window-divider
-                          window-divider-first-pixel
-                          window-divider-last-pixel))
-            (face-spec-reset-face face)
-            (set-face-foreground face (face-attribute 'default :background)))
-          (set-face-background 'fringe (face-attribute 'default :background))
+          ;(modify-all-frames-parameters
+          ; '((right-divider-width . 40)
+          ;   (internal-border-width . 40)))
+          ;(dolist (face '(window-divider
+          ;                window-divider-first-pixel
+          ;                window-divider-last-pixel))
+          ;  (face-spec-reset-face face)
+          ;  (set-face-foreground face (face-attribute 'default :background)))
+          ;(set-face-background 'fringe (face-attribute 'default :background))
 
 
           (setq
@@ -2391,6 +2406,8 @@ No need for zen mode when Prot got you covered.
         '((org-duration-format . (("h" . t) (special . 2)))
           (org-link-elisp-skip-confirm-regexp . "bascht/ts-report-to-personio")
           (buffer-read-only . 1)
+          (lab-group . 53)
+          (lab-host . nil) ; TODO: add via chezmoi template
           (org-safe-remote-resources . '("drop.bascht.space"))
           (org-confirm-elisp-link-function . nil))  )
 #+end_src
