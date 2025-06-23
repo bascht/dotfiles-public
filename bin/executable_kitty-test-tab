@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+RUN=${1:-"make test"}
+
+kitty @ set-tab-title "Running tests"
+kitty @ set-tab-color --self inactive_fg="#828282"
+
+if ${RUN}; then
+  kitty @ set-tab-color --self inactive_fg="#00ff00"
+  kitty @ set-tab-title "Tests passing"
+else
+  kitty @ set-tab-color --self inactive_fg="#ff0000"
+  kitty @ set-tab-title "Tests failing"
+fi
