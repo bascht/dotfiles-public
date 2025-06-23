@@ -51,6 +51,13 @@ config.unbind("<ctrl+tab>")
 config.bind("<ctrl+tab>", "tab-next")
 config.bind("<ctrl+shift+tab>", "tab-prev")
 
+config.unbind("i")
+config.bind("j", "scroll left")
+config.bind("i", "scroll up")
+config.bind("l", "scroll right")
+config.bind("k", "scroll down")
+config.bind("e", "mode-enter insert")
+
 config.bind(',grl', 'greasemonkey-reload;; reload')
 config.bind(',uu', 'spawn -u untrack-url -o {url}')
 config.bind(',uf', 'hint links spawn -u untrack-url -O {hint-url}')
