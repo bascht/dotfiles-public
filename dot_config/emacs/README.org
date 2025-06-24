@@ -415,16 +415,62 @@ Let's give Meow another try.
      ;; ignore escape
      '("<escape>" . ignore)))
 
-  (use-package meow
-    :ensure t
-    :config
-    (meow-setup)
-    (add-hook 'git-commit-mode-hook (lambda () (end-of-line)(meow-insert-mode)))
-    (meow-global-mode 1))
+  ;; (use-package meow
+  ;;   :ensure t
+  ;;   :config
+  ;;   (meow-setup)
+  ;;   (add-hook 'git-commit-mode-hook (lambda () (end-of-line)(meow-insert-mode)))
+  ;;   (meow-global-mode 1))
 
 
 #+end_src
 
+
+#+begin_src emacs-lisp :tangle init-boon.el
+  ;; (use-package boon
+  ;; :ensure t
+  ;; :config
+  ;; (require 'boon-qwertz)
+
+  ;; (define-key boon-moves-map "i" 'backward-sentence)
+  ;; (define-key boon-moves-map "I" 'ignore)
+  ;; (define-key boon-moves-map "o" 'forward-sentence)
+  ;; (define-key boon-moves-map "O" 'ignore)
+
+  ;; (define-key boon-moves-map "p"  '("⇥" . boon-end-of-line))
+  ;; (define-key boon-moves-map "u"  '("⇤" . boon-beginning-of-line))
+
+  ;; (define-key boon-moves-map "J"  '("⇠" . boon-smarter-backward))        ;word
+  ;; (define-key boon-moves-map "j"  '("←" . backward-char))                ;character
+  ;; (define-key boon-moves-map "K"  'forward-paragraph)                    ;faster down
+  ;; (define-key boon-moves-map "k"  '("↓" . next-line))                    ;down
+  ;; (define-key boon-moves-map "i"  '("↑" . previous-line))                ;up
+  ;; (define-key boon-moves-map "I"  'backward-paragraph)                   ;faster up
+  ;; (define-key boon-moves-map "l"  '("→" . forward-char))                 ;character
+  ;; (define-key boon-moves-map "L"  '("→" . boon-smarter-forward))         ;word
+
+  ;; (define-key boon-moves-map "n"  '("near hop" . avy-goto-word-1))
+  ;; (define-key boon-moves-map "N"  'avy-goto-char)
+  ;; (define-key boon-moves-map "m" '("moon walk" . boon-switch-mark))
+  ;; (define-key boon-moves-map "M" 'xref-pop-marker-stack)
+
+  ;; )
+#+end_src
+
+#+begin_src emacs-lisp :tangle init.el
+
+
+  ;; (use-package god-mode
+  ;;   :ensure t
+  ;;   :config
+
+  ;;   (god-mode)
+  ;;   (global-set-key (kbd "<escape>") #'god-mode)
+  ;;   (define-key god-local-mode-map (kbd ".") #'repeat)
+  ;;   (defun my-god-mode-update-cursor-type ()
+  ;;     (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+  ;;   (add-hook 'post-command-hook #'my-god-mode-update-cursor-type))
+#+end_src
 ** General
 
 General is one of those packages where I'm not even sure if I still need it after porting everything over from =doom= - but at least =(general-define-key)= made sense to me.
@@ -1982,7 +2028,9 @@ Mark changes on the left side of the gutter.
 #+begin_src emacs-lisp :tangle init.el
   (use-package mu4e
     :ensure nil
-    :general-config (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map mu4e-compose-minor-mode-map)
+    :general-config (:keymaps '(mu4e-headers-mode-map)
+                              "G" 'mu4e-update-mail-and-index)
+                    (:keymaps '(mu4e-headers-mode-map mu4e-view-mode-map mu4e-compose-minor-mode-map)
                               "C-<return>" 'bascht-mu4e-view-it-on-gitlab
                               "T" 'mu4e-headers-mark-subthread
                               "t" 'bascht--mu4e-headers-mark-thread-for-refile
