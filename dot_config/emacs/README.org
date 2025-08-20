@@ -1087,7 +1087,7 @@ Holy fuck! How did I only now learn about this?
   (use-package embark
     :ensure t
     :demand t
-    :after avy
+    :after (avy embark-consult)
     :bind (("C-." . embark-act)
            ("C-,". embark-dwim))
     :init
