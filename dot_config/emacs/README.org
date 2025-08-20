@@ -261,6 +261,7 @@ And even more from the other bedrock files
   (pixel-scroll-precision-mode)                         ; Smooth scrolling
 
   (add-hook 'text-mode-hook 'visual-line-mode)
+  (add-hook 'text-mode-hook 'visual-wrap-prefix-mode)
 
   ;; Modes to highlight the current line with
   (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
@@ -269,15 +270,6 @@ And even more from the other bedrock files
 
 * TODO Keys
 
-** Fix terminal keyboards
-
-This may sound esoteric but I really rely on having =C-.= and the likes available for embark.
-
-#+begin_src emacs-lisp :tangle init.el
-  (use-package kkp
-    :ensure t
-    :config (global-kkp-mode +1))
-#+end_src
 ** Meooooow
 
 Let's give Meow another try.
