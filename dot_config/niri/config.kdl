@@ -99,7 +99,7 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    focus-follows-mouse max-scroll-amount="25%"
+    focus-follows-mouse max-scroll-amount="18%"
 }
 
 //output "eDP-1" {
@@ -121,8 +121,9 @@ output "Lenovo Group Limited 0x40A9 Unknown" {
 
 output "PNP(AOC) U27G3X ZXKQ4HA006099" {
   scale 1.5
-  // variable-refresh-rate on-demand=true
-  mode "3840x2160@60.000"
+  variable-refresh-rate on-demand=true
+  //mode "3840x2160@60.000"
+  mode "3840x2160@120.000"
   position x=2286 y=1440
    // 1.75
   //  position x=1920 y=0
@@ -136,8 +137,8 @@ output "PNP(AOC) U27G3X 1322131231233" {
 
   // position x=1646 y=0
   position x=1920 y=1440
-  // mode "3840x2160@120.000"
-  mode "3840x2160@60.000"
+  mode "3840x2160@120.000"
+  //mode "3840x2160@60.000"
 }
 
 output "Mediatrix Peripherals Inc MPI7002 0x00000001" {
@@ -383,8 +384,10 @@ window-rule {
 }
 
 window-rule {
-  match app-id=r#"^org\.qutebrowser\.qutebrowser-comms$"#
-  match app-id=r#"^signal"#
+  match app-id="^org.qutebrowser.qutebrowser-comms"
+  match app-id="^signal"
+  match app-id="^chrome" title="^Mattermost"
+  match app-id="^chrome" title="^alfaview-staging"
   open-on-workspace "chat"
 }
 
@@ -415,9 +418,11 @@ window-rule {
     match app-id="kitty-quick-access"
     border {
       on
+      width 10
     }
     focus-ring {
       on
+      width 8
     }
 }
 
@@ -481,6 +486,7 @@ binds {
     Mod+E { toggle-overview; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
     Mod+D { spawn "my-rofi" "chords"; }
+    XF86Explorer { spawn "my-rofi" "chords"; }
 //    Mod+Space { spawn "my-rofi" "chords"; }
     Mod+M { focus-monitor-next; }
     Mod+Shift+M { move-window-to-monitor-next; }
