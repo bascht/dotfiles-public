@@ -1478,7 +1478,9 @@ Fully replaced projectile for me as well.
     :after xref
     :config
     (setq project-switch-commands 'project-dired)
-    (setq project-vc-extra-root-markers '(".project")))
+    (setq project-vc-extra-root-markers '(".project"))
+    :custom
+    (project-mode-line t))
 #+end_src
 ** Expand Region
 Might not even need this since I do have embark now.
