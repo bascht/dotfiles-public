@@ -504,7 +504,7 @@ General is one of those packages where I'm not even sure if I still need it afte
      "g G" '(end-of-buffer :which-key "End of buffer")
 
      ";" '(comment-or-uncomment-region :which-key "Comment / Uncomment")
-     "d" '(duplicate-dwim :which-key "Duplicate line / dwim"))
+     "d" '(crux-duplicate-current-line-or-region :which-key "Duplicate line / dwim"))
 
     (general-define-key
      :prefix "C-x"
