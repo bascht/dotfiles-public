@@ -29,11 +29,11 @@ c.prompt.filebrowser = False
 c.completion.height = "40%"
 c.downloads.location.directory = '/home/bascht/Downloads/'
 
-c.qt.args = ['ignore-gpu-blocklist', 'enable-features=Vulkan', 'enable-gpu-rasterization']#, 'untrusted-args', 'enable-zero-copy', 'enable-features=Vulkan,VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,RawDraw,WebGPU', 'use-gl=egl', 'enable-accelerated-video-decode', 'disable-gpu-driver-bug-workarounds']
+c.qt.args = ['ignore-gpu-blocklist', 'enable-gpu-rasterization']#, 'untrusted-args', 'enable-zero-copy', 'enable-features=Vulkan,VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,RawDraw,WebGPU', 'use-gl=egl', 'enable-accelerated-video-decode', 'disable-gpu-driver-bug-workarounds']
 
 c.qt.workarounds.disable_accelerated_2d_canvas = "never"
 
-c.qt.args = ['untrusted-args','enable-features=VaapiVideoDecoder']
+#c.qt.args = ['untrusted-args','enable-features=VaapiVideoDecoder']
 c.content.webgl = False
 c.content.autoplay = False
 c.content.geolocation = False
@@ -43,7 +43,7 @@ c.content.notifications.enabled = False
 c.content.webrtc_ip_handling_policy = "default-public-interface-only"
 
 c.hints.border = "1px solid #CCCCCC"
-c.hints.chars = "jklöuiopm"
+c.hints.chars = "jkluio"
 c.hints.min_chars = 1
 
 
@@ -120,9 +120,9 @@ config.bind('ygd', 'spawn qutebrowser-generate-gopass-username {url}')
 
 ## WebGL
 for domain in [
-        'www.windy.com', 
-        "experience.arcgis.com", 
-        "www.figma.com", 
+        'www.windy.com',
+        "experience.arcgis.com",
+        "www.figma.com",
         "figma.com",
         "globe.adsbexchange.com",
         "www.komoot.de",
