@@ -35,17 +35,17 @@
                 "max-length": 40
     },
     "mpris": {
-	      "format": "{player_icon} {dynamic}",
-	      "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "format": "{player_icon} {dynamic}",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
         "dynamic-len": 90,
-	      "player-icons": {
-		        "default": "▶",
-		        "mpv": "🎵"
-	      },
-	      "status-icons": {
-		        "paused": "⏸"
-	      },
-	      //"ignored-players": ["firefox"]
+        "player-icons": {
+            "default": "▶",
+            "mpv": "🎵"
+        },
+        "status-icons": {
+            "paused": "⏸"
+        },
+        //"ignored-players": ["firefox"]
     },
     "mpd": {
         "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
@@ -96,7 +96,7 @@
         "format-high": "<span color='#e03c52'>{usage}% </span>",
         "format-critical": "<span color='#c20821'>{usage}% </span>",
         "tooltip": false,
-        
+
     },
     "memory": {
         "format-regular": "",
@@ -180,6 +180,7 @@
             "default": ["", "", ""]
         },
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-middle": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
         "on-click-right": "pavucontrol"
     },
     "custom/org-clock": {
@@ -215,37 +216,37 @@
     },
     "custom/power": {
         "format" : "⏻ ",
-		    "tooltip": false,
-		    "menu": "on-click",
-		    "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
-		    "menu-actions": {
-			      "shutdown": "shutdown",
-			      "reboot": "reboot",
-			      "suspend": "systemctl suspend",
-			      "hibernate": "systemctl hibernate"
-		    }
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+        "menu-actions": {
+            "shutdown": "shutdown",
+            "reboot": "reboot",
+            "suspend": "systemctl suspend",
+            "hibernate": "systemctl hibernate"
+        }
     },
     "niri/workspaces": {
-	      "format": "{icon}",
+        "format": "{icon}",
         "on-click-forward": "niri msg action move-workspace-down",
         "on-click-backward": "niri msg action move-workspace-up",
         "on-scroll-up": "niri msg action focus-workspace-up",
         "on-scroll-down": "niri msg action focus-workspace-down",
         "on-scroll-left": "niri msg action focus-column-right",
         "on-scroll-right": "niri msg action focus-column-left",
-	      "format-icons": {
-		        // Named workspaces
-		        // (you need to configure them in niri)
-		        "term": "",
-		        "browser": "",
-		        "comms": "",
-		        "emacs": "",
-		        "music": "",
-		        "obsidian": "",
-		        "obsidian": "",
-		        // Icons by state
-            //		        "active": "",
-		        "default": ""
-	      }
+        "format-icons": {
+            // Named workspaces
+            // (you need to configure them in niri)
+            "term": "",
+            "browser": "",
+            "comms": "",
+            "emacs": "",
+            "music": "",
+            "obsidian": "",
+            "obsidian": "",
+            // Icons by state
+            //            "active": "",
+            "default": ""
+        }
     },
 }
