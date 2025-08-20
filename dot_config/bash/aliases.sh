@@ -32,7 +32,8 @@ alias gcm="git checkout \$(git branch --format='%(refname:short)' | grep -E '^ma
 alias gbb="set BRANCH=(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf); git fetch origin {$BRANCH} && git checkout {$BRANCH}"
 alias tdir="take \$(mktemp -d --suffix=.\$(basename \$(pwd)))"
 alias ag="rg"
-alias dco="docker-compose"
+alias dco="docker compose"
+alias docker-compose='echo -e "$(tput bold)Please slowly migrate your muscle memory off of docker-compose! 2 second time penalty!$(tput sgr0)";sleep 2;docker compose'
 alias k="kubectl"
 alias kgp="kubectl get pods"
 alias krs="kubectl rollout status"
