@@ -257,14 +257,19 @@ div.related-items-tree span.board-card-weight {
 }
 
 /* Unfuck the Drawer */
-aside.gl-drawer.gl-w-full {
+div.page-with-super-sidebar-collapsed aside.gl-drawer.gl-w-full {
     width: 100% !important;
     top: 50% !important;
     height: 50% !important;
     z-index: 700 !important;
 }
 
-div.boards-app div[data-testid="boards-list"] {
+div.page-with-super-sidebar-collapsed div.boards-app:has(aside) div[data-testid="board-list"] {
+    height: 45% !important;
+}
+
+
+div.page-with-super-sidebar-collapsed div.boards-app div[data-testid="boards-list"] {
     width: 100% !important;
 }
 
@@ -284,3 +289,6 @@ hc-app hc-servers a.servers-list__name {
   overflow: revert !important;
   text-overflow: unset !important;
 }
+
+/* gl-flex gl-min-h-0 gl-grow gl-flex-col lg:gl-w-[calc(100%-480px)] xl:gl-w-[calc(100%-768px)] min-[1440px]:gl-w-[calc(100%-912px)] */
+/* gl-flex gl-min-h-0 gl-grow gl-flex-col */
