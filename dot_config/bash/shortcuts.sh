@@ -15,6 +15,7 @@ bind '"\egkc" ". <(_kubeconfig)\n "'
 bind '"\egkx" "kubectx; \n"'
 bind '"\egkn" "kubens; \n"'
 bind '"\egkk" "kubectl "'
+bind '"\egks" "TERM=xterm-256color k9s\n"'
 
 # Yaml Engineering
 bind '"\egoy" "commandline -i -- \"-o yaml\""'
@@ -44,9 +45,6 @@ bind '"\egpa" "for remote in $(git remote); git push ${remote}; end"'
 # SSH Quick Jump
 bind '"\es\es" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e staging ?\t"'
 bind '"\es\ep" "cd $(zoxide query bootstrap/saltstack);\n./ssh -e production ?\t"'
-
-# k9s is such a handy tool
-bind '"\e9" "TERM=xterm-256color k9s\n"'
 
 # Quote last word
 bind '"\C-xq":"\eb"\ef\""'
