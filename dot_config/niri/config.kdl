@@ -414,16 +414,29 @@ window-rule {
     }
 }
 
-window-rule {
-    match app-id="kitty-quick-access"
-    border {
-      on
-      width 10
+layer-rule {
+    match namespace="kitty_quick_access"
+    match at-startup=true
+
+    // Properties that apply continuously.
+    // opacity 0.9
+    block-out-from "screencast"
+    // block-out-from "screen-capture"
+
+    shadow {
+        on
+        // off
+        softness 40
+        spread 5
+        offset x=0 y=5
+        draw-behind-window true
+        color "#00000064"
+        // inactive-color "#00000064"
     }
-    focus-ring {
-      on
-      width 8
-    }
+
+    geometry-corner-radius 12
+    place-within-backdrop true
+    baba-is-float false
 }
 
 // Example: block out two password managers from screen captu
@@ -438,11 +451,20 @@ window-rule {
     // block-out-from "screencast"
 }
 
+// Example: enable rounded corners for all windows.
+// (This example rule is commented out with a "/-" in front.)
+window-rule {
+    geometry-corner-radius 3
+    clip-to-geometry true
+}
+
 window-rule {
     match app-id="launcher"
     open-floating true
     default-column-width { proportion 0.5; }
     default-window-height { fixed 500; }
+    geometry-corner-radius 12
+    clip-to-geometry true
 }
 
 window-rule {
@@ -455,13 +477,6 @@ window-rule {
 window-rule {
     match app-id="horizontal_terminal"
     open-focused false
-}
-
-// Example: enable rounded corners for all windows.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    geometry-corner-radius 3
-    clip-to-geometry true
 }
 
 binds {
@@ -481,7 +496,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "kitty"; }
-    Mod+Y { spawn "kitten" "quick-access-terminal"; }
+    Mod+Space { spawn "kitten" "quick-access-terminal"; }
     Mod+W { toggle-column-tabbed-display; }
     Mod+E { toggle-overview; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
@@ -494,6 +509,7 @@ binds {
     XF86Mail { spawn "blur-lock"; }
 
     Mod+N { spawn "makoctl" "dismiss"; }
+    Mod+T { spawn "niri-open-emacs-term"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -527,14 +543,17 @@ binds {
     Mod+I     { focus-window-or-monitor-up; }
     Mod+L     { focus-column-or-monitor-right; }
 
-    Mod+Shift+Left  { move-column-left; }
-    Mod+Shift+Down  { move-window-down; }
-    Mod+Shift+Up    { move-window-up; }
-    Mod+Shift+Right { move-column-right; }
-    Mod+Shift+J     { move-column-left; }
-    Mod+Shift+K     { move-window-down; }
-    Mod+Shift+I     { move-window-up; }
-    Mod+Shift+L     { move-column-right; }
+    Mod+Shift+Left  { move-column-left-or-to-monitor-left; }
+    Mod+Shift+Down  { move-window-down-or-to-workspace-down; }
+    Mod+Shift+Up    { move-window-up-or-to-workspace-up; }
+    Mod+Shift+Right { move-column-right-or-to-monitor-right; }
+    Mod+Shift+J     { move-column-left-or-to-monitor-left; }
+    Mod+Shift+K     { move-window-down-or-to-workspace-down; }
+    Mod+Shift+I     { move-window-up-or-to-workspace-up; }
+    Mod+Shift+L     { move-column-right-or-to-monitor-right; }
+    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
+    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
+
     Mod+Alt+Shift+J     { move-workspace-to-monitor-left; }
     Mod+Alt+Shift+K     { move-workspace-to-monitor-down; }
     Mod+Alt+Shift+I     { move-workspace-to-monitor-up; }
@@ -548,8 +567,6 @@ binds {
     // the first or last window in a column.
     // Mod+J     { focus-window-or-workspace-down; }
     // Mod+K     { focus-window-or-workspace-up; }
-    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
-    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
 
     Mod+V { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
@@ -559,7 +576,7 @@ binds {
     Mod+Ctrl+End  { move-column-to-last; }
 
     // Mod+Shift+Left  { focus-monitor-left; }
-    // Mod+Shift+Down  { focus-monitor-down; }
+    // Mod+Shift+Down  { focus-monitor-downad; }
     // Mod+Shift+Up    { focus-monitor-up; }
     // Mod+Shift+Right { focus-monitor-right; }
     // Mod+Shift+H     { focus-monitor-left; }
@@ -586,8 +603,8 @@ binds {
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
-    Mod+U              { focus-workspace-down; }
-    Mod+O              { focus-workspace-up; }
+    // Mod+U              { focus-workspace-down; }
+    // Mod+O              { focus-workspace-up; }
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
@@ -599,8 +616,8 @@ binds {
 
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
-    Mod+Shift+U         { move-workspace-down; }
-    Mod+Shift+O         { move-workspace-up; }
+    // Mod+Shift+U         { move-workspace-down; }
+    // Mod+Shift+O         { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
