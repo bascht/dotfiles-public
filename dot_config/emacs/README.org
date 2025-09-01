@@ -147,12 +147,11 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
 
 #+end_src
 
-** COMMENT Sensible Emacs defaults
+** Sensible Emacs defaults
 #+begin_src emacs-lisp :tangle init.el
   (use-package emacs
     :ensure nil
     :demand t
-    :defer nil
     :bind (("M-z" . zap-up-to-char)
            ("C-M-z" . cycle-spacing)
            ("M-," . beginning-of-buffer)
@@ -163,6 +162,7 @@ This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-def
            ("C-M-ö" . mark-sexp)
            ("M-ü" . delete-horizontal-space)
            ("C-o" . crux-smart-open-line)
+           ("C-S-o" . crux-smart-open-line-above)
            ("C-+" . (lambda () (interactive)(global-text-scale-adjust 1)))
            ;; ("C--" . (lambda () (interactive)(global-text-scale-adjust -1)))
            ;;             ( "C-c;;  w h" . 'windmove-left)
@@ -465,7 +465,7 @@ And even more from the other bedrock files
     :ensure t
     :config
     (meow-setup)
-    (add-hook 'git-commit-mode-hook (lambda () (end-of-line)(meow-insert-mode)))
+    (add-hook 'git-commit-setup-hook (lambda () (end-of-line)(meow-insert-mode)))
     (meow-global-mode 1))
 
 
@@ -575,6 +575,7 @@ Well, which key is it?
 #+begin_src emacs-lisp :tangle init.el
   (use-package which-key
     :ensure t
+    :defer 5
     :config (which-key-mode))
 #+end_src
 ** Prots better =quit-dwim=
@@ -1390,6 +1391,7 @@ Orderless: powerful completion style
 
   (use-package org-clock
     :ensure nil
+    :defer nil
     :config
 
     ;; Make workmacs persist the clock and ensure I always properly
@@ -1723,7 +1725,7 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 #+begin_src emacs-lisp :tangle init.el
   (use-package surround
     :ensure t
-    :bind-keymap ("M-SPC" . surround-keymap))
+    :bind-keymap ("C-c s" . surround-keymap))
 #+end_src
 
 ** Wgrep
@@ -1911,8 +1913,9 @@ Oh Magit.
   (use-package magit
     :ensure t
     :after diff-hl
-    :hook (git-commit-mode . (lambda () (end-of-line))) ; Jump to end of line when opening a commit message buffer
     :config
+    (add-hook 'git-commit-setup-hook 'end-of-line 100) ; Jump to end of line when opening a commit message buffer
+
     (setq magit-display-buffer-function  'magit-display-buffer-fullcolumn-most-v1)
     ;;    (setq magit-display-buffer-function #'display-buffer)
 
@@ -2047,9 +2050,10 @@ Mark changes on the left side of the gutter.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package diff-hl
-    :init
-    (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+    :after magit
+    :hook
+    ((magit-pre-refresh . diff-hl-magit-pre-refresh)
+     (magit-post-refresh . diff-hl-magit-post-refresh))
     :config (global-diff-hl-mode))
 #+end_src
 
@@ -2101,6 +2105,7 @@ Mark changes on the left side of the gutter.
   (use-package org-msg
     :ensure t
     :after mu4e
+    :defer nil
     :preface
     (defun org-msg-no-temp-buffer (orig-fun &rest args)
       "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
@@ -2557,6 +2562,7 @@ No need for zen mode when Prot got you covered.
 #+begin_src emacs-lisp :tangle init.el
   (use-package spacious-padding
     :ensure t
+    :defer nil
     :config
     ;; For workmacs I really only need a subtle mode line.
     (when (string= (daemonp) "workmacs")
