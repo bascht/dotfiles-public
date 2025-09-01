@@ -496,7 +496,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "kitty"; }
-    Mod+Space { spawn "kitten" "quick-access-terminal"; }
+    Mod+Y { spawn "kitten" "quick-access-terminal"; }
     Mod+W { toggle-column-tabbed-display; }
     Mod+E { toggle-overview; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
