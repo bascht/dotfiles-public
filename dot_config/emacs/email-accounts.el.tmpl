@@ -11,12 +11,12 @@
                :match-func (lambda (msg)
                              (when msg
                                (string-match-p "^/{{.name}}" (mu4e-message-field msg :maildir))))
-               :vars '((user-mail-address	    . "{{.email_address }}")
-                       (user-full-name	    . "{{.full_name}}" )
-                       (mu4e-sent-folder . "/{{.name}}/{{.sent_folder}}")
+               :vars '((user-mail-address	 . "{{.email_address }}")
+                       (user-full-name     . "{{.full_name}}")
+                       (mu4e-sent-folder   . "/{{.name}}/{{.sent_folder}}")
                        (mu4e-refile-folder . "/{{.name}}/Archiv/{{now.Year}}")
                        (mu4e-drafts-folder . "/{{.name}}/{{.drafts_folder}}")
-                       (mu4e-trash-folder . "/{{.name}}/{{.trash_folder}}")
+                       (mu4e-trash-folder  . "/{{.name}}/{{.trash_folder}}")
                        (message-user-organization . "{{.name}}")))
 {{ end}}))
 
