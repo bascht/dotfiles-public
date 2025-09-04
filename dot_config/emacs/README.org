@@ -540,7 +540,13 @@ General is one of those packages where I'm not even sure if I still need it afte
      "c" 'org-capture
      "o" '(:ignore t :which-key "Anything org-related for bascht")
      "o h" '(consult-org-agenda :which-key "Go to agenda heading")
-     "o a" '(org-agenda :which-key "Open agenda")
+     "o f" '((lambda () (interactive)(ido-find-file-in-dir org-directory)) :which-key "Go to agenda heading")
+     "o a a" '(org-agenda :which-key "Agenda")
+     "o a t" '((lambda () (interactive)(org-agenda "a" "t")) :which-key "Todos")
+     "o i" '((lambda () (interactive) (find-file-other-window (expand-file-name "Todo.org" org-directory))) :which-key "My Inbox")
+     "o g" '((lambda () (interactive) (find-file (expand-file-name "Alfaview.org" org-directory))(consult-org-heading)) :which-key "Goto org headline")
+     "o w" '((lambda () (interactive) (find-file (expand-file-name "Alfaview.org" org-directory))) :which-key "My Work file")
+
      "o c" '(:ignore t :which-key "All the org clocks")
      "o c a" '(bascht/alfatraining-clock-in :which-key "Clock into alfatraining")
      "o c g" '(org-clock-goto :which-key "Go to current clock")
@@ -930,7 +936,9 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
 #+begin_src emacs-lisp :tangle init.el
   (defun bascht--setup-workmacs()
+    "Helper function that will set up my workmacs window."
     (interactive)
+
     (setq indicate-empty-lines nil
           inhibit-startup-screen t
           initial-buffer-choice t
@@ -944,12 +952,15 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
      :keymaps 'org-journal-mode-map
      "C-c C-c"  '(lambda () (interactive)(save-buffer)(delete-frame)))
 
+    (add-hook 'org-capture-after-finalize-hook 'delete-frame)
     (add-hook 'org-capture-mode-hook 'delete-other-windows)
     (add-hook 'after-save-hook 'bascht--save-workmacs-journal)
 
     (spacious-padding-mode)
     (breadcrumb-mode -1)
 
+    ;;(khalel-run-vdirsyncer)
+    ;;(khalel-import-events)
     (find-file (expand-file-name "Alfaview.org" org-directory))
     (org-journal-open-current-journal-file)
     ;; TODO: Let niri take care of this
@@ -1348,7 +1359,11 @@ Orderless: powerful completion style
     :ensure t
     :defer 10
 
-    :bind (("C-c e" . org-edit-src-code ))
+    :bind (:map org-mode-map
+                ("C-c e" . org-edit-src-code)
+                ("C-M-<return>" . org-insert-subheading)
+                ("C-M-S-<return>" . org-insert-todo-subheading)
+                )
 
     :config
 
@@ -1478,6 +1493,7 @@ Giving khal a second try. For my work Exchange calendar this is neat.
   (use-package khalel
     :ensure t
     :after org
+    :defer 10
     :config
     (setq khalel-capture-key "e")
     (setq khalel-import-org-file (concat org-directory "Calendar.org"))
@@ -1666,8 +1682,8 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 #+begin_src emacs-lisp :tangle init.el
   (use-package dired-preview
     :ensure t
-    :after dwim-shell-command
-    :init
+    :defer nil
+    :after (dired dwim-shell-command)
     :general-config (:keymaps '(dired-mode-map)
                               "N"  'dired-preview-mode
                               ". d"  'dwim-shell-command-drag
@@ -1681,6 +1697,7 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
 #+begin_src emacs-lisp :tangle init.el
   (use-package dwim-shell-command
     :ensure t
+    :defer nil
     :config
 
     (defun dwim-shell-command-convert-to-gif ()
@@ -1905,7 +1922,7 @@ You know, for work.
 
 Various language specific modes and checkers.
 
-*** COMMENT Magit <3
+*** Magit <3
 
 Oh Magit.
 
@@ -1916,7 +1933,8 @@ Oh Magit.
     :config
     (add-hook 'git-commit-setup-hook 'end-of-line 100) ; Jump to end of line when opening a commit message buffer
 
-    (setq magit-display-buffer-function  'magit-display-buffer-fullcolumn-most-v1)
+    (setq magit-display-buffer-function  'magit-display-buffer-fullframe-status-v1)
+    (setq magit-diff-paint-whitespace-lines 'all)
     ;;    (setq magit-display-buffer-function #'display-buffer)
 
     ;;(add-to-list 'display-buffer-alist
@@ -2343,6 +2361,27 @@ It is called with the two last directory segments (e.g. =Code/something=), which
                  (magit-fetch-all nil)
                  (magit-status-setup-buffer)
                  (delete-other-windows))))))
+#+end_src
+*** Load a project in Emacs + attach a Terminal in Niri
+#+begin_src emacs-lisp :tangle init.el
+  (defun bascht--load-project (directory)
+    (interactive)
+    (require 'magit-git)
+    (find-file directory)
+    (shell-command "niri msg action set-column-display tabbed")
+    (message "hi")
+    (when (magit-git-repo-p directory)
+               (progn
+                 (magit-fetch-all nil)
+                 (magit-status-setup-buffer)
+                 (delete-other-windows)))
+    )
+#+end_src
+*** Find current projects "short" name
+#+begin_src emacs-lisp :tangle init.el
+    (defun bascht--project-short-name ()
+      (string-join (last (string-split (directory-file-name (caddr (project-current))) "/") 2) "/"))
+
 #+end_src
 *** Switch to my =mu4e= perspective
 
