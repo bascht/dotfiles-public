@@ -1401,6 +1401,9 @@ Orderless: powerful completion style
           '(("n" "Agenda and All Todos"
              ((agenda)
               (todo)))
+            ("o" "Ops Retro"
+              (
+               (tags-todo "opsretro")))
             ("w" "Work" agenda ""
              ((org-agenda-files '("Alfaview.org")))))))
 
@@ -1463,11 +1466,12 @@ Used in this very file :)
 #+begin_src emacs-lisp :tangle init.el
   (use-package org-alert
     :ensure t
+    :after org
+    :defer nil
     :config
-    (setq
-     alert-default-style 'libnotify
-     org-alert-notify-cutoff 15
-     org-alert-notify-after-event-cutoff 15)
+    (setq     alert-default-style 'notifications
+              org-alert-notify-cutoff 15
+              org-alert-notify-after-event-cutoff 15)
     (org-alert-enable))
 #+end_src
 ** Org Journal
@@ -1499,6 +1503,18 @@ Giving khal a second try. For my work Exchange calendar this is neat.
     (setq khalel-import-org-file (concat org-directory "Calendar.org"))
     (setq khalel-import-org-file-confirm-overwrite nil)
     (setq khalel-import-end-date "+30d")
+    (setq khalel-default-calendar "calendar")
+    (setq khalel-import-format "* {title} {cancelled}\n\
+    :PROPERTIES:\n:CALENDAR: {calendar}\n\
+    :LOCATION: {location}\n\
+    :ID: {uid}\n\
+    :END:\n\
+    SCHEDULED: <{start-date-long} {start-time}>--<{end-date-long} {end-time}>\n\
+    - Description: {description}\n\
+    - URL: {url}\n- Organizer: {organizer}\n\n\
+    [[elisp:(khalel-edit-calendar-event)][Edit this event]]\
+        [[elisp:(progn (khalel-run-vdirsyncer) (khalel-import-events))]\
+    [Sync and update all]]\n")
     (khalel-add-capture-template))
 #+end_src
 * Navigation
