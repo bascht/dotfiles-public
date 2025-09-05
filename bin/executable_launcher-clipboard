@@ -1,3 +1,18 @@
 #!/usr/bin/env bash
-
-exec cliphist list | fzf | cliphist decode | wl-copy
+#set -xv
+export FZF_DEFAULT_OPTS='
+  --height="100%"
+  --layout=reverse
+  --bind "esc:become(kill -15 $$)"
+  --margin=0
+  --padding=0
+  --style=full:line
+  --color=bg+:#303446,bg:#202c3d,spinner:#f2d5cf,hl:#e78284
+  --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
+  --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
+'
+export $_KITTEN_ICAT_PLACE
+exec cliphist list | fzf \
+  --preview-window "bottom:60%" \
+  --preview "cliphist decode {} | kitty-preview" | \
+  cliphist decode | wl-copy

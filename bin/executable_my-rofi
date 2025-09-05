@@ -9,7 +9,7 @@ export FZF_DEFAULT_OPTS='
   --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
   --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 '
-
+KITTY_SOCK=(/run/user/1000/kitty-quick-access-*)
 FOOT_OPTIONS=''
 MONITOR_MAKE=$(niri msg -j focused-output | jq -r .make)
 case "${MONITOR_MAKE}" in
@@ -82,4 +82,7 @@ elif [ -f "${HOME}/bin/launcher-${1}" ]; then
 else
     exec foot --app-id launcher --config ~/.config/foot/foot-launcher.ini ~/Code/Go/fzf-chords/fzf-chords
 fi
+# kitten quick-access-terminal
+# kitten @ --to="unix:${KITTY_SOCK}" launch --wait-for-child-to-exit --type=tab "${COMMAND}"
+# kitten quick-access-terminal
 exec foot --app-id launcher ${FOOT_OPTIONS} --config ~/.config/foot/foot-launcher.ini "$COMMAND"
