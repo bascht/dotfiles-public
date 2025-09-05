@@ -14,6 +14,7 @@ fi
 case "${QUERY}" in
   *aws*) QUERY="aws" ;;
   *otc*) QUERY="console.otc" ;;
+  *scaleway*) QUERY="scaleway" ;;
   *personio*) QUERY="personio" ;;
 esac
 
