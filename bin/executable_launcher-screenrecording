@@ -2,7 +2,7 @@
 
 set -o errexit
 set -xv
-#GEOMETRY=$(slurp)
+
 CURRENT_WINDOW=$(niri msg --json windows | jq -r '.[]|select(.is_focused)')
 WINDOW_ID=$(echo "${CURRENT_WINDOW}" | jq -r .id)
 if ! echo "${CURRENT_WINDOW}" | jq -re .is_floating; then
