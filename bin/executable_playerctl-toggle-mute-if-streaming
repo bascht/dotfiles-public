@@ -8,7 +8,7 @@
 (defn players [] (playerctl ["--list-all"]))
 (defn set-volume [player volume] (playerctl ["-p" player "volume" volume]))
 
-(def player (some #{"mopidy" "mpv" "mpd"} (players)))
+(def player (some #{"Supersonic" "mopidy" "mpvl" "mpd"} (players)))
 (def volume-state (format "%s/playerctl-last-volume" (System/getenv "XDG_RUNTIME_DIR")))
 
 (when-not (fs/regular-file? volume-state)
@@ -29,4 +29,3 @@
     (when (and is-playing? is-streaming?)
       (spit volume-state volume)
       (set-volume player 0))))
-
