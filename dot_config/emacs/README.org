@@ -2123,6 +2123,14 @@ Mark changes on the left side of the gutter.
     (indent-bars-treesit-ignore-blank-lines-types '("module"))
     :hook ((yaml-mode) . indent-bars-mode))
 #+end_src
+*** Comment dwim
+#+begin_src emacs-lisp :tangle init.el
+  (use-package comment-dwim-2
+    :ensure t
+    :defer 10
+    :bind
+    ("C-;" . comment-dwim-2))
+#+end_src
 * TODO Email
 
 #+begin_src emacs-lisp :tangle init.el
