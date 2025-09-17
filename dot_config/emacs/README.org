@@ -1487,11 +1487,11 @@ Giving khal a second try. For my work Exchange calendar this is neat.
     :after org
     :defer 10
     :config
-    (setq khalel-capture-key "e")
+    (setq khalel-capture-key "c")
     (setq khalel-import-org-file (concat org-directory "Calendar.org"))
     (setq khalel-import-org-file-confirm-overwrite nil)
     (setq khalel-import-end-date "+30d")
-    (setq khalel-default-calendar "calendar")
+    (setq khalel-default-calendar "Calendar")
     (setq khalel-import-format "* {title} {cancelled}\n\
     :PROPERTIES:\n:CALENDAR: {calendar}\n\
     :LOCATION: {location}\n\
