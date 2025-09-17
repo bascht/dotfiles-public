@@ -949,10 +949,10 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           inhibit-startup-screen t
           initial-buffer-choice t
           initial-scratch-message nil
+          cursor-type 'hbar
+          org-journal-find-file-fn 'find-file)
 
-          org-journal-find-file-fn 'find-file
-                                          ;mode-line-format nil
-          )
+    (setq-default cursor-type 'hbar)
 
     (general-define-key
      :keymaps 'org-journal-mode-map
@@ -960,15 +960,13 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
     (add-hook 'org-capture-after-finalize-hook 'delete-frame)
     (add-hook 'org-capture-mode-hook 'delete-other-windows)
-    (add-hook 'after-save-hook 'bascht--save-workmacs-journal)
 
     (spacious-padding-mode)
     (breadcrumb-mode -1)
 
-    ;;(khalel-run-vdirsyncer)
-    ;;(khalel-import-events)
     (find-file (expand-file-name "Alfaview.org" org-directory))
     (org-journal-open-current-journal-file)
+
     ;; TODO: Let niri take care of this
     ;; (shell-command "swaymsg [title='Worklog'] floating enable, border pixel 3, resize set width 60 ppt, resize set height 50 ppt, move position center")
     (if (not (bascht/org-can-clock))
