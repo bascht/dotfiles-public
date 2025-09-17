@@ -986,44 +986,25 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
 * Writing
 
-** COMMENT Spell checking
+** Spell checking via languagetool
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package jinx
-    :hook markdown-mode org-mode conf-mode mu4e-compose-mode git-commit-mode
-    :bind (("M-$" . 'jinx-correct)
-           ("C-M-$" . 'jinx-languages))
+  (use-package flycheck-languagetool
+    :defer 10
+    :ensure t
+    :after flycheck
+    :hook ((text-mode       . flycheck-languagetool-setup)
+           (latex-mode      . flycheck-languagetool-setup)
+           (org-mode        . flycheck-languagetool-setup)
+           (org-msg-edit-mode    . flycheck-languagetool-setup)
+           (markdown-mode   . flycheck-languagetool-setup)
+           (gfm-mode        . flycheck-languagetool-setup))
     :config
-    (setq jinx-languages "de_DE en_GB"))
-#+end_src
-
-Languagetool is handy from time to time as well
-
-#+begin_src emacs-lisp :tangle init.el
-  (use-package flymake-languagetool
-    :defer t
-    :hook ((text-mode       . flymake-languagetool-load)
-           (latex-mode      . flymake-languagetool-load)
-           (org-mode        . flymake-languagetool-load)
-           (markdown-mode   . flymake-languagetool-load))
-    :config
-    (setq ;flymake-languagetool-check-spelling t
-     flymake-languagetool-language "de-DE"
-     flymake-languagetool-server-jar nil
-     flymake-languagetool-url "http://localhost:8081"))
-                                          ;    :init
-  ;; Local Server Configuration
-                                          ;    (setq flymake-languagetool-server-jar
-                                          ;             "path/to/LanguageTool-X.X/languagetool-server.jar"))
-
-  (use-package lsp-ltex-plus
-    :hook (text-mode . (lambda ()
-                         (require 'lsp-ltex-plus)
-                         (lsp)))
-    :init
-    (setq lsp-ltex-plus-dictionary (list (expand-file-name "custom-dict" user-emacs-directory))
-          lsp-ltex-plus-languagetool-http-server-uri "http://localhost:8081"))         ; 'stdio or 'tcp
-
+    (setq flycheck-languagetool-check-spelling t
+          flycheck-languagetool-language "de-DE"
+          flycheck-languagetool-server-jar nil
+          flycheck-languagetool-active-modes '(text-mode latex-mode org-mode markdown-mode message-mode org-msg-edit-mode)
+          flycheck-languagetool-url "http://localhost:8081"))
 #+end_src
 
 ** Basic [[https://jblevins.org/projects/markdown-mode/][Markdown]] mode
@@ -1138,7 +1119,7 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
 
            ;; M-g bindings in `goto-map'
            ("M-g e" . consult-compile-error)
-           ("M-g f" . consult-flymake)
+           ("M-g f" . consult-flycheck)
            ("M-g g" . consult-goto-line)
            ("M-g M-g" . consult-goto-line)
            ("M-g o" . consult-outline)
@@ -1164,6 +1145,9 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
            :map minibuffer-local-completion-map
            ("C-x C-d" . consult-dir)
            ("C-x C-j" . consult-dir-jump-file)))
+
+  (use-package consult-flycheck
+    :after flycheck)
 
     ;;; WHITESPACE
   (use-package whitespace
@@ -2033,15 +2017,18 @@ I mostly use the =glab= cli, but this comes in handy if I need to open a pipelin
   ;; (use-package lab :ensure t)
 #+end_src
 
-*** Flymake
+*** Flycheck
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package flymake
-    :hook (prog-mode . flymake-mode)
+  (use-package flycheck
+    :init (global-flycheck-mode))
+
+  (use-package flycheck-eglot
+    :ensure t
+    :demand nil
+    :after (flycheck eglot)
     :config
-    (setq flymake-fringe-indicator-position 'left-fringe)
-    (setq flymake-start-on-flymake-mode t)
-    (setq flymake-start-on-save-buffer t))
+    (global-flycheck-eglot-mode 1))
 #+end_src
 
 *** TODO Format-All
