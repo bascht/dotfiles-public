@@ -584,6 +584,12 @@ Well, which key is it?
     :defer 5
     :config (which-key-mode))
 #+end_src
+** Kitty protocol for tty
+#+begin_src emacs-lisp :tangle init.el
+  (use-package kkp
+    :ensure t
+    :demand nil)
+#+end_src
 ** Prots better =quit-dwim=
 #+begin_src emacs-lisp :tangle init.el
   (defun prot/keyboard-quit-dwim ()
