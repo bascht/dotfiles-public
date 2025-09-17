@@ -1614,7 +1614,7 @@ Gorgeous. Pick a theme according to whichever Emacs daemon I'm currently in, so 
           ef-themes-variable-pitch-ui t)
     (mapc #'disable-theme custom-enabled-themes)
 
-    (cond ((string= (daemonp) "workmacs") (ef-themes-select 'ef-cyprus))
+    (cond ((string= (daemonp) "workmacs") (ef-themes-select 'ef-reverie))
           (t  (ef-themes-select 'ef-light)))
 
     ;; Make sure I actually notice the tiny avy overlay
