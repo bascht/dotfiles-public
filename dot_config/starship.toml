@@ -95,13 +95,17 @@ disabled = true
 
 [kubernetes]
 format = '[⎈ ($cluster in )$context \($namespace\)](dimmed green)'
+#format = '[⎈ $cluster\($context\) \($namespace\)](dimmed green) '
+
 disabled = false
 
-[kubernetes.context_aliases]
-"dev.local.cluster.k8s" = "dev"
-"cluster-syseleven-.*(?P<var_cluster>[\\w-]+)" = "s11-$var_cluster"
-"cluster-hcloud-.*(?P<var_cluster>[\\w-]+)" = "hcl-$var_cluster"
-"gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
+[[kubernetes.contexts]]
+context_pattern = "kind-.*"
+style = "green"
+
+[[kubernetes.contexts]]
+context_pattern = "ops"
+style = "blue"
 
 [golang]
 format = 'via [🏎💨 $version](bold cyan) '
