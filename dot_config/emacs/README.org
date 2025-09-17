@@ -1108,7 +1108,7 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
            ;; Searching
            ("M-s r" . consult-ripgrep)
            ("M-s l" . consult-line)       ; Alternative: rebind C-s to use
-           ("M-s s" . consult-line)       ; consult-line instead of isearch, bind
+           ("M-s M-s" . consult-line)       ; consult-line instead of isearch, bind
            ("M-s L" . consult-line-multi) ; isearch to M-s s
            ("M-s i" . consult-imenu)
            ("M-s o" . consult-outline)
@@ -1203,10 +1203,16 @@ Vertico: better vertical completion for minibuffer commands
   (use-package vertico
     :ensure t
     :defer nil
+    :hook (emacs-startup . vertico-mode)
+
     :config
     (setq vertico-cycle t)
-    (setq vertico-resize nil)
-    (vertico-mode 1))
+    (setq vertico-resize nil))
+
+  (use-package vertico-repeat
+    :ensure nil
+    :hook (minibuffer-setup . vertico-repeat-save)
+    :commands (vertico-repeat-last))
 
   (use-package vertico-directory
     :ensure nil
