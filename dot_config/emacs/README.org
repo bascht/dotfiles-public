@@ -1343,83 +1343,98 @@ Orderless: powerful completion style
 
 ** Basic org-mode settings
 #+begin_src emacs-lisp :tangle init.el
-  (use-package org
-    :ensure t
-    :defer 10
+          (use-package org
+            :ensure t
+            :defer 10
 
-    :bind (:map org-mode-map
-                ("C-c e" . org-edit-src-code)
-                ("C-M-<return>" . org-insert-subheading)
-                ("C-M-S-<return>" . org-insert-todo-subheading)
-                )
+            :bind (:map org-mode-map
+                        ("C-c e" . org-edit-src-code)
+                        ("C-M-<return>" . org-insert-subheading)
+                        ("C-M-S-<return>" . org-insert-todo-subheading)
+                        )
 
-    :config
+            :config
 
-    (message "Loaded Org-Mode")
-    ;; Let me run shell code from my org files
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((shell . t)))
 
-    ;; Set org directory depending on which laptop I'm at
+            ;; Let me run shell code from my org files
+            (org-babel-do-load-languages
+             'org-babel-load-languages
+             '((shell . t)))
 
-    (setq org-directory (if (string= (system-name) "bigos")
-                            "~/Work/Zettelkasten/"
-                          "~/Documents/Zettelkasten/"))
+            ;; Set org directory depending on which laptop I'm at
 
-    ;; Same with the agenda files, either Work or Play.
-    (setq org-agenda-files
-          (if (string= (system-name) "bigos")
-              '("Todo.org" "Alfaview.org" "Calendar.org")
-            '("Todo.org" "Personal.org" "Projects.org")))
+            (setq org-directory (if (string= (system-name) "bigos")
+                                    "~/Work/Zettelkasten/"
+                                  "~/Documents/Zettelkasten/"))
 
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+            ;; Same with the agenda files, either Work or Play.
+            (setq org-agenda-files
+                  (if (string= (system-name) "bigos")
+                      '("Todo.org" "Alfaview.org" "Calendar.org")
+                    '("Todo.org" "Personal.org" "Projects.org")))
 
-    (add-to-list 'org-global-properties
-                 '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
+            (setq org-todo-keywords
+                  '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
 
-    (setq org-hide-leading-stars t)
+            (add-to-list 'org-global-properties
+                         '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
 
-    ;; Refile configuration
-    (setq org-outline-path-complete-in-steps nil)
-    (setq org-refile-use-outline-path 'file)
-    (setq org-blank-before-new-entry '((plain-list-item . auto)))
-    (setq org-agenda-custom-commands
-          '(("n" "Agenda and All Todos"
-             ((agenda)
-              (todo)))
-            ("o" "Ops Retro"
-              (
-               (tags-todo "opsretro")))
-            ("w" "Work" agenda ""
-             ((org-agenda-files '("Alfaview.org")))))))
+            (setq org-hide-leading-stars t)
 
-  (use-package org-clock
-    :ensure nil
-    :defer nil
-    :config
 
-    ;; Make workmacs persist the clock and ensure I always properly
-    ;; clock in and out. It's the only daemon that tracks the time.
-    (when (string= (daemonp) "workmacs")
-      (setq org-clock-persist 'history
-            org-clock-persist-file  "~/.config/emacs/org-clock-workmacs-save.el"
-            org-clock-resume t
-            org-clock-history-length 20
-            org-clock-out-remove-zero-time-clocks t
-            org-clock-auto-clock-resolution t
-            org-clock-ask-before-exiting nil
-            org-clock-continuously t)
+            ;; Refile configuration
+            (setq org-outline-path-complete-in-steps nil)
+            (setq org-refile-use-outline-path 'file)
+            (setq org-blank-before-new-entry '((plain-list-item . auto)))
 
-      (org-clock-persistence-insinuate)
-      (org-clock-auto-clockout-insinuate)
+            (setq org-refile-targets '((nil :maxlevel . 3)
+                                       (org-agenda-files :maxlevel . 3)))
 
-      (add-hook 'org-trigger-hook 'save-buffer)
-      (add-hook 'org-clock-in-hook 'save-buffer)
-      (add-hook 'org-clock-out-hook 'save-buffer)
+            ;; My agendas
+            (setq org-agenda-custom-commands
+                  '(
+                    ("a" agenda "Agenda"
+                     ((org-agenda-overriding-header "")
+                      (org-agenda-span 'day)))
+                    ("w" agenda "Current Week"
+                     ((org-agenda-span 'week)))
+                    ("n" "Agenda and All Todos"
+                     ((agenda)
+                      (todo)))
+                    ("o" "Ops Retro"
+                     (
+                      (tags-todo "opsretro")))
+                    ("w" "Work" agenda ""
+                     ((org-agenda-files '("Alfaview.org"))))))
 
-      ))
+            (set-face-attribute 'org-agenda-date-today nil :weight 'bold :slant 'normal :underline nil :height 1.4)
+    )
+
+          (use-package org-clock
+            :ensure nil
+            :defer nil
+            :config
+
+            ;; Make workmacs persist the clock and ensure I always properly
+            ;; clock in and out. It's the only daemon that tracks the time.
+            (when (string= (daemonp) "workmacs")
+              (setq org-clock-persist 'history
+                    org-clock-persist-file  "~/.config/emacs/org-clock-workmacs-save.el"
+                    org-clock-resume t
+                    org-clock-history-length 20
+                    org-clock-out-remove-zero-time-clocks t
+                    org-clock-auto-clock-resolution t
+                    org-clock-ask-before-exiting nil
+                    org-clock-continuously t)
+
+              (org-clock-persistence-insinuate)
+              (org-clock-auto-clockout-insinuate)
+
+              (add-hook 'org-trigger-hook 'save-buffer)
+              (add-hook 'org-clock-in-hook 'save-buffer)
+              (add-hook 'org-clock-out-hook 'save-buffer)
+
+              ))
 
 #+end_src
 ** Org Appear
