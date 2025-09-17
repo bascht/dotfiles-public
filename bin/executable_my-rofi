@@ -3,12 +3,15 @@
 export FZF_DEFAULT_OPTS='
   --height="100%"
   --layout=reverse
+  --bind "esc:become(kill -15 $$)"
   --margin=0
   --padding=0
+  --style=full:line
   --color=bg+:#303446,bg:#202c3d,spinner:#f2d5cf,hl:#e78284
   --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
   --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 '
+
 KITTY_SOCK=(/run/user/1000/kitty-quick-access-*)
 FOOT_OPTIONS=''
 MONITOR_MAKE=$(niri msg -j focused-output | jq -r .make)
