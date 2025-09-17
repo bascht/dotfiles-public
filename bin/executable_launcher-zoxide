@@ -11,7 +11,7 @@ if [ -n "${FOLDER}" ]; then
     niri msg action focus-window --id "${existing_kitty}"
   else
     niri msg action spawn -- emacsclient -s comacs --create-frame -e "(bascht--load-project \"${FOLDER}\")"
-    niri msg action spawn -- kitty --app-id "kitty_project_${name}" --directory "${FOLDER}" --hold "/home/bascht/bin/tn"
+#    niri msg action spawn -- kitty --app-id "kitty_project_${name}" --directory "${FOLDER}" --hold "/home/bascht/bin/tn"
 #    niri msg action set-column-display tabbed
   fi
 fi
