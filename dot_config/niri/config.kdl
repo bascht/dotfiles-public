@@ -393,7 +393,11 @@ window-rule {
 
 window-rule {
    match app-id="emacs" title="Worklog"
+   match title="^qutebrowser-editor"
    open-floating true
+   open-focused true
+   default-floating-position x=0 y=0 relative-to="top"
+   default-window-height { proportion 0.5; }
 }
 
 window-rule {
@@ -475,6 +479,34 @@ window-rule {
 }
 
 window-rule {
+    match app-id="gcr-prompter"
+    open-floating true
+    open-focused true
+    min-width 500
+    min-height 500
+
+    focus-ring {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+
+    border {
+        inactive-color "#7d0d2d"
+    }
+
+    shadow {
+        color "#7d0d2d70"
+    }
+
+    tab-indicator {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+    draw-border-with-background true
+    geometry-corner-radius 8 8 0 0
+}
+
+window-rule {
     match app-id="horizontal_terminal"
     open-focused false
 }
@@ -509,7 +541,7 @@ binds {
     XF86Mail { spawn "blur-lock"; }
 
     Mod+N { spawn "makoctl" "dismiss"; }
-    Mod+T { spawn "niri-open-emacs-term"; }
+    Mod+T { focus-window-previous; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
