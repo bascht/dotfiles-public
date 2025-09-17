@@ -2016,6 +2016,23 @@ Configure the built-in LSP.
     (setq eglot-autoshutdown t)
     )
 #+end_src
+*** COMMENT Emacs lsp-mode
+
+Trialled this to test the languagetool lsp server but it didn't perform very well. Might re-test it for other lsp modes later on. Who knows.
+
+#+begin_src emacs-lisp :tangle init.el
+  (use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+#+end_src
 
 *** JSON RPC
 
