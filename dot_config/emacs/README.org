@@ -60,11 +60,12 @@ There is still loads to fix but I can move forward with my initial target of fin
 This /might/ one day become elpaca, but today it is not this day.
 
 #+begin_src emacs-lisp :tangle init.el
-  (require 'use-package-ensure)
-  (require 'package)
-  (with-eval-after-load 'package
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
-  (package-initialize)
+    (require 'use-package-ensure)
+    (require 'package)
+    (with-eval-after-load 'package
+      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+      (add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t))
+    (package-initialize)
 #+end_src
 
 ** Set sensible variable defaults
