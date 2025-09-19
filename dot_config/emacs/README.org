@@ -1050,8 +1050,7 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
                                           ;             :italic-family "MonaspiceRn NF"
              )
             (writing
-             :default-family "Maple Mono NF"
-             :default-height 140)
+             :default-family "Maple Mono NF")
             (input
              :default-family "InputMono Nerd Font"
              :default-height 140
