@@ -1,0 +1,13 @@
+#!/usr/bin/env bb
+
+(require '[babashka.process :refer [exec shell]])
+(require '[cheshire.core :as json])
+
+(def workspaces (json/decode (-> (shell {:out :string} "niri msg --json workspaces") :out str/split-lines first)))
+(def windows (json/decode (-> (shell {:out :string} "niri msg --json windows") :out str/split-lines first)))
+(def current-workspace (first (filter (fn [m] (get m "is_focused")) workspaces)))
+(def chromiums (filter (fn [m] (= "chromium" (get m "app_id"))) windows))
+
+(if-let [chromium (first (filter (fn [m] (= (get current-workspace "id") (get m "workspace_id"))) chromiums))]
+  (exec (flatten ["chromium" *command-line-args*]))
+  (exec (flatten ["chromium" "--new-window" *command-line-args*])))
