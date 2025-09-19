@@ -949,7 +949,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           inhibit-startup-screen t
           initial-buffer-choice t
           initial-scratch-message nil
-          cursor-type 'hbar
+          org-agenda-window-setup 'only-window
           org-journal-find-file-fn 'find-file)
 
     (setq-default cursor-type 'hbar)
