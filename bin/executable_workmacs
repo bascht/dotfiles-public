@@ -1,3 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bb
 
-exec emacsclient -s workmacs --no-wait --create-frame "$@"
+(require '[babashka.process :refer [exec]])
+
+(let [workmacs ["emacsclient" "-s" "workmacs" "--create-frame"]
+      first (first *command-line-args*)
+      second (second *command-line-args*)]
+
+  (if (= "eval" first)
+    (apply exec (flatten [workmacs "--eval" second]))
+    (apply exec (flatten [workmacs "--no-wait" (flatten *command-line-args*)]))))
