@@ -9,27 +9,33 @@ set -o errexit
 QUERY=$1
 
 if [ -z "$QUERY" ]; then
-    QUERY=''
+  gopass list -f | fzf -q "$QUERY" --bind "alt-t:become(launcher-gopass {} type),alt-p:become(launcher-gopass {} type password),alt-u:become(launcher-gopass {} type user),enter:become(launcher-gopass {})"
+  exit 0
 fi
-
-input=$(gopass list -f | fzf -q "$QUERY")
 
 niri msg action set-window-height 75
 niri msg action set-window-width 372
 niri msg action center-window
 niri msg action move-floating-window -y 10
-niri msg action focus-tiling
 
-#swaymsg move scratchpad
-PASSWORD=$(gum spin --title="Copying password to clipboard" -- gopass show -o "$input")
-echo "${PASSWORD}" | wl-copy
+password=$(gum spin --spinner="points" --title="Getting password" -- gopass show -o "${QUERY}")
 
-#notify-send "gopass" "Copied ${input} to clipboard." -t 2000 --icon=dialog-password
-#gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
-clear
+if [[ "${2}" == "type" ]]; then
+  niri msg action focus-window-previous
+  if [[ "${3}" == "password" ]]; then
+    gum spin --spinner="monkey" --title="Typing ${3}…" -- wtype -s 200 -d 20 "${password}"
+  elif [[ "${3}" != "" ]]; then
+     gum spin --spinner="monkey" --title="Typing ${3}…" -- wtype -s 200 -d 20 "$(gopass show "${QUERY}" "${3}")"
+   else
+     gum spin --spinner="monkey" --title="Typing happening…" -- wtype -s 200 -d 20 "$(gopass show "${QUERY}" user)" -s 50 -k tab -s 100 "${password}"
+   fi
+else
+  niri msg action focus-tiling
+  echo "${password}" | wl-copy
+  clear
+  gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
 
-gum spin --spinner="monkey" --title="Clearing clipboard in 5 seconds" sleep 5
-
-cliphist delete-query "${PASSWORD}"
-wl-copy --clear
-notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
+  cliphist delete-query "${password}"
+  wl-copy --clear
+  notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
+fi;
