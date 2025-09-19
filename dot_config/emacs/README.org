@@ -1829,7 +1829,17 @@ Jump to wherever the shell has been.
 #+begin_src emacs-lisp :tangle init.el
   (use-package zoxide :ensure t)
 #+end_src
+** Atomic Emacs
+#+begin_src emacs-lisp :tangle init.el
+  (use-package atomic-chrome
+  :demand t
+  :commands (atomic-chrome-start-server)
+  :config
+  (setq atomic-chrome-default-major-mode 'gfm-mode)
+  (setq atomic-chrome-buffer-open-style 'frame)
 
+  (atomic-chrome-start-server))
+#+end_src
 * Programming
 ** Languages / Syntax
 *** Shell / bash
