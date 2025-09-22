@@ -532,6 +532,7 @@ binds {
     Mod+W { toggle-column-tabbed-display; }
     Mod+E { toggle-overview; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
+    Mod+G { spawn "my-rofi" "windows"; }
     Mod+D { spawn "my-rofi" "chords"; }
     XF86Explorer { spawn "my-rofi" "chords"; }
 //    Mod+Space { spawn "my-rofi" "chords"; }
