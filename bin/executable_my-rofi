@@ -43,6 +43,9 @@ elif [[ "$1" == "snippets" ]]; then
     FZF_DEFAULT_OPTS="--prompt='📋'${FZF_DEFAULT_OPTS}"
     export QUERY="${2}"
     COMMAND=~/bin/launcher-snippets
+elif [[ "$1" == "windows" ]]; then
+    FZF_DEFAULT_OPTS="--prompt='⛹‍♂'${FZF_DEFAULT_OPTS}"
+     COMMAND=~/bin/launcher-windows
 elif [[ "$1" == "qutebrowser" ]]; then
     FZF_DEFAULT_OPTS="--prompt='🌐'${FZF_DEFAULT_OPTS}"
     FOOT_OPTIONS="-W ${MAX_DIMENSIONS:-250x40} ${FOOT_OPTIONS}"

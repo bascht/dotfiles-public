@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+niri msg --json windows |
+  jq -r '.[]| [.id, .title] | join(":")' |
+  fzf --delimiter : --with-nth 2 --accept-nth 1 --preview "niri msg --json windows | jq '.[]|select(.id=={1})|[.id,.title,.app_id,.workspace_id]'" |
+  cut -d ':' -f 1 |
+  xargs niri msg action focus-window --id

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+fzf --query=^ --prompt=📘 --tiebreak length < ~/.local/share/dict/dict.txt | awk '{print $2}' | wl-copy
