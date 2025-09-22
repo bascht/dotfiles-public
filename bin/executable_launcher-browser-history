@@ -1,0 +1,22 @@
+#!/usr/bin/env bb
+
+(ns sqlite3-script
+  (:require [babashka.pods :as pods]))
+
+(pods/load-pod 'org.babashka/go-sqlite3 "0.3.9")
+
+(require '[pod.babashka.go-sqlite3 :as sqlite]
+         '[clojure.string :as str]
+         '[babashka.process :as p])
+
+(def history (sqlite/query "file:/home/bascht/.config/chromium/Default/History?mode=ro&nolock=1"
+  ["select title, url, last_visit_time from urls order by last_visit_time desc"]))
+
+(defn history-line [item]
+  (str/join "\t" [(get item :title) (get item :last_visit_time) (get item :url)]))
+
+(def history-lines (str/join "\0" (map #(history-line %) history)))
+(p/shell "browser" (-> (p/shell ["fzf" "--read0" "--with-nth={1} \u001b[2m ({2}) \033[m\n{3}"
+                       "--header-border" "--gap" "--delimiter=\t" "--accept-nth=3"
+                       "--highlight-line" "--height=100%" "--wrap" "--wrap-sign=' ↳ '"
+                       "--ansi"] {:in history-lines :out :string}) :out))
