@@ -1056,7 +1056,18 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
           flycheck-languagetool-active-modes '(text-mode latex-mode org-mode markdown-mode message-mode org-msg-edit-mode)
           flycheck-languagetool-url "http://localhost:8081"))
 #+end_src
+** Flycheck Vale
+#+begin_src emacs-lisp :tangle init.el
+  (use-package flycheck-vale
+    :ensure (:repo "abingham/flycheck-vale"
+                   :type git
+                   :flavor nil
+                   :host github)
+    :config
+    (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode gfm-mode org-mode))
 
+    (flycheck-vale-setup))
+#+end_src
 ** Basic [[https://jblevins.org/projects/markdown-mode/][Markdown]] mode
 
 #+begin_src emacs-lisp :tangle init.el
