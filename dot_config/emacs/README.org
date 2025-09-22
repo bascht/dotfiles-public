@@ -56,18 +56,74 @@ There is still loads to fix but I can move forward with my initial target of fin
 - [ ] Fix up =fontaine= style
 
 ** TODO Package manager
-
-This /might/ one day become elpaca, but today it is not this day.
+Manage packages with elpaca.
 
 #+begin_src emacs-lisp :tangle init.el
-    (require 'use-package-ensure)
-    (require 'package)
-    (with-eval-after-load 'package
-      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-      (add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t))
-    (package-initialize)
+(defvar elpaca-installer-version 0.11)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1 :inherit ignore
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (<= emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                  ,@(when-let* ((depth (plist-get order :depth)))
+                                                      (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                  ,(plist-get order :repo) ,repo))))
+                  ((zerop (call-process "git" nil buffer t "checkout"
+                                        (or (plist-get order :ref) "--"))))
+                  (emacs (concat invocation-directory invocation-name))
+                  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                  ((require 'elpaca))
+                  ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 #+end_src
+** Let Elpaca take over
 
+#+begin_src emacs-lisp :tangle init.el
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode)
+  (setq use-package-always-ensure t))
+(elpaca-wait)
+#+end_src
+** Let general hook into use-package
+#+begin_src emacs-lisp :tangle init.el
+  (use-package general
+  :ensure t
+  :demand t)
+  (use-package transient
+    :ensure t
+    :demand t)
+    (use-package flycheck
+    :init (global-flycheck-mode))
+
+        ;; (use-package flymake
+        ;; :ensure t
+        ;; :demand t)
+
+  (elpaca-wait)
+
+#+end_src
 ** Set sensible variable defaults
 
 This is mostly cobbled together from Bedrock Emacs and ~technomancy's better-defaults.
@@ -529,10 +585,6 @@ And even more from the other bedrock files
 General is one of those packages where I'm not even sure if I still need it after porting everything over from =doom= - but at least =(general-define-key)= made sense to me.
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package general
-    :ensure t
-    :demand t
-    :config
     (general-auto-unbind-keys)
 
     (general-define-key
@@ -566,12 +618,12 @@ General is one of those packages where I'm not even sure if I still need it afte
      ";" '(comment-or-uncomment-region :which-key "Comment / Uncomment")
      "d" '(crux-duplicate-current-line-or-region :which-key "Duplicate line / dwim"))
 
-    (general-define-key
-     :prefix "C-x"
-     "O" 'bascht--toggle-window-zoom :which-key "Toggle temporary window"
-     "l" '(:ignore t :which-key "lines") ;; I don't use the line count
-     "l s" '(sort-lines :which-key "sort lines")
-     "p e" '(eat-project :which-key "open eat in project")))
+;;    (general-define-key
+;;     :prefix "C-x"
+;;     "O" 'bascht--toggle-window-zoom :which-key "Toggle temporary window"
+;;     "l" '(:ignore t :which-key "lines") ;; I don't use the line count
+;;     "l s" '(sort-lines :which-key "sort lines")
+;;     "p e" '(eat-project :which-key "open eat in project"))
 #+end_src
 
 ** Which key
@@ -990,9 +1042,6 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package flycheck-languagetool
-    :defer 10
-    :ensure t
-    :after flycheck
     :hook ((text-mode       . flycheck-languagetool-setup)
            (latex-mode      . flycheck-languagetool-setup)
            (org-mode        . flycheck-languagetool-setup)
@@ -1088,8 +1137,9 @@ Prots font switcher has seen some heavy use since i stumbled upon it.
 #+begin_src emacs-lisp :tangle init.el
 
   (use-package consult
-    :ensure t
+    :ensure (:wait t)
     :defer nil
+    :after flycheck
     :bind (
            ;; Drop-in replacements
            ("C-x b" . consult-buffer)     ; orig. switch-to-buffer
@@ -1345,98 +1395,99 @@ Orderless: powerful completion style
 
 ** Basic org-mode settings
 #+begin_src emacs-lisp :tangle init.el
-          (use-package org
-            :ensure t
-            :defer 10
+        (use-package org
+          :ensure (:wait t)
+          :defer 10
 
-            :bind (:map org-mode-map
-                        ("C-c e" . org-edit-src-code)
-                        ("C-M-<return>" . org-insert-subheading)
-                        ("C-M-S-<return>" . org-insert-todo-subheading)
-                        )
+          :bind (:map org-mode-map
+                      ("C-c e" . org-edit-src-code)
+                      ("C-M-<return>" . org-insert-subheading)
+                      ("C-M-S-<return>" . org-insert-todo-subheading)
+                      )
 
-            :config
-
-
-            ;; Let me run shell code from my org files
-            (org-babel-do-load-languages
-             'org-babel-load-languages
-             '((shell . t)))
-
-            ;; Set org directory depending on which laptop I'm at
-
-            (setq org-directory (if (string= (system-name) "bigos")
-                                    "~/Work/Zettelkasten/"
-                                  "~/Documents/Zettelkasten/"))
-
-            ;; Same with the agenda files, either Work or Play.
-            (setq org-agenda-files
-                  (if (string= (system-name) "bigos")
-                      '("Todo.org" "Alfaview.org" "Calendar.org")
-                    '("Todo.org" "Personal.org" "Projects.org")))
-
-            (setq org-todo-keywords
-                  '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
-
-            (add-to-list 'org-global-properties
-                         '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
-
-            (setq org-hide-leading-stars t)
+          :config
 
 
-            ;; Refile configuration
-            (setq org-outline-path-complete-in-steps nil)
-            (setq org-refile-use-outline-path 'file)
-            (setq org-blank-before-new-entry '((plain-list-item . auto)))
+          ;; Let me run shell code from my org files
+          (org-babel-do-load-languages
+           'org-babel-load-languages
+           '((shell . t)))
 
-            (setq org-refile-targets '((nil :maxlevel . 3)
-                                       (org-agenda-files :maxlevel . 3)))
+          ;; Set org directory depending on which laptop I'm at
 
-            ;; My agendas
-            (setq org-agenda-custom-commands
-                  '(
-                    ("a" agenda "Agenda"
-                     ((org-agenda-overriding-header "")
-                      (org-agenda-span 'day)))
-                    ("w" agenda "Current Week"
-                     ((org-agenda-span 'week)))
-                    ("n" "Agenda and All Todos"
-                     ((agenda)
-                      (todo)))
-                    ("o" "Ops Retro"
-                     (
-                      (tags-todo "opsretro")))
-                    ("w" "Work" agenda ""
-                     ((org-agenda-files '("Alfaview.org"))))))
+          (setq org-directory (if (string= (system-name) "bigos")
+                                  "~/Work/Zettelkasten/"
+                                "~/Documents/Zettelkasten/"))
 
-            (set-face-attribute 'org-agenda-date-today nil :weight 'bold :slant 'normal :underline nil :height 1.4)
-    )
+          ;; Same with the agenda files, either Work or Play.
+          (setq org-agenda-files
+                (if (string= (system-name) "bigos")
+                    '("Todo.org" "Alfaview.org" "Calendar.org")
+                  '("Todo.org" "Personal.org" "Projects.org")))
 
-          (use-package org-clock
-            :ensure nil
-            :defer nil
-            :config
+          (setq org-todo-keywords
+                '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
 
-            ;; Make workmacs persist the clock and ensure I always properly
-            ;; clock in and out. It's the only daemon that tracks the time.
-            (when (string= (daemonp) "workmacs")
-              (setq org-clock-persist 'history
-                    org-clock-persist-file  "~/.config/emacs/org-clock-workmacs-save.el"
-                    org-clock-resume t
-                    org-clock-history-length 20
-                    org-clock-out-remove-zero-time-clocks t
-                    org-clock-auto-clock-resolution t
-                    org-clock-ask-before-exiting nil
-                    org-clock-continuously t)
+          (add-to-list 'org-global-properties
+                       '("Effort_ALL". "0:05 0:10 0:15 0:30 1:00 2:00 3:00 4:00"))
 
-              (org-clock-persistence-insinuate)
-              (org-clock-auto-clockout-insinuate)
+          (setq org-hide-leading-stars t)
 
-              (add-hook 'org-trigger-hook 'save-buffer)
-              (add-hook 'org-clock-in-hook 'save-buffer)
-              (add-hook 'org-clock-out-hook 'save-buffer)
 
-              ))
+          ;; Refile configuration
+          (setq org-outline-path-complete-in-steps nil)
+          (setq org-refile-use-outline-path 'file)
+          (setq org-blank-before-new-entry '((plain-list-item . auto)))
+
+          (setq org-refile-targets '((nil :maxlevel . 3)
+                                     (org-agenda-files :maxlevel . 3)))
+
+          ;; My agendas
+          (setq org-agenda-custom-commands
+                '(
+                  ("a" agenda "Agenda"
+                   ((org-agenda-overriding-header "")
+                    (org-agenda-span 'day)))
+                  ("w" agenda "Current Week"
+                   ((org-agenda-span 'week)))
+                  ("n" "Agenda and All Todos"
+                   ((agenda)
+                    (todo)))
+                  ("o" "Ops Retro"
+                   (
+                    (tags-todo "opsretro")))
+                  ("w" "Work" agenda ""
+                   ((org-agenda-files '("Alfaview.org"))))))
+
+          (set-face-attribute 'org-agenda-date-today nil :weight 'bold :slant 'normal :underline nil :height 1.4)
+  )
+
+        (use-package org-clock
+          :ensure nil
+          :after org
+          :defer nil
+          :config
+
+          ;; Make workmacs persist the clock and ensure I always properly
+          ;; clock in and out. It's the only daemon that tracks the time.
+          (when (string= (daemonp) "workmacs")
+            (setq org-clock-persist 'history
+                  org-clock-persist-file  "~/.config/emacs/org-clock-workmacs-save.el"
+                  org-clock-resume t
+                  org-clock-history-length 20
+                  org-clock-out-remove-zero-time-clocks t
+                  org-clock-auto-clock-resolution t
+                  org-clock-ask-before-exiting nil
+                  org-clock-continuously t)
+
+            (org-clock-persistence-insinuate)
+            (org-clock-auto-clockout-insinuate)
+
+            (add-hook 'org-trigger-hook 'save-buffer)
+            (add-hook 'org-clock-in-hook 'save-buffer)
+            (add-hook 'org-clock-out-hook 'save-buffer)
+
+            ))
 
 #+end_src
 ** Org Appear
@@ -1465,6 +1516,7 @@ Used in this very file :)
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package org-auto-tangle
+    :after org
     :hook (org-mode . org-auto-tangle-mode))
 #+end_src
 ** Org Alerts
@@ -1484,6 +1536,7 @@ My work log since 2010.
 #+begin_src emacs-lisp :tangle init.el
   (use-package org-journal
     :ensure t
+    :after org
     :init
     ;; Change default prefix key; needs to be set before loading org-journal
     (setq org-journal-prefix-key "C-c j ")
@@ -1578,7 +1631,7 @@ Fully replaced projectile for me as well.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package project
-    :after xref
+    :ensure nil
     :config
 
     (setq project-switch-commands 'project-dired)
@@ -1798,7 +1851,8 @@ Have vterm and it's own toggle mode.
 #+end_src
 #+begin_src emacs-lisp :tangle init.el
   (use-package eat
-    :ensure t
+    :ensure (:wait t)
+
     :general ("C-c t t" 'eat-project :which-key "terminal"))
 #+end_src
 ** dict mode
@@ -1883,7 +1937,7 @@ You know, for work.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package go-mode
-    :ensure t
+    :ensure (:wait t)
     :hook (go-mode . eglot-ensure)
     :bind ("C-c C-c" . 'project-recompile)
     :config
@@ -1960,7 +2014,7 @@ Oh Magit.
 #+begin_src emacs-lisp :tangle init.el
   (use-package magit
     :ensure t
-    :after diff-hl
+    :after diff-hl transient
     :config
     (add-hook 'git-commit-setup-hook 'end-of-line 100) ; Jump to end of line when opening a commit message buffer
 
@@ -2015,6 +2069,7 @@ Configure the built-in LSP.
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package eglot
+    :defer t
     :custom
     (eglot-send-changes-idle-time 0.1)
     (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
@@ -2064,8 +2119,6 @@ I mostly use the =glab= cli, but this comes in handy if I need to open a pipelin
 *** Flycheck
 
 #+begin_src emacs-lisp :tangle init.el
-  (use-package flycheck
-    :init (global-flycheck-mode))
 
   (use-package flycheck-eglot
     :ensure t
