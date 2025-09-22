@@ -117,9 +117,9 @@ Manage packages with elpaca.
     (use-package flycheck
     :init (global-flycheck-mode))
 
-        ;; (use-package flymake
-        ;; :ensure t
-        ;; :demand t)
+         (use-package flymake
+         :ensure t
+         :demand t)
 
   (elpaca-wait)
 
@@ -996,6 +996,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
   (defun bascht--setup-workmacs()
     "Helper function that will set up my workmacs window."
     (interactive)
+    (require 'org)
 
     (setq indicate-empty-lines nil
           inhibit-startup-screen t
@@ -1209,7 +1210,7 @@ Holy fuck! How did I only now learn about this?
 
 #+begin_src emacs-lisp :tangle init.el
   (use-package embark
-    :ensure t
+    :defer t
     :commands (embark-act
                embark-dwim
                embark-export
@@ -1312,9 +1313,15 @@ Vertico: better vertical completion for minibuffer commands
   (use-package cape
     :ensure t
     :init
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-block))
+    ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    ;; (add-to-list 'completion-at-point-functions #'cape-file)
+    ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+    (add-hook 'completion-at-point-functions #'cape-dabbrev)
+    (add-hook 'completion-at-point-functions #'cape-file)
+    (add-hook 'completion-at-point-functions  #'cape-elisp-block)
+      :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
+
+    )
 
   ;; Pretty icons for corfu
   (use-package kind-icon
@@ -1397,7 +1404,7 @@ Orderless: powerful completion style
 #+begin_src emacs-lisp :tangle init.el
         (use-package org
           :ensure (:wait t)
-          :defer 10
+          :defer 2
 
           :bind (:map org-mode-map
                       ("C-c e" . org-edit-src-code)
@@ -1818,7 +1825,10 @@ Prot got my back. This wrapper nudged me away from =dirvish=.
     :ensure t
     :bind-keymap ("C-c s" . surround-keymap))
 #+end_src
-
+** Crux
+#+begin_src emacs-lisp :tangle init.el
+(use-package crux)
+#+end_src
 ** Wgrep
 
 Modify search results en masse.
@@ -1887,6 +1897,9 @@ Jump to wherever the shell has been.
 #+begin_src emacs-lisp :tangle init.el
   (use-package atomic-chrome
   :demand t
+  :ensure (:repo "KarimAziev/atomic-chrome"
+             :type git
+             :host github)
   :commands (atomic-chrome-start-server)
   :config
   (setq atomic-chrome-default-major-mode 'gfm-mode)
@@ -2729,6 +2742,11 @@ No need for zen mode when Prot got you covered.
           (buffer-read-only . 1)
           (lab-group . 53)
           (lab-host . nil) ; TODO: add via chezmoi template
+          (flycheck-disabled-checkers . 'languagetool)
           (org-safe-remote-resources . '("drop.bascht.space"))
-          (org-confirm-elisp-link-function . nil))  )
+          (org-confirm-elisp-link-function . nil)))
 #+end_src
+
+# Local Variables:
+# flycheck-disabled-checkers: 'languagetool
+# End:
