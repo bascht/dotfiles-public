@@ -1050,6 +1050,7 @@ Set up my =workmacs= instance that will periodically bother me to write and upda
            (markdown-mode   . flycheck-languagetool-setup)
            (gfm-mode        . flycheck-languagetool-setup))
     :config
+    (add-to-list 'flycheck-languagetool-active-modes 'org-msg-edit-mode)
     (setq flycheck-languagetool-check-spelling t
           flycheck-languagetool-language "de-DE"
           flycheck-languagetool-server-jar nil
@@ -2260,11 +2261,11 @@ Mark changes on the left side of the gutter.
     :ensure t
     :after mu4e
     :defer nil
-    :preface
-    (defun org-msg-no-temp-buffer (orig-fun &rest args)
-      "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
-      (let ((org-export-show-temporary-export-buffer nil))
-        (apply orig-fun args)))
+    ;; :preface
+    ;; (defun org-msg-no-temp-buffer (orig-fun &rest args)
+    ;;   "Advice to set `org-export-show-temporary-export-buffer' to `nil'."
+    ;;   (let ((org-export-show-temporary-export-buffer nil))
+    ;;     (apply orig-fun args)))
 
     :config
     ;; (message "This actually ran!")
@@ -2275,20 +2276,19 @@ Mark changes on the left side of the gutter.
                                          (reply-to-html . (text html))
                                          (reply-to-text . (text)))
           org-msg-convert-citation t)
-    (message "Org msg mode is currently %s and agent is %s" org-msg-mode mu4e-user-agent-string)
 
     (with-eval-after-load 'mu4e
       (progn
         (org-msg-mode)))
 
-    (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
-    (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
-    (add-hook 'message-sent-hook
-              (lambda ()
-                (interactive)
-                (switch-to-buffer "*mu4e-article*")
-                (mu4e-view-quit)
-                (kill-buffer "*Org ASCII Export*")))
+    ;; (advice-add 'org-msg-preview :around #'org-msg-no-temp-buffer)
+    ;; (advice-add 'org-msg-ctrl-c-ctrl-c :around #'org-msg-no-temp-buffer)
+    ;; (add-hook 'message-sent-hook
+    ;;           (lambda ()
+    ;;             (interactive)
+    ;;             (switch-to-buffer "*mu4e-article*")
+    ;;             (mu4e-view-quit)
+    ;;             (kill-buffer "*Org ASCII Export*")))
 
 
 
@@ -2436,7 +2436,19 @@ Mark changes on the left side of the gutter.
 
 #+end_src
 
+** Test-drive notmuch
+#+begin_src emacs-lisp :tangle init.el
+    ;; Scratch buffer from session emacs
+  (use-package notmuch
+    :config
+     (setq notmuch-saved-searches '((:name "inbox"
+                                      :query "tag:inbox"
+                                      :count-query "tag:inbox and tag:unread"
+                                      :key "i"
+                                      :sort-order newest-first)))
 
+     (setq notmuch-fcc-dirs "Sent"))
+#+end_src
 ** Reply from individual catchall addresses
 
 This function takes care of my individual catchall addresses =*@bascht.com=. Whenever I reply from an address that's just an alias, I still want to keep up the charade and not accidentally reply from a "real" address:
@@ -2471,6 +2483,7 @@ I run these filters automatically after fetching emails to clean up my =INBOX= r
     (kmacro "C-c m b i b N C-x h r x y M-<left>"))
 #+end_src
 
+*
 * Custom functions
 ** The =bascht--= namespace
 
