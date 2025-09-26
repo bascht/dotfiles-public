@@ -19,7 +19,7 @@
 (def is-playing? (= (playerctl ["-p" player "status"]) ["Playing"]))
 (def is-muted? (= (playerctl ["-p" player "volume"]) ["0.000000"]))
 (def metadata (playerctl ["-p" player "metadata"]))
-(def is-streaming? (some #(str/includes? % "xesam:url")  (playerctl ["-p" player "metadata"])))
+(def is-streaming? (and (= "Supersonic" player)(some #(str/includes? % "xesam:url") (playerctl ["-p" player "metadata"]))))
 
 
 (if (nil? player)
