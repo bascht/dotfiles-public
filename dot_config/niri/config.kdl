@@ -533,6 +533,7 @@ binds {
     Mod+E { toggle-overview; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
     Mod+G { spawn "my-rofi" "windows"; }
+    Mod+H { spawn "my-rofi" "browser-history"; }
     Mod+D { spawn "my-rofi" "chords"; }
     XF86Explorer { spawn "my-rofi" "chords"; }
 //    Mod+Space { spawn "my-rofi" "chords"; }
