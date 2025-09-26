@@ -37,5 +37,5 @@ else
 
   cliphist delete-query "${password}"
   wl-copy --clear
-  notify-send "gopass" "Cleared clipboard" -t 1000 --icon=dialog-password
+  gum spin --spinner="monkey" --title="Clipboard cleared" sleep 1
 fi;
